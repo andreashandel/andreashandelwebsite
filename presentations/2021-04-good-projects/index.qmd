@@ -1,0 +1,16 @@
+---
+title: Coming up with good (research) projects
+description: A presentation for our departmental PhD and MS students on how to find and implement good (academic) projects
+event: Graduate Seminar
+location: Athens, US
+  
+date: "2021-04-01"
+image: featured.jpg
+image-alt: Photo by [Carlos Alvarenga](https://pixabay.com/users/carlosalvarenga-2116392/)/Pixabay
+categories:
+  - Academia
+  - Career
+  - Research
+---
+
+These are slides for a talk/discussion I led with our graduate students discussing how to come up and organize projects in a good way. The talk covered both projects in general and academic projects in particular. <a href="2021_04_finding_good_research_topics.html" target="_blank">The presentation slides are here.</a>

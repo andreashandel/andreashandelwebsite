@@ -1,0 +1,18 @@
+---
+title: The impact of seasonal Influenza vaccine dose on homologous and heterologous immunity
+description: A presentation given at the 12th European Conference on Mathematical and Theoretical Biology.
+event: Presentation
+location: Heidelberg, Germany
+  
+date: "2022-09-22"
+image: featured.png
+image-alt: Influenza vaccine response
+categories:
+
+- Research
+- Influenza
+---
+
+<a href="2022_09_ECMTB.html" target="_blank">These are the slides</a> for a presentation I gave at the 2022 ECMTB conference.
+
+_Note: I had to cancel the trip at the last minute and thus was not able to deliver the presentation. I decide to leave the slides here anyway._

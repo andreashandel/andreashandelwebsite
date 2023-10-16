@@ -1,0 +1,16 @@
+---
+title: Tuberculosis Superspreading
+description: A presentation on some TB superspreading work I did for the EIA research group at UGA.
+event: EIA research group meeting
+location: Athens, US
+  
+date: "2020-03-04"
+image: featured.png
+categories:
+  
+  - Research
+  - Tuberculosis
+---
+
+These are slides for a talk discussing a recent TB superspreader project I did, as well as some general background on the topic. I gave the talk to the Epidemiology in Action group (Dr. Whalen's research group) at UGA.
+<a href="2020_03_EIA-Superspreader-Presentation.html" target="_blank">The presentation slides are here.</a>

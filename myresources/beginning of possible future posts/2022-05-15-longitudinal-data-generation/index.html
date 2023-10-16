@@ -1,0 +1,457 @@
+---
+title: Bayesian analysis of longitudinal multilevel data using brms and rethinking - part 1  
+description: Part 1 of a tutorial showing how to specify models and simulate data for a longitudinal multilevel setup.
+author: Andreas Handel
+date: '2022-02-22'
+lastMod: "2022-02-22"
+aliases: \r\n  -  longitudinal-multilevel-bayesian-analysis-1
+categories: 
+- R
+- Data Analysis
+categories: 
+- R
+- Data Analysis
+- Bayesian
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>This is a tutorial and worked example, to illustrate how one can use the <code>brms</code> and <code>rethinking</code> R packages to perform a Bayesian analysis of longitudinal data in a multilevel/hierarchical/mixed-effects setup.</p>
+<p>I wrote it mainly for my own benefit/learning (nothing forces learning a concept like trying to explain it.) Hopefully, others find it useful too.</p>
+<p>It started out as a single post, then became too large and is now a multi-part series. It currently has the following parts:</p>
+<ul>
+<li>In part 1 (this post), I am introducing the setup and the models and use them to simulate data.</li>
+<li>In <a href="/posts/longitudinal-multilevel-bayesian-analysis-2/">part 2</a>, I fit the data to the models using the <code>rethinking</code> R package.</li>
+<li>In <a href="/posts/longitudinal-multilevel-bayesian-analysis-3/">part 3</a>, I repeat the fitting, but now using the <code>brms</code> R package.</li>
+<li>In part <a href="/posts/longitudinal-multilevel-bayesian-analysis-4">part 4</a>, I show some some further explorations and alternatives of the models.</li>
+</ul>
+<p>I generally place further resources and acknowledgments sections at the end. However, since this series seems to be expanding and there is no clear order, I decided to get it out of the way and place these items right here at the beginning, before starting with the tutorial sequence.</p>
+<div id="further-resources" class="section level1">
+<h1>Further resources</h1>
+<p>Pretty much all I learned and described here comes from Richard McElreath’s excellent book <a href="https://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a>. His courses are also great. I watched all lectures of his <a href="https://github.com/rmcelreath/stat_rethinking_2022">2022 course</a>. McElreath does everything using the <code>rethinking</code> package, which he wrote. Solomon Kurz wrote an adaptation of the Statistical Rethinking book, which re-implements everything using <code>brms</code>. This great resource <a href="https://bookdown.org/content/4857/">can be found here.</a></p>
+<p>For some more materials specifically on longitudinal data analysis, see <a href="https://bookdown.org/content/4253/">this online book by Solomon Kurz</a>, as well as the underlying textbook that his adaption is based on.</p>
+<p>A good resource by Michael Clark, discussing how to fit mixed (hierarchical/multilevel) models with <code>R</code> in both a frequentist and Bayesian framework, <a href="https://m-clark.github.io/mixed-models-with-R/">can be found here.</a></p>
+<p>I mention some other resources throughout the text.</p>
+</div>
+<div id="acknowledgments" class="section level1">
+<h1>Acknowledgments</h1>
+<p>In addition to the resources I just listed, I want to mention my (at the time) PhD students <a href="https://yangepi.github.io/">Yang Ge</a> and <a href="https://wzbillings.com/">Zane Billings</a>, who helped me work and think through this material and clear up some of my at times confused ideas.</p>
+</div>
+<div id="disclaimer" class="section level1">
+<h1>Disclaimer</h1>
+<p>Any remaining mistakes in this post are my own. I am still not sure I fully understand that whole Bayesian/multilevel/partial pooling business. (Or maybe I should say that I <strong>am</strong> sure I <strong>don’t</strong> fully understand 😄.) It still seems a bit magical at times. Maybe it is just like quantum mechanics - once you’ve solved the Schroedinger equation often enough, you get a feeling of “understanding”, but I’m not sure full understanding happens - at least it never did for me. Maybe that’s as much as I can expect from Bayesian multilevel modeling too 😁.</p>
+<p>At this point, I am starting to feel somewhat comfortable using Bayesian models, but I have by no means a very deep understanding. Thus, it is quite possible the following posts contain thinking (or coding) mistakes. If you spot any, I’d appreciate feedback. And with that disclaimer out of the way, let’s get the tutorial started.</p>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>I was trained as a Physicist, and I never formally learned statistics. My statistical mechanics courses were the most stats-type instruction I received. The joke in physics is that if you need statistics to analyze your data, you should have done a better experiment. And I was doing theoretical physics anyway, so no data was touched or harmed for my PhD thesis 😁.</p>
+<p>That is all to say, the stats I know is self-taught. It started learning some during my postdoc, and once I started my faculty position in an Epidemiology &amp; Biostatistics department, I picked up more.</p>
+<p>I have always been drawn to the Bayesian perspective. It just seems to make most sense to me. However, frequentist material was (and still is) more ubiquitous and readily available. Thus, I picked up those approaches first and applied (and likely misapplied) them in various projects. But I’ve always been meaning to properly learn and use Bayesian approaches.</p>
+<p>I finally had the combination of two PhD students with strong stats skills and interests, and exposure to <a href="https://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a> by Richard McElreath, which has put me on the - far from completed - path towards finally learning how to analyze data in a Bayesian framework.</p>
+<p>This post is a “thinking out loud” tutorial in which I walk through some of the stuff I learned so far.</p>
+<p>The focus of this tutorial is on simulating and fitting longitudinal (panel, time-series) data and how to fit it in a multilevel framework using the <code>rethinking</code> and <code>brms</code> R packages.</p>
+<p>There are of course other tutorials on this topic online. For instance <a href="https://www.andrewheiss.com/">Andrew Heiss</a> has a nice one <a href="https://www.andrewheiss.com/blog/2021/12/01/multilevel-models-panel-data-guide/">here</a> (he has a lot of other good tutorials on his website). The problem for me is that he only uses <code>brms</code> and often doesn’t fully specify the model/priors. And that’s a step too advanced for me, I need to see every small baby step 😄.</p>
+<p>So to teach myself how this all works and how to do it in R, I created some simulated data and code to fit it. For my own future reference, and maybe also for others, here is my write-up/tutorial.</p>
+</div>
+<div id="who-this-is-not-for" class="section level1">
+<h1>Who this is (not) for</h1>
+<p>If you are completely new to Bayesian analyses, this might be too advanced. I’m trying to go slow, but I don’t explain everything. E.g., I assume you know some of the terminology and components of Bayesian models (e.g., prior, likelihood, posterior, chains.) I also assume you have a bit of familiarity with the general ideas of statistical model fitting (e.g., distributions, parameters). If you are new to all of this, I very strongly recommend the above mentioned <a href="https://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a> book. The book unfortunately only exists in a paid (and not cheap) version, but if you really want to learn this material, I think it’s worth the investment.</p>
+<p>If you are an experienced Bayesian multilevel modeler, you’ll likely won’t learn anything here either. You can still keep reading and then (gently) let me know all the things I got wrong or could do better 😁 - I’m still learning that stuff myself and appreciate feedback!</p>
+</div>
+<div id="the-overall-setup" class="section level1">
+<h1>The overall setup</h1>
+<p>The data that motivated this tutorial and that I have in mind here is virus load measured over time for individuals who were infected (challenged) with virus inoculum at different doses (3 for this specific case, but that doesn’t really matter). To make this specific, here is a preview of the kind of simulated data we’ll produce and explore below, namely time-series for a few individuals who received a virus challenge with three different virus doses (H = high (1000), M = medium (100), L = low (10)). Note that while I’m showing the dose in the plot as discrete categories, throughout this example we work with the actual, numerical value for the amounts of virus given (in our example, 10/100/1000 units). If you are curious to see an alternative modeling and analysis approach that treats the dose as unordered or ordered categories, see <a href="/posts/longitudinal-multilevel-bayesian-analysis-4/">this separate post</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:simdatafig"></span>
+<img src="simdata_m3.png" alt="Simulated data showing time series of outcome (here, assumed to be virus load on a log scale), for individuals receiving different virus challenge doses." width="80%" />
+<p class="caption">
+Figure 1: Simulated data showing time series of outcome (here, assumed to be virus load on a log scale), for individuals receiving different virus challenge doses.
+</p>
+</div>
+<p>Your (and my future) data and questions will likely be different, but the overall setup is common and thus the ideas I describe here might still apply. Basically, if you have some quantity of interested that is measured over time (longitudinally) for <span class="math inline">\(N\)</span> different individuals (or other discrete units, e.g. cities), and you want to determine if the time-series trajectory is systematically different between individuals based on some other characteristics (e.g. dose, treatment status, age, city size), then this approach described here can apply. Depending on your data and scientific questions, certain adaptations might be necessary.</p>
+</div>
+<div id="building-the-models" class="section level1">
+<h1>Building the models</h1>
+<p>In the following, we consider several models that can be used to both simulate data, and then fit that simulated data.</p>
+<p>For our notation, <span class="math inline">\(i\)</span> indexes each individual and <span class="math inline">\(t\)</span> indexes time (considered here to be in days, but this can be any time unit).</p>
+<div id="model-for-outcome-the-likelihood" class="section level2">
+<h2>Model for outcome (the likelihood)</h2>
+<p>For our scenario, the outcome of interest (the log of the virus load) is continuous, which we assume to be normally distributed. Note that this is technically never fully correct, since there is some lower limit of detection for the virus load, which would lead to a truncation at low values. (A similar upper limit of detection does at times also occur.) If you have such censored data, you have to decide what to do about them. Here, we assume for simplicity that all values are far away from any limits, such that a normal distribution is a good approximation.</p>
+<p>Making this normal distribution assumption, the equation describing the outcome (the likelihood model) is</p>
+<p><span class="math display">\[
+Y_{i,t}  \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) 
+\]</span></p>
+<p>The <span class="math inline">\(Y_{i,t}\)</span> are the measured outcomes (log virus load here) for each individual <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span>. This is shown as symbols in the (simulated) data you can see in the figure above. The mean, deterministic time-series trajectory for each individual is given by <span class="math inline">\(\mu_{i,t}\)</span> (shown as lines in the figure above). <span class="math inline">\(\sigma\)</span> captures variation in the data that is not accounted for by the mean trajectories.</p>
+<p>Note that you could assume a different distribution, based on the specifics of your data. For instance, if you had a time-series of counts, you could use a Poisson distribution. Some of the details would then change, e.g., you wouldn’t have a mean and standard deviation in your model, but instead a rate. But the overall setup described here will still work the same way.</p>
+</div>
+<div id="model-for-deterministic-trajectories" class="section level2">
+<h2>Model for deterministic trajectories</h2>
+<p>Next, we need to describe the underlying deterministic time-series model for the outcome.</p>
+<p>In general, there are different ways for choosing this part of the model. If you have enough information about your system to propose a mechanistic/process model, it is generally the best idea to go with such a model. Unfortunately, this is rare. Further, process models for time-series data are often implemented as differential equations, and those can take a very long time to fit.</p>
+<p>A more common approach is the model the overall pattern in the data with some type of phenomenological/heuristic function, chosen to match the data well. Generalized linear models (GLM), such as linear or logistic models, fall into that category. Here, we use such a phenomenological function, but a GLM won’t describe the pattern in our data (rapid virus growth, followed by decline). Therefore, we use an equation that gets us the shape we are looking for. For our simple example here, I choose a function that grows polynomially and declines exponentially with time. To be clear, this function doesn’t try to represent any real processes or mechanisms, it is simply chosen as an easy way to capture the general pattern seen in the data. This is very similar to the use of GLMs or other standard models, which often work well at describing the overall pattern, without assuming a mechanistic reason for a linear relation between predictor and outcome.</p>
+<p>The equation for our model is given by</p>
+<p><span class="math display">\[
+\mu_{i,t} = \log\left( t_i^{\alpha_i} e^{-\beta_i t_i} \right)  
+\]</span>
+In the model, <span class="math inline">\(t_i\)</span> are the times for each individual <span class="math inline">\(i\)</span> at which their outcome <span class="math inline">\(Y_{i,t}\)</span> was measured. Those could be the same for each individual, which we’ll do here for simplicity, but they could also be all at different times and things won’t change. The model parameters are <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span>, and their values describe the trajectory for each individual.</p>
+<p>You can convince yourself with the following bit of code that this function, for the right values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, gives you “up, then down” curves as a function of time. Note that since we are modeling the log of the virus load, I already log-transformed the equation.</p>
+<pre class="r"><code>t = seq(0.1,30,length=100) #simulating 30 days, don&#39;t start at 0 to avoid 0/inf in plot
+alpha = 20; beta = 2; #just some values to show shape
+mu = log(t^alpha*exp(-beta*t)) #log virus load
+plot(t,mu, type = &quot;l&quot;,ylim=c(0,30)) #looks somewhat like virus load in acute infections</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The simple function I use here is in fact not that great for most real data, and better functions exist. See <a href="/posts/longitudinal-multilevel-bayesian-analysis-4/">part 4</a> of this tutorial, where I show a more complex 4-parameter function, the one we actually used for our research problem. But to keep things somewhat simple here, I’m sticking with the 2-parameter function, it’s fully sufficient to illustrate all the conceptual ideas I want to discuss. It can give us time-series which look somewhat similar to real virus load data often seen in acute infections. Of course, you need to pick whatever function describes your data reasonably well.</p>
+</div>
+<div id="numerical-trickeries" class="section level2">
+<h2>Numerical trickeries</h2>
+<p>Let’s go on a brief detour and discuss an important topic that comes up often.</p>
+<p>In the equation for <span class="math inline">\(\mu_{i,t}\)</span> I just introduced, only positive values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> produce reasonable trajectories. It is common to have parameters that can only take on certain values (e.g. positive, between 0-1). The problem is that by default, most fitting routines assume that the parameters that need to be estimated can take on any value. It turns out that the fitting routine we will use (<a href="https://mc-stan.org/">Stan</a> through <code>rethinking</code> and <code>brms</code>) can be told that some parameters are only positive. You’ll see that in action later. But with different software, that might not be possible. A general trick is to redefine parameters and rewrite the model to ensure positivity. Here, we can do that by exponentiating the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> like this</p>
+<p><span class="math display">\[
+\mu_{i,t}  = \log\left( t_i^{\exp(\alpha_{i})} e^{-\exp(\beta_{i}) t_i} \right) 
+\]</span>
+Now, <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span> themselves can take any value without the danger of getting a nonsensical shape for <span class="math inline">\(\mu_{i,t}\)</span>. It is likely possible to fit the model without taking those exponents and hoping that during the fitting process, the fitting routine “notices” that only positive values make sense. However, it might make the numerical procedures less robust.</p>
+<p>Another alternative would be to enforce positive <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span> by setting up the rest of the model such that they can only take positive values. I’ll show a version for that <a href="/posts/longitudinal-multilevel-bayesian-analysis-4/">in part 4</a>.</p>
+<p>One issue with that exponentiation approach is that it can sometimes produce very large or very small numbers and lead to numerical problems. For instance, if during the fitting the solver tries <span class="math inline">\(\beta_i = 10\)</span> and time is 10, then the exponent in the second term becomes <span class="math inline">\(e^{-10 exp(10)}\)</span>, and that number is so small that <code>R</code> sets it to 0. (Try by typing <code>exp(-10 * exp(10))</code> into the R console). Such numerical issues are not uncommon and something to always be aware of. To minimize such problems with very large/small numbers, one can rewrite the equation as</p>
+<p><span class="math display">\[
+\mu_{i,t}  =  \exp(\alpha_{i}) \log (t_{i}) -\exp(\beta_{i}) t_{i} 
+\]</span></p>
+<p>Using <span class="math inline">\(\mu_{i,t}\)</span> in this form in the code seems to work fine, as you’ll see. Note that this is exactly the same equation as the one above, just rewritten for numerical convenience. Nothing else has changed.</p>
+</div>
+<div id="modeling-the-main-model-parameters" class="section level2">
+<h2>Modeling the main model parameters</h2>
+<p>Ok, now let’s get back to building the rest of our model. So far, we specified an equation for the virus load trajectory <span class="math inline">\(\mu_{i,t}\)</span>. We assume that every individual has their own virus-load trajectory, specified by parameters <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span>. We need to define those. We allow each individual to have their own individual-level contribution to the parameters, and also assume there is a potential population-level effect of dose.</p>
+<p>The latter assumption is in fact our main scientific question. We want to know if the dose someone receives has a systematic impact on the virus load trajectories. At the same time, we want to allow for variation between individuals. We could also consider a model that allows the impact of dose to be different for every individual. With enough data, that might seem feasible. But here, we assume we have limited data. (Of course, this is just simulated data, so it is as large as we want it to be. But for the real research project which motivates this tutorial, we only have data on 20 individuals.) We also really want to focus on the overall effect of dose, and are less interested to see if there is variation of dose effect among individuals.</p>
+<p>It is not clear what relation between dose and model parameters makes most sense. We really don’t have much biological/scientific intuition. Without such additional insight, a linear assumption is generally a reasonable choice. We thus model the main parameters <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span> as being linearly related to the (log of) the dose. This assumption relating the parameter to the log of the dose is mostly heuristic. But it does make some biological sense as often in systems like this, outcomes change in response to the logarithm of some input. In addition, every individual can have their unique contribution to <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span>.</p>
+<p>Writing this in equation form gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+\alpha_{i} &amp;  =  a_{0,i} + a_1 \log (D_i) \\
+\beta_{i}  &amp; =  b_{0,i} + b_1 \log (D_i) 
+\end{aligned}
+\]</span>
+Here, <span class="math inline">\(a_{0,i}\)</span> and <span class="math inline">\(b_{0,i}\)</span> are the individual-level contributions of each person to the main parameters, and <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span> quantify how the dose each individual receives, <span class="math inline">\(D_i\)</span>, impact the overall time-series trajectories. The latter two parameters apply to the whole population and do not vary between individuals. Thus, if we find that the distributions for these parameters are mostly around zero, we could conclude that dose does not have an impact. In contrast, if the distributions for those parameters are away from zero, we conclude that dose seems to impact the time-series trajectories.</p>
+<p>Note that if we were to fit this model in a frequentist framework, we would overfit (trying to estimate too many parameters). That is because if every individual has their own <span class="math inline">\(a_{0,i}\)</span> and <span class="math inline">\(b_{0,i}\)</span>, the model can take any shape without needing the dose-related parameters to play a role. However, in a Bayesian framework, this is ok and we can get meaningful results, as we’ll discuss further below.</p>
+</div>
+<div id="some-rescaling" class="section level2">
+<h2>Some rescaling</h2>
+<p>Alright, time for another brief detour.</p>
+<p>The model we have is ok. But as it is written right now, the parameters <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> describe the virus-load trajectory for an individual with a dose of 1 (log(1)=0). In our made-up example, individuals receive doses of strength 10/100/1000 but not 1. It doesn’t mean the model is wrong, but it is often useful to transform predictor variables to make parameters easier to interpret. For instance, if we didn’t work with dose log-transformed, the intercept parameters would represent a dose of 0. That doesn’t make sense, since anyone not being challenged with virus will not have any virus trajectory. In that case, some transformation would be quite useful.</p>
+<p>Here, we don’t need to transform, but we do it anyway, for illustration. A common approach is to adjust predictor variables by standardizing (subtracting the mean and dividing by the standard deviation). Here we do something slightly different, we subtract the log of the middle dose of the 3. We call that <span class="math inline">\(D_m\)</span>. In our example it is the value of 100. In general, you can do any transformation that you think makes the setup and problem easier to interpret.</p>
+<p>The equations then become</p>
+<p><span class="math display">\[
+\begin{aligned}
+\alpha_{i} &amp;  =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i}  &amp; =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right)
+\end{aligned}
+\]</span>
+Now the intercept parameters <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> describe the main model parameters <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\beta_i\)</span>, and thus the trajectory for the virus, if the dose is at the intermediate level. Thus, these parameters are now easy to interpret.</p>
+</div>
+<div id="quick-summary" class="section level2">
+<h2>Quick summary</h2>
+<p>At this stage in the model building process, our model as the following parts</p>
+<p><span class="math display">\[
+\begin{aligned}
+\textrm{Outcome} \\
+Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{Deterministic time-series trajectory} \\
+\mu_{i,t}   =  \exp(\alpha_{i}) \log (t_{i}) -\exp(\beta_{i}) t_{i} \\
+\\
+\textrm{Deterministic models for main parameters} \\
+\alpha_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i}   =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right) \\
+\end{aligned}
+\]</span></p>
+<p>The model parameters are <span class="math inline">\(\sigma\)</span>, <span class="math inline">\(a_1\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span>. The latter two consist of as many parameters as there are individuals in the data. So if we have <span class="math inline">\(N\)</span> individuals, we have a total of <span class="math inline">\(3+2N\)</span> parameters.</p>
+<p>At this point, we could fit the model in a standard frequentist framework.</p>
+<p>We could allow values of <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> to be different for each individual, and those values would be completely independent from each other. Such a model is a <strong>no pooling model</strong>, which makes the assumption that every individual is completely different from each other, such that their outcomes do not inform each other. Such a model is expected to fit the data for each individual well. But it would overfit, having too many parameters to estimate given the data. That means the estimates for the parameters will be uncertain, and thus our question of interest, the possible impact of dose, will be hard to answer. Also, it won’t be very good at predicting future individuals.</p>
+<p>On the other extreme, we could instead assume that all individuals share the same parameter values, i.e. <span class="math inline">\(a_{i,0} = a_0\)</span> and <span class="math inline">\(b_{i,0} = b_0\)</span>. This is called a <strong>full pooling model</strong>. This model does not suffer from over-fitting. But it likely suffers from under-fitting. By not allowing differences between individuals, the model is likely too restrictive and thus is not that great at capturing the patterns seen in the data. We’ll explore that when we fit the models.</p>
+<p>We can explore both of these scenarios in Bayesian framework, and then easily move to a better model that is a happy intermediate between the <strong>no pooling</strong> and <strong>full pooling</strong> models. To do things the Bayesian way, we need to specify priors for the model parameters.</p>
+</div>
+<div id="specifying-priors" class="section level2">
+<h2>Specifying priors</h2>
+<p>Since we are working in a Bayesian framework, our parameters need priors. We assume that for all models we discuss below, the parameters <span class="math inline">\(a_{0,i}\)</span>, <span class="math inline">\(b_{0,i}\)</span>, <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span> have priors described by Normal distributions. The standard deviation <span class="math inline">\(\sigma\)</span> is modeled by a Half-Cauchy distribution (a Cauchy distribution that’s only defined for positive values, since standard deviations need to be positive). Those choices are a mix of convention, numerical usefulness and first principles choices. See for instance the <a href="https://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a> book for more details. You can likely choose other prior distributions and results might not change much. If they do, it means you don’t have a lot of data to inform your results.</p>
+<p>The equations for our priors are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma  \sim \mathrm{HalfCauchy}(0, 1)  \\
+a_1  \sim \mathrm{Normal}(0.2, 0.1) \\
+b_1  \sim \mathrm{Normal}(-0.2, 0.1) \\
+a_{0,i}  \sim \mathrm{Normal}(\mu_a, \sigma_a) \\
+b_{0,i} \sim \mathrm{Normal}(\mu_b, \sigma_a) \\
+\end{aligned}
+\]</span>
+I gave the prior distributions for <span class="math inline">\(\sigma\)</span>, <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span> fixed values. I chose those values to get reasonable simulation results (as you’ll see below). We will use those same values for all models. The priors for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> are more interesting. They depend on parameters themselves. In the next sections, we will explore different choices for those parameters <span class="math inline">\(\mu_a\)</span>, <span class="math inline">\(\mu_b\)</span>, <span class="math inline">\(\sigma_a\)</span> and <span class="math inline">\(\sigma_b\)</span>.</p>
+</div>
+<div id="model-1" class="section level2">
+<h2>Model 1</h2>
+<p>Our first model is one that replicates the <strong>no pooling</strong> approach. In a Bayesian framework, such a no-pooling model can be implemented by making the priors for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> very wide, which essentially assumes that any values are allowed, and there is (almost) no shared commonality/information among the parameters for each individual.</p>
+<p>In our example, we can accomplish this by ensuring <span class="math inline">\(\sigma_a\)</span> and <span class="math inline">\(\sigma_b\)</span> are large, such that the normal distributions for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> become very wide. In that case, the values for the mean, <span class="math inline">\(\mu_a\)</span> and <span class="math inline">\(\mu_b\)</span> don’t matter much since we allow the model to take on any values, even those far away from the mean. Therefore, we can just set <span class="math inline">\(\mu_a\)</span> and <span class="math inline">\(\mu_b\)</span> to some reasonable values, without paying too much attention.</p>
+<p>This choice for the priors leads to a Bayesian model similar to a frequentist no-pooling model.</p>
+</div>
+<div id="model-2" class="section level2">
+<h2>Model 2</h2>
+<p>Now we’ll try to reproduce the <strong>full pooling model</strong> in a Bayesian framework. We could remove the individual-level variation by setting <span class="math inline">\(a_{i,0} = a_0\)</span> and <span class="math inline">\(b_{i,0} = b_0\)</span>. But if we want to keep the structure we have above, what we need to do is to ensure the priors for those parameters are very narrow, such that every individual is forced to have more or less the same value. We can accomplish that by setting values for <span class="math inline">\(\sigma_a\)</span> and <span class="math inline">\(\sigma_b\)</span> very close to zero.</p>
+<p>If we set the <span class="math inline">\(\mu_a\)</span> and <span class="math inline">\(\mu_b\)</span> parameters to some fixed values, we would enforce <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> to take specific values too. We don’t want that, we want them to be estimated, we just want to make sure all individuals get pretty much the same estimate. To do so, we can give <span class="math inline">\(\mu_a\)</span> and <span class="math inline">\(\mu_b\)</span> their own distributions and make those wide/flat. A normal distribution for each parameter with a wide variance should work.</p>
+<p>With these choices, we have a model that can find the mean for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span>, but the spread in those parameters is minimal.</p>
+</div>
+<div id="model-3" class="section level2">
+<h2>Model 3</h2>
+<p>Ok, so we discussed that the <strong>no pooling</strong> model 1 is too flexible and thus likely overfits, the <strong>full pooling</strong> model 2 is too rigid and likely underfits. Why not build a model that has reasonable priors in between those two? That’s a good idea and it leads us to a <strong>partial pooling</strong> model.</p>
+<p>We want priors for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> that are not too flat/wide (model 1) or too narrow (model 2). They hsould allow some variation, but still ensure that there is shared information among the parameters. With that we, might be able to find a happy medium between underfitting and overfitting. Such priors are known as <strong>regularizing priors</strong>. They allow some variability for the parameters among individuals, while implementing the notion that the individuals share some commonality, and therefore their parameters should also share some common features, as indicated by belonging to the same prior distributions.</p>
+<p>The question is, how to set the priors? One option is to pick some values for <span class="math inline">\(\mu_a\)</span>, <span class="math inline">\(\mu_b\)</span>, <span class="math inline">\(\sigma_a\)</span> and <span class="math inline">\(\sigma_b\)</span> (either by specifying their distributions or by directly setting values), then do prior predictive simulations, see if results look reasonable (no crazy outcomes, but still a good bit of variability) and then iterate until one found good priors. One can also explore the impact of the priors on the posterior. If they have a strong impact, it suggests there is not enough data to fully determine the posterior.</p>
+<p>This approach of trial and error is reasonable, but it feels a bit like ad-hoc. That’s generally ok, but one might want to ask the question if there is another way to pick the priors. The answer is yes, which brings us to our next model.</p>
+</div>
+<div id="model-4" class="section level2">
+<h2>Model 4</h2>
+<p>Instead of trying to pick values for the priors manually (again, nothing wrong with that, but maybe not always optimal), one can let the data determine the priors. That approach involves estimating each of the parameters that specify the priors for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span>.</p>
+<p>The parameters <span class="math inline">\(\mu_a\)</span>, <span class="math inline">\(\mu_b\)</span>, <span class="math inline">\(\sigma_a\)</span> and <span class="math inline">\(\sigma_b\)</span> now get their own distributions, with their own priors (often called hyper-priors). The values for the hyper-priors are picked such that resulting simulations from the model produce (somewhat) reasonable trajectories, as you’ll see below. In principle, one can further specify them as functions of other priors, but for our example, not much is gained from that.</p>
+<p>What now happens is that as we fit the model, our priors for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span> share some information, and the amount of sharing is controlled by the hyper-prior parameters, which are determined by the data fitting process itself. It sounds a bit like magic, and I admit that on some deep level, I still don’t fully understand this magic, even though I can follow the steps. Maybe at some point in the future I will fully get it. For now I’m content with the level of understanding I have, and knowing that it works 😄.</p>
+<p>This model is a <strong>partial pooling model</strong> like model 3, but now the pooling is determined <strong>adaptively</strong> by the data. This leads to a happy intermediate between the too-rigid full-pooling model and the too-flexible no-pooling model. It is thus the model we believe might often be best in some sense.</p>
+</div>
+<div id="recap" class="section level2">
+<h2>Recap</h2>
+<p>Ok, those were a lot of steps, so to have it all in one place, here are the models again, now shown with equations and with all components in one place.</p>
+<p>All models have these parts:</p>
+<p><span class="math display">\[
+\begin{flalign*}
+\textrm{Outcome} \\
+Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{Deterministic time-series trajectory} \\
+\mu_{i,t}   =  \exp(\alpha_{i}) \log (t_{i}) -\exp(\beta_{i}) t_{i} \\
+\\
+\textrm{Deterministic models for main parameters} \\
+\alpha_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i}   =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right) \\
+\\
+\textrm{population-level priors} \\
+\sigma  \sim \mathrm{HalfCauchy}(0,1)  \\
+a_1 \sim \mathrm{Normal}(0.2, 0.1) \\
+b_1 \sim \mathrm{Normal}(-0.2, 0.1) \\
+a_{0,i} \sim \mathrm{Normal}(\mu_a, \sigma_a) \\
+b_{0,i}  \sim \mathrm{Normal}(\mu_b, \sigma_a) \\
+\end{flalign*}
+\]</span></p>
+<p>For model 1, we set the parameters describing the distribution for <span class="math inline">\(a_{0,i}\)</span> and <span class="math inline">\(b_{0,i}\)</span> to produce un-informative/flat priors. For our example, these values work:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_a &amp; = 3  \\
+\mu_b &amp; = 1  \\
+\sigma_a &amp; = 10  \\
+\sigma_b &amp; = 10   
+\end{aligned}
+\]</span></p>
+<p>For model 2, we set the standard deviations to a very small value and give the mean parameters somewhat flexible distributions. These work:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_a &amp; \sim \mathrm{Normal}(3, 1) \\
+\mu_b &amp; \sim \mathrm{Normal}(1, 1) \\
+\sigma_a &amp; = 0.001  \\
+\sigma_b &amp; = 0.001  
+\end{aligned}
+\]</span></p>
+<p>As mentioned, an alternative for model 2, which I’ll call model 2a, is to reduce the parameters from 2N to 2 and specify these priors for what are now population-level only parameters, like this:</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_{0} &amp;  \sim \mathrm{Normal}(3, 1) \\
+b_{0} &amp; \sim \mathrm{Normal}(1, 1) 
+\end{aligned}
+\]</span></p>
+<p>For model 3, we set values that lead to priors that are reasonably intermediate between the model 1 too flat and model 2 too narrow priors. These work:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_a &amp; = 3  \\
+\mu_b &amp; = 1  \\
+\sigma_a &amp; = 1  \\
+\sigma_b &amp; = 1   
+\end{aligned}
+\]</span></p>
+<p>Finally, model 4 has distributions for all 4 parameters. These work for our example</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu_a &amp; \sim \mathrm{Normal}(3, 1) \\
+\mu_b &amp; \sim \mathrm{Normal}(1, 1) \\
+\sigma_a &amp; \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_b &amp; \sim \mathrm{HalfCauchy}(0,1)  
+\end{aligned}
+\]</span></p>
+</div>
+<div id="comment-on-terminology" class="section level2">
+<h2>Comment on terminology</h2>
+<p>I have been talking about 4 different models (or 5 if you count model 2a). As I’m sure you realized, some models are structurally the same, just with different choices for the priors. It’s debatable if model 1 and 3 are the same model with different priors, or different models. In a Bayesian framework, the priors (which includes choices for both the distribution and values) are part of the model, thus in that sense, model 1 and 3 are different models. For the purpose of this tutorial I’ll take that perspective and consider them separate models. You’ll see that it makes sense to think about them as different when we look at results.</p>
+</div>
+</div>
+<div id="simulating-data" class="section level1">
+<h1>Simulating data</h1>
+<p>So far, we’ve specified some mathematical/statistical models. It’s now time to implement them in <code>R</code>.
+We’ll use these models both for fitting data (in the next part of this tutorial) and for simulating data, which we are doing now. This involves translating the models into R code, then running them to simulate data. I’ll show the code with explanations and commentary in the following sections.</p>
+<p>Note that we can use any of the models to both generate simulated data, and to fit the simulated data. The model used for data generation and fitting it do not need to be the same. We’ll look at that more as we go along. The following code produces simulated data for (some of) the models.</p>
+<p>It’s often useful to go slow and type your own code, or copy and paste the code chunks below and execute one at a time. However, if you are in a hurry, you can find the code shown below in <a href="/posts/longitudinal-multilevel-bayesian-analysis-1/generatedata.R">this file</a>.</p>
+<div id="general-settings" class="section level2">
+<h2>General settings</h2>
+<pre class="r"><code>## General settings
+set.seed(123) #for reproducibility
+# days at which we assume outcome is measured
+timevec &lt;- c(0.1,1,3,5,7,10,14,21,28,35,42)
+
+#do different number of individuals per dose
+#just to make it clearer which is which and also since that&#39;s the data structure
+Nlow = 7; Nmed = 8; Nhigh = 9;
+#if you want to explore how model fitting changes if you increase sample size
+#turn on this line of code
+#Nlow = 70; Nmed = 80; Nhigh = 90;
+
+Ntot = Nlow + Nmed + Nhigh; #total number of individuals
+
+# Set values for dose
+# since we only consider dose on a log scale
+# we&#39;ll log transform right here and then always use it in those log units
+high_dose = log(1000)
+med_dose = log(100)
+low_dose = log(10)
+dosevec = c(rep(low_dose,Nlow),rep(med_dose,Nmed),rep(high_dose,Nhigh))
+# we are also creating a version that is just ordered categories instead of numeric values
+# we&#39;ll use that for plotting and in the alternative analysis in a separate post
+dosevec_cat = ordered(c(rep(&quot;low&quot;, Nlow),rep(&quot;medium&quot;,Nmed),rep(&quot;high&quot;,Nhigh)),levels=c(&quot;low&quot;,&quot;medium&quot;,&quot;high&quot;))
+
+
+## Setting parameter values</code></pre>
+<p>I chose fairly low sample sizes, with less than 10 individuals for each dose group. This is motivated by the real data I have in mind, which has similar sample sizes. Of course, if you have more data, it’s generally better. In <a href="/posts/longitudinal-multilevel-bayesian-analysis-4">part 4 of the tutorial</a> I play around a bit with fitting larger samples.</p>
+</div>
+<div id="setting-parameter-values" class="section level2">
+<h2>Setting parameter values</h2>
+<p>The parameters <span class="math inline">\(\sigma\)</span>, <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span> show up in all models. For easy comparison between models, I’m setting them to the same value for all models.</p>
+<p>For the estimation procedure (see <a href="/posts/longitudinal-multilevel-bayesian-analysis-1/">part 2</a>), we assume that those parameters follow the distributions shown above. We could sample a single value for each of them from such a distribution. But to reduce variability and to more easily compare estimated parameters to those used to simulate the data, I’m setting them to specific values, which you can conceptually think of as being a single sample from the distributions we discussed above.</p>
+<pre class="r"><code>sigma = 1
+a1 = 0.2
+b1 = -0.2</code></pre>
+<p>Now well get values for the other parameters. For model 1, we have <span class="math inline">\(N\)</span> parameters for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span>, with priors that are very flat. We set them as follows</p>
+<pre class="r"><code>m1_mua = 3
+m1_mub = 1
+m1_sigmaa = 1
+m1_sigmab = 1
+m1_a0 = rnorm(n=Ntot, m1_mua, m1_sigmaa)
+m1_b0 = rnorm(n=Ntot, m1_mub, m1_sigmaa)
+# saving main parameters
+m1pars = c(sigma = sigma, a1 = a1, b1 = b1, a0_mu = m1_mua, b0_mu = m1_mub)</code></pre>
+<p>Note a few things here. First, the priors are narrower than I specified above. As you will see in the figures below, even with these more narrow priors, results for model 1 still look way too variable. We can use the wider priors when we fit the model, to allow the data to dominate the fits. But for data generation, going too wild seems pointless.</p>
+<p>Second, you noticed that I did sample from distributions. That’s not necessary, I could have also specified values for each of the parameters, like I did for <span class="math inline">\(\sigma\)</span>, <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span>, as long as the values can be thought of as coming from the underlying distribution. If I sample, I need to make sure to set a random seed (which I did above) to ensure reproducibility.</p>
+<p>Ok, now for model 2. We have 2 versions, model 2a collapses the individual-level parameters into a single population one. We’ll explore that model when doing the fitting, for simulating the data I’m just going with model 2. As just mentioned, we could sample or fix parameters. Since parameters <span class="math inline">\(\mu_a\)</span> and <span class="math inline">\(\mu_b\)</span> are only single values, there is little point in sampling them. Instead, I’m fixing them.</p>
+<pre class="r"><code>m2_mua = 3
+m2_mub = 1
+m2_sigmaa = 0.0001
+m2_sigmab = 0.0001
+m2_a0 = rnorm(n=Ntot, m2_mua, m2_sigmaa)
+m2_b0 = rnorm(n=Ntot, m2_mub, m2_sigmab)
+m2pars = c(sigma = sigma, a1 = a1, b1 = b1, a0_mu = m2_mua, b0_mu = m2_mub)</code></pre>
+<p>Finally, model 3 is like model 1 but with less wide priors.</p>
+<pre class="r"><code>m3_mua = 3
+m3_mub = 1
+m3_sigmaa = 0.1
+m3_sigmab = 0.1
+m3_a0 = rnorm(n=Ntot, m3_mua, m3_sigmaa)
+m3_b0 = rnorm(n=Ntot, m3_mub, m3_sigmaa)
+m3pars = c(sigma = sigma, a1 = a1, b1 = b1, a0_mu = m3_mua, b0_mu = m3_mub)</code></pre>
+<p>Note that for the purpose of simulating data, model 4 is basically the same as model 3. We would need to sample (or pick) values for the parameters <span class="math inline">\(\mu_a\)</span>, <span class="math inline">\(\sigma_a\)</span>, <span class="math inline">\(\mu_b\)</span>, and <span class="math inline">\(\sigma_b\)</span> and then use them to sample (or set) values for <span class="math inline">\(a_{i,0}\)</span> and <span class="math inline">\(b_{i,0}\)</span>. This setup makes sense during fitting, but for generating data, it isn’t really different than what I already did. You can conceptually assume I did sample parameters and happen to get the values shown for model 3. Thus, model 4 collapses to the models we already specified.</p>
+<p>We could of course go through all those steps of sampling from each distribution to get parameter values. Nothing wrong with that. But if we change the random seed, values change. And we always need to carefully to look at the values that were actually sampled to compare with our estimates from fitting. It is generally easier during the data generation process to assume conceptually that values correspond to samples from distributions, but then set the value manually. I could have not sampled the <span class="math inline">\(a_{0,i}\)</span> and <span class="math inline">\(b_{0,i}\)</span> above and fixed, but I think showing some of the sampling steps makes it clearer how the model can be used to generate simulated data.</p>
+<p>That is all to say, for the purpose of simulating data, model 4 isn’t different from the others, and thus we can skip model 4.</p>
+</div>
+<div id="creating-simulated-data" class="section level2">
+<h2>Creating simulated data</h2>
+<p>Now we can combine the parameters as specified in the equations above to get simulated trajectories for each individual, for each of the models.</p>
+<p>Here is the code that computes the mean and the outcome for model 1, the wide model.</p>
+<pre class="r"><code>m1_alpha = m1_a0 + a1*(log(dosevec) - log(med_dose))
+m1_beta = m1_b0 + b1*(log(dosevec) - log(med_dose))
+#doing matrix multiplication to get time-series for each individual
+#for that to work, the timevec vector needs to be transposed
+m1_mu =  exp(m1_alpha) %*% t(log(timevec)) - exp(m1_beta) %*% t(timevec)
+# apply variation following a normal distribution to each individual
+m1_y = apply(m1_mu,2,rnorm,sigma)
+# in a final step, we reorganize the data into a long data frame with
+# columns id, time, dose, model,
+# the deterministic mean mu, and the normally distributed outcome
+# we store dose in 3 versions, the original (log transformed one), the one that has the middle value subtracted, and a categorical one
+# note that little trick using sort to get time in the right order
+# not a robust way of doing things, but works here
+m1_dat &lt;- data.frame(id = rep(1:Ntot,length(timevec)),
+                     dose = rep(dosevec,length(timevec)), dose_adj = rep(dosevec,length(timevec))-med_dose, dose_cat =  rep(dosevec_cat,length(timevec)),
+                     time = sort(rep(timevec,Ntot)), model = &quot;m1&quot;,
+                     mu = as.vector(m1_mu), outcome = rnorm(n=length(m1_mu),mean=as.vector(m1_mu),sd=sigma)  )</code></pre>
+<p>Now we just repeat the same code again for the other models.</p>
+<pre class="r"><code>#model 2
+m2_alpha = m2_a0 + a1*(log(dosevec) - log(med_dose))
+m2_beta = m2_b0 + b1*(log(dosevec) - log(med_dose))
+m2_mu =  exp(m2_alpha) %*% t(log(timevec)) - exp(m2_beta) %*% t(timevec)
+m2_dat &lt;- data.frame(id = rep(1:Ntot,length(timevec)),
+                     dose = rep(dosevec,length(timevec)), dose_adj = rep(dosevec,length(timevec))-med_dose, dose_cat =  rep(dosevec_cat,length(timevec)),
+                     time = sort(rep(timevec,Ntot)), model = &quot;m2&quot;,
+                     mu = as.vector(m2_mu), outcome = rnorm(n=length(m2_mu),mean=as.vector(m2_mu),sd=sigma)  )
+
+#model 3
+m3_alpha = m3_a0 + a1*(log(dosevec) - log(med_dose))
+m3_beta = m3_b0 + b1*(log(dosevec) - log(med_dose))
+m3_mu =  exp(m3_alpha) %*% t(log(timevec)) - exp(m3_beta) %*% t(timevec)
+m3_y = apply(m3_mu,2,rnorm,sigma)
+m3_dat &lt;- data.frame(id = rep(1:Ntot,length(timevec)),
+                     dose = rep(dosevec,length(timevec)), dose_adj = rep(dosevec,length(timevec))-med_dose, dose_cat =  rep(dosevec_cat,length(timevec)),
+                     time = sort(rep(timevec,Ntot)), model = &quot;m3&quot;,
+                     mu = as.vector(m3_mu), outcome = rnorm(n=length(m3_mu),mean=as.vector(m3_mu),sd=sigma)  )</code></pre>
+</div>
+<div id="plotting-the-simulated-data" class="section level2">
+<h2>Plotting the simulated data</h2>
+<p>To ensure our simulated data makes sense, let’s plot what we produced.
+We’ll use <code>ggplot2</code>, so let’s load it first.</p>
+<pre class="r"><code>library(&#39;ggplot2&#39;)</code></pre>
+<p>These lines of code create plots for each model/simulated dataset.</p>
+<pre class="r"><code>p1 &lt;- ggplot(m1_dat) +
+  geom_line(aes(x=time, y=mu, col = dose_cat, group = id)) +
+  geom_point(aes(x=time, y=outcome, col = dose_cat)) +
+  scale_y_continuous(limits = c(-30,150)) +
+  labs(y = &quot;Outcome (log virus load)&quot;,  x = &quot;Time (days)&quot;)
+
+p2 &lt;- ggplot(m2_dat) +
+  geom_line(aes(x=time, y=mu, col = dose_cat, group = id)) +
+  geom_point(aes(x=time, y=outcome, col = dose_cat)) +
+  scale_y_continuous(limits = c(-30,50)) +
+  labs(y = &quot;Outcome (log virus load)&quot;,  x = &quot;Time (days)&quot;)
+
+p3 &lt;- ggplot(m3_dat) +
+  geom_line(aes(x=time, y=mu, col = dose_cat, group = id)) +
+  geom_point(aes(x=time, y=outcome, col = dose_cat)) +
+  scale_y_continuous(limits = c(-30,50)) +
+  labs(y = &quot;Outcome (log virus load)&quot;,  x = &quot;Time (days)&quot;)</code></pre>
+<p>Now, let’s plot the simulated data.</p>
+<pre class="r"><code>plot(p1)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/showplots-1.png" width="672" /></p>
+<pre class="r"><code>plot(p2)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/showplots-2.png" width="672" /></p>
+<pre class="r"><code>plot(p3)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/showplots-3.png" width="672" /></p>
+<p>As you can see, the priors for model 1 are so wide that some of the resulting trajectories are not reasonable. The variation between individuals is so strong that the dose effect - which we programmed into the simulated data to exist - is swamped out. That could certainly be true for real data, sometimes there is just too much noise/variability to detect a pattern, even if it exists. But some of the trajectories produce virus load that’s just biologically unreasonable.</p>
+<p>On the other extreme, the priors for model 2 allow so little variation that the individual-level variation is minimal and the only effect that is noticable is the dose dependence we assumed in our model (by setting <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span> to non-zero values).</p>
+<p>Model 3 produces the most reasonable trajectories, with both the dose-effect showing, and some variation between individuals.</p>
+<p>For each plot, the lines show the deterministic mean trajectory, and the symbols show the outcomes, which have some extra variation on top, determined by the value of <span class="math inline">\(\sigma\)</span>.</p>
+</div>
+<div id="saving-the-simulated-data" class="section level2">
+<h2>Saving the simulated data</h2>
+<p>Finally, we’ll save one of the plots (this is mainly so I can show it at the beginning of the tutorial).</p>
+<p>And then, let’s combine all the simulated data into a single list containing all data frames, and save it. I’m also saving the parameters for each model, so we can quickly retrieve them when we compare with the model estimates.</p>
+<pre class="r"><code>ggsave(file = paste0(&quot;simdata_m3.png&quot;), p3, dpi = 300, units = &quot;in&quot;, width = 7, height = 7) </code></pre>
+<pre><code>## Warning: Removed 52 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 52 rows containing missing values (geom_point).</code></pre>
+<pre class="r"><code>simdat &lt;- list(m1 = m1_dat, m2 = m2_dat, m3 = m3_dat, m1pars = m1pars, m2pars = m2pars, m3pars = m3pars)
+saveRDS(simdat, &quot;simdat.Rds&quot;)</code></pre>
+<p>We’ll load and use the <code>simdat</code> file in the next parts of the tutorial.</p>
+</div>
+</div>
+<div id="summary-and-continuation" class="section level1">
+<h1>Summary and continuation</h1>
+<p>To sum it up, we specified several models that could be used to both fit and generate simulated time-series data for individuals that might differ by some additional factor (here, dose). We wrote some code that simulated data, which we then plotted to make sure it looks reasonable.</p>
+<p>Of course, the main part of fitting the data is still missing. I had planned to do the whole process in a single tutorial. But it’s gotten so long that I decided to split the model definition and data simulation from the fitting. So as a next step, <a href="/posts/longitudinal-multilevel-bayesian-analysis-2/">hop on over to part 2</a> where we now fit these models and simulated data.</p>
+</div>

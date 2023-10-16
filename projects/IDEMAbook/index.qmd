@@ -1,0 +1,19 @@
+---
+title: "Infectious Disease Epidemiology - a Model-based Approach"
+description: "An online book (perpetually under construction) covering infectious disease epidemiology from a model-based perspective."
+image: featured.png
+image-alt: IDEMA book logo
+categories:
+  - Teaching
+  - Textbook
+  - Infectious Disease
+  - Epidemiology
+about:
+  template: solana
+  image: featured.png
+---
+
+[An online book (perpetually under construction) convering infectious disease epidemiology using a model-based approach.](https://andreashandel.github.io/IDEMAbook/) 
+Some parts of the book are fairly readable and complete enough that I use it when I teach a course on that topic. Other sections are currently only templates/outlines. While I try to ensure that what I write is correct, the whole book is not thoroughly fact-checked, error-corrected, properly referenced, etc. While I have been considering the idea of turning this into a full/real book, in my current thinking the cost-benefit analysis doesn't pan out. I thus plan to leave it online for free as is, with occasional updates and fixes, but without an attempt to make it polished and complete enough for a printed book.
+
+

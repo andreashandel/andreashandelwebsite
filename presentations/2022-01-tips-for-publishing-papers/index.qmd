@@ -1,0 +1,17 @@
+---
+title: Tips for publishing academic papers
+description: A presentation for our departmental PhD/MS students on publishing (peer reviewed) papers.
+event: PhD Seminar
+location: Athens, US
+  
+date: "2022-01-15"
+image: featured.jpg
+image-alt: Photo by Annie Sprat/Unsplash
+categories:
+  - Academia
+  - Career
+  - Research
+---
+
+These are slides for a talk/discussion I led with our graduate students on how to succeed at publishing (academic) papers.
+<a href="2022_01_tips_for_publishing_papers.html" target="_blank">The presentation slides are here.</a>

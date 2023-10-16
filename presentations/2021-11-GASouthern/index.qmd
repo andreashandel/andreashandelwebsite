@@ -1,0 +1,17 @@
+---
+title: Adventures in Data Analytics and Modeling - COVID-19 and Influenza
+description: A presentation of some recent projects, given at GA Southern University.
+event: Online Presentation
+location: Statesboro, GA, US (virtual)
+  
+date: "2021-11-01"
+image: featured.png
+image-alt: Impact of COVID-19 interventions
+categories:
+  - Research
+  - Influenza
+  - COVID-19
+
+---
+
+<a href="2021_11_GASouthern.html" target="_blank">These are the slides</a> for a presentation I gave at GA Southern University.

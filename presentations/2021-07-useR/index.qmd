@@ -1,0 +1,18 @@
+---
+title: An R package to flexibly generate simulation model flow diagrams
+description: A pre-recorded presentation given at useR! 2021 introducing one of our new R packages
+event: Online Presentation
+location: Athens, US
+  
+date: "2021-07-07"
+image: featured.png
+image-alt: flowdiagramr image
+categories:
+
+- R package
+- R package
+
+---
+
+Since the package has changed a lot since this presentation, the recorded video is more confusing than helpful. I thus removed it. For the latest on the package, check out the [package website](https://andreashandel.github.io/flowdiagramr/index.html)!
+

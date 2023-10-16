@@ -1,0 +1,14 @@
+---
+title: How to be a good mentee and mentor
+description: A presentation for our departmental PhD and MS students on mentorship
+event: Graduate Seminar
+location: Athens, US
+  
+date: "2021-04-22"
+image: featured.jpg
+image-alt: Photo by [Mohamed Hassan](https://pixabay.com/users/mohamed_hassan-5229782/)/Pixabay
+categories:
+  - Career
+---
+
+These are slides for a talk/discussion I led with our graduate students discussing mentorship, both how to be a good mentee and mentor. <a href="2021_04_mentor_mentee.html" target="_blank">The presentation slides are here.</a>

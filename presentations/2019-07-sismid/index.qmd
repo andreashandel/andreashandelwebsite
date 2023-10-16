@@ -1,0 +1,38 @@
+---
+title: Introduction to within-host modeling
+abstract: An introductory workshop on Infectious Diseases, Immunology and Within-Host Models. 
+event: 2019 Summer Institute in Statistics and Modeling in Infectious Diseases (SISMID)
+location: Seattle, US
+date: "2019-07-17"
+image: featured.png
+categories:
+- Teaching
+- Infectious Disease
+- Immunology
+---
+
+# Preparation
+
+* Install R and (optional) Rstudio.
+* Install the DSAIRM R package and take a brief look. [This website provides instructions.](https://ahgroup.github.io/DSAIRM/)
+
+# Outline
+
+I cover the following topics in this workshop (my co-teacher Paul Thomas covers the Immunology part):
+
+1. Introduction to modeling
+2. Some example models
+3. How to use simulation models
+4. Sources of uncertainty
+5. Types of models
+6. How to build (good) models
+7. How to assess modeling studies
+
+# Presentation Slides 
+
+[All pdf slides as zip file](2019SISMID_Slides.zip)
+
+
+
+
+

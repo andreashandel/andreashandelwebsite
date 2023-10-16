@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: af065a8d-c2c3-4d15-bfaf-6e7adf26eb33
+      url: 'https://www.andreashandel.com'

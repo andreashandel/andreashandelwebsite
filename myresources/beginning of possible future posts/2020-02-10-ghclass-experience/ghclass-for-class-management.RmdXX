@@ -1,0 +1,232 @@
+---
+title: How to use the ghclass R package as part of teaching  
+subtitle: Some examples for online class management through a Github organization 
+description: ''
+author: Andreas Handel
+date: '2020-01-10'
+aliases: \r\n  -  ghclass-management
+categories: []
+categories: []
+lastmod: '2020-01-10'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r, include = FALSE}
+#remotes::install_github('emo')
+#library('emo')
+```
+
+# Overview
+
+In fall 2019, I taught an online course called [Modern Applied Data Analysis](https://andreashandel.github.io/MADAcourse/). As part of the course students were asked to use Github to submit various assignments. I also asked them to interact with each other through Issues, Forking, Pull requests, etc.
+
+I set up everything by creating an organization, and used the [`ghclass` R package](https://rundel.github.io/ghclass/) to manage student repositories. The following write-up give some examples of how I used the package. This will be useful to my future self when I teach this or a similar course again. Maybe it is also useful for others.
+
+
+# Rationale
+
+Since GitHub is such a useful tool for reproducible and organized project development, and widely used both in the R and Data Analysis communitues, it makes sense for a course such as mine to introduce students to GitHub. While GitHub offers [GitHub Classroom](https://classroom.github.com/) as a way to manage courses, I tried it once and found it overly complicated and not fitting into the way I wanted to do things. I therefore decided to do regular old GitHub inside an organization I created for the course. Then I learned about the `ghclass` R package, which made a lot of my class management tasks much easier. The following is a description of how I used `ghclass` for specific class management related tasks.
+
+# Some Notes
+
+* For privacy reasons, I can't show actual student user names and repositories. I therefore created a dummy test organization with myself and 2 of my grad students (who agreed to be part of my dummy repository) as members. This is just to illustrate the workflow.
+* I tend to write the package name in front of the function (e.g. `ghclass::org_members()`), just for clarity. That's not required and often not done. Once you load the package, you can just write `org_members()`.
+* The `ghclass` package is in early development and will likely change a lot, both aquiring new features and probably also changes in syntax. 
+* The `ghclass` package has more functions than the one I describe here. This short tutorial focuses on the features I needed for my class and shows how I did it. Check out the [`ghclass` website](https://rundel.github.io/ghclass/) and the package documentation to learn about all its features.
+* For further resources, including tutorials by others, see the last section of this document.
+
+
+# Overall setup
+
+I created an organization for the course. The [GitHub Education website](https://education.github.com/) explains how to do that as an educator and get the education discount (i.e. get it for free). See specifically [this information](https://classroom.github.com/help/upgrade-your-organization). First create an organization, then upgrade it.
+
+I asked all students to create GitHub accounts if they didn't already have them, and then send me their Github user names. I then invited them to the organization. 
+My instructions given to students [can be found here](https://andreashandel.github.io/MADAcourse/1d_Github.html).
+
+Students were asked to do exercises and submit results inside Github repositories. These exercises involved creating a Github website, working on each other's repositories through Issues and Pull requests, all embedded in the main exercise tasks related to data analysis. You can find the exercises the students did in the `Exercises` section on the [course website](https://andreashandel.github.io/MADAcourse/).
+
+
+
+# Setup for class management
+
+My goal was to quickly work with student's repositories to check what they had done. The following sections describe specific tasks I did (usually more than once).
+
+I'm running everything on (various) Windows 10 computers. The OS should not matter. Make sure `Git` is installed.
+
+
+# Getting started
+Load the ghclass package. If not installed, install either from CRAN of for a more up-to-date version, from GitHub. Also loading a few other packages I'm using.
+
+```{r package-loading, message=FALSE}
+#Load `ghclass` package. Install (from github) if needed. 
+#install.packages('ghclass')
+#remotes::install_github('rundel/ghclass')
+library(ghclass)
+#load some general pacakges
+library(dplyr)
+library(stringr)
+```
+
+Setting some general variables. Adjust as needed.
+
+```{r setup}
+#setting the name of the GitHub organization for the class
+#by changing it here, one doesn't need to adjust things manually in the code below
+orgname = "ah-testorg"
+
+#set local path to repositories for this organization, based on local computer setup
+repopath = "C:/data/Github/ah-testorg/"
+
+#Need to set Github token for things to work. See ghclass vignette on how to do that:
+#https://rundel.github.io/ghclass/articles/ghclass.html
+
+#Note that the token should be kept 'secret'. Don't store it in a file inside a repository that is public.
+#keep your class management script (i.e. this one) on a local computer or use some private syncing option (Dropbox, etc.) or a private GitHub repo.
+ghclass::github_set_token("f293643532c2f3bb2b71f27b9d9a2dbfc305f53d") #Replace with a working token
+ghclass::github_test_token()
+```
+
+
+
+# Check organization members
+
+See who's part of the repo. Useful at the beginning of class to make sure all students signed up.
+
+```{r member-check}
+#Check on current and pending members
+current_members <- ghclass::org_members(orgname)
+pending_members <- ghclass::org_pending(orgname)
+print(current_members)
+print(pending_members)
+```
+
+
+# Getting specific repos 
+
+Taking a look at all repos. Depending on how many repos there are, this can become unwieldy. In my course with 18 students, we had around a 100 repositories by the end of the course. Depending on how you structure things, you can have many more.  
+
+```{r all-repo-check}
+all_repos <- ghclass::org_repos(orgname)
+print(all_repos)
+```
+
+Check on repos containing some type of string in their name. For that to work well, you need to give students/users specific instructions on how to name their repos. I generally tell them to name it `YOURNAME-LABEL` where `LABEL` marks the type of repo for a specific task (e.g. a specific exercise or in the case below, a class project). Try to have at least part of the repo that is easy to filter.
+
+This bit of code pulls out all repos that have "Introduction" in their name. Those were the repos (one per student) for the first assignment, where students had to create a small Github website introducing themselves. [See here](https://andreashandel.github.io/MADAcourse/Exercise_Introducing_Ourselves.html) for the exercise instructions.
+
+```{r repo-check}
+# Need to account for various ways of spelling.
+r1 <- ghclass::org_repos(orgname,filter = "Introduction")
+r2 <- ghclass::org_repos(orgname,filter = "introduction")
+current_repos <- c(r1,r2)
+print(current_repos) #print all repo names
+length(current_repos) #make sure it's the expected number (i.e. number of students/submissions)
+```
+
+If you want to do get a single repo, just replace the `filter` argument with the repo name.
+
+
+# Clone specific repos
+
+Clone a group of repos to a specific location on the local computer. Both `current_repos` and `repopath` are defined above. 
+
+```{r repo-clone}
+ghclass::local_repo_clone(repo = current_repos, local_path = repopath)
+```
+
+# Pull specific repos
+
+Update local repos. Use `pull` to update the local repo with changes from remote. Note that if you changed the repo in the location you plan to overwrite, you'll get an error message.
+
+
+```{r repo-pull}
+#get name of repos only, without the organization name
+reponames =  stringr::str_remove(current_repos, paste0(orgname,'/'))
+print(reponames)
+#create path to repos
+localrepos = paste0(repopath, reponames)
+#pull local repos
+ghclass::local_repo_pull(localrepos, verbose = TRUE)
+```
+
+In my workflow, I only cloned and pulled (updated) student repositories, then went through them locally, tried to execute things and reviewed stuff. I then provided (usually short) feedback through an Issue filed GitHub.com. If my local actions changed things such that a `pull` wasn't possible, I just went ahead and deleted the local repos and cloned again. A bit hacky, but worked well for me.
+
+# Push repos
+
+As mentioned, I didn't try to push local changes in my workflow. But if that's needed, this does the trick.
+
+```{r repo-push}
+#get name of repos only, without the organization name
+reponames =  stringr::str_remove(current_repos, paste0(orgname,'/'))
+print(reponames)
+#create path to repos
+localrepos = paste0(repopath, reponames)
+#pull local repos
+ghclass::local_repo_commit(localrepos, message = "Added my feedback")
+ghclass::local_repo_push(localrepos, verbose = TRUE)
+```
+
+
+
+
+# Experimental features
+
+For some exercises, students were asked to go into each other repositories and provide feedback through Issues, which the repo owner was asked to address and then close the Issue. I didn't want to go through each repo and check/read every issue. I reached out to Colin Rundel, the `ghclass` author, and asked if there was a way to get stats on repositories. He was able to implement something. 
+
+Unfortunately, at the time of this writing, this is not yet on CRAN or the master branch on GitHub. It's on a side branch, which you can install like this (uncomment if you want to run it):
+
+```{r ghclass-experimental}
+#version of package with new features
+#remotes::install_github("rundel/ghclass@repo_stats")  
+```
+
+## Look at repo stats
+
+I wanted a way to see details for specific repos. This new function can provide information.
+
+Get all repos that contain the word Project/project, together with stats on each repo.
+```{r repo-stats-1}
+<!-- r1s <- org_repo_stats(orgname, filter ='Project')  -->
+<!-- r2s <- org_repo_stats(orgname, filter ='project')  -->
+<!-- cr <- rbind(r1s) -->
+
+```
+<!-- #get contributors for repos -->
+<!-- r1 <- org_repos(orgname,filter = "Project") -->
+<!-- r2 <- org_repos(orgname,filter = "project") -->
+<!-- c1 <- repo_contributors(c(r1,r2)) -->
+
+
+<!-- # combine org_repo_stats information with repo_contributors -->
+
+<!-- c2 <- full_join(rnn) -->
+<!-- #f1 <- r1 %>% dplyr::filter(str_detect(repo, "Coding") | str_detect(repo, "coding")) -->
+<!-- #clone repos to local machine -->
+
+cc <- left_join(repo_contr,repo_stats,by='repo')
+
+
+<!-- #combine information from repo_stats and repo_contributors -->
+<!-- cc <- left_join(repo_contr,repo_stats,by='repo') -->
+
+Note that some of these commands did not produce the right information when I compared it with the actual numbers on GitHub. As of this writing, I don't know if that got fully fixed, I haven't thoroughly tested it. I expect these functions to work without problems eventually.
+
+# Overall GitHub thoughts
+I was pleasantly surprised how well all things GitHub related went in my class. I expected more problems. Most students started out with no GitHub experience (and not even an account). Through [the instructions I gave them](https://andreashandel.github.io/MADAcourse/1d_Github.html) and the slow introduction of different GitHub features as part of the [weekly exercises](https://andreashandel.github.io/MADAcourse/index.html), starting with a [self-introduction](https://andreashandel.github.io/MADAcourse/Exercise_Introducing_Ourselves.html), most students were able to get all GitHub related tasks to work without problems. I recommended [GitKraken](https://www.gitkraken.com/) as graphical client, and as far as I can tell, all students used it. Based on this experience, I'm fairly certain I will use GitHub in all my future classes, even if they are not specifically on data analysis.
+
+# `ghclass` thoughts
+While the students never interacted with the `ghclass` package, it made my life administering their repositories much easier. I was able to check on and manage members for the course organization easily. Bulk cloning/pulling was fast and convenient. I only looked into students repos and provided any feedback as Issue through the web interface, so didn't do much pushing and related tasks. But I think they would have worked just fine too. Thanks to Colin's quick response, I was able to get some tools/functions that allowed me to get stats on repos/users regarding the number of open/closed Issues, pull requests, etc. This allowed for quick monitoring and presence/absence based grading. I expect the package will mature, more features will be added and some existing bugs fixed, such that the package will only increase in usefulness.
+
+
+
+
+
+# Further Resources
+
+* [GitHub Classroom Guide for Teachers](https://github.com/jfiksel/github-classroom-for-teachers). A tutorial (in the form of a GitHub repo) describing how to use GitHub Classroom. As mentioned above, I don't particularly like that workflow and thus don't use it, but others might like that setup. I'm not sure how well such a setup and `ghclass` would work together.
+

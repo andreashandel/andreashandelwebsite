@@ -1,0 +1,16 @@
+---
+title: "User-friendly software for simulation modeling of infectious diseases"
+description: "An introduction ot infectious disease modeling and software to learn it." 
+event: "First Year Odyssey Seminar"
+location: "Athens, GA (virtual)"
+  
+date: "2020-11-23"
+image: featured.png
+categories:
+  
+  - Teaching
+  - Modeling
+  - R package
+---
+
+These are slides for a talk I gave to a group of undergraduate students as part of a First Year Odyssey Seminar class. I provide a very brief introduction to infectious disease modeling and show the [DSAIDE software](https://ahgroup.github.io/DSAIDE/) and a worked example. <a href="2020-11-fyos.html" target="_blank">The presentation slides are here.</a>

@@ -1,0 +1,14 @@
+---
+title: "Projects"
+listing:
+  contents: projects
+  sort: "title"
+  type: grid
+  image-height: 260px
+  categories: true
+  sort-ui: true
+  filter-ui: true
+page-layout: full
+title-block-banner: false
+comments: false
+---

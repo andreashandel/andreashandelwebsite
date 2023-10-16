@@ -1,0 +1,14 @@
+---
+title:  Introduction to Individual Development Plans and the AAAS myIDP
+description: A presentation for our departmental PhD and MS students to kick off a semester-long IDP development 
+event: Graduate Seminar
+location: Athens, US
+  
+date: "2021-01-14"
+image: featured.jpg
+image-alt: Photo by Gerd Altmann/Pixabay
+categories:
+  - Career
+---
+
+These are slides for a talk/discussion I led with our graduate students discussing Individual Development Plans, and specifically the AAAS myIDP plan. This is the kick-off presentation/discussion for a semester-long IDP development project done as part of the seminar class. <a href="2021_01_IDP.html" target="_blank">The presentation slides are here.</a>

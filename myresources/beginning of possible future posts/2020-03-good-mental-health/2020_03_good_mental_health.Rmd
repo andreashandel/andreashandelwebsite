@@ -1,0 +1,44 @@
+---
+title: "Towards good mental health"
+date: "`r file.mtime(knitr::current_input())`"
+author: "[Andreas Handel](https://www.andreashandel.com)"
+output: 
+  ioslides_presentation:
+        self_contained: true
+---
+
+## Disclaimer
+
+I'm not a mental health expert and I consider myself to be of overall pretty good mental health. Thus, I am in some way not well positioned to talk about this topic either from either an expert 3rd or 1st person perspective. I'll do it anyway and hope some of this will be useful.
+
+
+## Motivation
+* Life is challenging.
+* Grad school can be too.
+* The kinds of people who go to grad school (and continue in academia), are self-selected to be driven.
+
+## Common problems
+* Impostor Syndrome: https://science.sciencemag.org/content/367/6479/749.2
+* 
+
+
+# Tools for good mental health
+
+## Meditation
+
+
+## Good 'Philosophies'
+* Stoicism
+
+## Healthy Habits
+
+## Exercise
+
+## Fun activities
+
+## Friends
+
+
+## External resources
+
+

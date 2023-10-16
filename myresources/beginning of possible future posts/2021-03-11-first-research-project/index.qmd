@@ -1,0 +1,89 @@
+---
+title: How to approach your first (and every subsequent) research project
+description: "A short guide with pointers for those new to doing research (and those that need an occasional reminder)."
+author: "[Andreas Handel](https://www.andreashandel.com)"
+date: '2021-03-11'
+draft: true
+categories: ["research", "guide", "tutorial"]
+featured: no
+---
+
+
+The following blog post provides a quick introduction with some ideas and pointers as you embark on your first (or any) research project.
+
+
+# Motivation
+
+I mainly wrote this for new members who join my research group. I figured others might be interested too, so I turned it into a blog post.
+
+While research can and should be a lot of fun, it can at times also be confusing, frustrating and disorienting. I'm hoping that by reading through this, those new to research know what to expect and how to most efficiently deal with things that come up.
+
+
+# What this document covers
+
+This document is meant to provide you with some ideas and thoughts on doing research, what to expect and how to deal with it. I can't cover everything, so don't consider this to be a complete description of everything that can happen.
+
+# Who this is (not) for
+
+I hope anyone who embarks on a research project for the first time, or even those that have prior experience, might find it helpful to remember what can and likely will happen and how to deal with it.
+
+
+# Recommendations for doing research projects
+
+
+## Jump right in
+I assume that you are either working with a research mentor who suggested a project to you, or you had your own idea and want to pursue it.
+
+
+## Go slow 
+
+
+ 
+
+## Expect to get stuck/feel stupid
+Part of doing research is the common (and frustrating) experience of ‘getting stuck’. There are many ways to get stuck. For instance you had an idea, try to see if it works and it doesn’t. Or your computer code just doesn’t seem to work properly and you can’t find the bug. Or something else just doesn’t behave the way you want it to and you feel like you are not making any progress. This ‘getting stuck’ and sometimes ‘feeling stupid’ because ‘nothing works’ is completely normal. In fact, if you didn’t ever get stuck or felt stupid, I would question the quality of your work. Research is exploring the unknown/cutting edge. If things are so simple that you can do it without problems, you are probably not doing high quality research/work.
+
+
+## Try to get unstuck yourself
+The difference between successful and not successful researchers (or people in general) is not that the former don’t get stuck. It’s that the successful ones find ways to get unstuck. Your job is to get things going again, some way or another. If your code doesn’t work, try to figure out where the bugs are. If you can’t figure out how to implement some kind of method, google it. If you don’t get the results you were hoping for, figure out what alternative ways of tackling your problem might be successful. 
+
+## Don’t stay stuck for too long
+
+It’s good to first try yourself. But you don’t want to waste too much time on something. If you can’t figure 
+
+
+## Go deep
+
+## Don’t go too deep
+
+## Strive for perfection
+
+## Don’t be too perfect
+
+
+
+# More Information
+
+
+
+Data entry:
+http://kbroman.org/dataorg/
+
+Reproducibility:
+•	http://www.genomebiology.com/2015/16/1/274
+
+Approach to research:
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+

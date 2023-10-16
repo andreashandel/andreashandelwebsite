@@ -1,0 +1,158 @@
+---
+title: Exploring the `flowdiagramr` R package  
+description: A brief post showing how to use the `flowdiagramr` R package to make flowcharts.
+author: Andreas Handel
+date: '2022-06-11'
+aliases: 
+  - ../flowdiagramr-R-package/
+categories: 
+- R Package
+- Visualization
+featured: no
+image: "featured.png"
+---
+
+
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('flowdiagramr-exploration.R')
+```
+
+
+# Motivation
+
+For a while now, we've been working on an R package called [`flowdiagramr`](https://andreashandel.github.io/flowdiagramr/) which lets you create flow diagrams in `R`. The main reason we wrote this package is because while there are other `R` packages that can generate diagrams, I couldn't find one that allowed me to create flow diagrams for the kind of compartmental simulation models that I often use in research and teaching. For instance right now, all model diagrams in my population-level and within-host modeling packages [DSAIDE](https://ahgroup.github.io/DSAIDE/) and [DSAIRM](https://ahgroup.github.io/DSAIRM/) are drawn by hand.
+
+While the main focus of `flowdiagramr` is to produce diagrams for those kind of dynamical process models with feedback loops, it can also be used to create other flow diagrams.
+
+As of this writing, we are preparing for an initial CRAN submission. I've been updating the package vignettes with hopefully useful examples. By chance, I recently came across a tweet by [Nicola Rennie](https://nrennie.rbind.io/) pointing to [this blog post](https://nrennie.rbind.io/blog/2022-06-06-creating-flowcharts-with-ggplot2/) she wrote. The blog post shows how to make a nice flow diagram using `ggplot2()`. 
+
+I figured it would be fun to try and redo this using `flowdiagramr`. The following post shows that attempt.
+
+
+# Who this is (not) for
+
+If you are interested in making diagrams using R and are looking for an option that might do things that current packages such as `diagrammR` or others can't do, you might want to follow along. 
+
+The [`flowdiagramr` package](https://andreashandel.github.io/flowdiagramr/) has (in my biased opinion) fairly decent documentation and vignettes. I'm not going to repeat all that here. I basically assume that if you want to try this out, you go to the package website and skim through the first few vignettes to get an idea of how things work. Then come back here. Or first skim through this post, then if you want, go and explore the package vignettes more.
+
+
+# General setup
+
+The following shows code and my comments mixed together. It's often useful to go slow and type your own code, or copy and paste the code chunks below and execute one at a time. However, if you are in a hurry, you can find all the code shown below in [this file](flowdiagramr-exploration.R).
+
+
+First we load all needed packages.
+
+```{r, packages, message=FALSE}
+```
+
+
+# Diagram setup
+
+Now we specify the model. Generally, a model consists of variables/compartments/boxes and flows/arrows connecting the boxes. 
+This code chunk defines the variables/boxes, gives them names (used later), and provides the box grid layout as a matrix.
+
+```{r, variables}
+```
+
+The second component of every model are the flows between compartments/variables/boxes. Since `flowdiagramr` has as underlying logic the idea that flows occur between compartments, one needs to set up things as processes in such a way.
+
+
+```{r, flows}
+```
+
+
+# Diagram preparation
+
+The first step for each `flowdiagramr` diagram is the preparation stage using the `prepare_diagram()` function. For that, one needs to supply the model as a list of variables and flows (boxes and arrows) and optional layout specifications.
+
+
+```{r, prepare}
+```
+
+# Diagram styling
+
+The return from `prepare_diagram` is a list of data frames containing information about the variables and flows needed for plotting. One could go straight to making the diagram with `make_diagram`. But we already know the default doesn't look like the blog post, therefore we apply some styling, which is done with the `update_diagram` function.
+
+```{r, update}
+```
+
+
+# Diagram generation
+
+Now we can make and plot the diagram
+
+```{r, makediag}
+```
+
+The result looks somewhat similar to the original, but not quite yet.
+
+
+# More diagram styling
+
+The above is as far as we can get with `flowdiagramr`. The good news is that the created object is a a regular `ggplot` object and thus we can modify it further using `ggplot2` code. A lot of this follows the original blog post, see there for details.
+
+
+
+```{r, updateggplot}
+```
+
+Now we can plot it again
+
+```{r, plotupdate}
+```
+
+This plot is fairly close. I'm skipping the addition of the image since that was done manually.
+
+One aspect that isn't working is having the font in the boxes be the the `henry` style. I did try to supply it by setting `text = element_text(family = "henny")`, but it seems that doesn't work after one has already written the text. I'm not aware of a way to update text in an ggplot once it's already placed (I wouldn't be surprised if that's possible, I just don't know how.) Fortunately, we can fix that in a different way.
+
+
+# Even more diagram styling
+
+Let's see if we can fix the font issue. While setting the font through `update_diagram` is on the to-do list, as of this writing, this feature does not yet exist (contributions welcome `r emoji::emoji('grin')`).
+
+We can however ask `flowdiagramr` to write all the `ggplot2` code that produces the diagram into a file, then modify ourselves.
+
+This writes the full ggplot code to an R script file:
+
+```{r, writecode, message=FALSE, eval=FALSE}
+```
+
+Now we can open that file, find the part that creates the text for the boxes (that part starts with "add label text") and simply add this part `family = "henny"` into the `geom_text()` statement. We'll also copy the commands from above to the end of the script to update the `diagram_plot` object. Then we'll save the updated file, source it, and thus have an updated diagram. [Here](gl_diag_mod.R) is the updated script if it's not clear what I'm doing.
+
+
+```{r, newdiagcode}
+```
+
+So that worked, very close to the original!
+
+
+
+# A bit more exploration
+
+For this specific diagram, using `flowdiagramr` is maybe not that much better than the original version. However, once one wants to include further features, including loops, `flowdiagramr` shows its strength. To illustrate this, let's add a flows that shows that after Goldilock sits in the right chair, it induces hunger and she eats more porridge. (Yes, it's silly, but I want to show how that can easily be implemented with `flowdiagramr`). 
+
+To show that, we update the flows as follows
+
+```{r, flowsnew}
+```
+
+
+Then we do the above steps to create the diagram:
+
+```{r, preparemakenew}
+```
+
+I'm skipping the font adjustment and other parts, but of course you can apply that again. This ability to create feedback loops - which are very common in scientific process/simulation/mechanistic models - is the reason we built `flowdiagramr`. But as you saw, it can be used for all kinds of diagrams.
+
+
+# Further resources
+
+The [`flowdiagramr` website](https://andreashandel.github.io/flowdiagramr/) has a bunch of vignettes/tutorials with lots of examples and further use cases. If you are intrigued by this post, go check it out `r emoji::emoji('smile')`.
+
+
+# Acknowledgments
+
+Development of `flowdiagramr` is a joint effort between myself and [Andrew Tredennick](https://atredennick.github.io/), who did the majority of the actual coding work.
+

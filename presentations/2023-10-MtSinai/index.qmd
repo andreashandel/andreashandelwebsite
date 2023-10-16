@@ -1,0 +1,18 @@
+---
+title:  Analysis and Modeling to evaluate influenza vaccine responses
+description: A research presentation covering two recent influenza vaccine modeling and analysis projects.
+event: Mt Sinai Global Health and Emerging Pathogens Institute Seminar Series
+location: New York City, NY
+date: "2023-10-11"
+date-modified: "2023-10-11"
+image: featured.png
+image-alt: CD4 T-cell responses
+categories:
+  - Research
+  - Influenza
+  - Vaccine
+---
+
+
+<a href="2023-10-MtSinai-Handel.html" target="_blank">These are the slides</a> for this presentation.
+

@@ -1,0 +1,518 @@
+---
+title: Bayesian analysis of longitudinal multilevel data using brms and rethinking - part 4  
+description: Some more musings and explorations that didn't fit into the main posts of this series.
+author: Andreas Handel
+date: '2022-02-25'
+lastMod: "2022-04-20"
+aliases: 
+  - ../longitudinal-multilevel-bayesian-analysis-4/
+categories: 
+- R
+- Data Analysis
+- Bayesian
+image: "featured.png"
+---
+
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('part4fitmodels.R')
+knitr::read_chunk('part4exploremodels.R')
+```
+
+
+
+This is a continuation with some side analyses of [this tutorial](/posts/longitudinal-multilevel-bayesian-analysis-1/) illustrating how one can use the `brms` and `rethinking` R packages to perform a Bayesian analysis of longitudinal data using a multilevel/hierarchical/mixed-effects setup.
+
+
+# Introduction
+
+I assume you read through the main posts of the tutorial, namely [this one describing model setup and data generation](/posts/longitudinal-multilevel-bayesian-analysis-1/), and [this one describing fitting with rethinking](/posts/longitudinal-multilevel-bayesian-analysis-2/). You probably also looked at the [fitting with `brms`](/posts/longitudinal-multilevel-bayesian-analysis-3/) post, though that's optional for following along with this post.
+
+Here, I'm doing a few additional explorations that just didn't fit into the other posts. I'm doing all of these with `rethinking`.
+
+
+# Who this is (not) for
+
+This is only for you if you read my main tutorial posts and enjoyed my musings and explorations enough that you want to see some more stuff `r emoji::emoji('grin')`. 
+
+
+# R setup
+
+
+Again as previously, the code shown below are housed in 2 separate R scripts, which you can get [here](part4fitmodels.R) and [here](part4exploremodels.R). You can run the scripts one after the other. The code chunks don't quite show up in that order in this post.
+
+We need the same packages as previously. See comments in previous posts on how to get `Stan` installed and working.
+
+```{r, packages2, message = FALSE, warning = FALSE}
+```
+
+# Defining a few functions
+
+For the explorations below, I will repeat some parts, specifically the fitting, predicting and plotting components. 
+For simplicity and to streamline code, I defined a few functions that I'm using repeatedly.
+
+This function specifies the fitting part:
+
+```{r modelfitting-function}
+```
+
+
+This function does the prediction for the different models:
+
+```{r predict_function}
+```
+
+
+This function does the plotting:
+
+```{r plot_function}
+```
+
+
+These are the settings we use for all fits shown in this post:
+
+```{r fitsettings}
+```
+
+
+With these function definitions and specifications out of the way, we can get to some more model explorations.
+
+
+# Alternative model for time-series trajectory
+
+In the main tutorial, I used the following two-parameter model to describe hypothetical virus-load time series for an acute virus infection.
+
+$$
+\mu_{i,t} = \log\left( t_i^{\alpha_i} e^{-\beta_i t_i} \right)  
+$$
+
+I mentioned there that this equation does in fact not capture real data too well. For our research project, we used a somewhat more flexible equation, given as
+
+
+$$
+\mu_{i,t} = \log\left( \frac{2 p_i}{e^{-g_i  (k_i - t_i)} + e^{d_i  (t_i - k_i)}}\right).
+$$
+
+Instead of two parameters, this model has 4. The parameters approximately represent virus peak, $p_i$, initial growth rate, $g_i$, decay rate, $d_i$, and time of peak, $k_i$. Colleagues [showed previously](https://bmcpublichealth.biomedcentral.com/articles/10.1186/1471-2458-11-S1-S10) that this can fit virus load data for acute infections fairly well. The original use was for influenza, we found that it also worked reasonably well for our norovirus data, and thus used it. For the tutorial, I decided to stick to the simpler 2-parameter model. But everything I discussed there applies to this alternative model. For all 4 parameters, we can define individual-level and population level parameters, make them dose-dependent, etc. The main models for the 4 parameters are:
+
+$$
+\begin{aligned}
+p_{i} & =  p_{0,i} + p_1 x_i  \\
+g_{i} & =  g_{0,i} + g_1 x_i \\
+d_{i} & =  d_{0,i} + d_1 x_i \\
+k_{i} & =  k_{0,i} + k_1 x_i \\
+\end{aligned}
+$$
+
+In this notation, $x_i$ is the dose, transformed and scaled as needed.
+
+The same ideas about model specification, exponentiating to avoid negative values, and all of that still applies. You now need to specify priors for the parameters in each of the four equations above, instead of the 2 equations we had previously. It's conceptionally the same, just a bit more typing and coding. 
+Since there isn't anything fundamentally new to show or learn, I'm not implementing the code. I'm confident once you walked through the prior posts in the tutorial, you can copy & paste your way to working code for this bigger model. So if you feel like it, go ahead and implement the above model, both to simulate data and then to fit it. 
+
+The model you use to simulate data does not have to be the same you use to fit it. You could for instance try to simulate data with the 2-parameter model and fit with the 4-parameter one, or the reverse. I haven't tried it, but I expect that using the 2-parameter model to simulate data and the 4-parameter model to fit should work ok (since the 4 parameter model is flexible enough) but the reverse is likely not working too well. In either case, the fits are likely worse than if you use the same model to simulate the data and fit it. That's not surprising. 
+
+It illustrates the point that choosing the right main function (likelihood and deterministic part), is at least as important - probably more so - than setting priors. Most non-Bayesians get hung up about priors, but the dirty (somewhat)-secret is that the overall model specification - which needs to be done for both frequentist and Bayesian fitting - often has a much more pronounced impact, and choosing the model structure is always based on expertise (or convention, though that's a bad reason), and there are no real rules.
+
+
+# Fitting an alternative data set
+
+For the main tutorial, I used one of the simulated data sets (as generated by model 3) for fitting purposes, since it had the most realistic structure. But we can of course try to fit the other data sets as well. Here, I'm doing a quick exploration using data set 2. That was the one generated by model 2, which did not have any individual-level variability. Recall that model 2 did not run well at all, while model 2a (basically the same model, just better specified) worked ok, though the fit was not great. Let's see how model 2a does when fitting to a data that has the right overall structure. We'll compare it to model 4.
+
+
+
+Here are the two models we want to fit:
+
+```{r, model-2a}
+```
+
+```{r, model-4}
+```
+
+
+Setup for fitting these models:
+
+```{r fittingsetup-dat2}
+```
+
+Running the fits:
+
+```{r modelfitting-dat2, eval=FALSE}
+```
+
+
+Let's see what we get for the fits to this changed data set.
+
+
+```{r, load_dat2}
+```
+
+
+```{r, explore_dat2}
+```
+
+The estimates for the parameters are fairly similar. Model 2a actually seems to work a bit better here, since the model structure and the data structure are a close match.
+
+Comparison of the models using WAIC confirms that model 2a now does well:
+
+```{r, compare_dat2}
+
+```
+
+
+Let's look at plots to further see if/how the models differ. First we need to make predictions, then we can plot.
+
+```{r, predict_dat2}
+```
+
+
+```{r, plot_dat2, warning = FALSE, message = FALSE}
+```
+
+For this data set, with little individual-level variation, the simpler model and the more complex one perform more or less equally well. 
+Depending on the amount of noise ($\sigma$ in the model), at some point we can expect the simple model to not capture things too well anymore. 
+
+Generally speaking, model choice should be driven by the underlying scientific assumptions. If one expects no or almost no variation between the individual units (e.g., people in our case, but it could be anything else), then a simple model that ignores individual-level variation might be ok. In most cases, a model that allows for such variation is likely more appropriate. Especially since the adaptive pooling model allows the model to learn the amount of variation that best describes the data, thus it seems - apart from a bit more complex model setup and a longer run time - there is essentially no downside to the more flexible type of model. The minor downside is potentially larger uncertainty for those cases where a simpler model is suitable. The downside is more bias/risk of underfitting for the simpler model. It's always possible to try it both ways.
+
+
+
+# Fitting a larger data set
+
+The number of individuals in our simulated data in the main tutorial is low. That was motivated by the real data we had. But since the data are simulated, we can explore how things might or might not change if we increase the data. I was especially interested to see how the estimates for $a_1$ and $b_1$ might change with larger samples.
+
+To get larger samples, I ran the simulation script shown in [part 1](/posts/longitudinal-multilevel-bayesian-analysis-1/) with a 10 times larger sample size for each group. Everything else stayed the same. Here is the code that fits model 4 to the larger data set. 
+
+Setting up things.
+
+```{r fittingsetup-big}
+```
+
+Running the fits. 
+
+```{r modelfitting-big, eval=FALSE}
+```
+
+
+```{r, load_big}
+```
+
+Exploring model fits
+
+```{r, explore_big}
+```
+
+Note the message about the hidden parameters, it's 10 times as many as previously, since we have $N$ increased by a factor of 10. If we compare these estimates to those for model 4 in [part 2](/posts/longitudinal-multilevel-bayesian-analysis-2/), we notice that the credible intervals shrank, i.e. the precision increased. This is expected for larger sample size. So, reassuringly, larger sample size behaves as expected, helping the model to make more precise estimates. This should also lead to narrower uncertainty intervals for the predictions. Let's check:
+
+
+```{r, predict_big}
+```
+
+
+```{r, plot_big, warning = FALSE, message = FALSE}
+```
+
+Looks messy, but overall ok.
+
+
+# Alternative to enforcing positivity of parameters
+
+In the main tutorial, we enforced positivity for the main parameters $\alpha$ and $\beta$ through exponentiation. There are other options. An alternative is to ensure they are positive based on the assigned distributions.
+
+As a reminder, our main model describing the mean trajectory of the data is given by
+
+$$
+\mu_{i,t}  = \log\left( T_i^{\alpha_{i}} e^{-\beta_{i} * T_i} \right) 
+$$
+Only positive values for $\alpha_i$ and $\beta_i$ produce meaningful trajectories. Thus we need to ensure they are positive. In the main tutorial, I did that by exponentiating them, and then rewriting the equation to minimize potential numerical problems.
+
+Another approach is to keep the parameters the way they are, and specify the rest of the model in such a way that they can only be positive. 
+The equations determining $\alpha_i$ and $\beta_i$ are for our case the following:
+
+$$
+\begin{aligned}
+\alpha_{i} &  =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i} &  =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right)
+\end{aligned}
+$$
+I'm going to make a small change by dropping the subtraction of the middle dose. As discussed, we did that for ease of interpretation but otherwise it wasn't quite needed. 
+So I'm considering a model of this form
+
+$$
+\begin{aligned}
+\alpha_{i} &  =  a_{0,i} + a_1 \log (D_i)   \\
+\beta_{i} &  =  b_{0,i} + b_1 \log (D_i) 
+\end{aligned}
+$$
+We can choose priors for $a_{0,i}$ and $b_{0,i}$ that ensure only positive values. However, the priors for $a_1$ and $b_1$ should be allowed to be either positive or negative, since we don't know what impact the dose has. We also don't know how strong the dose effect is. That means, with the model above, it is tricky to ensure $\alpha_i$ and $\beta_i$ are positive. 
+
+As mentioned in the main tutorial, we could just leave things as they are and hope that the data will push the fitting routine to reasonable values. That might or might not work, so let's try to help things along. To do so, we'll rewrite the equations a bit as follows:
+
+
+$$
+\begin{aligned}
+\alpha_{i} &  =  a_{0,i} \left( 1  + (a_2-1)  \frac{\log (D_i)}{\max(\log(D_i))} \right)  \\
+\beta_{i} & =  b_{0,i} \left( 1 + (b_2-1)  \frac{\log (D_i) }{\max(\log(D_i))} \right) 
+\end{aligned}
+$$
+
+This maybe strange rewriting does two things. First, we rescaled the dose variable, such that all values are between 0 and 1. 
+Additionally, we replaced the parameters $a_1$ and $b_1$ with $a_1 = (a_2-1) a_{0,i}$ and $b_1 = (b_2-1) a_{0,i}$ and reorganized the equation.
+
+This rewriting doesn't change the model, but it helps us to now more easily define priors that enforce the equations to be positive. If we give all parameters priors that are positive, it will ensure that the part related to the dose only goes as low as -1 (if $a_2$ or $b_2$ are zero), which means the full equations can only go down to 0 and not lower. 
+These priors should work:
+
+$$
+\begin{aligned}
+a_{0,i}  \sim \mathrm{LogNormal}(\mu_a, \sigma_a) \\
+b_{0,i}  \sim \mathrm{LogNormal}(\mu_b, \sigma_b) \\
+a_{2}  \sim \mathrm{LogNormal}(0, 1) \\
+b_{2}  \sim \mathrm{LogNormal}(0, 1) \\
+\end{aligned}
+$$
+
+This implements again the adaptive pooling strategy, like we did previously for model 4.
+
+With these choices, we now ensure that $\alpha_i$ and $\beta_i$ can not become negative. Let's run the model using `rethinking` to see how it works. I'm comparing it to the previous model 4. Note the different forms of dose that are used in the models, corresponding to the equations just discussed. (I know I used 4a and 5 as model labels previously. The ones I'm calling 4a and 5 here are different/new `r emoji::emoji('grin')`.)
+
+```{r, model-4a}
+```
+
+```{r, model-5}
+```
+
+
+Here is the setup up for fitting this model. Note the new variable `dose_adj2` which is defined as shown in the equations above:
+
+```{r fittingsetup-altpos}
+```
+
+Running the fits:
+
+```{r modelfitting-altpos, eval=FALSE}
+```
+
+
+Let's see what we get with this changed model. 
+
+
+```{r, load_altpos}
+```
+
+For model 4, the estimates for the dose parameters $a_1$ and $b_1$ are similar to our previous ones. That's good, since we are still estimating the impact of changes in (log) dose, as before. The fact that we don't subtract the middle dose anymore should not impact the estimates of the _changes_ in outcome as dose changes. In contrast, the intercept parameters, $a_{0,i}$ and $b_{0,i}$ are now different from previous model fits and the original data generating model. That is also expected, since we generated the data with the model that subtracted the medium dose, but now fit it without that part. 
+
+```{r, explore_altpos_m4a}
+```
+
+These are the parameter estimates for model 5.
+
+```{r, explore_altpos_m5}
+```
+
+To compare those with model 4a, I'm doing the math to convert the $a_2$ and $b_2$ parameters to $a_1$ and $b_1$.
+
+```{r, convert_altpos_m5}
+```
+
+These estimates for model 5 are similar to those for model 4a.
+
+We can also compare the two models based on WAIC and run time.
+
+```{r, compare_altpos}
+```
+
+The fit quality is more or less the same. Note that model 4a ran faster than model 5, `r round(fl[[1]]$runtime,0)` versus `r round(fl[[2]]$runtime,0)` minutes.
+
+Finally, let's do the plots to check that they look more or less the same.
+
+
+```{r, predict_altpos}
+```
+
+Now let's make and look at the plots.
+
+```{r, plot_altpos, warning = FALSE, message = FALSE}
+```
+
+The plots for the 2 models are pretty much the same. That's good, since those are essentially the same models, just written in different forms. In this case, the original way of writing seems better since it runs faster.
+
+
+# Treating dose as an __unordered__ categorical variable
+
+In the main tutorial, we treated the predictor of interest as continuous. If you have a continuous predictor of interest, that's generally the best approach. Dose is a bit of a borderline case. We know the exact dose that was given, but it's not clear that one should assume a linear relation between dose and the model parameters. To explore the possible impact of this assumption, one could try all kinds of functional relationships. But without any good scientific knowledge of how that relation should look, it's a bit futile. Another option is to try and fit the model with dose treated categorically. At other times, you have a predictor that is categorical from the start, for instance one group receiving treatment and the other not is clearly categorical. 
+
+Here is a version of the model we looked at, now with dose treated categorical. I'm only showing this for the adaptive partial pooling model (model 4), but it could also be implemented for the other models.
+
+The equations change as follows
+
+$$
+\begin{align}
+\textrm{Outcome} \\
+Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{Deterministic time-series trajectory} \\
+\mu_{i,t}   =  \exp(\alpha_{i}) \log (t_{i}) -\exp(\beta_{i}) t_{i} \\
+\\
+\textrm{Deterministic models for main parameters} \\
+\alpha_{i}   =  a_{0,i} + a_1[dose_i]   \\
+\beta_{i}   =  b_{0,i} + b_1[dose_i]  \\
+\\
+\textrm{Priors} \\
+a_{0,i} \sim \mathrm{Normal}(\mu_a, \sigma_a) \\
+b_{0,i}  \sim \mathrm{Normal}(\mu_b, \sigma_a) \\
+a_1[dose_i] \sim \mathrm{Normal}(0.3, 1) \\
+b_1[dose_i] \sim \mathrm{Normal}(-0.3, 1) \\
+\mu_a \sim \mathrm{Normal}(2, 1) \\
+\mu_b \sim \mathrm{Normal}(0.5, 1) \\
+\sigma_a  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_b  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma  \sim \mathrm{HalfCauchy}(0, 1)  \\
+\end{align}
+$$
+
+The difference is that now the parameters $a_1$ and $b_1$ depend on the dose category (low/medium/high) of individual $i$, instead of the actual dose value for that individual. The rest of the model didn't change. Let's run this new model, which I call model 6.
+
+Model 6 with dose treated (unordered) categorical. I call the indices for the categorical dose `dose_cat2`.
+
+
+```{r, model-6}
+```
+
+
+Set up for fitting, running both this new model and the previous model 4 for comparison:
+
+```{r, fittingsetup-cat}
+```
+
+Running the fitting:
+
+```{r modelfitting-cat, eval=FALSE}
+```
+
+
+Let's see what we get with this changed model. 
+
+
+```{r, load_cat}
+```
+
+Here are the coefficients. I'm showing all here, so we can see the dose-related ones (which are level 2 for the categorical one).
+The first set of coefficients are the previous ones, from model 4, treating dose as continuous. The second set of coefficients is from the categorical dose model.
+
+
+```{r, explore_cat}
+```
+
+The $a_1$ and $b_1$ coefficients are the interesting ones. We now have a different estimate for each dose. The values for $a_1$ increase with dose and the values for $b_1$ decrease with dose. This is consistent with the linear/continuous model and the way we generated the data. 
+
+We can compare this model to the continuous one in terms of WAIC
+
+
+```{r, compare_cat}
+```
+
+The models are comparable with that metric.
+
+
+Let's compute predictions so we can plot. 
+
+
+```{r, predict_cat}
+```
+
+Now let's make and look at the plots.
+
+```{r, plot_cat, warning = FALSE, message = FALSE}
+```
+
+
+The plot looks reasonable, so treating dose here as categorical seems to lead to similar results as treating it continuous. It's a scientific question/decision on how to do it. In general, if there are reasons for either approach, my suggestion is to do it both ways and report the additional results as sensitivity analyses.
+
+
+
+## A model that "doesn't work"
+
+When we originally scribbled down models that we might use to fit our data, we came up with this model.
+
+$$
+\begin{align}
+\textrm{Outcome} \\
+Y_{i,t}  \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{Deterministic time-series trajectory} \\
+\mu_{i,t} =  \exp(\alpha_{i}) \log (t_{i}) -\exp(\beta_{i}) t_{i} \\
+\\
+\textrm{Distribution for main parameters} \\
+\alpha_{i}  \sim \mathrm{Normal}\left(am_{i}, \sigma_a \right)  \\
+\beta_{i}  \sim \mathrm{Normal}\left(bm_{i}, \sigma_b \right) \\
+\\
+\textrm{Deterministic models for main parameters} \\
+am_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+bm_{i}  =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right) \\
+\\
+\textrm{Distribution for (hyper)parameters} \\
+a_{0,i}  \sim \mathrm{Normal}(2, 0.1) \\
+a_{1}  \sim \mathrm{Normal}(0.5, 0.1) \\
+b_{0,i}  \sim \mathrm{Normal}(0, 0.1) \\
+b_{1}  \sim \mathrm{Normal}(-0.5, 0.1) \\
+\sigma_a  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_b  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma  \sim \mathrm{HalfCauchy}(0,1)  
+\end{align}
+$$
+
+The model is similar to models 1-3, but with another distribution for parameters $\alpha_i$ and $\beta_i$. Fitting this model didn't work, the fitting routine kept choking. We concluded that with this model we are overfitting. However, I am also not sure if there is something more fundamentally wrong in the way we wrote down this model. I'm not sure if a mix of having parameters defined by equations, then as distributions and equations again is a generally wrong way. This is currently beyond my Bayesian understanding. Feedback appreciated `r emoji::emoji('smile')`.
+
+It is straightforward to translate the model to `rethinking` or `brms` code, but since it didn't fit well, and I'm not even sure if it's a "proper" model, there's no point in showing the code. Implement it if you want, and let me know if you have some insights into what exactly might be wrong with the model.
+
+
+# Summary
+
+This post contained a few more explorations of alternative models and model implementations. I know I didn't provide as much explanation and detail as I did for the main tutorials. Hopefully, seeing these additional examples is still somewhat helpful. And you know what comes now: For more/real learning of that stuff, you should really check out [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) `r emoji::emoji('grin')`.
+
+
+# More things to try
+
+This section is mainly for myself, some ideas for further extensions. Here are additional topics I can think of. Feel free to provide feedback if you want me to cover some other aspects (no promises of course, it depends on my time and understanding `r emoji::emoji('smile')`).
+
+* Treating dose as an ordered categorical variable. I started that, but haven't finished yet. Hopefully will show up here soon.
+* Using a scientific/mechanistic/process model based on differential equations to describe the main time-series trajectory.
+* Exploring individual level variation in dose-dependence, i.e. $a_{1,i}$, $b_{1,i}$ parameters. 
+* Implementing some of the models in a fully frequentist framework and comparing.
+
+
+<!-- # Treating dose as an __ordered__ categorical variable -->
+
+<!-- For some predictors (e.g. treatment yes/no) there is no ordering. If we assume dose as categorical, there is a clear ordering (Low < Medium < High). If one assumes that an increase in dose has **a monotone impact on the outcome** then one can treat the predictor as ordered categorical variable.  -->
+
+<!-- For our specific example, this is actually not the best idea. The reason is that we are not sure that dose has a monotone impact on the outcomes. But for the sake of illustrating how this could be done, here is an example. Including ordered predictors involves some trickeries, which you can learn about in chapter 12.4 of Statistical Rethinking (2nd edition). I won't attempt to explain the math behind it, I'll just show the code for `ulam`/rethinking`. -->
+
+<!-- To compare with the two versions we just did, I'm implementing model 4 again. -->
+
+<!-- ```{r} -->
+<!-- #model with ordered categories -->
+<!-- #naming this model m7 -->
+<!-- m7 <- alist( -->
+<!--   outcome ~ dnorm(mu, sigma), -->
+<!--   mu <- exp(alpha)*log(time) - exp(beta)*time, -->
+<!--   alpha <-  a0[id] + a1[dose_cat], -->
+<!--   beta <-  b0[id] + b1[dose_cat], -->
+<!--   a0[id] ~ dnorm(mu_a,  sigma_a), -->
+<!--   b0[id] ~ dnorm(mu_b, sigma_b), -->
+<!--   mu_a ~ dnorm(2, 1), -->
+<!--   mu_b ~ dnorm(0.5, 1), -->
+<!--   sigma_a ~ cauchy(0, 1), -->
+<!--   sigma_b ~ cauchy(0, 1), -->
+<!--   a1 ~ dnorm(0.3, 1), -->
+<!--   b1 ~ dnorm(-0.3, 1), -->
+<!--   simplex[7]:  -->
+<!--   sigma ~ cauchy(0, 1) -->
+<!--   ) -->
+<!-- ``` -->
+
+
+
+
+
+
+
+
+

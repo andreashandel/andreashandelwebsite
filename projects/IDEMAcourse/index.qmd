@@ -1,0 +1,19 @@
+---
+title: "Infectious Disease Epidemiology - a Model-based Approach"
+description: "Complete materials of an online course on infectious disease epidemiology from a model-based perspective."
+image: featured.png
+image-alt: IDEMA course logo
+categories:
+  - Teaching
+  - Course
+  - Infectious Disease
+  - Epidemiology
+about:
+  template: solana
+  image: featured.png
+---
+
+Infectious Disease Epidemiology - A model-based approach (IDEMA) is an online course I teach at the University of Georgia. 
+All course materials (or links to the materials) are available in the form of a simple GitHub website and can be used by anyone. You can find the course [on this site](https://andreashandel.github.io/IDEMAcourse/).
+
+The course also makes heavy use of my [IDEMA online book](https://andreashandel.github.io/IDEMAbook/) and the [DSAIDE R package](https://ahgroup.github.io/DSAIDE/). 

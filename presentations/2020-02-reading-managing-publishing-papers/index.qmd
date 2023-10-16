@@ -1,0 +1,16 @@
+---
+title: Reading, managing and publishing papers
+description: A presentation for our departmental PhD students on various topics related to (peer reviewed) papers.
+event: PhD Seminar
+location: Athens, US
+  
+date: "2020-02-20"
+image: featured.jpg
+image-alt: Photo by Dmitry Ratushny on Unsplash
+categories:
+  - Academia
+  - Career
+---
+
+These are slides for a talk/discussion I led with our graduate students on how to efficiently read the (peer reviewed) literature, how to manage your references, and how to write and publish papers.
+<a href="2020_02_reading_managing_publishing_papers.html" target="_blank">The presentation slides are here.</a>

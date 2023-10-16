@@ -1,0 +1,107 @@
+---
+title: Automatically generate personalized certificates and other documents with R   
+description: Examples for automatically creating customized PDF or Word documents using R and R Markdown 
+author: "[Andreas Handel](https://www.andreashandel.com)"
+date: '2020-10-15'
+aliases: 
+  - ../certificate-generation/
+categories: 
+  - Tutorial
+  - R Markdown
+image: "featured.png"
+---
+
+# Overview
+
+Generating personalized documents is often useful. Since this is a very common task, programs like Word or similar software can do this. But I like to use R if I can. And the whole R Markdown system is perfectly suited for repeat generation of customized documents. 
+
+I'm certainly not the first one to have the idea of using R, and in fact my initial approach is based on [this prior post](http://www.dsup.org/blog/creating-certificates-of-attendance-using-r/). Here, I describe a few ways of using R and R Markdown to auto-generate custom documents, and provide example code and explanations for anyone who might want to use this (including my future self). 
+
+# Rationale
+
+As a teacher, I occasionally need to generate personalized certificates for students to indicate they successfully completed a workshop, class, or similar event. Another use case is to generate personalized letters of acceptance (or rejection) to some program. Many other use cases exist. In fact, my first and original application was to automatically generate gift certificates for all my nieces and nephews `r emoji::emoji('grin')`.
+
+For this example, I assume that we are trying to generate certificates of completion for a group of students, with each certificate showing their name and score.
+
+
+# Overall setup
+
+You need the following elements:
+
+* A data frame containing the information you want to be personalized, e.g. the name and score of each student.
+* A Rmd document that serves as the template for the certificate. I show two examples, for use with either LaTeX/PDF or Word as output. 
+* A short script that reads the data frame, reads the template, then personalizes the template and creates output (done via R Markdown/knitr/pandoc).
+
+We'll discuss each element next.
+
+
+# Data frame
+
+This part is fairly straightforward. You need a file (e.g. and Excel or CSV file) that you can load as a data frame and that contains the information you want to use for each personalized document.
+Here is an example of a very simple data frame containing names and scores for 2 students, which is stored in [this csv file](student_data.csv).
+
+```{r package-loading, message=FALSE, echo=FALSE}
+data <- read.csv('student_data.csv')
+knitr::kable(data)
+```
+
+How you collected that data is up to you. If the file containing your data is a bit more messy, you might have to do a few cleaning steps before you can use it.
+
+# Templates
+
+There are different ways you can create the templates and thus the output, with different advantages and disadvantages. I'll describe and show examples for LaTeX/PDF and Word, and discuss other options briefly.
+
+
+## LaTeX/PDF
+
+For this approach, you start with a template file that contains some LaTeX commands, including the placeholders that will get personalized.
+Here is code for an example file, you can get the file [here](certificate_template_pdf.Rmd). We'll look at the resulting output below.
+
+
+```{r comment='', echo=FALSE, highlight = TRUE}
+cat(readLines('certificate_template_pdf.Rmd'), sep = '\n')
+```
+
+This template places 2 images at the top, writes some text, and most importantly, adds some placeholder text that will be customized for each student with the script shown below. It doesn't matter what placeholder text you write, as long as it's unique such that when you do the replacement, only the instance you want replaced is actually changed. Enclosing with special characters such as `<< >>` is a good option for this, but it's not required.
+
+The advantages of the LaTeX/PDF approach are that 1) LaTeX allows you to do a lot of formatting and customization of the template so it looks exactly the way you want it, 2) the end product is a PDF file, which is easy to print or share with those for whom they are meant. The disadvantage is that you need to know a bit of LaTeX to set up your template, or at least be willing to spend some time with Google until you found all the snippets of commands you need for the layout you want to have.
+
+
+## Word
+
+For this approach, you start with a template file that contains commands that lead to a decent looking Word document. Again, it needs to include the placeholders that will get personalized.
+Here is code for an example file, you can get the file [here](certificate_template_word.Rmd). We'll look at the end result below.
+
+```{r comment='', echo=FALSE, message=FALSE, highlight=TRUE}
+cat(readLines('certificate_template_word.Rmd'), sep = '\n')
+```
+
+
+Note that by default, going from R Markdown to Word doesn't give you much ability to apply formatting. However, it is possible to do a decent amount of formatting using a word style template. I have [another blog post which describes this approach](/posts/word-formatting-rmarkdown/), and I'm using it here. 
+
+Even with the word style formatting, some things can't be controlled well. Placement and sizing of figures is the main problem, no matter if you include the figures with basic Markdown commands or use the `include_graphics()` function. You'll see the problem if you try to run this example (code below). As such, for something that includes figures, using the LaTeX/PDF workflow seems almost always better. A scenario where the Word setup might be useful is if you want to produce customized letters. The one main advantage of a Word output (in addition to not having to figuring out LaTeX commands) is that the output can be further edited if needed.
+
+
+## Other options
+
+I believe the PDF or Word outputs are best for most instances, but occasionally another format might be needed. You can use this overall approach to generate other outputs, for instance the standard R Markdown html output, or different versions of presentation slides (e.g. ioslides, Beamer, Powerpoint), etc. In principle, any [R Markdown output format](https://rmarkdown.rstudio.com/formats.html) should work. You just need to alter your template file accordingly. 
+
+
+# Processing script
+
+Once you generated your data and template, you only need a few lines of code to read the template, personalize it, and turn it into the wanted output.
+Here is example code that shows how to process the data and template files above, you can get the file [here](certificate_generator.R). 
+
+```{r, code = readLines('certificate_generator.R'), eval=FALSE, message=FALSE}
+```
+
+
+# Results
+
+If you run the script for the PDF output, you'll get two pdf certificates, [here is one of them](Smith_Jennifer_Certificate.pdf). Similarly, if you run the Word template, you get two Word documents, [here is one of them](Smith_Jennifer_Certificate.docx). As mentioned above, the Word output is not that nicely formatted, the figure placement and sizing can't really be controlled.
+
+
+# Further Resources
+
+To reproduce the example here, you can download [this zip file](certificate_generator.zip) which contains the [data file](student_data.csv), [the R Markdown template for PDF output](certificate_template_pdf.Rmd) and [the R Markdown template for Word output](certificate_template_word.Rmd), the [certificate generator script](certificate_generator.R), the files for [figure 1](fig1.png) and [figure 2](fig2.jpg) as well as the [word style file](wordstyletemplate.docx). Place all files into a folder and run the `certificate_generator.R` function to produce either PDF or Word output.
+

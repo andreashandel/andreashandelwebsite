@@ -1,0 +1,102 @@
+---
+title: Generating (rectangular) simulated data  
+description: A brief discussion on generating simulated data.
+author: Andreas Handel
+date: '2022-04-30'
+lastMod: "2022-04-30"
+categories: 
+- R
+- Data Analysis
+featured: no
+---
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('simulatedata.R')
+```
+
+This is a brief tutorial and worked example on generating simulated data. The focus is on rectangluar data. By that, we mean data that does not have any complicated structure, such as containing repeated measures or time-series. 
+
+
+# Introduction
+
+I recently wrote a multi-part series of blog posts discussing the fitting of longitudinal data using multi-level Bayesian models. (Part 1 [starts here](/posts/longitudinal-multilevel-bayesian-analysis-1/) ). As part of this series of posts, I generated/simulated data, then subsequently fit it. 
+
+It seemed worthwhile to me to have a separate discussion on just the topic of generating and using simulated data, independent of any specific model fitting approach. Being able to explore self-generated data is very useful. I started writing a post, and as I was working on it, I realized (like in my previous set of posts) that it would be good to split it into pieces. I guess I just don't know how to be concise `r emoji::emoji('grin')`. As of right now, this series of posts consist of the following:
+
+* A general discussion of the why and how of generating simulated data can be found [here](DUMMY).
+* This post, which contains a discussion and examples for generating common _rectangular_ data (i.e. not longitudinal/time-series).
+* A tutorial which shows how to generate longitudinal data can be found [here](DUMMY).
+
+
+
+
+# Who this is (not) for
+
+If you are doing any type of data analysis, it is often a very good idea to first explore your analysis methods and pipeline with data you generated yourself. This way, you know what to expect and can test everything. It does not matter what kind of statistical or machine learning analysis approach you plan on taking, exploring your approaches with self-generated data is always useful.
+
+Writing code to generate data is generally not too difficult. A bit of thought needs to be put into the structure of the data one wants to generate, and how to accomplish it. If you are new to the idea of generating/simulating data, and are curious how to do it, especially for time-series data, this tutorial is hopefully useful. 
+
+
+# The setup
+
+Generally, you want to simulate data that is similar in structure to the real data you plan on analyzing. A common type of data is _rectangular_ data, where you have observations as rows and variables as columns. Here, we walk through the generation of two such datasets.
+
+
+
+
+# Statins and Cholesterol data
+
+This is made-up data that has LDL cholesterol as main outcome, the dosing of some statin drug as main predictor, and some individual level and other study characteristics.  
+
+
+## Conceptualizing the data
+
+Before we can generate the data, let's conceptualize it. We want to specify the various quantities/variables in our dataset and how we think they come about. Then we simulate those processes to produce data.
+
+We assume that this is a trial in which individuals were received some statin drug at a few different dose levels. For each individual, we collect information on quantities such as age, sex, BMI, etc.
+
+We assume that the LDL cholesterol level of individuals was measured at the end of the study. Note that for a real study, one would likely measure cholesterol repeatedly. This would then become longitudinal data, which we discuss [in a separate tutorial.](DUMMY)
+
+
+
+## Fixed/baseline characteristics
+
+**Age:** Let's assume we enroll healthy adults of middle age (say 25 - 55 years) and the ages are fairly uniformly distributed within that range. That means we can consider a uniform distribution from 25 to 55 from which we'll sample values to determine everyone's age.
+
+
+**Sex:** Let's assume that biological sex is recorded and fairly balanced, with a close to 50/50 female/male split. For simplicity, we ignore any other options for sex, but those could of course be included. That means we can sample from a binomial distribution with a 0.5 probability that someone is female, otherwise male.  
+
+**Race:** Let's assume this study was done in the US, and the percentage happened to be 50% White, 30% Black, 10% Asian, and 10% Other. This can be implemented by drawing from a multinomial distribution with the probability for each category as given by those percentages.
+
+**Weight:** The study also recorded weight (in kilograms) for each individual. It so happened that for this study population, there was a tri-modal distribution, with 40% of the individuals having weights spread around 140lb, another 40% spread around 170lb and the remaining 20% spread around 230lb. We can think of those as coming from healthy weight females, healthy weight males, and overweight/obsese individuals of either sex. This means, as we implement the weights, they will be depend on **sex**. We assume that **age** and **race** have no impact. (Of course, the great thing with simulated data is that you can change assumptions and explore how that changes the data and your model fitting.)
+
+
+### Inspect data
+
+Just a few plots to show that LDL depends on dose and age, not on others.
+
+```{r plots, echo=FALSE}
+```
+
+
+### Save data and codebook
+
+```{r}
+```
+
+
+## 
+
+
+# Further resources
+
+
+# Acknowledgments
+
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+---
+title: "An example of formatting text blocks in Word"
+author: "Andreas Handel"
+documentclass: article
+draft: true
+site: bookdown::bookdown_site
+output:
+  bookdown::word_document2: 
+    toc: false
+    reference_docx: wordstyletemplate.docx
+---
+
+# A regular section
+
+This text is not getting a special format.
+
+# A formatted Section
+
+:::{custom-style="mystyle1"}
+This is formatted according to the _mystyle1_ format.
+:::
+
+# Another formatted block of text
+
+Some more regular text.
+
+:::{custom-style="mystyle2"}
+Now text formatted based on _mystyle2_.
+:::
+
+More regular text.
+
+:::{custom-style="mystyle3"}
+This format includes a border and it also works with an equation.
+$$Y = bX + c$$
+:::
+
+Regular text again.
+
+::: {custom-style="mystyle1"}
+# With a header
+
+Note that the header formatting is overwritten.
+:::

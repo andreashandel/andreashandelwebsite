@@ -1,0 +1,252 @@
+---
+title: Text analysis of a mid-semester course survey
+description: Some simple data analysis applied to a mid-semester student survey of my [Modern Applied Data Analysis course.](https://andreashandel.github.io/MADAcourse/)
+author: Andreas Handel
+date: '2019-10-23'
+aliases: 
+  - ../mada-survey-analysis/
+draft: false
+categories: 
+  - R
+  - Data Analysis
+  - Teaching
+simage: "featured.png"
+---
+
+
+```{r, message=FALSE, include=FALSE}
+library('readxl')
+library('dplyr')
+library('janitor')
+library('ggplot2')
+library('tidyr')
+library('tidytext')
+library('wordcloud')
+library('reshape2')
+library('visdat')
+library('knitr')
+library('kableExtra')
+```
+
+
+# Overview
+
+Our center for teaching and learning administered a mid-semester survey to the students in my fall 2019 online [Modern Applied Data Analysis course.](https://andreashandel.github.io/MADAcourse/) I figured it would make for a nice and topical exercise if I performed some analysis of the survey results. Students agreed to have the - fully anonymous - results posted publicly. This is my quick and simple text analysis.
+
+
+
+# Data loading
+
+Load and take a look.
+
+```{r, message=FALSE}
+data_raw <- read_xlsx("Handel_CTL_Survey.xlsx")
+d <- data_raw
+dim(d)
+```
+
+## Some cleaning actions
+
+```{r}
+d <- d %>% clean_names() #clean column names, which are the full questions
+orig_quest <- data.frame(Number = paste0('Q',1:11), Question = names(d)) #save names and replace with simpler ones for now
+names(d) = paste0('Q',1:11) #just call each column as Q1, Q2,... originallly asked question is stored in orig_quest
+kable(orig_quest) %>% kable_styling() #print them here for further reference  
+```
+
+
+More cleaning
+
+```{r}
+visdat::vis_dat(d) #missing values
+#looks like a few students left some entries blank. Should be ok. One student only answered 1 question. Quick look at entry.
+print(d[12,2])
+#ok, not too useful (though I agree with the statement). Let's remove that student/observation.
+d<- d[-12,]
+# most questions were free text, but some were specific choices, so should be grouped as factor.
+d <- d %>% dplyr::mutate_at(c("Q4", "Q6","Q8"), factor)
+#Q10 is number, should be numeric but was text field so different entries exist
+#small enough to print here
+print(d$Q10)
+#ok, this is kinda bad style, but the dataset is so small that it's easiest to replace the non-numeric values by hand. I'll set them to their mean or the specified limit.
+d$Q10[c(2,3,5,11,12)] <- c(17.5,15,15,11,10)
+d$Q10 <- as.numeric(d$Q10)
+print(d$Q10)
+```
+
+## Drawing first conclusions
+
+```{r}
+kable(orig_quest[c(4,6,8),]) %>% kable_styling()
+d %>% dplyr::select(Q4, Q6, Q8) %>% summary()
+plot(1:14,d$Q10, ylab = 'Time spent per week')
+lines(1:14,rep(12,14))
+```
+
+Based on answers to questions 4,6 and 8, the majority of students think the pace and level of difficulty of the course is right but the amount of material covered is too much. Based on answer to Q10, students spend more time than my target (12 hours, solid line). Even accounting for some "inflation factor" (people generally over-estimate the time they spend on tasks like these, counting all the other things they do at the same time e.g., texting/email/FB/drinknig coffee/...), the overall amount seems too high, and it agrees with Q6 answers about too much material.
+
+**First conclusion: Reduce weekly workload, probably best by reducing assigned reading (see text answers which I already glimpsed at `r emoji::emoji('smiley')`).**
+
+## Manual text analysis
+
+```{r}
+#dropping the question/variables analyzed above
+d <- d %>% dplyr::select( -c("Q4", "Q6", "Q8", "Q10") )
+```
+
+
+Questions 5, 7 and 9 ask how modules should be adjusted regarding pace, quantity and difficulty, so it's worth looking at those questions on their own.
+
+
+```{r}
+d2 <- d %>% dplyr::select( Q5, Q7, Q9)
+is.na(d2) #some students didn't write anything for any of those questions, remove before printing content.
+d2 <- d2[which(rowSums(is.na(d2)) != 3),] #remove all rows/obersvations that have NA to all 3 questions
+names(d2) <- c('too fast','too much','too hard')
+knitr::kable(d2) %>% kable_styling() ##show rest
+```
+
+**Conclusions from anwers to those questions: Overall too much material (see above), level of difficulty overall ok but too fast/crowded. Again, solution is to reduce (required) material.**
+
+Next, let's look at "whats working/not working" questions.
+
+```{r}
+d2 <- d %>% dplyr::select( Q1, Q2)
+names(d2) <- c('good','bad')
+knitr::kable(d2) %>% kable_styling() 
+```
+
+
+**Conclusions from anwers to those questions: Overall too much material, especially too much reading. R primers are good. Other resources are hit or miss. Quizzes are not working, need to be ditched or altered. Maybe more exercises. Find better alternative to eLC.**
+
+Finally, the 2 remaining questions are about improvements, phrased in 2 different ways. Let's look at them together.
+
+```{r}
+d2 <- d %>% dplyr::select( Q3, Q11)
+d2 <- d2[-12,] #this student didn't provide answers to either question
+names(d2) <- c('specific suggested changes','number one recommendation')
+knitr::kable(d2) %>% kable_styling() 
+```
+
+**Conlusions from these answers: Reduce content per module (or alternatively increase time). Adjust or drop quizzes. More exercises. Record some lectures or provide links to recordings.** 
+
+
+## Automated text analysis
+
+So this is likely not too useful, but I wanted to play around with some automated text analysis. Maybe the computer can figure out things I can't? 
+
+I don't actually know how to do text analysis, so I'll have to peek at the `tidytext` tutorial. Getting some ideas from [this tutorial](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html) and the [Text Mining with R book](https://www.tidytextmining.com/).
+
+
+Turn all answers into a long dataframe of words
+
+```{r}
+d2 <- d %>% tidyr::pivot_longer(cols = starts_with('Q'), names_to ="question", values_to = "answers") %>% 
+            drop_na() %>%
+            unnest_tokens(word, answers, token = "words")
+```
+
+
+Look at most frequent words.
+
+```{r}
+d2 %>%  count(word, sort = TRUE) 
+```
+
+The usual words are the most frequent. 
+
+
+## Sentiment analysis
+
+Sentiment analysis, look at most frequent positive and negative words.
+
+```{r, message=FALSE}
+bing <- get_sentiments("bing")
+positive <- bing %>% filter(sentiment == "positive")
+d2 %>% semi_join(positive) %>% nrow()
+negative <- get_sentiments("bing") %>% filter(sentiment == "negative")
+d2 %>% semi_join(negative) %>% nrow()
+bing_word_counts <- d2 %>%
+  inner_join(bing) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  mutate(n = ifelse(sentiment == "negative", -n, n)) %>%
+  mutate(word = reorder(word, n)) 
+```
+
+Plot positive and negative words.
+
+```{r, ,fig.height=11}
+bing_word_counts %>% ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar( stat = "identity") +
+  coord_flip() +
+  labs(y = "Counts")
+```
+
+About twice as many positive as negative words, i guess that's good `r emoji::emoji('smiley')`. And the most frequent negative words do reflect that things are "too much". 
+
+Let's look at sentiment per question. Higher values are more positive.
+
+```{r, message=FALSE}
+question_sentiment <- d2 %>%
+      inner_join(bing) %>%
+      count(question, sentiment) %>%
+  spread(sentiment, n, fill = 0) %>%
+  mutate(sentiment = positive - negative)
+
+ggplot(question_sentiment, aes(question, sentiment)) +
+  geom_bar(stat = "identity", show.legend = FALSE) 
+```
+
+Not surprising, the 1st question "what is working well" has lots of positive. Surprisingly, question 2, "what's not working well" has fairly high positive sentiment. One problem could be that what I'm plotting is total counts, but I should probably normalize by total words written per question. Let's try:
+
+```{r}
+words_per_q <- d2 %>% group_by(question) %>% count()
+print(words_per_q)
+```
+
+Yep, looks like most words were written by far for Q2. Maybe not a good sign? But maybe ok, since this specifically solicited feedback on all aspects. So let's replot sentiment, normalized by number of words.
+
+```{r}
+question_sentiment <- question_sentiment %>% mutate(sent_per_word = sentiment / words_per_q$n)
+ggplot(question_sentiment, aes(question, sent_per_word)) +
+  geom_bar(stat = "identity", show.legend = FALSE) 
+
+```
+
+Ok, changed things a bit but not a lot. Q2 drop (expected) is most noticable change. Still, even for the "what's not good" section, positive words dominate. That either means the course is quite good, or students are very optimistic or polite, or it might mean nothing at all.
+
+
+## Wordclouds
+
+Why not? Everyone loves a wordcloud, even if they are just fun to look at, right?
+
+```{r, message=FALSE}
+d2 %>%
+inner_join(bing) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  wordcloud::comparison.cloud(colors = c("#F8766D", "#00BFC4"),
+                   max.words = 100)
+```
+
+At this point, I ran out of ideas for further text analysis. I didn't think analysis by word pairs, or sentences, or such alternatives would lead to any further interesting results.  I looked in the [Text Mining with R book](https://www.tidytextmining.com/) for some more ideas of what kind of analyses might be useful, but can't come up with anything else. Not that the above ones are that useful either, but it was fun to try some text analysis, which is a type of data analysis I'm not very familiar with. So, I'll stop this here. Feel free to play around yourself, you have access to the raw data and this script in the GitHub repository.
+
+
+# Overall conclusions and my commentary
+
+There seem to be some clear themes to me, I'll list them here and add my thoughts:
+
+**1. Less material per week/module:** I'll adjust reading and will move almost all external sources to the optional category, only require certain readings if I consider them essential. In a future version of the course, I'll adjust all modules accordingly.
+
+**2. Change quizzes:** There is a good bit of evidence showing that testing/quizzing helps learning. But I think the way I did it is covering too much per quiz, which didn't work. Ideally, I wanted to build more `learnr` based content (like the one in module 10 and the R primers) which allow simple quizzes embedded (though currently no easy way of grading). I just didn't have time to make a lot of those for this class. For the rest of the course, the quizzes I already created (up to M12) will be there, but only cover a limited amount of material, I won't do any quizzes for the rest of the course.
+
+**3. More exercises:** I had already planned a good bit of exercises for the rest of the class, now I'll certainly make sure to focus on those. For future courses, I'll add more of them.
+
+**4. Lecture recordings:** I'm not too interested in recording myself going through things. It seems to me there are already 100s of such videos out there. I'll try to find some good ones and place them in the _Resources_ section. Suggestions appreciated.
+
+
+**Further thoughts:** The theme of "too much" is clear. There are 2 main ways one can go. Reduce the amount of material covered, or increase time spent. The first will increase the _survey_ nature of this course. I currently intend this to be a 'broad but shallow' survey course, the idea is to go through _everything_ in one semester. Which is quite ambitious. At some point, I'm not sure if that works anymore or if the course becomes too superficial. The other option - and that's common in other places that teach this material - is to split the course into separate ones. E.g. 1 semester/course only on R/Coding, 1 course on wrangling/visualization, 1 course on machine learning/model fitting. Or even further splits (e.g. the Coursera Data Analysis concentration has I think 9 courses.) That would allow more depth per course, but woudn't allow students to get _everything_ in a single course. I'm currently leaning toward sticking with the survey/intro/everything course and just further reduce materials. But I'd love to hear everyone's opinion.
+
+Also further note: In the future, once our EPID 7500 (R Coding) course is fully up and running and regularly offered, that course will likely become a pre-requisite for MADA. In that sense, a bit of sequencing will be introduced.
+
+

@@ -1,0 +1,16 @@
+---
+title: "COVID-19 tracker"
+description: "An R/Shiny app that visualizes COVID-19 data."
+image: featured.png
+image-alt: quizgrader logo
+categories:
+  - Research
+  - Infectious Disease
+about:
+  template: solana
+  image: featured.png
+---
+
+An R/Shiny app that visualizes COVID-19 cases, hospitalizations, deaths and tests for US states and counties, as well as countries around the world. 
+This app was created by [William Norfolk](https://github.com/williamnorfolk), [Robbie Richards](https://rlrichards.github.io) and [Andreas Handel.](https://www.andreashandel.com/) 
+[Check out the app here.](https://shiny.ovpr.uga.edu/yact/) The _About_ section of the app contains more information. 

@@ -1,0 +1,15 @@
+---
+title: "Flowdiagramr"
+description: "R package that allows easy creation of high-quality flow diagrams."
+image: featured.png
+image-alt: DSAIRM logo
+categories:
+  - Research
+  - Visualization
+  - R Package
+about:
+  template: solana
+  image: featured.png
+---
+
+We developed the R package `flowdiagramr` to allow anyone to easily create high-quality ggplot2 based flow diagrams of simulation models (and other flowcharts) with just a few lines of R code. Learn more about it [on the package website](https://andreashandel.github.io/flowdiagramr/).

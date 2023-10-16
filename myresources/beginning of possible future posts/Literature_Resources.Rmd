@@ -1,0 +1,77 @@
+---
+title: "Reading, managing and publishing papers"
+subtitle: ""
+author: "[Andreas Handel](https://www.andreashandel.com/)"
+date: "Last modified: `r file.mtime(knitr::current_input())`"
+output: 
+  html_document:
+    toc_depth: 3
+---
+
+
+## Quickly learning a new topic
+
+- If you know 'nothing', maybe start reading about it on Wikipedia, CDC website, WHO, etc. Often information on those sites provide links to the primary literature.
+
+- Find an influential review paper on the topic. For instance search in Web of Science, turn on the "Reviews" filter, then sort by citations. Look at the highly cited papers. Read some of those papers. The same strategy can likely be done in PubMed, Scopus, etc.
+
+- Find a few of the most influential/cited papers on the specific question you are interested in. Check every paper that cites those studies. Look at titles/abstracts, take a closer look at relevant papers. This should provide a fairly complete overview of most everything that's been done on that topic. Assess if your idea is new or has been done before.
+
+- As you learn about a research area/topic, figure out who the main important people are. Search for their work. Read some/all of their papers.
+
+- [Iris.Ai](https://the.iris.ai/) - an AI search engine that claims to make diving into a new topic easier by grouping papers.
+
+- [Google scholar](https://scholar.google.com)
+
+- [Semantic scholar](https://www.semanticscholar.org/) - a search engine similar to Google scholar. Claims to produce more relevant and targeted results.
+
+- [Microsoft academic](https://academic.microsoft.com/) - Search engine similar to Google scholar.
+
+
+
+## Keeping up with the literature
+
+There are several ways one can try to stay up-to-date with the literature. Here are some possible strategies. 
+
+- Follow specific journals, e.g. by subscribing to table of content emails.
+
+- Follow specific topics, e.g. by setting alerts in places like ScienceDirect (only Elsevier journals), Google alerts, PubMed
+
+- Follow specific individuals, e.g. by setting alerts in PubMed, Google Scholars, ResearchGate
+
+A combination of these strategies might be best.
+
+- Make sure to spend time each week to read/skim a few papers.
+
+
+## Managing papers
+
+- Use a reference manager!
+
+- Good free ones (in my opinion) are Bibtex/Jabref, Zotero, Mendeley.
+
+- Non-free ones are Endnote, Papers, RefWorks
+
+- [Wikipedia has a comparison list](https://en.wikipedia.org/wiki/Comparison_of_reference_management_software)
+
+- Check the features of different reference managers, figure out what works best for your workflow and setting. 
+
+- Play around with a few managers, then pick one.
+
+- Don't forget to include considerations of collaborative work into your decision.
+
+
+
+## How to publish
+
+- *Make sure it's not one of the fake/predatory journals.* Check that the journal/publishier is not on [Beall's list](https://scholarlyoa.com/publishers/). If in doubt, ask senior colleagues their opinion about a specific journal.
+
+- Check impact factor and related metrics. While neither one of these metrics should be taken too seriously, they can usually give you a ball-park estimate of the quality of a journal (and might further help you figure out if a journal is junk/predatory). One source for Impact Factor and related metrics is [Journal Citation Reports](https://en.wikipedia.org/wiki/Journal_Citation_Reports), which is a commercial, non-free service. A competing, also not free, product is [SCImago Journal Rank](https://en.wikipedia.org/wiki/SCImago_Journal_Rank). The [Eigenfactor website](http://www.eigenfactor.org/) is a free source for journal metrics.
+
+- *Aim high, but not too high.* If you never get rejected, maybe you are not aiming high enough (and loosing prestige from publishing in 'fancy' journals). If it always takes you until journal number 5 or so to get published, maybe you are aiming too high (and wasting time/resources). 
+
+- *Consider factors beside prestige.* Sometimes you want/need something published quickly. If you like the Open Access philosophy (and the potentially higher visibility of your work) consider publishing in those journals.
+
+- *Non-for profits first.* That's my personal opinion, but if I can choose between essentially equally good for-profit (e.g. Elsevier, Wiley, Springer, etc.) or non-for profit (e.g. PLoS, society journals) journals, I prefer the non-profits. I don't see why some company should make money off my work (I'm already not charging for publishing and editing my work)!
+
+- Consider journal policies. For instance if you want to post a pre-print to arxiv, bioarxiv or similar, make sure the journal you want to submit to allows that. Check [the RoMEO service](http://sherpa.ac.uk/romeo/index.php) to see the different policies of different journals.

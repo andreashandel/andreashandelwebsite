@@ -1,0 +1,19 @@
+---
+title: Tools and resources for mechanistic within-host modeling
+description: A presentation covering some of the modeling tools and resources we previously developed.
+event: CEIRR computational core webinar
+location: Chicago, US (remote)
+  
+date: "2023-05-17"
+image: featured.png
+image-alt: modelbuilder logo
+categories:
+  - Research
+  - Influenza
+  - R Packages
+  - Tools
+  - Modeling
+---
+
+<a href="Handel-CEIRR-CompCore-2023-05.html" target="_blank">These are the slides</a> for this presentation.
+

@@ -1,0 +1,17 @@
+---
+title: "Resource list website"
+description: "A simple website containing lists with links to teaching and research resources."
+image: featured.png
+image-alt: quizgrader logo
+categories:
+  - Research 
+  - Teaching
+  - Infectious Disease
+  - Data Analysis
+about:
+  template: solana
+  image: featured.png
+---
+
+
+[A simple website](https://andreashandel.github.io/research-and-teaching-resources/) with a collection of lists with links to various resources that are related to my research and teaching, as well as some general (academic) career content.

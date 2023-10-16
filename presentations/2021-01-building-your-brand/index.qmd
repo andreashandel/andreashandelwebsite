@@ -1,0 +1,15 @@
+---
+title:  Building and curating your brand (online presence)
+description: Slides for a discussion with our departmental PhD and MS students on how to build an online brand and presence
+event: Graduate Seminar
+location: Athens, US
+  
+date: "2021-01-21"
+image: featured.jpg
+image-alt: Photo by [Peggy_Marco](https://pixabay.com/users/peggy_marco-1553824/)/Pixabay
+categories:
+  - Career
+  - Website
+---
+
+These are slides for a discussion I led with our graduate students on the topic of online brand/presence building. <a href="2021_01_Building_your_Brand.html" target="_blank">The presentation slides are here.</a>

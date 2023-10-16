@@ -1,0 +1,17 @@
+---
+title: "Introduction to infectious disease modeling"
+description: "An introduction to infectious disease modeling and software to learn it." 
+event: "First Year Odyssey Seminar"
+location: "Athens, GA"
+  
+date: "2021-10-25"
+image: featured.png
+image-alt: FYOS image
+categories:
+  
+  - Teaching
+  - Modeling
+  - R package
+---
+
+These are slides for a talk I gave to a group of undergraduate students as part of a First Year Odyssey Seminar class. I provided a very brief introduction to infectious disease modeling, then we explored the [DSAIDE software](https://ahgroup.github.io/DSAIDE/). <a href="2021-10-fyos.html" target="_blank">The presentation slides are here.</a>

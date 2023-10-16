@@ -1,0 +1,19 @@
+---
+title: "The Role of Inoculum Dose Following Infection or Vaccination"
+description: "A (virtual) presentation of some work on understanding the impact of dose for infection and vaccination." 
+event: "U01 research group meeting"
+location: "Virtual"
+  
+date: "2021-02-22"
+image: featured.png
+image-alt: inoculum dose impact
+categories:
+  
+  - Research
+  - Influenza
+  - Vaccines
+  - Inoculum Dose
+---
+
+These are slides for a talk discussing some of my past and present work on the role of inoculum dose for infection and vaccination. <a href="2021_02_U01.html" target="_blank">The presentation slides are here.</a>
+

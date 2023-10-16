@@ -1,0 +1,105 @@
+---
+title: Some tips and tricks for a simple Markdown/Github website 
+description: "The following are step-by-step instructions for creating a fairly basic but still useful website using [R Markdown](https://rmarkdown.rstudio.com/) (through [R Studio](https://rstudio.com/products/rstudio/)) and [Github](https://github.com/)."
+author: "[Andreas Handel](https://www.andreashandel.com)"
+date: '2021-01-11'
+draft: false
+featured: no
+disable_jquery: no
+---
+
+The following blog post provides step-by-step instructions for creating a simple (and free) website using (R)Markdown and Github.
+
+
+# Motivation
+
+Previously, I wrote a post with instructions for creating a simple website using (R)Markdown and hosting it on Github.
+
+I've used this setup for my teaching. Here I'm describing a few tips and tricks that I figured out that helped me set up the site the way I wanted.
+
+Almost none of this is something I came up with, instead I generally use examples I find on StackOverflow and other sites and try to fiddle with it until I get what I want. I try to attribute things to the original sources as much as possible, but it's quite possible that I learned some things from some online posting and can't remember. Lack of attribution in what I wrote below should not be considered an indication that I came up with it myself :)
+
+Maybe the following is helpful to some folks - I'm sure it will be to my future self when I'm trying to do one of these tasks again and have forgotten.
+
+
+# Required skills
+
+I assume that you have general computer literacy, but no experience with any of the tools that will be used. Also, no coding, web-development or related experience is expected. 
+
+
+# What this document covers
+
+This document is meant to provide you with the minimum required instructions to get a simple own website up and running quickly. As such, instructions and background information are kept at a minimum. I used a _recipe-like_ approach by giving hopefully detailed and specific enough instructions to get things to work. I'm not covering any _why_ here or provide much further explanations. If you decide you like to use this setup for your website, you will likely want to go beyond this document and learn a bit more about the various tools involved in the process. To that end, links to further resources are provided. 
+
+
+# Adding a Logo to the website
+
+https://stackoverflow.com/questions/38333691/r-markdown-putting-an-image-in-the-top-right-hand-corner-of-html-and-moving-tit
+
+https://stackoverflow.com/questions/43009788/insert-a-logo-in-upper-right-corner-of-r-markdown-html-document/43010632
+
+
+Add logo: include_head.html
+
+<link rel="icon" type="image/png" href="media/idema_logo.png" />
+
+include this in _site.yml
+    includes:
+      in_header: include_head.html
+
+Logo/Favicon is included via include_head.html
+
+# Giving pages a time-stamp
+
+
+date: "`r as.Date(file.mtime(knitr::current_input()))`"
+
+Last update/recompile: `r Sys.time()`
+
+
+# Listing contributors
+
+
+# General information
+Instructions on how the whole site setup works is here:
+https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html
+
+
+# Page styling
+
+Possible themes:
+https://bootswatch.com/3/
+
+
+
+# Own CSS
+
+include in _site.yml
+
+/* http://desiree.rbind.io/posts/2019/making-tip-boxes-with-bookdown-and-rmarkdown/ */
+/* https://github.com/koalaverse/homlr */
+
+
+# Folder for development
+
+For all my projects (websites like the ones described here or R packages), I generally have some files that are useful for me during development, but not of interest to anyone else. 
+I keep them in a folder.
+
+
+# Thinking about copyright and licenses
+
+
+
+# Problems with slow compilation
+
+
+
+# More Information
+
+Stack Overflow
+
+
+
+
+
+

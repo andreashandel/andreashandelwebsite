@@ -1,0 +1,18 @@
+---
+title:  Analysis and Modeling to evaluate influenza vaccine responses
+description: A research presentation covering some of our recent influenza vaccine work.
+event: Canadian Applied and Industrial Mathematics Society Annual Meeting 2023
+location: New Brunswick, CA (remote)
+date: "2023-06-15"
+date-modified: "2023-06-15"
+image: featured.png
+image-alt: DAG of vaccine response
+categories:
+  - Research
+  - Influenza
+  - Vaccine
+---
+
+
+<a href="2023-06-CAIMS-Handel.html" target="_blank">These are the slides</a> for this presentation.
+

@@ -1,0 +1,146 @@
+---
+title: Using R to analyze publications - part 2
+subtitle: Some examples using bibliometrix
+description: Code and examples showing how to analyze meta-data for a set of publications using the bibilometrix R package.
+author: Andreas Handel
+date: 2020-02-02
+aliases: 
+  - ../publications-analysis-2/
+categories:
+  - R
+  - Data Analysis
+  - bibliometrics
+image: "featured.jpg"
+image-alt: 'Photo by Rita Morais on Unsplash'
+---
+
+# Overview
+
+I needed some information on all my publications for "bean counting" purposes related to preparing my promotion materials. In the past, I also needed similar information for NSF grant applications. 
+
+Instead of doing things by hand, there are nicer/faster ways using R. in [part 1](/posts/publications-analysis-1/), I did a few things using the `scholar` package. 
+While some parts worked nicely, I encountered 2 problems. First, since my Google Scholar record lists items other than peer-reviewed journal articles, they show up in the analysis and need to be cleaned out. Second, Google Scholar doesn't like automated queries through the API and is quick to block, at which point things don't work anymore.
+
+To get around these issues, I decided to give a different R package a try, namely [`bibliometrix`](https://www.bibliometrix.org/). The workflow is somewhat different.
+
+
+# Required packages
+
+```{r, echo = TRUE, message = FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+library(bibliometrix)
+```
+
+# Loading data
+
+**Old:** I keep all references to my published papers in a BibTeX file, managed through Zotero/Jabref. I know this file is clean and correct. I'm loading it here for processing. If you don't have such a file, make one using your favorite reference manager. Or create it through a saved search on a bibliographic database, as explained on the [bibliometrix website](https://www.bibliometrix.org/).
+
+**New:** In the current version of `bibliometrix`, reading in my bibtex file failed. A fairly good alternative is to go to your NIH "My Bibliography" (which anyone with NIH funding needs to have anyway) and export it in MEDLINE format. Then read in the file with the code below. As of the time of writing this, it requires the Github version of `bibliometrix`.
+
+```{r, message=FALSE}
+#read bib file, turn file of references into data frame
+pubs <- bibliometrix::convert2df("medline.txt", dbsource="pubmed",format="pubmed") 
+```
+
+Each row of the data frame created by the `convert2df` function is a publication, the columns contain information for each publication. 
+For a list of what each column variable codes for, see the [bibliometrix documentation](https://www.bibliometrix.org/).
+
+
+# Analyzing 2 time periods
+
+For my purpose, I want to analyze 2 different time periods and compare them.
+Therefore, I split the data frame containing publications, then run the analysis on each.
+
+```{r}
+#get all pubs for an author (or multiple)
+period_1_start = 2009
+period_2_start = 2015
+#here I want to separately look at publications in the 2 time periods I defined above
+pubs_old <- data.frame(pubs) %>% dplyr::filter((PY>=period_1_start & PY<period_2_start ))
+pubs_new <- data.frame(pubs) %>% dplyr::filter(PY>=period_2_start)
+res_old <- bibliometrix::biblioAnalysis(pubs_old, sep = ";") #perform analysis
+res_new <- bibliometrix::biblioAnalysis(pubs_new, sep = ";") #perform analysis
+```
+
+
+# General information
+
+The `summary` functions provide a lot of information in a fairly readable format. I apply them here to both time periods so I can compare.
+
+Time period 1
+```{r}
+summary(res_old, k = 10)
+```
+
+Time period 2
+```{r}
+summary(res_new, k = 10)
+```
+Note that some values are reported as NA, e.g. the citations. Depending on which source you got the original data from, that information might be included or not. In my case, it is not.
+
+# Getting a table of co-authors
+
+This can be useful for NSF applications. For reasons nobody understands, that agency still asks for a list of all co-authors. An insane request in the age of modern science. If one wanted to do that, the following gives a table. 
+
+**Update:** I have since created a short blog post describing how to do just that part in a bit more detail. It has a few additional components that might be useful, if interested [check it out here](/posts/conflict-of-interest-form/).
+
+Here is the full table of my co-authors in the first period dataset.
+
+```{r}
+#removing the 1st one since that's me
+authortable = data.frame(res_old$Authors[-1])
+colnames(authortable) = c('Co-author name', 'Number of publications')
+knitr::kable(authortable)
+```
+
+Since I have many more co-authors in the second period, I'm not printing a table with all, instead I'm just doing those with whom I have more than 2 joint publications.
+
+```{r}
+#removing the 1st one since that's me
+authortable = data.frame(res_new$Authors[-1])
+authortable <- authortable %>% dplyr::filter(Freq>2)
+colnames(authortable) = c('Co-author name', 'Number of publications')
+knitr::kable(authortable)
+```
+
+
+
+# Making a table of journals
+
+It can be useful to get a list of all journals in which you published. I'm doing this here for the second time period. With just the `bibliometrix` package, I can get a list of publications and how often I have published in each.
+
+```{r}
+journaltable = data.frame(res_new$Sources)
+#knitr::kable(journaltable) #uncomment this to print the table
+```
+
+_As mentioned in [part 1](/posts/publications-analysis-1/) of this series of posts, the Impact Factor feature from the `scholar` package doesn't work anymore. I'm leaving the old code in there in case it ever comes back. For now, there is no Impact Factor information. (I haven't tried to figure out if there is another way to get it.)_
+
+It might also be nice to get some journal metrics, such as impact factors. While this is possible with the `scholar` package, the `bibliometrix` package doesn't have it.
+
+However, the `scholar` package doesn't really get that data from Google Scholar, instead it has an internal spreadsheet/table with impact factors (according to the documentation, taken - probably not fully legally - from some spreadsheet posted on ResearchGate). We can thus access those impact factors stored in the `scholar` package without having to connect to Google Scholar. As long as the journal names stored in the `scholar` package are close to the ones we have here, we might get matches.
+
+```{r}
+#library(scholar)
+#ifvalues = scholar::get_impactfactor(journaltable[,1], max.distance = 0.1)
+#journaltable = cbind(journaltable, ifvalues$ImpactFactor)
+#colnames(journaltable) = c('Journal','Number of Pubs','Impact Factor')
+colnames(journaltable) = c('Journal','Number of Pubs')
+knitr::kable(journaltable)
+```
+
+Ok that worked somewhat. It couldn't find several journals. The reported IF seem reasonable. But since I don't know what year those IF are from, and if the rest is fully reliable, I would take this with a grain of salt.
+
+# Discussion
+
+The `bibliometrix` package doesn't suffer from the problems that I encountered in [part 1](/posts/publications-analysis-1/) of this post when I tried  the `scholar` package (and Google Scholar). The downside is that I can't get some of the information, e.g. my annual citations. So it seems there is not (yet) a comprehensive solution, and using both packages seems best. 
+
+A larger overall problem is that a lot of this information is controlled by corporations (Google, Elsevier, Clarivate Analytics, etc.), which might or might not allow R packages and individual users (who don't subscribe to their offerings) to access certain information. As such, R packages accessing this information will need to adjust to whatever the companies allow.
+
+
+
+
+
+
+

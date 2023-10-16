@@ -1,0 +1,15 @@
+---
+title: Some thoughts on academic versus industry positions
+description: A presentation for and discussion with our departmental PhD and MS students 
+event: Graduate Seminar
+location: Athens, US
+  
+date: "2023-01-17"
+image: featured.png
+image-alt: Drawing by DALLE-2
+categories:
+  - Career
+---
+
+These are slides for a discussion I led with our graduate students covering differences in academic versus industry jobs. 
+<a href="2023_01_Academia_Industry_Comparison.html" target="_blank">The presentation slides are here.</a>

@@ -1,0 +1,165 @@
+---
+title: Generating (longitudinal) simulated data  
+description: A brief discussion on generating simulated data.
+author: Andreas Handel
+date: '2022-04-30'
+lastMod: "2022-04-30"
+categories: 
+- R
+- Data Analysis
+featured: no
+---
+
+```{r setup, include=FALSE}
+library(emoji)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('simulatedata.R')
+```
+
+This is a brief tutorial and worked example on generating simulated data. The focus is on longitudinal/(repeat measure/time-series) data.
+
+
+# Introduction
+
+I recently wrote a multi-part series of blog posts discussing the fitting of longitudinal data using multi-level Bayesian models. (Part 1 [starts here](/posts/longitudinal-multilevel-bayesian-analysis-1/) ). As part of this series of posts, I generated/simulated data, then subsequently fit it. 
+
+It seemed worthwhile to me to have a separate discussion on just the topic of generating and using simulated data, independent of any specific model fitting approach. Being able to explore self-generated data is very useful. I started writing a post, and as I was working on it, I realized (like in my previous set of posts) that it would be good to split it into pieces. I guess I just don't know how to be concise `r emoji::emoji('grin')`. As of right now, this series of posts consist of the following:
+
+* A general discussion of the why and how of generating simulated data can be found [here](DUMMY).
+* A discussion and examples for generating common _rectangular_ data (i.e. not longitudinal/time-series) can be found [here](DUMMY).
+* In this post, I will focus on the mechanics of generating longitudinal data.
+
+
+
+# Who this is (not) for
+
+If you are doing any type of data analysis, it is often a very good idea to first explore your analysis methods and pipeline with data you generated yourself. This way, you know what to expect and can test everything. It does not matter what kind of statistical or machine learning analysis approach you plan on taking, exploring your approaches with self-generated data is always useful.
+
+Writing code to generate data is generally not too difficult. A bit of thought needs to be put into the structure of the data one wants to generate, and how to accomplish it. If you are new to the idea of generating/simulating data, and are curious how to do it, especially for time-series data, this tutorial is hopefully useful. 
+
+
+# The setup
+
+Generally, you want to simulate data that is similar in structure to the real data you plan on analyzing. If you have simple _rectangular_ data, with observations as rows and variables as columns, generating such data is fairly straightforward. I'm discussing this and showing examples in [this post](DUMMY). 
+
+Here, I want to consider somewhat more complex data, which comes up often in my type of research. Specifically, I am considering individuals (patients or volunteers) who are followed over time and certain quantities are measured repeatedly. In my area of infectious diseases, this might be pathogen load and symptoms following a challenge infection. But this is rather general. Another example might be individuals who do or don't take certain drugs regularly and what is measured are some of their health markers (e.g., cholesterol levels).
+
+The main feature is that some quantities are measured only once (e.g. sex or race) and others are measured repeatedly (e.g. virus load or cholesterol levels), possibly at different times for different individuals. This makes the data slightly more complex.
+
+
+
+# Conceptualizing the data
+
+Before we can generate the data, let's conceptualize it. We want to specify both quantities and how we think they come about. Then we simulate those processes to produce data.
+
+As mentioned, you would conceptualize the data to mimic the real data set you have in mind. Here, we don't have a real data set, so I'm just making up the setup for the data that might occur in a real study. 
+
+For this example, I am thinking of $N$ individuals who have agreed to be infected (challenged) with a pathogen such as influenza. After challenge, those individuals are followed over multiple days and certain quantities are measured. Some individuals might get drug treatment. For all individuals, a set of fixed/baseline characteristics are measured. Let's define those different components in more detail.
+
+## Fixed/baseline characteristics
+
+**Age:** Let's assume we enroll healthy adults of middle age (say 25 - 55 years) and the ages are fairly uniformly distributed within that range. That means we can consider a uniform distribution from 25 to 55 from which we'll sample values to determine everyone's age.
+
+
+**Sex:** Let's assume that biological sex is recorded and fairly balanced, with a close to 50/50 female/male split. For simplicity, we ignore any other options for sex, but those could of course be included. That means we can sample from a binomial distribution with a 0.5 probability that someone is female, otherwise male.  
+
+
+**Race:** Let's assume this study was done in the US, and the percentage happened to be 50% White, 30% Black, 10% Asian, and 10% Other. This can be implemented by drawing from a multinomial distribution with the probability for each category as given by those percentages.
+
+**Weight:** The study also recorded weight (in kilograms) for each individual. It so happened that for this study population, there was a tri-modal distribution, with 40% of the individuals having weights spread around 140lb, another 40% spread around 170lb and the remaining 20% spread around 230lb. We can think of those as coming from healthy weight females, healthy weight males, and overweight/obsese individuals of either sex. This means, as we implement the weights, they will be depend on **sex**. We assume that **age** and **race** have no impact. (Of course, the great thing with simulated data is that you can change assumptions and explore how that changes the data and your model fitting.)
+
+
+## Longitudinal measurements
+
+
+
+
+# Generating the data
+
+Now let's implement the ideas above with some `R` code.
+
+It's often useful to go slow and type your own code, or copy and paste the code chunks below and execute one at a time. However, if you are in a hurry, you can find the code shown below in [this file](/posts/longitudinal-multilevel-bayesian-analysis-1/generatedata.R).
+
+## General settings
+
+```{r, settings}
+```
+
+I chose fairly low sample sizes, with less than 10 individuals for each dose group. This is motivated by the real data I have in mind, which has similar sample sizes. Of course, if you have more data, it's generally better. In [part 4 of the tutorial](/posts/longitudinal-multilevel-bayesian-analysis-4) I play around a bit with fitting larger samples.
+
+
+## Setting parameter values
+
+
+The parameters $\sigma$, $a_1$ and $b_1$ show up in all models. For easy comparison between models, I'm setting them to the same value for all models.
+
+For the estimation procedure (see [part 2](/posts/longitudinal-multilevel-bayesian-analysis-1/)), we assume that those parameters follow the distributions shown above. We could sample a single value for each of them from such a distribution. But to reduce variability and to more easily compare estimated parameters to those used to simulate the data, I'm setting them to specific values, which you can conceptually think of as being a single sample from the distributions we discussed above.
+
+
+```{r, commonpars}
+```
+
+Now well get values for the other parameters. For model 1, we have $N$ parameters for $a_{i,0}$ and $b_{i,0}$, with priors that are very flat. We set them as follows
+
+```{r, m1pars}
+```
+
+Note a few things here. First, the priors are narrower than I specified above. As you will see in the figures below, even with these more narrow priors, results for model 1 still look way too variable. We can use the wider priors when we fit the model, to allow the data to dominate the fits. But for data generation, going too wild seems pointless.
+
+Second, you noticed that I did sample from distributions. That's not necessary, I could have also specified values for each of the parameters, like I did for $\sigma$, $a_1$ and $b_1$, as long as the values can be thought of as coming from the underlying distribution. If I sample, I need to make sure to set a random seed (which I did above) to ensure reproducibility.
+
+
+Ok, now for model 2. We have 2 versions, model 2a collapses the individual-level parameters into a single population one. We'll explore that model when doing the fitting, for simulating the data I'm just going with model 2. As just mentioned, we could sample or fix parameters. Since parameters $\mu_a$ and $\mu_b$ are only single values, there is little point in sampling them. Instead, I'm fixing them.
+
+
+
+
+## Saving the simulated data
+
+Finally, we'll save one of the plots (this is mainly so I can show it at the beginning of the tutorial). 
+
+And then, let's combine all the simulated data into a single list containing all data frames, and save it. I'm also saving the parameters for each model, so we can quickly retrieve them when we compare with the model estimates.
+
+```{r}
+ggsave(file = paste0("simdata_m3.png"), p3, dpi = 300, units = "in", width = 7, height = 7) 
+simdat <- list(m1 = m1_dat, m2 = m2_dat, m3 = m3_dat, m1pars = m1pars, m2pars = m2pars, m3pars = m3pars)
+saveRDS(simdat, "simdat.Rds")
+```  
+
+We'll load and use the `simdat` file in the next parts of the tutorial.
+
+
+# Summary and continuation
+
+To sum it up, we specified several models that could be used to both fit and generate simulated time-series data for individuals that might differ by some additional factor (here, dose). We wrote some code that simulated data, which we then plotted to make sure it looks reasonable. 
+
+Of course, the main part of fitting the data is still missing. I had planned to do the whole process in a single tutorial. But it's gotten so long that I decided to split the model definition and data simulation from the fitting. So as a next step, [hop on over to part 2](/posts/longitudinal-multilevel-bayesian-analysis-2/) where we now fit these models and simulated data.
+
+
+
+
+
+# Further resources
+
+Pretty much all I learned and described here comes from Richard McElreath's excellent book [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/). His courses are also great. I watched all lectures of his [2022 course](https://github.com/rmcelreath/stat_rethinking_2022). McElreath does everything using the `rethinking` package, which he wrote. Solomon Kurz wrote an adaptation of the Statistical Rethinking book, which re-implements everything using `brms`. This great resource [can be found here.](https://bookdown.org/content/4857/)
+
+For some more materials specifically on longitudinal data analysis, see [this online book by Solomon Kurz](https://bookdown.org/content/4253/), as well as the underlying textbook that his adaption is based on.
+
+A good resource by Michael Clark, discussing how to fit mixed (hierarchical/multilevel) models with `R` in both a frequentist and Bayesian framework, [can be found here.](https://m-clark.github.io/mixed-models-with-R/)
+
+I mention some other resources throughout the text.
+
+# Acknowledgments
+
+In addition to the resources I just listed, I want to mention my (at the time) PhD students [Yang Ge](https://yangepi.github.io/) and [Zane Billings](https://wzbillings.com/), who helped me work and think through this material and clear up some of my at times confused ideas. 
+
+
+
+
+
+
+

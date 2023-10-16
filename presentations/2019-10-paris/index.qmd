@@ -1,0 +1,19 @@
+---
+title: Model-based optimization of vaccine inoculum dose
+description: Some recent research exploring the role of dose for infection and vaccination.
+event: 4th Workshop on Virus Dynamics
+location: Paris, France
+  
+date: "2019-10-23"
+image: featured.png
+categories:
+- Research
+- Infectious Disease
+---
+
+We described some of our past and ongoing work in using a combination of models and data to understand the role of inoculum dose on vaccination and infection outcomes. The [presentation slides (as pdf) are here](2019_10_Paris_Slides.pdf).
+
+
+
+
+

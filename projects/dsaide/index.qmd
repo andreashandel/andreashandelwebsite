@@ -1,0 +1,17 @@
+---
+title: "DSAIDE - Dynamical Systems Approach to Infectious Disease Epidemiology"
+description:  "R package that teaches model-based infectious disease epidemiology in a user-friendly way."
+image: featured.png
+image-alt: DSAIDE logo
+categories:
+  - Teaching
+  - Infectious Disease
+  - Epidemiology
+  - Modeling
+  - R Package
+about:
+  template: solana
+  image: featured.png
+---
+
+We developed an R package that teaches a modern, model-based approach to infectious disease epidemiology, without the need to write computer code. Learn more about it [on the package website](https://ahgroup.github.io/DSAIDE/). 

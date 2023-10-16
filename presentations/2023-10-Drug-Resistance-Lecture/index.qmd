@@ -1,0 +1,17 @@
+---
+title:  Evolution of Drug resistance
+description: A guest lecture for our Infectious Disease Epidemiology class.
+location: Athens, GA
+date: "2023-10-17"
+date-modified: "2023-10-17"
+image: msbalance.png
+image-alt: Schematic of mutation-selection balance
+categories:
+  - Drugs
+  - Resistance
+  - Teaching
+---
+
+
+<a href="2023-10-Drug-Resistance-Evolution.html" target="_blank">These are the slides</a> for this presentation.
+

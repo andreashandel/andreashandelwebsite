@@ -1,0 +1,19 @@
+---
+title: "A Comparison of High-Dose and Regular-Dose Seasonal Influenza Vaccines Toward Eliciting Homologous and Heterologous Immunity"
+description: "A (virtual) presentation discussing the role of dose for Influenza vaccines." 
+event: "Annual CIVR-HPR meeting"
+location: "Virtual"
+  
+date: "2021-04-28"
+image: featured.png
+image-alt: flu dose
+categories:
+  
+  - Research
+  - Influenza
+  - Vaccines
+  - Inoculum Dose
+---
+
+These are slides for a talk discussing the role of dose for the FluZone Influenza vaccine.<a href="2021_04_CIVIC.html" target="_blank">The presentation slides are here.</a>
+

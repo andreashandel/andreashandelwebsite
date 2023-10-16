@@ -1,0 +1,16 @@
+---
+title: Some recent analysis and modeling applied to COVID-19
+description: A (virtual) presentation at GA Southern discussing some recent COVID-19 projects.
+event: GA Southern Seminar Series
+location: Statesboro (virtual), US
+  
+date: "2020-04-20"
+image: featured.png
+categories:
+  
+  - Research
+  - COVID-19
+---
+
+These are slides for a talk discussing some recent COVID-19 projects. I gave the talk (online) at GA Southern.
+<a href="2020_04_GASouthern_COVID_Presentation.html" target="_blank">The presentation slides are here.</a>

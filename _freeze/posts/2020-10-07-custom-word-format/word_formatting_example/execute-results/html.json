@@ -1,0 +1,14 @@
+{
+  "hash": "1ff7c762345d6257acd0a6ba0bdcc56f",
+  "result": {
+    "markdown": "---\ntitle: \"An example of formatting text blocks in Word\"\nauthor: \"Andreas Handel\"\ndocumentclass: article\ndraft: true\nsite: bookdown::bookdown_site\noutput:\n  bookdown::word_document2: \n    toc: false\n    reference_docx: wordstyletemplate.docx\n---\n\n\n# A regular section\n\nThis text is not getting a special format.\n\n# A formatted Section\n\n:::{custom-style=\"mystyle1\"}\nThis is formatted according to the _mystyle1_ format.\n:::\n\n# Another formatted block of text\n\nSome more regular text.\n\n:::{custom-style=\"mystyle2\"}\nNow text formatted based on _mystyle2_.\n:::\n\nMore regular text.\n\n:::{custom-style=\"mystyle3\"}\nThis format includes a border and it also works with an equation.\n$$Y = bX + c$$\n:::\n\nRegular text again.\n\n::: {custom-style=\"mystyle1\"}\n# With a header\n\nNote that the header formatting is overwritten.\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

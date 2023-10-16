@@ -1,0 +1,16 @@
+---
+title: Tips for writing a (hopefully good) CV or resume
+description: A presentation for our departmental PhD and MS students on how to create CVs and resumes
+event: Graduate Seminar
+location: Athens, US
+  
+date: "2021-02-18"
+image: featured.jpg
+image-alt: Photo by [Tobias Herrmann](https://pixabay.com/users/5138153-5138153/)/Pixabay
+categories:
+  - Career
+  - Academia
+---
+
+These are slides for a talk/discussion I led with our graduate students discussing CVs and resumes and how to create good ones. 
+<a href="2021_02_CV_Resume.html" target="_blank">The presentation slides are here.</a>

@@ -1,0 +1,16 @@
+---
+title: Studying COVID-19 Spread and Control
+description: A (virtual) presentation at UGA's Global Health Institute discussing some recent COVID-19 work.
+event: UGA Global Health Institute Seminar Series
+location: Athens (virtual), US
+  
+date: "2020-08-27"
+image: featured.png
+categories:
+  
+  - Research
+  - COVID-19
+---
+
+These are slides for a talk discussing some recent COVID-19 projects. I gave the talk (online) as part of UGA's Global Health Institute seminar series.
+<a href="2020-08-uga-ghi.html" target="_blank">The presentation slides are here.</a>

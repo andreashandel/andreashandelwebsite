@@ -1,0 +1,16 @@
+---
+title: "Modelbuilder"
+description: "R package that allows building and analysis of simulation models without the need to write code."
+image: featured.png
+image-alt: modelbuilder logo
+categories:
+  - Research
+  - Modeling
+  - R Package
+about:
+  template: solana
+  image: featured.png
+---
+
+
+We are developing an R package called `modelbuilder` that allows users to build and analyze compartmental, dynamical, mechanistic models (implemented as differential equations, discrete-time or stochastic), without the need to write computer code. Learn more about it [on the package website](https://ahgroup.github.io/modelbuilder/).

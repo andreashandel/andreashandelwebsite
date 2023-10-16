@@ -1,0 +1,14 @@
+---
+title: "Quizgrader"
+description: "R package that allows easy administration, submission and grading of online quizzes without the need of a learning management system."
+image: featured.png
+image-alt: quizgrader logo
+categories:
+  - Teaching
+  - R Package
+about:
+  template: solana
+  image: featured.png
+---
+
+`quizgrader` is an R package allows teachers to administer and auto-grade quizzes that students submit online. It replaces the functionality often found in learning management systems (LMS). Student submissions can be fully analyzed to gain insights into problem areas. It is functional, but not yet fully tested. Learn more about it [on the package website](https://andreashandel.github.io/quizgrader/). 

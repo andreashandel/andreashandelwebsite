@@ -1,0 +1,7 @@
+.Rproj.user
+.DS_Store
+.Rhistory
+Thumbs.db
+/.quarto/
+/_site/
+/_*.local

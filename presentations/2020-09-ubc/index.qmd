@@ -1,0 +1,22 @@
+---
+title: Modeling COVID-19 
+description: A (virtual) presentation at the University of British Columbia discussing some recent COVID-19 modeling projects.
+event: UCB Seminar Presentation
+location: Vancouver (virtual), Canada
+  
+date: "2020-09-30"
+image: featured.png
+categories:
+  
+  - Research
+  - Modeling
+  - COVID-19
+---
+
+These are slides for a talk discussing some COVID-19 modeling projects. I gave the talk (online) at UBC.
+
+<a href="2020-09-ubc.html" target="_blank">The presentation slides are here.</a>
+
+
+[The presentation slides are here.](2020-09-ubc.html)
+

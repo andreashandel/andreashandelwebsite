@@ -1,0 +1,97 @@
+---
+title: Generating a conflict of interest form automatically
+description: Some code and examples showing how to generate a conflict of interest statement required by some funding agencies in an almost completely automated manner. 
+author: Andreas Handel
+draft: false
+date: 2020-05-29
+aliases: 
+  - ../conflict-of-interest-form/
+categories: 
+  - R 
+  - Grant Writing
+image: "featured.jpg"
+image-alt: 'Photo by Bernd Klutsch on Unsplash'
+---
+
+# Overview
+
+While most of my grant proposals go to the NIH, which thankfully does not require an arcane conflict of interest (COI) document, I am sometimes part of a grant proposal that goes to the NSF or another agency that require a COI. Instead of just asking for any actual conflicts of interest, these documents ask one to list every co-author in the last N years, which is fairly stupid these days when most papers in the biomedical sciences have many co-authors. I hope the agencies get rid of this in my opinion pointless document soon. Until then, I have to do it.
+
+I don't want to retrieve all my co-authors and fill the form by hand. In a previous post, I showed how one can use the [`bibliometrix`](https://www.bibliometrix.org/) R package to [do an analysis of a set of publications](/posts/publications-analysis-2/). Among other things, this approach returns all co-authors, which I will use here to make the COI table almost completely automated.
+
+The RMarkdown/Quarto file to run this analysis [is here](index.qmd).
+
+# Required packages
+
+```{r, echo = TRUE, message = FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+library(flextable)
+#remotes::install_github('massimoaria/bibliometrix')
+library(bibliometrix)
+```
+
+# Loading data
+
+As explained [in a previous post](/posts/publications-analysis-2/), the currently best way to get all my papers is to download them from NIH's "My Bibliography" and export it in MEDLINE format. Then read in the file with the code below. 
+
+```{r, message=FALSE}
+#read bib file, turn file of references into data frame
+pubs <- bibliometrix::convert2df("medline.txt", dbsource="pubmed",format="pubmed") 
+```
+
+Each row of the data frame created by the `convert2df` function is a publication, the columns contain information for each publication. 
+For a list of what each column variable codes for, see the [bibliometrix website](https://www.bibliometrix.org/).
+
+# Getting the right time period
+
+This specific funding agency I'm currently writing a COI for (NIFA) requires co-authors of the last 3 years, so let's get them. I don't know if they mean 3 full years. I'm doing this mid-2020, so to be on safe side, I go back to 2017.
+
+```{r}
+period_start = 2017
+pubs_new = pubs[pubs$PY>=period_start,]
+```
+
+I need the full names of the authors. They are stored for each publication in the _AF_ field. This is the only information I need for the COI form. I pull it out, then do a bit of processing to get it in the right shape, then remove duplicates and sort.
+
+```{r}
+allauthors = paste0(pubs_new$AF,collapse = ";") #merge all authors into one vector
+allauthors2 = unlist(strsplit(allauthors, split =";"))
+authors = sort(unique(allauthors2)) #split vector of authors, get unique authors
+```
+
+Note that I originally did the above steps using `biblioAnalysis(pubs_new)`. However, this function/approach broke in a recent version of the package, and I realized that I can just use a few base R commands to get what I need, which is the approach shown above. If you use the `biblioAnalysis()` function, the Authors are in the `Authors` field of the returned object.
+
+# Getting a table of co-authors
+
+Here is the full table of my co-authors in the specified time period.
+I made a tibble that looks similar to what the COI document requires.
+
+```{r}
+#removing the 1st one since that's me
+authortable = dplyr::tibble(Name = authors, 
+                            "Co-Author" = 'x', 
+                            Collaborator = '', 
+                            'Advisees/Advisors' = '', 
+                            'Other – Specify Nature' = '')
+```
+
+Finally, I'm using the `flextable` package to make a decent looking table and save it to a word document.
+
+```{r}
+ft <- flextable::flextable(authortable)
+flextable::autofit(ft)
+flextable::save_as_docx("my table" = ft, path = "COItable.docx")
+```
+
+I notice a few duplicates in the table that need to be removed. Of course I also need to remove myself. And for some, the full name doesn't show. I need to fill in a few of the other columns and potentially add a few individuals who were not captured. So it's not fully automated, but I can copy this table into the COI statement and the remaining edits are still annoying but not that terrible.
+
+# Discussion
+
+These kinds of COI documents that ask for all co-authors are in my opinion antiquated and should go away. In the meantime using a somewhat automated approach makes the problem not too bad. I will have to make a few manual adjustments to the table, but overall it's not too bad. I'm still glad that NIH does not require this.
+
+
+
+
+
+

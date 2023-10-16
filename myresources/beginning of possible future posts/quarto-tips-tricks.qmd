@@ -1,0 +1,47 @@
+---
+title: A random collection of Quarto tips and tricks    
+description: Some things I learned while using Quarto, documented so it's easy to find again.
+author: Andreas Handel
+date: '2023-10-01'
+aliases: 
+  - ../quarto-tips-tricks/
+categories: 
+  - Quarto
+  - Website
+  - CSS
+image: "goal.png"
+image-alt: "An icon representing a goal"
+execute:
+  echo: false
+engine: knitr
+---
+
+
+# Motivation
+
+R Markdown & Co worked well for me, so it took me a few months before I decided to give the new kid on the block, [Quarto](https://quarto.org), a try. It's been worth switching. Apart from some old legacy projects that are still in R Markdown/blogdown/bookdown, etc., I am currently using [Quarto](https://quarto.org) for most of my scientific output. That means papers, websites, presentations. 
+
+The Quarto documentation is impressively well done and full-featured. That's great, but it creates on problem for me. When I try to search for "How do I do X", the first 10+ hits are always to the official Quarto doc (which doesn't contain what I'm looking for, I already checked). I need to do a good bit of further searching to finally find what I need.
+
+Since I can't remember stuff very long, if I need to do the same thing again a few weeks later, I have to go on the same search expedition. That's tedious. So I decided to compile this list of tips and tricks that I figured out, mainly for the benefit of future me. If others find it helpful too, even better.
+
+# Introduction
+
+If you are not familiar with Quarto callouts, take a look [at this explanation](https://quarto.org/docs/authoring/callouts.html). It's a nice way to highlight something in text. For instance this bit of code produces one of the pre-built callouts that come with Quarto.   
+
+
+
+## Presentations
+
+Color for equations.
+$$
+Y = a + \color{blue}{bX}
+$$
+
+
+## Websites
+
+To make sure inline `R` code is run on Quarto documents that don't contain other code chunks, one needs to set `engine: knitr` explicitly.
+
+
+

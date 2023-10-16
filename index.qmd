@@ -1,0 +1,50 @@
+---
+title: ""
+about:
+  template: trestles
+  image: files/avatar.jpg
+  links:
+    - icon: globe
+      text: Web
+      href: https://www.andreashandel.com
+    - icon: github
+      text: Github
+      href: https://github.com/andreashandel
+    # - icon: twitter
+    #   text: Twitter
+    #   href: https://twitter.com/andreashandel
+    - icon: mastodon
+      text: Mastodon
+      href: https://fosstodon.org/@andreashandel
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/andreashandel/
+    - icon: google-scholar
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=bruHK0YAAAAJ&hl=en
+    # - icon: impactstory
+    #   text: ImpactStory
+    #   href: https://impactstory.org/u/0000-0002-4622-1146
+    - icon: orcid
+      text: ORCID
+      href: https://orcid.org/0000-0002-4622-1146
+comments: false
+---
+
+```{r, echo=FALSE, eval = TRUE}
+# Based on: https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto/#netlify-redirects
+# lines to insert to a netlify _redirect file
+redirects <- paste0("/talk /presentations \n/talks /presentations \n/post /posts")
+# write the _redirect file
+writeLines(redirects, here::here("_site", "_redirects"))
+```
+
+I am a Professor in the [Department of Epidemiology and Biostatistics](https://publichealth.uga.edu/departments/epidemiology-biostatistics/), [College of Public Health](https://www.publichealth.uga.edu/), at the [University of Georgia (UGA)](https://www.uga.edu/).
+
+My research and teaching focus on data analysis and modeling of infectious diseases.
+
+This website contains [a short bio](about.qmd) and products such as [blog posts](/posts/), [presentations](/presentations/), and [various tools and resources related to teaching and research](/projects/).
+
+More research related details can be found [on my research group site](https://handelgroup.uga.edu/). Some overlap between the two sites might occur.
+
+<!-- I send out a monthly (or less frequent) newsletter with updates and musings on my various projects. If interested, [you can subscribe here.](subscribe.html) -->

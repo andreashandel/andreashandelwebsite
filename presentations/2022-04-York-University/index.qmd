@@ -1,0 +1,17 @@
+---
+title: Assessing the impact of dose on infection and vaccination outcomes
+description: A (virtual) research presentation given at York University.
+event: Online Presentation
+location: York University, Toronto, CA (virtual)
+  
+date: "2022-04-21"
+image: featured.png
+image-alt: Norovirus antibody kinetics
+categories:
+  - Research
+  - Inoculum Dose
+  - Norovirus
+  - Influenza
+---
+
+<a href="2022_04_York_seminar.html" target="_blank">These are the slides</a> for a presentation I gave at York University.

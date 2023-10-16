@@ -1,0 +1,87 @@
+---
+title: Creating a website in less than 1 hour - part 2
+subtitle: Part 2 - adding GitHub to the workflow
+description: This is part 2/2 of the website development posts, where we'll move the website to [GitHub](https://GitHub.com).
+author: Andreas Handel
+draft: false
+date: 2020-01-20
+aliases: 
+  - ../blogdown-website-2/
+image: "featured.jpg"
+image-alt: 'Photo by Yancy Min on Unsplash'
+categories: 
+ - blogdown
+ - Hugo
+ - GitHub
+ - Tutorial
+ - Website
+---
+
+
+
+This is part 2/2 of the website development posts, where we'll move the website to [GitHub](https://GitHub.com). This provides a nice and more automated workflow for editing and deploying your site.
+
+If you haven't seen [part 1](/posts/blogdown-website-1/) yet, I suggest you read through that first. In that part, I covered how to create a website using [blogdown](https://bookdown.org/yihui/blogdown/), [Hugo](https://gohugo.io/), and [Netlify](https://www.netlify.com/).
+
+
+# Required skills
+
+I assume that you have general computer literacy, but no experience with any of the tools that will be used. Also, no coding, web-development or related experience is expected. 
+
+I assume your website is at a stage as described at the end of part 1.
+
+# Quick tool overview
+
+The only new tool for this part is **[GitHub](https://GitHub.com)**. GitHub is a very powerful and common way of developing projects like code, research projects or a website. Github is a great tool to be familiar with in general, and most importantly, it very nicely integrates with the other tools to make things seamless and automated. As you learned in part 1, it is not strictly needed, but it makes updating automatic and is such an overall useful tool to be exposed to that I'm including it in the setup.
+
+# Get a GitHub account
+
+If you do not already have a [GitHub](https://GitHub.com) account, create one. Note that GitHub is widely used professionally, and you might want to allow other people to see your GitHub presence. I, therefore, recommend using a future-proof, professional user name. 
+
+Note that Git and GitHub (which are technically different, here I'm using GitHub to refer to both) can be initially confusing, mainly because they use a lot of specialized terminology. I will try and walk you through all steps for getting a website up and running in detail, but you might have to look up a few things on the way. If you are completely new to GitHub, I recommend you take a quick look at [this page](https://andreashandel.github.io/MADAcourse/Tools_Github_Introduction.html) (and links provided there) so you can get some idea of what it's all about.
+
+
+# Get Gitkraken
+
+Download and install [Gitkraken](https://www.gitkraken.com/download), link it with your GitHub account. Gitkraken is a graphical Git/GitHub client that makes a lot of tasks related to GitHub easier. It's not strictly needed, and if you already have your own way of using Git/GitHub (e.g. with another client or the command line) you can stick with that. There is also an option to use Git/GitHub through RStudio, which is fine for most things, but overall Gitkraken is more powerful. So if you plan to use GitHub more in the future, I recommend using it. In the following, I assume you are using Gitkraken. If you interface with GitHub some other way, you will have to adjust those specific instructions accordingly.
+
+
+# Recommended, but optional: Upgrade GitHub (& Gitkraken)
+
+On GitHub, by default, all repositories are public (a repository is the collection of files and folders that make up a specific GitHub project, such as your website.) If you have public repositories, you need to be careful about files that shouldn't be shared publicly (e.g. because of copyright restrictions or because it might violate data privacy). Normally, if you want private repositories, you have to pay. **As student or educator, you can get private repositories for free.**
+
+If you are a student, __I strongly recommend you get the [GitHub student developer pack](https://education.GitHub.com/pack).__ This gives you access to private repositories. You also get 1 year of free Gitkraken Pro access. While the free version of Gitkraken works well, you can't access private repositories with it. Often, being able to use private repositories is useful. 
+
+Educators can also get a free GitHub Pro account [here](https://education.GitHub.com/teachers). As far as I'm aware, there is no free Gitkraken Pro for educators, but it's fairly cheap. So if you want to use a private repository for your website (I don't know why you would), you need to pay for Gitkraken Pro or use a different way to manage your GitHub repositories. 
+
+
+# Create a GitHub repository
+
+* Log into GitHub, click on 'Repositories' and create a new repository (green button). Choose a repository (repo) name that tells you what's in the repo (e.g. YOURNAME-website). You can give it the same name as you named your main website directory/project in part 1, but that's not required. Check the box _Initialize this repository with a README._ Set the .gitignore option to `R`, you can leave the license at _none_. Click _create repository_.
+* Clone the repository from GitHub to your local computer (using Gitkraken or whatever software/method you decided to use). Place the local folder in a location on your computer where it is **not** synced with some other software (e.g., Dropbox, OneDrive).
+
+# Move your website folder to the GitHub repo
+* Find the main folder of your website and move all of it into your newly created GitHub repository. To make sure everything is up-to-date, close RStudio before doing so.
+* Open the repository you just created in Gitkraken. In the top right of Gitkraken, there should be a notification about changed files. Click `View changes`, then `Stage`. Write a commit message, commit the changes. You should see the master with the computer symbol above the one with some random logo. That means your local repository is ahead of the one on github.com. To get them in sync, you click the push button. If things work, the two symbols should now be in the same line.
+* If your code cannot sync you will likely receive an option from GitKraken to perform a force push. A force push will overwrite the remote repo with the local repo forcibly. This means that the remote will be updated with any changes that exist on your local computer however, if any additional changes have been made to the code since you began editing (i.e. someone else has made a commit to the repo while you were working on it) they will be destroyed by the force push since they are not on your local repo. For this project, you are the only person working on your introduction so it is unlikely you will encounter any issues with force push, but it is good to be aware of this action.
+* Go back to GitHub.com and to your repository. You should see all your files in there.
+
+
+# Connecting GitHub to Netlify
+* The last step is to set up `Netlify` so it can automatically monitor your GitHub repository and process any changes into an updated website. To do so, log into your Netlify account. Select your website. Under `Site Settings` find the `Build and deploy` menu. Under `Continuous deployment` click on `Link site to Git`. Choose `GitHub` and the follow the steps to link your webpage repository. Once finished, Netlify will monitor that repository and automatically pull any updates and rebuild your website.
+
+
+# The new workflow
+The workflow for your website using GitHub now works as follows: 
+
+* Open your website in Rstudio by clicking on the `.Rproj` file. Load blogdown with `library(blogdown)`. Make any edits you want. While you make your edits, you can run `serve_site()` to see your updates.  
+* Once you are done with your updates, restart R (to shut down `serve_site()`) and run `build_site()`. While Netlify will automatically run `Hugo` on your files, it won't do any processing of Rmarkdown files, therefore you need to run the blogdown build command.
+* Use Gitkraken to push/pull and therefore sync changes between your local computer (or multiple computers if you work on more than one machine) and Github.com. 
+
+Netlify will monitor your Github repository and when it sees changes, automatically rebuild your website. Note that this means that if you start working on a document and don't finish it, and then push to GitHub, your half-finished document shows up. To avoid that, you can set `draft: true` in your TOML/YAML heading for the document in progress.
+
+
+# More Information
+
+For the non-GitHub aspects of this, see the resources mentioned at the end of [part 1](/posts/blogdown-website-1/). For some more GitHub related information, [see e.g. here](https://andreashandel.github.io/MADAcourse/Tools_Github_Introduction.html).
+

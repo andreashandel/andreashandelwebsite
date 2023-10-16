@@ -1,0 +1,16 @@
+---
+title: "Modern Applied Data Analysis"
+description: "Complete materials of an online course on Modern Applied Data Analysis"
+author: Andreas Handel
+image: featured.png
+image-alt: MADA course logo
+categories:
+  - Teaching
+  - Course
+  - Data Analysis
+about:
+  template: solana
+  image: featured.png
+---
+
+Modern Applied Data Analysis (MADA) is a course I regularly teach online. All course materials are available in the form of a simple GitHub website and can be used by anyone for self-learning. You can find the course [on this site](https://andreashandel.github.io/MADAcourse/).
