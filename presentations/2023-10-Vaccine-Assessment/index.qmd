@@ -1,0 +1,17 @@
+---
+title:  Assessment of vaccines
+description: A guest lecture for a gradudate vaccine course at UGA
+event: IDIS 8020 guest lecture 
+location: Athens, GA
+date: "2023-10-30"
+date-modified: "2023-10-30"
+image: featured.png
+image-alt: correlate of protection schematic
+categories:
+  - Teaching
+  - Vaccine
+---
+
+
+<a href="2023-10-Vaccine-Assessment-IDIS8020.html" target="_blank">These are the slides</a> for this presentation.
+

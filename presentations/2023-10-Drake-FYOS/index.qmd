@@ -1,0 +1,18 @@
+---
+title:  Introduction to infectious disease modeling
+description: A guest lecture for a UGA First Year Odyssey Seminar
+event: First Year Odyssey Seminar
+location: Athens, GA
+date: "2023-10-24"
+date-modified: "2023-10-24"
+image: basicSIRmodelfigure2.png
+image-alt: basic SIR model diagram
+categories:
+  - Teaching
+  - Modeling
+  - Infectious Disease
+---
+
+
+<a href="2023-10-Intro-ID-Modeling.html" target="_blank">These are the slides</a> for this presentation.
+
