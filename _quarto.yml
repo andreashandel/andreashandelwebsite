@@ -20,7 +20,7 @@ project:
 execute:
   # Re-render only when source changes
   freeze: auto
-description-meta: "Andreas Handel's personal website."
+description-meta: "Andreas Handel personal website."
 engine: knitr
 
 website:
@@ -46,9 +46,6 @@ website:
         file: presentations.qmd
       - text: "Projects"
         file: projects.qmd
-      # - text: "Subscribe"
-      #   file: subscribe.qmd
-  
 
 
   page-footer:
