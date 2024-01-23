@@ -6,8 +6,9 @@
 ## ---- packages2 --------
 library('dplyr') # for data manipulation
 library('ggplot2') # for plotting
-library('cmdstanr') #for model fitting
 library('rethinking') #for model fitting
+library('rstan') #is apparently called by some other functions in cmdstanr
+library('cmdstanr') #for model fitting
 library('fs') #for file path
 
 ## ---- loadfits --------
@@ -25,7 +26,8 @@ if (!file_exists(filepath))
 
 fl <- readRDS(filepath)
 # also load data file used for fitting
-simdat <- readRDS("simdat.Rds")
+simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
+simdat <- readRDS(simdatloc)
 #pull our the data set we used for fitting
 #if you fit a different one of the simulated datasets, change accordingly
 fitdat <- simdat$m3
@@ -38,25 +40,26 @@ show(fl[[5]]$fit)
 
 ## ---- traceplot ------
 # Model 2a trace plots
-traceplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
+# for some reason didn't work on last compile
+rethinking::traceplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 ## ---- trankplot ------
 # Model 2a trank plots
-trankplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
+rethinking::trankplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 ## ---- pairplot ------
 # Model 2a pair plot
 # Correlation between posterior samples of parameters
-pairs(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
+rethinking::pairs(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 
 ## ---- mod_1_3_prior --------
 #get priors and posteriors for models 1 and 3
-m1prior <- extract.prior(fl[[1]]$fit, n = 1e4)
-m1post <- extract.samples(fl[[1]]$fit, n = 1e4)
+m1prior <- rethinking::extract.prior(fl[[1]]$fit, n = 1e4)
+m1post <- rethinking::extract.samples(fl[[1]]$fit, n = 1e4)
 
-m3prior <- extract.prior(fl[[3]]$fit, n = 1e4)
-m3post <- extract.samples(fl[[3]]$fit, n = 1e4)
+m3prior <- rethinking::extract.prior(fl[[3]]$fit, n = 1e4)
+m3post <- rethinking::extract.samples(fl[[3]]$fit, n = 1e4)
 
 ## ---- mod_1_3_prior_plots --------
 #showing density plots for a0
@@ -89,25 +92,25 @@ lines(density(m3post$b1), col = "blue", lty=1)
 #pairs(fl[[1]]$fit, pars = c("a0","a1"))
 # a few parameters for each dose
 #low dose
-pairs(fl[[1]]$fit, pars = c("a0[1]","a0[2]","a0[3]","a0[4]","a1"))
+rethinking::pairs(fl[[1]]$fit, pars = c("a0[1]","a0[2]","a0[3]","a0[4]","a1"))
 #medium dose
-pairs(fl[[1]]$fit, pars = c("a0[8]","a0[9]","a0[10]","a0[11]","a1"))
+rethinking::pairs(fl[[1]]$fit, pars = c("a0[8]","a0[9]","a0[10]","a0[11]","a1"))
 #high dose
-pairs(fl[[1]]$fit, pars = c("a0[16]","a0[17]","a0[18]","a0[19]","a1"))
+rethinking::pairs(fl[[1]]$fit, pars = c("a0[16]","a0[17]","a0[18]","a0[19]","a1"))
 
 
 
 ## ---- mod_1_3_exploration --------
 # Model 1
-a0mean = mean(precis(fl[[1]]$fit,depth=2,"a0")$mean)
-b0mean = mean(precis(fl[[1]]$fit,depth=2,"b0")$mean)
-print(precis(fl[[1]]$fit,depth=1),digits = 2)
+a0mean = mean(rethinking::precis(fl[[1]]$fit,depth=2,"a0")$mean)
+b0mean = mean(rethinking::precis(fl[[1]]$fit,depth=2,"b0")$mean)
+print(rethinking::precis(fl[[1]]$fit,depth=1),digits = 2)
 print(c(a0mean,b0mean))
 
 # Model 3
-a0mean = mean(precis(fl[[3]]$fit,depth=2,"a0")$mean)
-b0mean = mean(precis(fl[[3]]$fit,depth=2,"b0")$mean)
-print(precis(fl[[3]]$fit,depth=1),digits = 2)
+a0mean = mean(rethinking::precis(fl[[3]]$fit,depth=2,"a0")$mean)
+b0mean = mean(rethinking::precis(fl[[3]]$fit,depth=2,"b0")$mean)
+print(rethinking::precis(fl[[3]]$fit,depth=1),digits = 2)
 print(c(a0mean,b0mean))
 
 
@@ -116,27 +119,27 @@ print(c(a0mean,b0mean))
 ## ---- mod_2_2a_exploration -------
 # Compare models 2 and 2a
 # first we compute the mean across individuals for model 2
-a0mean = mean(precis(fl[[2]]$fit,depth=2,"a0")$mean)
-b0mean = mean(precis(fl[[2]]$fit,depth=2,"b0")$mean)
+a0mean = mean(rethinking::precis(fl[[2]]$fit,depth=2,"a0")$mean)
+b0mean = mean(rethinking::precis(fl[[2]]$fit,depth=2,"b0")$mean)
 
 #rest of model 2
-print(precis(fl[[2]]$fit,depth=1),digits = 2)
+print(rethinking::precis(fl[[2]]$fit,depth=1),digits = 2)
 print(c(a0mean,b0mean))
 #model 2a
-print(precis(fl[[5]]$fit,depth=1),digits = 2)
+print(rethinking::precis(fl[[5]]$fit,depth=1),digits = 2)
 
 
 ## ---- mod_comparison --------
-compare(fl[[1]]$fit,fl[[3]]$fit,fl[[2]]$fit,fl[[5]]$fit)
+rethinking::compare(fl[[1]]$fit,fl[[3]]$fit,fl[[2]]$fit,fl[[5]]$fit)
 
 
 ## ---- mod_4_4a_prior --------
 #get priors and posteriors for models 4 and 4a
-m4prior <- extract.prior(fl[[4]]$fit, n = 1e4)
-m4post <- extract.samples(fl[[4]]$fit, n = 1e4)
+m4prior <- rethinking::extract.prior(fl[[4]]$fit, n = 1e4)
+m4post <- rethinking::extract.samples(fl[[4]]$fit, n = 1e4)
 
-m4aprior <- extract.prior(fl[[6]]$fit, n = 1e4)
-m4apost <- extract.samples(fl[[6]]$fit, n = 1e4)
+m4aprior <- rethinking::extract.prior(fl[[6]]$fit, n = 1e4)
+m4apost <- rethinking::extract.samples(fl[[6]]$fit, n = 1e4)
 
 ## ---- mod_4_4a_prior_plots --------
 #showing density plots for a0
@@ -167,30 +170,30 @@ lines(density(m4apost$b1), col = "blue", lty=1)
 ## ---- mod_4_4a_pair_plots --------
 # a few parameters for each dose
 #low dose
-pairs(fl[[4]]$fit, pars = c("a0[1]","a0[2]","a0[3]","a0[4]","a1"))
+rethinking::pairs(fl[[4]]$fit, pars = c("a0[1]","a0[2]","a0[3]","a0[4]","a1"))
 #medium dose
-pairs(fl[[4]]$fit, pars = c("a0[8]","a0[9]","a0[10]","a0[11]","a1"))
+rethinking::pairs(fl[[4]]$fit, pars = c("a0[8]","a0[9]","a0[10]","a0[11]","a1"))
 #high dose
-pairs(fl[[4]]$fit, pars = c("a0[16]","a0[17]","a0[18]","a0[19]","a1"))
+rethinking::pairs(fl[[4]]$fit, pars = c("a0[16]","a0[17]","a0[18]","a0[19]","a1"))
 # mean of a0 prior
-pairs(fl[[4]]$fit, pars = c("mu_a","mu_b","a1","b1"))
+rethinking::pairs(fl[[4]]$fit, pars = c("mu_a","mu_b","a1","b1"))
 
 #saving one plot so I can use as featured image
 png(filename = "featured.png", width = 6, height = 6, units = "in", res = 300)
-pairs(fl[[4]]$fit, pars = c("mu_a","mu_b","a1","b1"))
+rethinking::pairs(fl[[4]]$fit, pars = c("mu_a","mu_b","a1","b1"))
 dev.off()
 
 
 ## ---- mod_4_4a_exploration --------
 # model 4
-print(precis(fl[[4]]$fit,depth=1),digits = 2)
+print(rethinking::precis(fl[[4]]$fit,depth=1),digits = 2)
 # model 4a
 print(precis(fl[[6]]$fit,depth=1),digits = 2)
 
 
 ## ---- mod_4_4a_comparison --------
-compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = WAIC)
-compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = PSIS)
+rethinking::compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = WAIC)
+rethinking::compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = PSIS)
 
 
 
@@ -199,22 +202,22 @@ compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = PSIS)
 ## ---- mod_5_pair_plots --------
 # a few parameters for each dose
 #low dose
-pairs(fl[[7]]$fit, pars = c("a0[1]","a0[2]","a0[3]","a0[4]","a0[5]"))
+rethinking::pairs(fl[[7]]$fit, pars = c("a0[1]","a0[2]","a0[3]","a0[4]","a0[5]"))
 #medium dose
-pairs(fl[[7]]$fit, pars = c("a0[8]","a0[9]","a0[10]","a0[11]","a0[12]"))
+rethinking::pairs(fl[[7]]$fit, pars = c("a0[8]","a0[9]","a0[10]","a0[11]","a0[12]"))
 #high dose
-pairs(fl[[7]]$fit, pars = c("a0[16]","a0[17]","a0[18]","a0[19]","a0[20]"))
+rethinking::pairs(fl[[7]]$fit, pars = c("a0[16]","a0[17]","a0[18]","a0[19]","a0[20]"))
 
 
 ## ---- mod_5_exploration --------
-a0mean = mean(precis(fl[[7]]$fit,depth=2,"a0")$mean)
-b0mean = mean(precis(fl[[7]]$fit,depth=2,"b0")$mean)
-print(precis(fl[[7]]$fit,depth=1),digits = 2)
+a0mean = mean(rethinking::precis(fl[[7]]$fit,depth=2,"a0")$mean)
+b0mean = mean(rethinking::precis(fl[[7]]$fit,depth=2,"b0")$mean)
+print(rethinking::precis(fl[[7]]$fit,depth=1),digits = 2)
 print(c(a0mean,b0mean))
 
 
 ## ---- mod_5_comparison --------
-compare(fl[[3]]$fit,fl[[4]]$fit,fl[[7]]$fit)
+rethinking::compare(fl[[3]]$fit,fl[[4]]$fit,fl[[7]]$fit)
 
 
 
@@ -256,7 +259,7 @@ for (n in 1:length(fl))
   }
 
   # pull out posterior samples for the parameters
-  post <- extract.samples(nowmodel)
+  post <- rethinking::extract.samples(nowmodel)
 
   # estimate and CI for parameter variation
   # this uses the link function from rethinking

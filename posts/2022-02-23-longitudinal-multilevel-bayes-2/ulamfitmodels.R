@@ -11,7 +11,9 @@ library('rethinking') #for model fitting
 library('fs') #for file path
 
 ## ---- data --------
-simdat <- readRDS("simdat.Rds")
+# adjust as necessary
+simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
+simdat <- readRDS(simdatloc)
 #using dataset 3 for fitting
 #also removing anything in the dataframe that's not used for fitting
 #makes the ulam/Stan code more robust
@@ -243,8 +245,8 @@ for (n in 1:length(modellist))
 # the file is too large for GitHub
 # thus I am saving here to a local folder
 # adjust accordingly for your setup
-filepath = fs::path("C:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
+#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
 saveRDS(fl,filepath)
 
 
