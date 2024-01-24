@@ -189,6 +189,7 @@ startlist = list(startm1,startm2,startm3,startm4,startm2a,startm4,startm5)
 warmup = 6000
 iter = warmup + floor(warmup/2)
 max_td = 18 #tree depth
+max_td = 10 #tree depth
 adapt_delta = 0.9999
 chains = 5
 cores  = chains
