@@ -4,12 +4,12 @@
 
 
 ## ---- packages2 --------
-library('dplyr') # for data manipulation
-library('ggplot2') # for plotting
-library('rethinking') #for model fitting
-library('rstan') #is apparently called by some other functions in cmdstanr
 library('cmdstanr') #for model fitting
 library('fs') #for file path
+library('dplyr') # for data manipulation
+library('ggplot2') # for plotting
+library('rstan') #is apparently called by some other functions in cmdstanr
+library('rethinking') #for model fitting
 
 ## ---- loadfits --------
 # loading list of previously saved fits.
@@ -19,7 +19,7 @@ library('fs') #for file path
 # it is stored in a local folder
 # adjust accordingly for your setup
 filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-if (!file_exists(filepath))
+if (!fs::file_exists(filepath))
 {
   filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
 }
