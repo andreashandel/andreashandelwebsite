@@ -186,14 +186,20 @@ startlist = list(startm1,startm2,startm3,startm4,startm2a,startm4,startm5)
 ## ---- fittingsetup --------
 #general settings for fitting
 #you might want to adjust based on your computer
-warmup = 6000
+warmup = 6000 
 iter = warmup + floor(warmup/2)
 max_td = 18 #tree depth
-max_td = 10 #tree depth
 adapt_delta = 0.9999
 chains = 5
 cores  = chains
 seed = 4321
+# for quick testing, use the settings below
+# results won't make much sense, but can make sure the code runs
+warmup = 600 #for testing
+iter = warmup + floor(warmup/2)
+max_td = 10 #tree depth
+adapt_delta = 0.99
+
 
 #stick all models into a list
 modellist = list(m1=m1,m2=m2,m3=m3,m4=m4,m2a=m2a,m4a=m4a,m5=m5)
@@ -217,9 +223,9 @@ for (n in 1:length(modellist))
   tstart=proc.time(); #capture current time
 
   #run model fit
-  fl[[n]]$fit <- ulam(flist = modellist[[n]],
+  fit <- ulam(flist = modellist[[n]],
                           data = fitdat,
-                          start=startlist[[n]],
+                          #start=startlist[[n]],
                           constraints=constraints,
                           log_lik=TRUE, cmdstan=TRUE,
                           control=list(adapt_delta=adapt_delta,
@@ -229,6 +235,9 @@ for (n in 1:length(modellist))
                           seed = seed
   )# end ulam
 
+  # save fit object to list
+  fl[[n]]$fit <- fit
+  
   #capture time taken for fit
   tdiff=proc.time()-tstart;
   runtime_minutes=tdiff[[3]]/60;
@@ -243,11 +252,14 @@ for (n in 1:length(modellist))
 } #end fitting of all models
 
 # saving the list of results so we can use them later
-# the file is too large for GitHub
-# thus I am saving here to a local folder
+# the file is too large for standard Git/GitHub
+# Git Large File Storage should be able to handle it
+# I'm using a simple hack so I don't have to set up Git LFS
+# I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
 #filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
 filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
 saveRDS(fl,filepath)
 
+saveRDS(fl,filepath)
 
