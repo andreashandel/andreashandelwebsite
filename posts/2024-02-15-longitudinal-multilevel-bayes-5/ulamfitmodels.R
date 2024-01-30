@@ -188,17 +188,17 @@ startlist = list(startm1,startm2,startm3,startm4,startm2a,startm4,startm5)
 #you might want to adjust based on your computer
 warmup = 6000 
 iter = warmup + floor(warmup/2)
-max_td = 15 #tree depth
-adapt_delta = 0.999
+max_td = 18 #tree depth
+adapt_delta = 0.9999
 chains = 5
 cores  = chains
 seed = 4321
 # for quick testing, use the settings below
 # results won't make much sense, but can make sure the code runs
-#warmup = 600 #for testing
-#iter = warmup + floor(warmup/2)
-#max_td = 10 #tree depth
-#adapt_delta = 0.99
+warmup = 600 #for testing
+iter = warmup + floor(warmup/2)
+max_td = 10 #tree depth
+adapt_delta = 0.99
 
 
 #stick all models into a list
@@ -257,8 +257,8 @@ for (n in 1:length(modellist))
 # I'm using a simple hack so I don't have to set up Git LFS
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
-filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
+#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
 saveRDS(fl,filepath)
 
 

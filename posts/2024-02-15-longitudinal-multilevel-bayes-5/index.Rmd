@@ -1,26 +1,33 @@
 ---
-title: Bayesian analysis of longitudinal multilevel data using brms and rethinking - part 1  
-description: Part 1 of a tutorial showing how to specify models and simulate data for a longitudinal multilevel setup.
+title: Bayesian analysis of longitudinal multilevel data using brms and rethinking - part 5  
+description: Part 5 of a tutorial showing how to fit an ODE model using Stan.
 author: Andreas Handel
-date: '2022-02-22'
+date: '2025-02-15'
 aliases: 
-  - ../longitudinal-multilevel-bayesian-analysis-1/
+  - ../longitudinal-multilevel-bayesian-analysis-5/
 categories: 
 - R
 - Data Analysis
 - Bayesian
+- Stan
 image: "featured.png"
 ---
 
 
 
 ```{r, include=FALSE, cache=FALSE}
-knitr::read_chunk('generatedata.R')
+#knitr::read_chunk('generatedata.R')
 ```
 
+This tutorial continues the series of examples showing how to fit longitudinal data using 
+Bayesian multilevel/hierarchical/mixed-effects models.
+
+This tutorial covers the example where the underlying model is given by a set of ordinary differential equations (ODEs).
+
+We previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. The `rethinking` package does not support ODE models, as described in the Statistical Rethinking book, those need to be implemented in `Stan`. While `brms`
 
 
-This is a tutorial and worked example, to illustrate how one can use the `brms` and `rethinking` R packages to perform a Bayesian analysis of longitudinal data in a multilevel/hierarchical/mixed-effects setup.
+This is a tutorial and worked example, to illustrate how one can use 
 
 I wrote it mainly for my own benefit/learning (nothing forces learning a concept like trying to explain it.) Hopefully, others find it useful too.
 

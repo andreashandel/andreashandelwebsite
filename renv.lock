@@ -119,15 +119,15 @@
     },
     "QuickJSR": {
       "Package": "QuickJSR",
-      "Version": "1.0.9",
+      "Version": "1.1.0",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R6",
         "Rcpp",
         "jsonlite"
       ],
-      "Hash": "1965c66cbe09d7878d3a8fa6ecbd8e71"
+      "Hash": "c2d96d1e0499a9f7e1e56d2d1dde0fa6"
     },
     "R.cache": {
       "Package": "R.cache",
@@ -2536,14 +2536,14 @@
     },
     "rethinking": {
       "Package": "rethinking",
-      "Version": "2.40",
+      "Version": "2.31",
       "Source": "GitHub",
       "RemoteType": "github",
-      "RemoteUsername": "rmcelreath",
-      "RemoteRepo": "rethinking",
-      "RemoteRef": "master",
-      "RemoteSha": "f3ac8de0b4bcfabccc67ed033fb81d1873ec755e",
       "RemoteHost": "api.github.com",
+      "RemoteRepo": "rethinking",
+      "RemoteUsername": "rmcelreath",
+      "RemoteRef": "2f01a9c",
+      "RemoteSha": "2f01a9c5dac4bc6e9a6f95eec7cae268200a8181",
       "Requirements": [
         "MASS",
         "R",
@@ -2554,11 +2554,11 @@
         "methods",
         "mvtnorm",
         "parallel",
-        "posterior",
+        "rstan",
         "shape",
         "stats"
       ],
-      "Hash": "44603aef34ec93e59f65ce1ce3297289"
+      "Hash": "0c59ded901028dfaeb1d5c8a3d0276c2"
     },
     "rlang": {
       "Package": "rlang",
