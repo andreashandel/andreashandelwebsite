@@ -10,6 +10,7 @@ library('dplyr') # for data manipulation
 library('ggplot2') # for plotting
 library('rstan') #is apparently called by some other functions in cmdstanr
 library('rethinking') #for model fitting
+set_cmdstan_path()
 
 ## ---- loadfits --------
 # loading list of previously saved fits.
@@ -55,11 +56,11 @@ rethinking::pairs(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 ## ---- mod_1_3_prior --------
 #get priors and posteriors for models 1 and 3
-m1prior <- rethinking::extract.prior(fl[[1]]$fit, n = 1e4)
-m1post <- rethinking::extract.samples(fl[[1]]$fit, n = 1e4)
+m1prior <- extract.prior(fl[[1]]$fit, n = 1e4)
+m1post <- extract.samples(fl[[1]]$fit, n = 1e4)
 
-m3prior <- rethinking::extract.prior(fl[[3]]$fit, n = 1e4)
-m3post <- rethinking::extract.samples(fl[[3]]$fit, n = 1e4)
+m3prior <- extract.prior(fl[[3]]$fit, n = 1e4)
+m3post <- extract.samples(fl[[3]]$fit, n = 1e4)
 
 ## ---- mod_1_3_prior_plots --------
 #showing density plots for a0
