@@ -1,3 +1,9 @@
+## Reproducible example showing this problem:
+## If ulam() is called with the start = X option, 
+# the object ulam returns can not be processed by downstream functions
+# like print() or trankplot()
+# the problem happens for rethinking 2.4, it does not occur for 2.31 or 2.32
+
 ## Setup info
 # Windows 11, R 4.3.2, 
 #rstan_2.32.5       StanHeaders_2.32.5 digest_0.6.34      
@@ -7,6 +13,8 @@
 
 
 ## ---- packages --------
+# likely not all needed to reproduce issue
+# but those are the ones I nned in my actual code
 library('dplyr') # for data manipulation
 library('ggplot2') # for plotting
 library('cmdstanr') #for model fitting

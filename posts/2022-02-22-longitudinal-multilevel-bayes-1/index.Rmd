@@ -50,12 +50,12 @@ I mention some other resources throughout the text.
 
 # Acknowledgments
 
-In addition to the resources I just listed, I want to mention my (at the time of this writing) PhD students [Yang Ge](https://yangepi.github.io/) and [Zane Billings](https://wzbillings.com/), who helped me work and think through this material and clear up some of my at times confused ideas. [Jonathan French](https://www.metrumrg.com/team_member/jonathan-french-sc-d/) spotted a typo in my data generation code which led to initial model results that made no sense (now they make more sense) and provided additional useful feedback.
+In addition to the resources I just listed, I want to mention my (at the time of this writing) PhD students [Yang Ge](https://yangepi.github.io/) and [Zane Billings](https://wzbillings.com/), who helped me work and think through this material and clear up some of my at times confused ideas. [Jonathan French](https://www.linkedin.com/in/jonathan-l-french/) spotted a typo in my data generation code which led to initial model results that made no sense (now they make more sense) and provided additional useful feedback.
 
 
 # Disclaimer
 
-I am starting to feel somewhat comfortable with that whole Bayesian/multilevel/partial pooling business. But I am still not sure I fully, truly understand every aspect. Or maybe I should say that I **am** sure I **don't** fully understand `r emoji::emoji('smile')`. It still seems a bit magical at times. Maybe it is just like quantum mechanics - once you've solved the Schroedinger equation often enough, you get a feeling of "understanding", but I'm not sure full understanding happens - at least it never did for me. Maybe that's as much as I can expect from Bayesian multilevel modeling too `r emoji::emoji('grin')`.
+I am starting to feel somewhat comfortable with that whole Bayesian/multilevel/partial pooling business. But I am still not sure I fully, truly understand every aspect. Or maybe I should say that I **am** sure I **don't** fully understand `r emoji::emoji('smile')`. It still seems a bit magical at times. Maybe it is just like quantum mechanics (back in the days when I was a physics PhD student): Once you've solved the Schroedinger equation often enough, you get a feeling of "understanding", but I'm not sure full understanding happens -- at least it never did for me. Maybe that's as much as I can expect from Bayesian multilevel modeling too `r emoji::emoji('grin')`.
 
 Thus, it is quite possible the following posts contain thinking (or coding) mistakes. If you spot any, I'd appreciate feedback. And with that disclaimer out of the way, let's get the tutorial started.
 

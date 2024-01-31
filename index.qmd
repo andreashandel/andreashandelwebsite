@@ -37,7 +37,7 @@ I am a Professor in the [Department of Epidemiology and Biostatistics](https://p
 
 My research and teaching focus on data analysis and modeling of infectious diseases.
 
-This website contains [a short bio](about.qmd) and products such as [blog posts](posts.qmd), [presentations](presentations/qmd), and [various tools and resources related to teaching and research](projects.qmd).
+This website contains [a short bio](about.qmd) and products such as [blog posts](posts.qmd), [presentations](presentations.qmd), and [various tools and resources related to teaching and research](projects.qmd).
 
 More research related details can be found [on my research group site](https://handelgroup.uga.edu/). Some overlap between the two sites might occur.
 
