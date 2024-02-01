@@ -70,7 +70,7 @@ transformed parameters {
     V[i] = theta_V * exp(eta_V[i]);
 
     // predicted drug amounts
-    amount[start[i]:stop[i]] = ode_bdf(
+    amount[start[i]:stop[i]] = ode_rk45(
       amount_change,            // ode function
       initial_amount[i],        // initial state
       initial_time,             // initial time
@@ -109,25 +109,25 @@ model {
   c_obs ~ normal(c_pred, sigma);
 }
 
-generated quantities {
-  array[n_ids, n_fit] vector[2] a_fit;
-  array[n_ids, n_fit] real c_fit;
-
-  for(i in 1:n_ids) {
-    // predicted drug amounts
-    a_fit[i] = ode_bdf(
-      amount_change,        // ode function
-      initial_amount[i],    // initial state
-      initial_time,         // initial time
-      t_fit,                // observation times
-      KA[i],                // absorption rate
-      CL[i],                // clearance
-      V[i]                  // volume
-    );
-
-    // convert to concentrations
-    for(j in 1:n_fit) {
-      c_fit[i, j] = a_fit[i, j][2] / V[i];
-    }
-  }
-}
+// generated quantities {
+//   array[n_ids, n_fit] vector[2] a_fit;
+//   array[n_ids, n_fit] real c_fit;
+// 
+//   for(i in 1:n_ids) {
+//     // predicted drug amounts
+//     a_fit[i] = ode_rk45(
+//       amount_change,        // ode function
+//       initial_amount[i],    // initial state
+//       initial_time,         // initial time
+//       t_fit,                // observation times
+//       KA[i],                // absorption rate
+//       CL[i],                // clearance
+//       V[i]                  // volume
+//     );
+// 
+//     // convert to concentrations
+//     for(j in 1:n_fit) {
+//       c_fit[i, j] = a_fit[i, j][2] / V[i];
+//     }
+//   }
+// }

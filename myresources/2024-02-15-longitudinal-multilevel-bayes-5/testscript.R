@@ -36,7 +36,7 @@ dat <- list(
   n_fit = length(t_fit)
 )
 
-mod <- cmdstanr::cmdstan_model("model1.stan")
+mod <- cmdstanr::cmdstan_model("testmodel.stan")
 out <- mod$sample(
   data = dat,
   chains = 4,
