@@ -135,6 +135,7 @@ We previously used the `brms` and `rethinking` R packages to run our `Stan` mode
 
 ## Stan model code
 
+https://stanpmx.github.io/
 
 https://mpopov.com/tutorials/ode-stan-r/
 
@@ -144,6 +145,8 @@ https://blog.djnavarro.net/posts/2023-05-16_stan-ode/#when-biology-isnt-analytic
 
 https://mc-stan.org/docs/stan-users-guide/ode-solver.html
 
+
+https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/
 ## cmdstanr code
 
 
