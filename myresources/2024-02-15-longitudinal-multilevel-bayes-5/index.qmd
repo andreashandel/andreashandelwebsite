@@ -1,0 +1,232 @@
+---
+title: Bayesian analysis of longitudinal multilevel data - part 5  
+description: Part 5 of a tutorial showing how to fit directly with Stan and cmdstanr.
+author: Andreas Handel
+date: 2024-02-15
+date-modified: last-modified
+aliases: 
+  - ../longitudinal-multilevel-bayesian-analysis-5/
+categories: 
+- R
+- Data Analysis
+- Bayesian
+- Stan
+image: "featured.png"
+image-alt: ""
+execute:
+  echo: false
+engine: knitr
+---
+
+
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('cmdstanr-fit-script.R')
+```
+
+A while ago, I wrote [a series of tutorials](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) that discuss fitting longitudinal data using Bayesian multilevel/hierarchical/mixed-effects models.
+
+For a research project, I now want to implement a model that uses a set of ordinary differential equations (ODEs). I figured to understand what I'm trying to do, I should first teach myself and write it up in a tutorial. 
+
+To implement ODEs with Stan, one can't fully use the `rethinking` or `brms` package, one needs to write at least some Stan code. Based on my needs, it is best if I fully implement the model in Stan and call it from R through `cmdstanr`.
+
+I was going to do all at once, but then realized it's better if I first re-implement the old (non ODE-based) setup with Stan code, and then once that's up and running, switch to the ODE model. 
+
+So this post really sets the stage for the next one. It might be of interest to folks to see how to implement this question fully with Stan, even if they don't plan on using ODEs.
+
+
+
+## Quick recap
+
+I assume you read through the previous posts, at least [part 1](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) which describes the overall setup and the models to be explored, and [part 2](/posts/2022-02-23-longitudinal-multilevel-bayes-2/) which explains the models further and fits the data using `rethinking`. If you didn't, the following won't make much sense 😁.
+
+Previously, I explored several model variants. Here, I'm focusing on the adaptive pooling model (which I previously labeled model 4). As a repeat, here are the model equations.
+
+
+$$
+\begin{aligned}
+\textrm{Outcome} \\
+Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{main model describing the virus trajectory} \\
+\mu_{i,t}   =  \exp(\alpha_{i}) \log (t_{i}) -\exp(\beta_{i}) t_{i} \\
+\\
+\textrm{Deterministic models for main parameters} \\
+\alpha_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i}   =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right) \\
+\\
+\textrm{population-level priors} \\
+\sigma  \sim \mathrm{HalfCauchy}(0,1)  \\
+a_1 \sim \mathrm{Normal}(0.1, 0.1) \\
+b_1 \sim \mathrm{Normal}(-0.1, 0.1) \\
+\\
+\textrm{individal-level priors} \\
+a_{0,i} \sim \mathrm{Normal}(\mu_a, \sigma_a) \\
+b_{0,i}  \sim \mathrm{Normal}(\mu_b, \sigma_b) \\
+\\
+\textrm{hyper priors} \\
+\mu_a  \sim \mathrm{Normal}(2, 1) \\
+\mu_b  \sim \mathrm{Normal}(0.5, 1) \\
+\sigma_a  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_b  \sim \mathrm{HalfCauchy}(0,1)  \\
+\end{aligned}
+$$
+
+
+# Model implementation
+
+We previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. Of course, we could implement the model above in either of those packages. But in preparation of what I really want to do (using ODE models, and eventually fully account for censored data), I need to switch to coding the model in `Stan`. There might be hacks to do it with `brms` or `rethinking`, but it seems more flexible and also more transparent to just code the full model in `Stan`. We'll still run it through R using `cmdstanr`. 
+
+The script for code below is [here](cmdstanr-fit-script.R) and the separate file with the Stan code [is here](stancode-2par.stan).
+
+```{r, packages, message=FALSE}
+```
+
+We'll use the same data as before. We just need to reshape it a bit
+
+
+```{r, data}
+```
+
+Next, we'll load the Stan model and take a look at it.
+
+```{r, make_stanmodel}
+```
+
+
+```{r, show_stancode}
+```
+
+I added comments to the Stan model, but if you have never written Stan code, this is likely not fully clear.
+
+
+
+
+
+## A model with more parameters
+
+I know that my ODE model will have 4 model parameters and I'd like to add that complexity now so it will be easier to switch models. Instead of going straight to the ODE, I'll extend my current phenomenological models to 4 parameters.
+To that end, I'll make the equation describing the virus load more complicated. Previously, I used this equation:
+$$
+\mu_{i,t} = \log\left( t_i^{\alpha_i} e^{-\beta_i t_i} \right)  
+$$
+Now I'll add two extra parameters.
+$$
+\mu_{i,t} = \log\left(\eta_i t_i^{\alpha_i} e^{-\beta_i t_i^{\gamma_i}} \right)  
+$$
+To be honest, I didn't think much about the biological meaning, it could be this is now way over-parameterized. I guess we'll find out when I'm trying to fit the data 😁. You should normally not use silly models that you can't justify, but here my justification is that I want an intermediate to get the coding framework up and running, and my eventual goal is an ODE model anyway.
+
+As discussed before, we'll write this to ensure all parameters are positive.
+
+$$
+\mu_{i,t} = \log\left(\exp(\eta_i) t_i^{\exp(\alpha_i)} e^{-\exp(\beta_i) t_i^{\exp(\gamma_i)}} \right) 
+$$
+
+After some re-arranging, this becomes
+
+$$
+\mu_{i,t} = \eta_i + \exp(\alpha_i) \log( t_i) -\exp(\beta_i) t_i^{\exp(\gamma_i)}
+$$
+There last term in this equation could be trouble if $\gamma$ is large, so we need to set priors to avoid that.
+
+
+The model equations are given by
+
+
+$$
+\begin{aligned}
+\textrm{Outcome} \\
+Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{main model describing the virus trajectory} \\
+\mu_{i,t} = \eta_i + \exp(\alpha_i) \log( t_i) -\exp(\beta_i) t_i^{\exp(\gamma_i)} \\
+\\
+\textrm{Deterministic models for main parameters} \\
+\alpha_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i}   =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right) \\
+\gamma_{i}   =  g_{0,i} + g_1 \left(\log (D_i) - \log (D_m)\right) \\
+\eta_{i}   =  e_{0,i} + e_1 \left(\log (D_i) - \log (D_m)\right) \\
+\end{aligned}
+$$
+To fully specify the model, we need to give all parameters distributions. 
+Here are the distributions for the population-level parameters. These do not vary between individuals. 
+I'm setting a very narrow prior for $g_1$ since I'm worried that if $\gamma$ is too far from 0, that whole last term in the equation for $\mu$ might blow up. 
+
+
+$$
+\begin{aligned}
+\textrm{population-level priors} \\
+\sigma  \sim \mathrm{HalfCauchy}(0,1)  \\
+a_1 \sim \mathrm{Normal}(0.1, 0.1) \\
+b_1 \sim \mathrm{Normal}(-0.1, 0.1) \\
+g_1 \sim \mathrm{Normal}(0, 0.01) \\
+e_1 \sim \mathrm{Normal}(0, 0.1) \\
+\end{aligned}
+$$
+
+
+In addition, we allow some parameters to differ between individuals, and we'll implement hyper-parameters to allow these values to inform each other across individuals. This is again the adaptive prior concept from earlier.
+
+
+$$
+\begin{aligned}
+\textrm{individal-level priors} \\
+a_{0,i} \sim \mathrm{Normal}(\mu_a, \sigma_a) \\
+b_{0,i}  \sim \mathrm{Normal}(\mu_b, \sigma_b) \\
+g_{0,i} \sim \mathrm{Normal}(\mu_g, \sigma_g) \\
+e_{0,i}  \sim \mathrm{Normal}(\mu_e, \sigma_e) \\
+\\
+\textrm{hyper priors} \\
+\mu_a  \sim \mathrm{Normal}(2, 1) \\
+\mu_b  \sim \mathrm{Normal}(0.5, 1) \\
+\mu_g  \sim \mathrm{Normal}(0, 0.01) \\
+\mu_e  \sim \mathrm{Normal}(1, 1) \\
+\sigma_a  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_b  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_g  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_e  \sim \mathrm{HalfCauchy}(0,1)  \\
+\end{aligned}
+$$
+
+And that's the full model. Basically as before, but bigger because I'm now modeling the virus trajectory (given by $mu_{i,t}$ with 4 main parameters.
+
+
+# Model implementation
+
+We previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. Of course, we could implement the model above in either of those packages. But in preparation of what I really want to do (using ODE models, and eventually fully account for censored data), I need to switch to coding the model in `Stan`. There might be hacks to do it with `brms` or `rethinking`, but it seems more flexible and also more transparent to just code the full model in `Stan`. We'll still run it through R using `cmdstanr`.
+
+
+
+## Stan model code
+
+The code for the stan model is here
+
+
+
+
+https://stanpmx.github.io/
+
+https://mpopov.com/tutorials/ode-stan-r/
+
+https://blog.djnavarro.net/posts/2023-05-16_stan-ode/
+
+https://blog.djnavarro.net/posts/2023-05-16_stan-ode/#when-biology-isnt-analytically-tractable
+
+https://mc-stan.org/docs/stan-users-guide/ode-solver.html
+
+
+https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/
+## cmdstanr code
+
+
+
+# Summary and continuation
+
+
+
+
+
+
+
+
+
