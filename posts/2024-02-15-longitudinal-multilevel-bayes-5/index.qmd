@@ -21,8 +21,17 @@ engine: knitr
 
 
 ```{r, include=FALSE, cache=FALSE}
-knitr::read_chunk('cmdstanr-fit-script.R')
+knitr::read_chunk('cmdstanr-2par-script.R')
 ```
+
+# Overview
+
+This is a re-implementation of a [prior model](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) using `cmdstanr` and Stan code.
+
+Here is [the Stan code for this example](stancode-2par.stan) and this is [the R script that runs everything](cmdstanr-2par-script.R).
+
+
+# Introduction
 
 A while ago, I wrote [a series of tutorials](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) that discuss fitting longitudinal data using Bayesian multilevel/hierarchical/mixed-effects models.
 
@@ -32,11 +41,10 @@ To implement ODEs with Stan, one can't fully use the `rethinking` or `brms` pack
 
 I was going to do all at once, but then realized it's better if I first re-implement the old (non ODE-based) setup with Stan code, and then once that's up and running, switch to the ODE model. 
 
-So this post really sets the stage for the next one. It might be of interest to folks to see how to implement this question fully with Stan, even if they don't plan on using ODEs.
+So this post is really an intermediary step to my final goal. It might be of interest to folks to see how to implement this question fully with Stan, even if they don't plan on using ODEs.
 
 
-
-## Quick recap
+# Quick recap
 
 I assume you read through the previous posts, at least [part 1](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) which describes the overall setup and the models to be explored, and [part 2](/posts/2022-02-23-longitudinal-multilevel-bayes-2/) which explains the models further and fits the data using `rethinking`. If you didn't, the following won't make much sense 😁.
 
@@ -75,9 +83,7 @@ $$
 
 # Model implementation
 
-We previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. Of course, we could implement the model above in either of those packages. But in preparation of what I really want to do (using ODE models, and eventually fully account for censored data), I need to switch to coding the model in `Stan`. There might be hacks to do it with `brms` or `rethinking`, but it seems more flexible and also more transparent to just code the full model in `Stan`. We'll still run it through R using `cmdstanr`. 
-
-The script for code below is [here](cmdstanr-fit-script.R) and the separate file with the Stan code [is here](stancode-2par.stan).
+I previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. Of course, we could implement the model above in either of those packages. But in preparation of what I really want to do (using ODE models, and eventually fully account for censored data), I need to switch to coding the model in `Stan`. There might be hacks to do it with `brms` or `rethinking`, but it seems more flexible and also more transparent to just code the full model in `Stan`. We'll still run it through R using `cmdstanr`. Links to the Stan and R code files are given at the top of this document.
 
 ```{r, packages, message=FALSE}
 ```
@@ -88,7 +94,11 @@ We'll use the same data as before. We just need to reshape it a bit
 ```{r, data}
 ```
 
-Next, we'll load the Stan model and take a look at it.
+
+# Stan code
+
+Next, we need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-2par.stan`. 
+These lines of R code load the Stan model and show it.
 
 ```{r, make_stanmodel}
 ```
@@ -97,10 +107,17 @@ Next, we'll load the Stan model and take a look at it.
 ```{r, show_stancode}
 ```
 
-I added comments to the Stan model, but if you have never written Stan code, this is likely not fully clear. I won't try to explain Stan code n detail here. There are lots of good resources on the [Stan website](https://mc-stan.org/) and other places online. I'm sure you'll find something that you find accessible to learn the basics of writing Stan code.
+I added some comments to the Stan model, but if you have never written Stan code, this is likely not fully clear. I won't try to explain Stan code n detail here. There are lots of good resources on the [Stan website](https://mc-stan.org/) and other places online. I'm sure you'll find something that you find accessible to learn the basics of writing Stan code.
 
 
-Next, we need to specify settings for the Stan algorithm to run. I'm again not explaining those, see the Stan documentation.
+Note that the `generated quantities` block is not technically part of the model, and we would get the same results without it. But it is included to compute priors, likelihood and posterior predictions, so we can explore those later. You'll see that used below.
+While we could have all the information that's inside the `transformed parameters` block part of the `model` block, that would mean that the `generated quantities` code bits can't access that information. Therefore, all of these intermediate steps are done in `transformed parameters` and then used in both the `model` and the `generated quantities` block. I generally find it easiest to have any distributional/probabilistic bits of code (those that include the `~` sign) in the `model` block, and everything else as much as possible in `transformed parameters`.
+
+
+## Model fitting settings
+
+To fully specify a model, we need to define the details of the model run (e.g., the random seed, the number of warm-up and sampling steps). It is further recommended to specify starting values for the parameters. Models can be run without providing starting values. In that case cmdstanr will pick default values. However, setting starting values can often improve convergence and thus cut down on required computing time. It also requires one to think a bit more carefully about their model, which is a good thing 😁.
+
 
 ```{r, fitconditions}
 ```
@@ -111,15 +128,89 @@ One doesn't have to set initial conditions, but it's often helpful.
 ```{r, initialconditions}
 ```
 
-Running the model
+
+# Model fitting 
+
+This runs the model with the specified settings.
 
 ```{r, run_m1}
 ```
 
 
+# Model exploration
+
+First, we look at diagnostics from the fitting routine to make sure nothing obviously wrong shows up.
+
+
+```{r, diagnose_m1}
+```
+
+This shows a summary table for the distributions of some of the model parameters. I cut it off since there are too many to show (each individual as multiple parameters with associated distributions).
+
+
+```{r, summarize_m1}
+```
+
+Next, we'll look at a few plots to make sure everything looks reasonable. Here I'm showing a trace plot, a posterior density plot and a pairs plot. I'm not discussing the plots in detail, you can look up the help file for each R command to learn more.
+
+Note that I'm including some priors here, though for some plots, e.g. the trace and pair plots, that might not be too meaningful. Still, it won't hurt to see them. If for some reason the trace plots for the priors look strange (e.g., indicating poor mixing), it means something in the code is wrong.
+
+
+We'll first need to get the samples, both with and without warmups for different figures
+
+```{r, get_samples_m1}
+```
+
+
+Trace plot, posterior density plot and pairs plot.
+
+```{r, plot_par_m1}
+```
+
+
+Next, we'll compare prior and posterior distributions. This can give an indication if the priors were selected well or are too broad or overly influential. To be able to show priors, we needed all that extra information in the _generated quantities_ block in the Stan code.
+
+
+```{r, prep_data_m1}
+```
+
+
+```{r, prior_post_m1}
+```
+
+The plots show that the priors don't overly influence the results, the data dominates the posteriors (they move and get more peaked, an indication that the data controls the posterior shape).
+
+Another useful plot is to look at observed versus predicted results. This is shown in the following plot.
+
+
+```{r, obs_pred_m1}
+```
+
+
+The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following each other fairly closely. That's a good sign. Systematic deviations would indicate that the model didn't fully capture the patterns found in the data and might need modification.
+
+We can explore further doing cross-validation with the `loo` package.
+For this to work, the Stan code needs to include computation of the log-likelihood (stored in a variable called `log_lik`). We included that in the `Stan` code for this model.
+
+Here are the diagnostics we get from `loo`.
+We won't go into the background details of cross-validation and LOO here, see the [`loo` package website](https://mc-stan.org/loo/).
+
+```{r, loo_m1}
+```
+
+Things look fairly reasonable.
+No high-pareto values.
+The marginal posterior predictive check plot suggests some improvement might be possible (so that the solid line is more on top of the green lines).
+[See here for more](https://mc-stan.org/loo/articles/loo2-example.html).
 
 
 # Summary and continuation
+
+This completes the re-implementation and exploration of one of the previously explored models. Comparing the results to those found previously, we find good agreement. That's comforting.
+
+While I had planned to now implement the ODE model as a next step, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I switch. The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/) and that we ended up using in [our paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
+
+So [the next part in this series](/posts/2024-02-16-longitudinal-multilevel-bayes-6/) is a more complex non-ODE model. I recommend you go there and at least skim through it. Nothing much new is happening, but it sets the stage for what's coming after. Or, if you are impatient, [jump straight to the ODE model implementation](/posts/2024-02-17-longitudinal-multilevel-bayes-7/).
 
 
 

@@ -1,0 +1,269 @@
+---
+title: Bayesian analysis of longitudinal multilevel data - part 6  
+description: Part 6 of a tutorial showing how to fit directly with Stan and cmdstanr.
+author: Andreas Handel
+date: 2024-02-16
+date-modified: last-modified
+aliases: 
+  - ../longitudinal-multilevel-bayesian-analysis-6/
+categories: 
+- R
+- Data Analysis
+- Bayesian
+- Stan
+image: "featured.png"
+image-alt: ""
+execute:
+  echo: false
+engine: knitr
+---
+
+
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('cmdstanr-4par-script.R')
+```
+
+# Overview
+
+This is an extension of [a `cmdstanr`/Stan model](/posts/2024-02-15-longitudinal-multilevel-bayes-5/) to fit longitudinal data using Bayesian multilevel/hierarchical/mixed-effects models. It is a continuation of a prior series of posts. You should [start at the beginning](/posts/2022-02-22-longitudinal-multilevel-bayes-1/). 
+
+Here is [the Stan code for this example](stancode-4par.stan) and this is [the R script that runs everything](cmdstanr-4par-script.R).
+
+
+# Introduction
+
+As described [in the prior post](/posts/2024-02-15-longitudinal-multilevel-bayes-5/) I want to implement an ordinary differential equation (ODE) model with Stan. I am slowly building up to that. 
+
+While I had planned to hop from the 2-parameter `cmdstanr` and Stan model straight to the ODE model, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I switch. The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/) and that we ended up using in [one of our  papers](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
+
+
+
+# Model setup
+
+[The prior post](/posts/2024-02-15-longitudinal-multilevel-bayes-5/) revisited the model briefly. The only part that's different here is that I'm using a different main model to describe the virus load trajectories. This model has more parameters, therefore there are more equations. [I briefly described the model I will use here](/posts/2022-02-25-longitudinal-multilevel-bayes-4/#alternative-model-for-time-series-trajectory). A somewhat more detailed description is provided [in one of our papers](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
+
+I'm giving the parameters different names ($\alpha$, $\beta$, $\gamma$, $\eta$ instead of $p$, $g$, $d$, $k$) to be consistent with what I've been doing so far. Otherwise it's the same model described in that previous post.
+
+Of course, each of the new parameters needs to be further specified and assigned distributions. Here are the components of the the new  model.
+
+
+## Main model structure
+
+This defines the main trajectory equation, which is the new part of the model.
+
+
+$$
+\begin{aligned}
+\textrm{Outcome} \\
+Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
+\\
+\textrm{main model describing the virus trajectory} \\
+\mu_{i,t} = \log\left( \frac{2 \exp(\alpha_{i})}{e^{-\exp(\beta_{i})  (\exp(\gamma_{i}) - t_i)} + e^{\exp(\eta_{i})  (t_i - \exp(\gamma_{i}))}}\right).\\
+\\
+\textrm{Deterministic models for main parameters} \\
+\alpha_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
+\beta_{i}   =  b_{0,i} + b_1 \left(\log (D_i) - \log (D_m)\right) \\
+\gamma_{i}   =  g_{0,i} + g_1 \left(\log (D_i) - \log (D_m)\right) \\
+\eta_{i}   =  e_{0,i} + e_1 \left(\log (D_i) - \log (D_m)\right) \\
+\end{aligned}
+$$
+
+Note that the original model was developed and set up with the assumptions that all 4 main parameters are positive. 
+To ensure that, I'll use the [previously described approach](/posts/2022-02-22-longitudinal-multilevel-bayes-1/#numerical-trickeries) of exponentiating the parameters. 
+
+
+
+## Parameter distributions
+
+To fully specify the model, we need to give all parameters distributions. 
+Here are the distributions for the population-level parameters. These do not vary between individuals. 
+
+I already know that my model is too flexible/complex for the data, since the data was generated using the 2-parameter model and I'm fitting it with 4. 
+
+This overfitting might lead to poor performance of the fitting routine. To minimize potential problems, I'll set priors somewhat narrow. That's generally not the best idea, you don't want your priors to be overly influential, unless you have very strong a priori scientific knowledge why they should be very constraining.
+
+
+$$
+\begin{aligned}
+\textrm{population-level priors} \\
+\sigma  \sim \mathrm{HalfCauchy}(0,1)  \\
+a_1 \sim \mathrm{Normal}(0, 0.1) \\
+b_1 \sim \mathrm{Normal}(0, 0.1) \\
+g_1 \sim \mathrm{Normal}(0, 0.1) \\
+e_1 \sim \mathrm{Normal}(0, 0.1) \\
+\end{aligned}
+$$
+
+
+In addition, we allow some parameters to differ between individuals, and we'll implement hyper-parameters to allow these values to inform each other across individuals. This is again the adaptive prior concept discussed previously.
+
+I'm setting values for the prior distributions similar to values we used in our [previous study](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/). That's probaly not ideal since the data is different, but hopefully close enough that the code will run.
+
+
+$$
+\begin{aligned}
+\textrm{individal-level priors} \\
+a_{0,i} \sim \mathrm{Normal}(\mu_a, \sigma_a) \\
+b_{0,i}  \sim \mathrm{Normal}(\mu_b, \sigma_b) \\
+g_{0,i} \sim \mathrm{Normal}(\mu_g, \sigma_g) \\
+e_{0,i}  \sim \mathrm{Normal}(\mu_e, \sigma_e) \\
+\\
+\textrm{hyper priors} \\
+\mu_a  \sim \mathrm{Normal}(25, 5) \\
+\mu_b  \sim \mathrm{Normal}(3, 1) \\
+\mu_g  \sim \mathrm{Normal}(0, 1) \\
+\mu_e  \sim \mathrm{Normal}(-1, 0.5) \\
+\sigma_a  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_b  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_g  \sim \mathrm{HalfCauchy}(0,1)  \\
+\sigma_e  \sim \mathrm{HalfCauchy}(0,1)  \\
+\end{aligned}
+$$
+
+
+
+And that's the full model. The basic structure is the same as before, but the model is bigger because I'm now modeling the virus trajectory (given by $mu_{i,t}$ with 4 main parameters.
+
+
+# Model implementation
+
+We'll follow exactly the same setup as [in the previous post](/posts/2024-02-15-longitudinal-multilevel-bayes-5/).
+Links to the Stan and R code files are given at the top of this document.
+
+
+```{r, packages, message=FALSE}
+```
+
+
+We'll use the same data as before. I'm making one more change. Instead of hard-coding the values for the prior distributions into the Stan code, I'm assigning some of them labels and then pass values into Stan from R. This makes exploring the Stan model more flexible, I don't need to re-edit the Stan code if I want to try different values for the priors. These values for the priors need to be passed in as part of the data. I could do this for all parameters, but out of laziness, I'm only doing it for the individual-level hyper-parameters. Of course one could do it for all parameters, and I probably would do it for a real research problem where I expect having to fiddle with the priors a bit, but the main point here is to illustrate this approach, so I'm keeping it simple.
+
+
+```{r, data}
+```
+
+
+Next, we'll load the Stan model and take a look at it.
+
+```{r, make_stanmodel}
+```
+
+
+```{r, show_stancode}
+```
+
+The model is basically like the previous one, updated to reflect the model equations above. And now the some of the prior values are passed in as part of the data.
+
+
+
+
+# Stan code
+
+Next, we need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-2par.stan`. 
+These lines of R code load the Stan model and show it.
+
+```{r, make_stanmodel}
+```
+
+
+```{r, show_stancode}
+```
+
+See the previous post on some comments regarding the Stan code.
+
+
+## Model fitting settings
+
+These are the settings for the model fitting routine.
+
+```{r, fitconditions}
+```
+
+
+```{r, initialconditions}
+```
+
+
+# Model fitting 
+
+This runs the model with the specified settings.
+
+```{r, run_m1}
+```
+
+
+# Model exploration
+
+First, we look at diagnostics from the fitting routine to make sure nothing obviously wrong shows up.
+
+
+```{r, diagnose_m1}
+```
+
+This shows a summary table for the distributions of some of the model parameters. I cut it off since there are too many to show (each individual as multiple parameters with associated distributions).
+
+
+```{r, summarize_m1}
+```
+
+Next, we'll look at a few plots to make sure everything looks reasonable. Here I'm showing a trace plot, a posterior density plot and a pairs plot. I'm not discussing the plots in detail, you can look up the help file for each R command to learn more.
+
+Note that I'm including some priors here, though for some plots, e.g. the trace and pair plots, that might not be too meaningful. Still, it won't hurt to see them. If for some reason the trace plots for the priors look strange (e.g., indicating poor mixing), it means something in the code is wrong.
+
+
+We'll first need to get the samples, both with and without warmups for different figures
+
+```{r, get_samples_m1}
+```
+
+
+Trace plot, posterior density plot and pairs plot.
+
+```{r, plot_par_m1}
+```
+
+
+Next, we'll compare prior and posterior distributions. This can give an indication if the priors were selected well or are too broad or overly influential. To be able to show priors, we needed all that extra information in the _generated quantities_ block in the Stan code.
+
+
+```{r, prep_data_m1}
+```
+
+
+```{r, prior_post_m1}
+```
+
+The plots show that the priors don't overly influence the results, the data dominates the posteriors (they move and get more peaked, an indication that the data controls the posterior shape).
+
+Another useful plot is to look at observed versus predicted results. This is shown in the following plot.
+
+
+```{r, obs_pred_m1}
+```
+
+
+The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following each other fairly closely. That's a good sign. Systematic deviations would indicate that the model didn't fully capture the patterns found in the data and might need modification.
+
+We can explore further doing cross-validation with the `loo` package.
+For this to work, the Stan code needs to include computation of the log-likelihood (stored in a variable called `log_lik`). We included that in the `Stan` code for this model.
+
+Here are the diagnostics we get from `loo`.
+We won't go into the background details of cross-validation and LOO here, see the [`loo` package website](https://mc-stan.org/loo/).
+
+```{r, loo_m1}
+```
+
+Things look fairly reasonable.
+No high-pareto values.
+The marginal posterior predictive check plot suggests some improvement might be possible (so that the solid line is more on top of the green lines).
+[See here for more](https://mc-stan.org/loo/articles/loo2-example.html).
+
+
+# Summary and continuation
+
+This completes the re-implementation and exploration of one of the previously explored models. Comparing the results to those found previously, we find good agreement. That's comforting.
+
+While I had planned to now implement the ODE model as a next step, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I switch. The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/) and that we ended up using in [our paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
+
+So [the next part in this series](/posts/2024-02-16-longitudinal-multilevel-bayes-6/) is a more complex non-ODE model. I recommend you go there and at least skim through it. Nothing much new is happening, but it sets the stage for what's coming after. Or, if you are impatient, [jump straight to the ODE model implementation](/posts/2024-02-17-longitudinal-multilevel-bayes-7/).
+
