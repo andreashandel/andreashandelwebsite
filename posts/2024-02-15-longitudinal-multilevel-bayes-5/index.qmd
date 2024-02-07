@@ -26,7 +26,7 @@ knitr::read_chunk('cmdstanr-2par-script.R')
 
 # Overview
 
-This is a re-implementation of a [prior model](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) using `cmdstanr` and Stan code.
+This is a re-implementation of a prior model using `cmdstanr` and Stan code. It is a continuation of a prior series of posts. You should [start at the beginning](/posts/2022-02-22-longitudinal-multilevel-bayes-1/). 
 
 Here is [the Stan code for this example](stancode-2par.stan) and this is [the R script that runs everything](cmdstanr-2par-script.R).
 
