@@ -1,0 +1,24 @@
+Type: project
+Description: Website
+Depends:
+    bayesplot,
+    brms,
+    cmdstanr,
+    cowplot,
+    geosphere,
+    rethinking,
+    devtools,
+    geosphere,
+    scholar,
+    wordcloud,
+    bibliometrix,
+    tidytext,
+    visdat,
+    kableExtra,
+    janitor,
+    ggplot2,
+    dplyr,
+    stringr,
+    tidytuesdayR,
+    readr,
+    emoji
