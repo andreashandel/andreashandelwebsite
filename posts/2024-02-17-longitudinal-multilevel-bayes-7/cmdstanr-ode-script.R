@@ -1,256 +1,168 @@
-# part 1 of code of ulam/rethinking tutorial (part 2)
-# https://www.andreashandel.com/posts/longitudinal-multilevel-bayesian-analysis-2/
-# this has the code part that sets up the models and fits them
-# this code might take a good while to run
+# code for part 7 of longitudinal Bayesian fitting tutorial 
+# https://www.andreashandel.com/posts/longitudinal-multilevel-bayesian-analysis-7/
 
 ## ---- packages --------
+library('here') #for file loading
 library('dplyr') # for data manipulation
 library('ggplot2') # for plotting
-library('cmdstanr') #for model fitting
-library('rethinking') #for model fitting
 library('fs') #for file path
+library('cmdstanr') #for model fitting
+library('bayesplot') #for plotting results
+library('loo') #for model diagnostics
 
 ## ---- data --------
 # adjust as necessary
 simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
 simdat <- readRDS(simdatloc)
-#using dataset 3 for fitting
-#also removing anything in the dataframe that's not used for fitting
-#makes the ulam/Stan code more robust
+# using dataset 3 for fitting
+# also removing anything in the dataframe that's not used for fitting
+# makes the fitting more robust
+# We format the data slightly differently compared to the prior examples
+# We only store the dose for each individual
+# And also add number of observations and individuals
+Nind = length(unique(simdat$m3$id))
+Nobs =  length(simdat$m3$id)
+# values for prior distributions
+# allows for exploring different values without having to edit Stan model code
+priorvals = list(mu_a_mu = 10, mu_a_sd = 3,
+                 mu_b_mu = 2, mu_b_sd = 1,
+                 mu_g_mu = 2, mu_g_sd = 1,
+                 mu_e_mu = -2, mu_e_sd = 1
+)
+
+# all data as one list, this is how Stan needs it
 fitdat=list(id=simdat[[3]]$id,
             outcome = simdat[[3]]$outcome,
-            dose_adj = simdat[[3]]$dose_adj,
-            time = simdat[[3]]$time)
-#pulling out number of observations
-Ntot = length(unique(simdat$m3$id))
+            time = simdat[[3]]$time,
+            dose_adj = simdat[[3]]$dose_adj[1:Nind], #first Nind values
+            Nobs =  Nobs,
+            Nind = Nind
+            )
+fitdat = c(fitdat,priorvals)
+
+## ---- make_stanmodel -----
+# make Stan model. 
+stanmod1 <- cmdstanr::cmdstan_model(here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-ode.stan"), 
+                                    pedantic=TRUE, 
+                                    force_recompile=TRUE)
 
 
-## ---- model-1 --------
-#wide-prior, no-pooling model
-#separate intercept for each individual/id
-#2x(N+1)+1 parameters
-m1 <- alist(
-  # distribution of outcome
-  outcome ~ dnorm(mu, sigma),
+## ---- show_stancode -----
+print(stanmod1)
 
-  # main equation for time-series trajectory
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-
-  #equations for alpha and beta
-  alpha <-  a0[id] + a1*dose_adj,
-  beta <-  b0[id] + b1*dose_adj,
-
-  #priors
-  a0[id] ~ dnorm(2,  10),
-  b0[id] ~ dnorm(0.5, 10),
-
-  a1 ~ dnorm(0.3, 1),
-  b1 ~ dnorm(-0.3, 1),
-  sigma ~ cauchy(0,1)
-)
-
-## ---- model-2 --------
-#narrow-prior, full-pooling model
-#2x(N+2)+1 parameters
-m2 <- alist(
-  outcome ~ dnorm(mu, sigma),
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-  alpha <-  a0[id] + a1*dose_adj,
-  beta <-  b0[id] + b1*dose_adj,
-  a0[id] ~ dnorm(mu_a,  0.0001),
-  b0[id] ~ dnorm(mu_b, 0.0001),
-  mu_a ~ dnorm(2, 1),
-  mu_b ~ dnorm(0.5, 1),
-  a1 ~ dnorm(0.3, 1),
-  b1 ~ dnorm(-0.3, 1),
-  sigma ~ cauchy(0,1)
-)
-
-## ---- model-3 --------
-#regularizing prior, partial-pooling model
-m3 <- alist(
-  outcome ~ dnorm(mu, sigma),
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-  alpha <-  a0[id] + a1*dose_adj,
-  beta <-  b0[id] + b1*dose_adj,
-  a0[id] ~ dnorm(2,  1),
-  b0[id] ~ dnorm(0.5, 1),
-  a1 ~ dnorm(0.3, 1),
-  b1 ~ dnorm(-0.3, 1),
-  sigma ~ cauchy(0,1)
-)
-
-## ---- model-4 --------
-#adaptive priors, partial-pooling model
-#2x(N+2)+1 parameters
-m4 <- alist(
-  outcome ~ dnorm(mu, sigma),
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-  alpha <-  a0[id] + a1*dose_adj,
-  beta <-  b0[id] + b1*dose_adj,
-  a0[id] ~ dnorm(mu_a,  sigma_a),
-  b0[id] ~ dnorm(mu_b, sigma_b),
-  mu_a ~ dnorm(2, 1),
-  mu_b ~ dnorm(0.5, 1),
-  sigma_a ~ cauchy(0, 1),
-  sigma_b ~ cauchy(0, 1),
-  a1 ~ dnorm(0.3, 1),
-  b1 ~ dnorm(-0.3, 1),
-  sigma ~ cauchy(0, 1)
-)
-
-## ---- model-2a --------
-#full-pooling model, population-level parameters only
-#2+2+1 parameters
-m2a <- alist(
-  outcome ~ dnorm(mu, sigma),
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-  alpha <-  a0 + a1*dose_adj,
-  beta <-  b0 + b1*dose_adj,
-  a0 ~ dnorm(2,  0.1),
-  b0 ~ dnorm(0.5, 0.1),
-  a1 ~ dnorm(0.3, 1),
-  b1 ~ dnorm(-0.3, 1),
-  sigma ~ cauchy(0,1)
-)
-
-## ---- model-4a --------
-#adaptive priors, partial-pooling model
-#non-centered
-m4a <- alist(
-  outcome ~ dnorm(mu, sigma),
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-  #rewritten to non-centered
-  alpha <-  mu_a + az[id]*sigma_a + a1*dose_adj,
-  beta  <-  mu_b + bz[id]*sigma_b + b1*dose_adj,
-  #rewritten to non-centered
-  az[id] ~ dnorm(0, 1),
-  bz[id] ~ dnorm(0, 1),
-  mu_a ~ dnorm(2, 1),
-  mu_b ~ dnorm(0.5, 1),
-  sigma_a ~ cauchy(0, 1),
-  sigma_b ~ cauchy(0, 1),
-  a1 ~ dnorm(0.3, 1),
-  b1 ~ dnorm(-0.3, 1),
-  sigma ~ cauchy(0, 1)
-
-  )
-
-## ---- model-5 --------
-#no dose effect
-#separate intercept for each individual/id
-#2xN+1 parameters
-m5 <- alist(
-  # distribution of outcome
-  outcome ~ dnorm(mu, sigma),
-
-  # main equation for time-series trajectory
-  mu <- exp(alpha)*log(time) - exp(beta)*time,
-
-  #equations for alpha and beta
-  alpha <-  a0[id],
-  beta <-  b0[id],
-
-  #priors
-  a0[id] ~ dnorm(2,  10),
-  b0[id] ~ dnorm(0.5, 10),
-
-  sigma ~ cauchy(0,1)
-)
+## ---- fitconditions ----
+#settings for fitting
+fs_m1 = list(warmup = 1500,
+             sampling = 1000, 
+             max_td = 15, #tree depth
+             adapt_delta = 0.999,
+             chains = 5,
+             cores  = 5,
+             seed = 1234,
+             save_warmup = TRUE)
 
 
-
-
-## ---- startvalues --------
-## Setting starting values
-#starting values for model 1
-startm1 = list(a0 = rep(2,Ntot), b0 = rep(0.5,Ntot), a1 = 0.3 , b1 = -0.3, sigma = 1)
-#starting values for model 2
-startm2 = list(a0 = rep(2,Ntot), b0 = rep(0.5,Ntot), mu_a = 2, mu_b = 1, a1 = 0.3 , b1 = -0.3, sigma = 1)
-#starting values for model 3
-startm3 = startm1
-#starting values for models 4 and 4a
-startm4 = list(mu_a = 2, sigma_a = 1, mu_b = 1, sigma_b = 1, a1 = 0.3 , b1 = -0.3, sigma = 1)
-startm4a = startm4
-#starting values for model 2a
-startm2a = list(a0 = 2, b0 = 0.5, a1 = 0.3, b1 = -0.3, sigma = 1)
-#starting values for model 5
-startm5 = list(a0 = rep(2,Ntot), b0 = rep(0.5,Ntot), sigma = 1)
-
-#put different starting values in list
-#need to be in same order as models below
-startlist = list(startm1,startm2,startm3,startm4,startm2a,startm4,startm5)
-
-
-
-## ---- fittingsetup --------
-#general settings for fitting
-#you might want to adjust based on your computer
-warmup = 6000 
-iter = warmup + floor(warmup/2)
-max_td = 18 #tree depth
-adapt_delta = 0.9999
-chains = 5
-cores  = chains
-seed = 4321
-# for quick testing, use the settings below
-# results won't make much sense, but can make sure the code runs
-warmup = 600 #for testing
-iter = warmup + floor(warmup/2)
-max_td = 10 #tree depth
-adapt_delta = 0.99
-
-
-#stick all models into a list
-modellist = list(m1=m1,m2=m2,m3=m3,m4=m4,m2a=m2a,m4a=m4a,m5=m5)
-# set up a list in which we'll store our results
-fl = vector(mode = "list", length = length(modellist))
-
-
-#setting for parameter constraints
-constraints = list(sigma="lower=0",sigma_a="lower=0",sigma_b="lower=0")
-
-
-## ---- modelfitting --------
-# fitting models
-#loop over all models and fit them using ulam
-for (n in 1:length(modellist))
+## ---- initialconditions ----
+# separate definition of initial values, added to fs_m1 structure 
+# a different sample will be drawn for each chain
+# there's probably a better way to do that than a for loop
+set.seed(1234) #make inits reproducible
+init_vals_1chain <- function() (list(mu_a = runif(1,15,25), 
+                                     mu_b = runif(1,2,4),
+                                     mu_g = runif(1,-1,1),
+                                     mu_e = runif(1,-2,0),
+                                     sigma_a = runif(1,0,1),
+                                     sigma_b = runif(1,0,1),
+                                     sigma_g = runif(1,0,1),
+                                     sigma_e = runif(1,0,1),
+                                     a1 = rnorm(1,-0.1,0.1),
+                                     b1 = rnorm(1,-0.1,0.1),
+                                     g1 = rnorm(1,-0.1,0.1),
+                                     e1 = rnorm(1,-0.1,0.1),
+                                     sigma = runif(1,0,1)))
+inits = NULL
+for (n in 1:fs_m1$chains)
 {
+  inits[[n]] = init_vals_1chain()
+}
+fs_m1$init = inits
 
-  cat('************** \n')
-  cat('starting model', names(modellist[n]), '\n')
 
-  tstart=proc.time(); #capture current time
+## ---- run_m1 ----
+res_m1 <- stanmod1$sample(data = fitdat,
+                          chains = fs_m1$chains,
+                          init = fs_m1$init,
+                          seed = fs_m1$seed,
+                          parallel_chains = fs_m1$chains,
+                          iter_warmup = fs_m1$warmup,
+                          iter_sampling = fs_m1$sampling,
+                          save_warmup = fs_m1$save_warmup,
+                          max_treedepth = fs_m1$max_td,
+                          adapt_delta = fs_m1$adapt_delta
+)
 
-  #run model fit
-  fit <- ulam(flist = modellist[[n]],
-                          data = fitdat,
-                          start=startlist[[n]],
-                          constraints=constraints,
-                          log_lik=TRUE, cmdstan=TRUE,
-                          control=list(adapt_delta=adapt_delta,
-                                       max_treedepth = max_td),
-                          chains=chains, cores = cores,
-                          warmup = warmup, iter = iter,
-                          seed = seed
-  )# end ulam
+## ---- diagnose_m1 ----
+res_m1$cmdstan_diagnose()
 
-  # save fit object to list
-  fl[[n]]$fit <- fit
-  
-  #capture time taken for fit
-  tdiff=proc.time()-tstart;
-  runtime_minutes=tdiff[[3]]/60;
+## ---- summarize_m1 ----
+# uses posterior package 
+print(head(res_m1$summary(),15))
 
-  cat('model fit took this many minutes:', runtime_minutes, '\n')
-  cat('************** \n')
+## ---- get_samples_m1 ----
+#this uses the posterior package to get draws
+samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
+allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 
-  #add some more things to the fit object
-  fl[[n]]$runtime = runtime_minutes
-  fl[[n]]$model = names(modellist)[n]
+## ---- plot_par_m1 ----
+# only main parameters, excluding parameters that we have for each individual, is too much
+plotpars = c("a1","b1","g1","e1","sigma")
+bayesplot::color_scheme_set("viridis")
+bayesplot::mcmc_trace(samp_m1, pars = plotpars)
+bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
+bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
 
-} #end fitting of all models
 
+## ---- prep_data_m1 ----
+# data manipulation to get in shape for plotting
+postdf <- samp_m1 %>% select(!ends_with('prior')) %>% select(!starts_with(".")) %>% select(-"lp__") %>% select(!contains("["))
+priordf <- samp_m1 %>% select(ends_with('prior')) %>% rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
+postlong <- tidyr::pivot_longer(data = postdf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "posterior")
+priorlong <- tidyr::pivot_longer(data = priordf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "prior")
+ppdf <- dplyr::bind_rows(postlong,priorlong)
+
+## ---- prior_post_m1 ----
+m1_p1 <- ppdf %>%
+  ggplot() +
+  geom_density(aes(x = value, color = type), linewidth = 1) +
+  facet_wrap("parname", scales = "free") +
+  theme_minimal()
+plot(m1_p1)
+
+
+## ---- obs_pred_m1 ----
+ypred_df <- samp_m1 %>% select(starts_with("ypred"))
+m1_p2 <- bayesplot::ppc_dens_overlay(fitdat$outcome, as.matrix(ypred_df))
+plot(m1_p2)
+
+
+## ---- loo_m1 ----
+# uses loo package 
+loo_m1 <- res_m1$loo(cores = fs_m1$chains, save_psis = TRUE)
+print(loo_m1)
+plot(loo_m1)
+samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
+ypred_df <- samp_m1 %>% select(starts_with("ypred"))
+m1_p3 <- bayesplot::ppc_loo_pit_overlay(
+  y = fitdat$outcome,
+  yrep = as.matrix(ypred_df),
+  lw = weights(loo_m1$psis_object)
+)
+plot(m1_p3)
+
+
+
+
+## ---- save_m1 ----
 # saving the list of results so we can use them later
 # the file is too large for standard Git/GitHub
 # Git Large File Storage should be able to handle it
@@ -258,7 +170,7 @@ for (n in 1:length(modellist))
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
 #filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-saveRDS(fl,filepath)
+# filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanrfit-2par", ext="Rds")
+#saveRDS(fl,filepath)
 
 

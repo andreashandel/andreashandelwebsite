@@ -16,6 +16,7 @@ image: "featured.png"
 ```{r setup, include=FALSE}
 library(emoji)
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
 ```
 
 ```{r, include=FALSE, cache=FALSE}
@@ -141,10 +142,14 @@ Looping over each model and fitting it. In addition to the actual fitting call t
 
 # Explore model fits
 
-Now we are ready to explore the model fitting results. All fits are in the list called `fl`. For each model the actual fit is in `fit`, the model name in `model` and the run time in `runtime`. Note that the code chunks below come from [this second R script](ulamexploremodels.R), thus some things are repeated (e.g., loading of simulated data).
+Now we are ready to explore the model fitting results. All fits are in the list called `fl`. For each model the actual fit is in `fit`, the model name in `model` and the run time in `runtime`. Note that the code chunks below come from [this second R script](ulamexploremodels.R), thus some things are repeated (e.g., loading of simulated data).[^fitdat]
 
 ```{r, loadfits}
 ```
+
+
+[^fitdat]: Note that I made the unfortunate choice of assigning the previously generated data to `fitdat`, which is not the same as the `fitdat` object I created in the _Data Loading_ section above. I just noticed that a good while after I had written it all. So I won't change it, but it would have been better if I had called it something different.
+
 
 You should explore your model fits carefully. Look at the trace-plots or trank-plots with the `traceplot()` and `trankplot()` functions in `rethinking`. Make sure the chains are looking ok. You can also use the `summary` function to get some useful information on our model. To go further, you can call `stancode()` to get the actual Stan code for the model. This can be helpful to both learn Stan, and to check if the model translates into Stan code the way you expected it to.
 

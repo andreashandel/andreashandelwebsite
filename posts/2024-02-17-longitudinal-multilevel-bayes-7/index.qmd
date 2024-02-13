@@ -179,8 +179,9 @@ https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/
 
 
 
-# Summary and continuation
+# Summary and further resources
 
+I seem to borrow a lot of ideas and inspiration from [Danielle Navarro](https://djnavarro.net/). In the past, I've used her blog posts on Quarto, R and related topics. She also wrote a series of [pharmacometrics blog posts](https://blog.djnavarro.net/#category=Pharmacometrics), and the one called [] 
 
 
 

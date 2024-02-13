@@ -22,7 +22,7 @@ fitdat=list(id=simdat[[3]]$id,
             dose_adj = simdat[[3]]$dose_adj,
             time = simdat[[3]]$time)
 #pulling out number of observations
-Ntot = length(unique(simdat$m3$id))
+Nind = length(unique(simdat$m3$id))
 
 
 ## ---- model-1 --------
@@ -164,9 +164,9 @@ m5 <- alist(
 ## ---- startvalues --------
 ## Setting starting values
 #starting values for model 1
-startm1 = list(a0 = rep(2,Ntot), b0 = rep(0.5,Ntot), a1 = 0.3 , b1 = -0.3, sigma = 1)
+startm1 = list(a0 = rep(2,Nind), b0 = rep(0.5,Nind), a1 = 0.3 , b1 = -0.3, sigma = 1)
 #starting values for model 2
-startm2 = list(a0 = rep(2,Ntot), b0 = rep(0.5,Ntot), mu_a = 2, mu_b = 1, a1 = 0.3 , b1 = -0.3, sigma = 1)
+startm2 = list(a0 = rep(2,Nind), b0 = rep(0.5,Nind), mu_a = 2, mu_b = 1, a1 = 0.3 , b1 = -0.3, sigma = 1)
 #starting values for model 3
 startm3 = startm1
 #starting values for models 4 and 4a
@@ -175,7 +175,7 @@ startm4a = startm4
 #starting values for model 2a
 startm2a = list(a0 = 2, b0 = 0.5, a1 = 0.3, b1 = -0.3, sigma = 1)
 #starting values for model 5
-startm5 = list(a0 = rep(2,Ntot), b0 = rep(0.5,Ntot), sigma = 1)
+startm5 = list(a0 = rep(2,Nind), b0 = rep(0.5,Nind), sigma = 1)
 
 #put different starting values in list
 #need to be in same order as models below
@@ -186,8 +186,8 @@ startlist = list(startm1,startm2,startm3,startm4,startm2a,startm4,startm5)
 ## ---- fittingsetup --------
 #general settings for fitting
 #you might want to adjust based on your computer
-warmup = 6000 
-iter = warmup + floor(warmup/2)
+warmup = 3000 
+iter = 2000
 max_td = 15 #tree depth
 adapt_delta = 0.999
 chains = 5

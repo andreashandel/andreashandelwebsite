@@ -7,7 +7,7 @@ data{
    int<lower = 1> Nind; //number of individuals
    vector[Nobs] outcome; //virus load
    vector[Nobs] time; // times at which virus load is measured
-   vector[Nind] dose_adj; //dose after adjustment, 1 value per individual
+   vector[Nobs] dose_adj; //dose after adjustment, only differs by individual but is repeated
    array[Nobs] int id;  //vector of person IDs to keep track which data points belong to whom
 }
 
@@ -38,6 +38,8 @@ transformed parameters{
     vector[Nind] beta;
  
     // compute main model parameters
+    // note that dos_adj contains a dose for each observation, 
+    // but it's repeated after the first Nind entries, so we don't need to loop over all obersvations
     for ( i in 1:Nind ) {
         alpha[i] = a0[i] + a1 * dose_adj[i];
         beta[i] = b0[i] + b1 * dose_adj[i];
@@ -56,10 +58,10 @@ transformed parameters{
 model{
 
     // hyper-priors to allow for adaptive pooling among individuals 
-    mu_a ~ normal( 2 , 1 );
+    mu_a ~ normal( 3 , 1 );
     mu_b ~ normal( 0.5 , 1 );
-    sigma_a ~ cauchy( 0 , 1 );
-    sigma_b ~ cauchy( 0 , 1 );
+    sigma_a ~ exponential(  1 );
+    sigma_b ~ exponential(  1 );
   
     // individual variation of each ODE model parameter
     a0 ~ normal( mu_a , sigma_a );
@@ -70,7 +72,7 @@ model{
     b1 ~ normal( -0.1 , 0.1);
   
     // residual population variation
-    sigma ~ cauchy( 0 , 1 ); 
+    sigma ~ exponential(  1 ); 
     
     outcome ~ normal( virus_pred, sigma );
 } // close model block
@@ -82,27 +84,26 @@ generated quantities {
     // define quantities that are computed in this block
     vector[Nobs] ypred;
     vector[Nobs] log_lik;
-    real sigma_prior;
+    real<lower=0> sigma_prior;
+    real<lower=0> sigma_a_prior;
+    real<lower=0> sigma_b_prior;
     real a1_prior;
     real b1_prior;
     real mu_a_prior;
     real mu_b_prior;
-    real sigma_a_prior;
-    real sigma_b_prior;
     real a0_prior;     // same prior for each individual so only specify one
     real b0_prior;     
     
     
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
-    sigma_prior = cauchy_rng( 0 , 1 );
+    sigma_prior = exponential_rng(  1 );
+    sigma_a_prior =  exponential_rng( 1 );
+    sigma_b_prior = exponential_rng(  1 );
     a1_prior = normal_rng( 0.1 , 0.1);
-    b1_prior = normal_rng( 0.1 , 0.1);
-    mu_a_prior = normal_rng( 2 , 1 );
+    b1_prior = normal_rng( -0.1 , 0.1);
+    mu_a_prior = normal_rng( 3 , 1 );
     mu_b_prior = normal_rng( 0.5 , 1 );
-    sigma_a_prior =  cauchy_rng( 0 , 1 );
-    sigma_b_prior = cauchy_rng( 0 , 1 );
-  
     a0_prior = normal_rng(mu_a, sigma_a);
     b0_prior = normal_rng(mu_b, sigma_b);
   

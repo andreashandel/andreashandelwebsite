@@ -24,14 +24,22 @@ This is a tutorial and worked example, to illustrate how one can use the `brms` 
 
 I wrote it mainly for my own benefit/learning (nothing forces learning a concept like trying to explain it.) Hopefully, others find it useful too.
 
-It started out as a single post, then became too large and is now a multi-part series. It currently has the following parts:
+It started out as a single post, then became too large and is now a multi-part series. 
+The original series of posts, which I wrote in 2022 and continue to slightly update occasionally, consists of these parts:
 
 * In part 1 (this post), I am introducing the setup and the models and use them to simulate data. 
 * In [part 2](/posts/longitudinal-multilevel-bayesian-analysis-2/), I fit the data to the models using the `rethinking` R package. 
 * In [part 3](/posts/longitudinal-multilevel-bayesian-analysis-3/), I repeat the fitting, but now using the `brms` R package. 
 * In part [part 4](/posts/longitudinal-multilevel-bayesian-analysis-4/), I show some some further explorations and alternatives of the models.
 
-I generally place further resources and acknowledgments sections at the end. However, since this series seems to be expanding and there is no clear order, I decided to get it out of the way and place these items right here at the beginning, before starting with the tutorial sequence.
+In 2024, I wrote a few additional posts on that topic:
+
+* [Part 5](/posts/longitudinal-multilevel-bayesian-analysis-5/), re-implements one of the original models with `cmdstanr` and `Stan` code. It also contains a few post-fitting additional diagnostic explorations.
+* [Part 6](/posts/longitudinal-multilevel-bayesian-analysis-6/), uses `Stan` and `cmdstanr` and implements a larger main model that I briefly discuss in part 4. This sets the stage for part 7.
+* [Part 7](/posts/longitudinal-multilevel-bayesian-analysis-7/), implements an ODE-based model.
+
+
+I generally place further resources and acknowledgments sections at the end. However, since this series seems to be expanding and the order in which one goes through the posts is a bit flexible, I'll list some major resources right here at the beginning, before starting with the tutorial sequence. There are still links t additional resources spread throughout the posts.
 
 
 # Further resources

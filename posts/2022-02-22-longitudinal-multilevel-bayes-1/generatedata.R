@@ -16,7 +16,7 @@ Nlow = 7; Nmed = 8; Nhigh = 9; filename = "simdat.Rds"
 #this is used in part 4 of the tutorial
 #Nlow = 70; Nmed = 80; Nhigh = 90; filename = "simdat_big.Rds"
 
-Ntot = Nlow + Nmed + Nhigh; #total number of individuals
+Nind = Nlow + Nmed + Nhigh; #total number of individuals
 
 # Set values for dose
 # since we only consider dose on a log scale
@@ -46,8 +46,8 @@ m1_mua = 3
 m1_mub = 1
 m1_sigmaa = 1
 m1_sigmab = 1
-m1_a0 = rnorm(n=Ntot, m1_mua, m1_sigmaa)
-m1_b0 = rnorm(n=Ntot, m1_mub, m1_sigmaa)
+m1_a0 = rnorm(n=Nind, m1_mua, m1_sigmaa)
+m1_b0 = rnorm(n=Nind, m1_mub, m1_sigmaa)
 # saving main parameters
 m1pars = c(sigma = sigma, a1 = a1, b1 = b1,
            a0_mu = m1_mua, b0_mu = m1_mub)
@@ -58,8 +58,8 @@ m2_mua = 3
 m2_mub = 1
 m2_sigmaa = 0.0001
 m2_sigmab = 0.0001
-m2_a0 = rnorm(n=Ntot, m2_mua, m2_sigmaa)
-m2_b0 = rnorm(n=Ntot, m2_mub, m2_sigmab)
+m2_a0 = rnorm(n=Nind, m2_mua, m2_sigmaa)
+m2_b0 = rnorm(n=Nind, m2_mub, m2_sigmab)
 m2pars = c(sigma = sigma, a1 = a1, b1 = b1,
            a0_mu = m2_mua, b0_mu = m2_mub)
 
@@ -69,8 +69,8 @@ m3_mua = 3
 m3_mub = 1
 m3_sigmaa = 0.1
 m3_sigmab = 0.1
-m3_a0 = rnorm(n=Ntot, m3_mua, m3_sigmaa)
-m3_b0 = rnorm(n=Ntot, m3_mub, m3_sigmaa)
+m3_a0 = rnorm(n=Nind, m3_mua, m3_sigmaa)
+m3_b0 = rnorm(n=Nind, m3_mub, m3_sigmaa)
 m3pars = c(sigma = sigma, a1 = a1, b1 = b1,
            a0_mu = m3_mua, b0_mu = m3_mub)
 
@@ -90,11 +90,11 @@ m1_y = rnorm(length(m1_mu),m1_mu, sigma)
 # the one that has the middle value subtracted, and a categorical one.
 # Note that trick using sort to get time in the right order.
 # Not a robust way of doing things, but works here
-m1_dat <- data.frame(id = rep(1:Ntot,length(timevec)),
+m1_dat <- data.frame(id = rep(1:Nind,length(timevec)),
                      dose = rep(dosevec,length(timevec)),
                      dose_adj = rep(dosevec,length(timevec))-med_dose,
                      dose_cat =  rep(dosevec_cat,length(timevec)),
-                     time = sort(rep(timevec,Ntot)),
+                     time = sort(rep(timevec,Nind)),
                      mu = as.vector(m1_mu),
                      outcome = as.vector(m1_y),
                      model = "m1")
@@ -106,11 +106,11 @@ m2_alpha = m2_a0 + a1*(dosevec - med_dose)
 m2_beta = m2_b0 + b1*(dosevec - med_dose)
 m2_mu =  exp(m2_alpha) %*% t(log(timevec)) - exp(m2_beta) %*% t(timevec)
 m2_y = rnorm(length(m2_mu),m2_mu, sigma)
-m2_dat <- data.frame(id = rep(1:Ntot,length(timevec)),
+m2_dat <- data.frame(id = rep(1:Nind,length(timevec)),
                      dose = rep(dosevec,length(timevec)),
                      dose_adj = rep(dosevec,length(timevec))-med_dose,
                      dose_cat =  rep(dosevec_cat,length(timevec)),
-                     time = sort(rep(timevec,Ntot)),
+                     time = sort(rep(timevec,Nind)),
                      mu = as.vector(m2_mu),
                      outcome = as.vector(m2_y),
                      model = "m2")
@@ -120,11 +120,11 @@ m3_alpha = m3_a0 + a1*(dosevec - med_dose)
 m3_beta = m3_b0 + b1*(dosevec - med_dose)
 m3_mu =  exp(m3_alpha) %*% t(log(timevec)) - exp(m3_beta) %*% t(timevec)
 m3_y = rnorm(length(m3_mu),m3_mu, sigma)
-m3_dat <- data.frame(id = rep(1:Ntot,length(timevec)),
+m3_dat <- data.frame(id = rep(1:Nind,length(timevec)),
                      dose = rep(dosevec,length(timevec)),
                      dose_adj = rep(dosevec,length(timevec))-med_dose,
                      dose_cat =  rep(dosevec_cat,length(timevec)),
-                     time = sort(rep(timevec,Ntot)),
+                     time = sort(rep(timevec,Nind)),
                      mu = as.vector(m3_mu),
                      outcome = as.vector(m3_y),
                      model = "m3")

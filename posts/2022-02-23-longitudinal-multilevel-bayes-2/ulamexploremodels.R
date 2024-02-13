@@ -10,7 +10,6 @@ library('dplyr') # for data manipulation
 library('ggplot2') # for plotting
 library('rstan') #is apparently called by some other functions in cmdstanr
 library('rethinking') #for model fitting
-set_cmdstan_path()
 
 ## ---- loadfits --------
 # loading list of previously saved fits.
@@ -241,14 +240,14 @@ for (n in 1:length(fl))
   #make new data for which we want predictions
   #specifically, more time points so the curves are smoother
   timevec = seq(from = 0.1, to = max(fitdat$time), length=100)
-  Ntot = max(fitdat$id)
+  Nind = max(fitdat$id)
   #new data used for predictions
-  preddat = data.frame( id = sort(rep(seq(1,Ntot),length(timevec))),
-                        time = rep(timevec,Ntot),
+  preddat = data.frame( id = sort(rep(seq(1,Nind),length(timevec))),
+                        time = rep(timevec,Nind),
                         dose_adj = 0
   )
   #add right dose information for each individual
-  for (k in 1:Ntot)
+  for (k in 1:Nind)
   {
     #dose for a given individual
     nowdose = unique(fitdat$dose_adj[fitdat$id == k])

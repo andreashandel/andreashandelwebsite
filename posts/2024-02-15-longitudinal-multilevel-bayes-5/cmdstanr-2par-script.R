@@ -9,7 +9,7 @@ library('fs') #for file path
 library('cmdstanr') #for model fitting
 library('bayesplot') #for plotting results
 library('loo') #for model diagnostics
-set_cmdstan_path()
+
 
 ## ---- data --------
 # adjust as necessary
@@ -27,7 +27,7 @@ Nobs =  length(simdat$m3$id)
 fitdat=list(id=simdat[[3]]$id,
             outcome = simdat[[3]]$outcome,
             time = simdat[[3]]$time,
-            dose_adj = simdat[[3]]$dose_adj[1:Nind], #first Nind values
+            dose_adj = simdat[[3]]$dose_adj, 
             Nobs =  Nobs,
             Nind = Nind
             )
@@ -46,12 +46,15 @@ print(stanmod1)
 
 ## ---- fitconditions ----
 #settings for fitting
-fs_m1 = list(warmup = 2000,
-             sampling = 2500, 
+#keeping values somewhat low to make things run reasonably fast
+#for 'production' you would probably want to sample more 
+#and set more stringent conditions
+fs_m1 = list(warmup = 1500,
+             sampling = 1000, 
              max_td = 15, #tree depth
              adapt_delta = 0.999,
-             chains = 4,
-             cores  = 4,
+             chains = 5,
+             cores  = 5,
              seed = 1234,
              save_warmup = TRUE)
 
@@ -90,24 +93,30 @@ res_m1 <- stanmod1$sample(data = fitdat,
 )
 
 ## ---- diagnose_m1 ----
-res_m1$cmdstan_diagnose()
+print(res_m1$cmdstan_diagnose())
 
-## ---- summarize_m1 ----
-# uses posterior package 
-print(head(res_m1$summary(),15))
 
 ## ---- get_samples_m1 ----
 #this uses the posterior package to get draws
 samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
 allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 
+
 ## ---- plot_par_m1 ----
 # only main parameters, excluding parameters that we have for each individual, is too much
 plotpars = c("a1","b1","a1_prior","b1_prior","sigma")
 bayesplot::color_scheme_set("viridis")
-bayesplot::mcmc_trace(samp_m1, pars = plotpars)
-bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
-bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
+bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
+bp2 <- bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
+plot(bp1)
+plot(bp2)
+
+## ---- results_m1 ----
+print(head(res_m1$summary(),15))
+bp3 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
+plot(bp3)
+# just to get a picture that can be shown together with the post
+#ggsave("featured.png",bp2)
 
 
 ## ---- prep_data_m1 ----
@@ -133,12 +142,14 @@ m1_p2 <- bayesplot::ppc_dens_overlay(fitdat$outcome, as.matrix(ypred_df))
 plot(m1_p2)
 
 
-## ---- loo_m1 ----
+## ---- loo_m1_part1 ----
 # uses loo package 
 loo_m1 <- res_m1$loo(cores = fs_m1$chains, save_psis = TRUE)
 print(loo_m1)
 plot(loo_m1)
-samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
+
+
+## ---- loo_m1_part2 ----
 ypred_df <- samp_m1 %>% select(starts_with("ypred"))
 m1_p3 <- bayesplot::ppc_loo_pit_overlay(
   y = fitdat$outcome,
@@ -148,17 +159,108 @@ m1_p3 <- bayesplot::ppc_loo_pit_overlay(
 plot(m1_p3)
 
 
+## ---- make_predictions ----
+
+#take originally saved data, which contains more variables 
+# than the fitdat object, and process further
+newdat <- simdat$m3
+plotdat <- fitdat %>% data.frame()  %>%
+           mutate(id = as.factor(id))  %>%
+           mutate(dose = dose_cat)
+
+#make new data for which we want predictions
+#specifically, more time points so the curves are smoother
+timevec = seq(from = 0.1, to = max(newdat$time), length=100)
+Nind = max(newdat$id)
+#new data used for predictions
+preddat = data.frame( id = sort(rep(seq(1,Ntot),length(timevec))),
+                      time = rep(timevec,Ntot),
+                      dose_adj = 0
+)
+#add right dose information for each individual
+for (k in 1:Nind)
+{
+  #dose for a given individual
+  nowdose = unique(fitdat$dose_adj[fitdat$id == k])
+  nowdose_cat = unique(fitdat$dose_cat[fitdat$id == k])
+  #assign that dose
+  #the categorical values are just for plotting
+  preddat[(preddat$id == k),"dose_adj"] = nowdose
+  preddat[(preddat$id == k),"dose_cat"] = nowdose_cat
+}
 
 
-## ---- save_m1 ----
-# saving the list of results so we can use them later
-# the file is too large for standard Git/GitHub
-# Git Large File Storage should be able to handle it
-# I'm using a simple hack so I don't have to set up Git LFS
-# I am saving these large file to a folder that is synced with Dropbox
-# adjust accordingly for your setup
-#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-# filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanrfit-2par", ext="Rds")
-#saveRDS(fl,filepath)
+# estimate and CI for parameter variation
+# this is computed in the predicted-quantities block of the Stan code
 
+post <- posterior::as_draws_array(fit2)
+
+mu <- samp_m1 |>
+  as_tibble() |>
+  select(starts_with("virus")) |>
+  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
+  t() %>%
+  data.frame(time = newdat$time, .)  |> 
+  tidyr::gather(pct, outcome, -time)
+
+
+# estimate and CI for prediction intervals
+# the predictions factor in additional uncertainty around the mean (mu)
+# as indicated by sigma
+# this is computed in the predicted-quantities block of the Stan code
+outpred <- predict(nowmodel, newdata = preddat, probs = c(0.055, 0.945) )
+  
+# estimate and CI for parameter variation
+# we ask for predictions for the new data generated above
+linkmod <- rethinking::link(nowmodel, data = preddat)
+  
+  #computing mean and various credibility intervals
+  #these choices are inspired by the Statistical Rethinking book
+  #and purposefully do not include 95%
+  #to minimize thoughts of statistical significance
+  #significance is not applicable here since we are doing bayesian fitting
+  modmean <- apply( linkmod$mu , 2 , mean )
+  modPI79 <- apply( linkmod$mu , 2 , PI , prob=0.79 )
+  modPI89 <- apply( linkmod$mu , 2 , PI , prob=0.89 )
+  modPI97 <- apply( linkmod$mu , 2 , PI , prob=0.97 )
+  
+  # estimate and CI for prediction intervals
+  # this uses the sim function from rethinking
+  # the predictions factor in additional uncertainty around the mean (mu)
+  # as indicated by sigma
+  simmod <- rethinking::sim(nowmodel, data = preddat)
+  
+  # mean and credible intervals for outcome predictions
+  # modmeansim should agree with above modmean values
+  modmeansim <- apply( simmod , 2 , mean )
+  modPIsim <- apply( simmod , 2 , PI , prob=0.89 )
+  
+  #place all predictions into a data frame
+  fitpred = data.frame(id = as.factor(preddat$id),
+                            dose = as.factor(preddat$dose_cat),
+                            predtime = preddat$time,
+                            Estimate = modmean,
+                            Q79lo = modPI79[1,], Q79hi = modPI79[2,],
+                            Q89lo = modPI89[1,], Q89hi = modPI89[2,],
+                            Q97lo = modPI97[1,], Q97hi = modPI97[2,],
+                            Qsimlo=modPIsim[1,], Qsimhi=modPIsim[2,]
+  )
+
+
+
+## ---- plot_predictions ----
+
+predplot <- ggplot(data = fitpred, aes(x = predtime, y = Estimate, group = id, color = dose ) ) +
+  geom_line() +
+  #geom_ribbon( aes(x=time, ymin=Q79lo, ymax=Q79hi, fill = dose), alpha=0.6, show.legend = F) +
+  geom_ribbon(aes(x=predtime, ymin=Q89lo, ymax=Q89hi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
+  #geom_ribbon(aes(x=time, ymin=Q97lo, ymax=Q97hi, fill = dose), alpha=0.2, show.legend = F) +
+  geom_ribbon(aes(x=predtime, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
+  geom_point(data = plotdat, aes(x = time, y = outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
+  scale_y_continuous(limits = c(-30,50)) +
+  labs(y = "Virus load",
+       x = "days post infection") +
+  theme_minimal() +
+  ggtitle(title)
+plot(predplot)
 

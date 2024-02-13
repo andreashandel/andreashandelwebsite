@@ -10,6 +10,7 @@ library('cmdstanr') #for model fitting
 library('bayesplot') #for plotting results
 library('loo') #for model diagnostics
 
+
 ## ---- data --------
 # adjust as necessary
 simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
@@ -24,10 +25,10 @@ Nind = length(unique(simdat$m3$id))
 Nobs =  length(simdat$m3$id)
 # values for prior distributions
 # allows for exploring different values without having to edit Stan model code
-priorvals = list(mu_a_mu = 10, mu_a_sd = 3,
-                 mu_b_mu = 2, mu_b_sd = 1,
-                 mu_g_mu = 2, mu_g_sd = 1,
-                 mu_e_mu = -2, mu_e_sd = 1
+priorvals = list(mu_a_mu = 7, mu_a_sd = 3,
+                 mu_b_mu = 1, mu_b_sd = 1,
+                 mu_g_mu = 3, mu_g_sd = 1,
+                 mu_e_mu = -3, mu_e_sd = 1
 )
 
 # all data as one list, this is how Stan needs it
@@ -52,12 +53,12 @@ print(stanmod1)
 
 ## ---- fitconditions ----
 #settings for fitting
-fs_m1 = list(warmup = 1000,
-             sampling = 1500, 
+fs_m1 = list(warmup = 1500,
+             sampling = 1000, 
              max_td = 15, #tree depth
              adapt_delta = 0.999,
-             chains = 4,
-             cores  = 4,
+             chains = 5,
+             cores  = 5,
              seed = 1234,
              save_warmup = TRUE)
 
@@ -67,19 +68,19 @@ fs_m1 = list(warmup = 1000,
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
 set.seed(1234) #make inits reproducible
-init_vals_1chain <- function() (list(mu_a = runif(1,15,25), 
-                                     mu_b = runif(1,2,4),
-                                     mu_g = runif(1,-1,1),
-                                     mu_e = runif(1,-2,0),
-                                     sigma_a = runif(1,0,1),
-                                     sigma_b = runif(1,0,1),
-                                     sigma_g = runif(1,0,1),
-                                     sigma_e = runif(1,0,1),
+init_vals_1chain <- function() (list(mu_a = runif(1,5,10), 
+                                     mu_b = runif(1,1,2),
+                                     mu_g = runif(1,1,4),
+                                     mu_e = runif(1,-4,-2),
+                                     sigma_a = runif(1,0,2),
+                                     sigma_b = runif(1,0,2),
+                                     sigma_g = runif(1,0,2),
+                                     sigma_e = runif(1,0,2),
                                      a1 = rnorm(1,-0.1,0.1),
                                      b1 = rnorm(1,-0.1,0.1),
                                      g1 = rnorm(1,-0.1,0.1),
                                      e1 = rnorm(1,-0.1,0.1),
-                                     sigma = runif(1,0,1)))
+                                     sigma = runif(1,0,2)))
 inits = NULL
 for (n in 1:fs_m1$chains)
 {
@@ -117,9 +118,14 @@ allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 # only main parameters, excluding parameters that we have for each individual, is too much
 plotpars = c("a1","b1","g1","e1","sigma")
 bayesplot::color_scheme_set("viridis")
-bayesplot::mcmc_trace(samp_m1, pars = plotpars)
-bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
-bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
+bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
+bp2 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
+bp3 <- bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
+plot(bp1)
+plot(bp2)
+plot(bp3)
+# just to get a picture that can be shown together with the post
+ggsave("featured.png",bp1)
 
 
 ## ---- prep_data_m1 ----
@@ -144,13 +150,14 @@ ypred_df <- samp_m1 %>% select(starts_with("ypred"))
 m1_p2 <- bayesplot::ppc_dens_overlay(fitdat$outcome, as.matrix(ypred_df))
 plot(m1_p2)
 
-
-## ---- loo_m1 ----
+## ---- loo_m1_part1 ----
 # uses loo package 
 loo_m1 <- res_m1$loo(cores = fs_m1$chains, save_psis = TRUE)
 print(loo_m1)
 plot(loo_m1)
-samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
+
+
+## ---- loo_m1_part2 ----
 ypred_df <- samp_m1 %>% select(starts_with("ypred"))
 m1_p3 <- bayesplot::ppc_loo_pit_overlay(
   y = fitdat$outcome,
@@ -158,19 +165,3 @@ m1_p3 <- bayesplot::ppc_loo_pit_overlay(
   lw = weights(loo_m1$psis_object)
 )
 plot(m1_p3)
-
-
-
-
-## ---- save_m1 ----
-# saving the list of results so we can use them later
-# the file is too large for standard Git/GitHub
-# Git Large File Storage should be able to handle it
-# I'm using a simple hack so I don't have to set up Git LFS
-# I am saving these large file to a folder that is synced with Dropbox
-# adjust accordingly for your setup
-#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","ulamfits", ext="Rds")
-# filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanrfit-2par", ext="Rds")
-#saveRDS(fl,filepath)
-
-
