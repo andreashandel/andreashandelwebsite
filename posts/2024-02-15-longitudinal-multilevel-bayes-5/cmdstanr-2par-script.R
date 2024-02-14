@@ -8,6 +8,7 @@ library('ggplot2') # for plotting
 library('fs') #for file path
 library('cmdstanr') #for model fitting
 library('bayesplot') #for plotting results
+library('posterior') #for post-processing
 library('loo') #for model diagnostics
 
 
@@ -160,107 +161,56 @@ plot(m1_p3)
 
 
 ## ---- make_predictions ----
-
-#take originally saved data, which contains more variables 
-# than the fitdat object, and process further
-newdat <- simdat$m3
-plotdat <- fitdat %>% data.frame()  %>%
-           mutate(id = as.factor(id))  %>%
-           mutate(dose = dose_cat)
-
-#make new data for which we want predictions
-#specifically, more time points so the curves are smoother
-timevec = seq(from = 0.1, to = max(newdat$time), length=100)
-Nind = max(newdat$id)
-#new data used for predictions
-preddat = data.frame( id = sort(rep(seq(1,Ntot),length(timevec))),
-                      time = rep(timevec,Ntot),
-                      dose_adj = 0
-)
-#add right dose information for each individual
-for (k in 1:Nind)
-{
-  #dose for a given individual
-  nowdose = unique(fitdat$dose_adj[fitdat$id == k])
-  nowdose_cat = unique(fitdat$dose_cat[fitdat$id == k])
-  #assign that dose
-  #the categorical values are just for plotting
-  preddat[(preddat$id == k),"dose_adj"] = nowdose
-  preddat[(preddat$id == k),"dose_cat"] = nowdose_cat
-}
-
-
-# estimate and CI for parameter variation
-# this is computed in the predicted-quantities block of the Stan code
-
-post <- posterior::as_draws_array(fit2)
-
+# averages and CI for 
+# estimates of deterministic model trajectory
+# for each observation
+# this is computed in the transformed parameters block of the Stan code
 mu <- samp_m1 |>
-  as_tibble() |>
-  select(starts_with("virus")) |>
+  select(starts_with("virus_pred")) |>
   apply(2, quantile, c(0.05, 0.5, 0.95)) |>
-  t() %>%
-  data.frame(time = newdat$time, .)  |> 
-  tidyr::gather(pct, outcome, -time)
-
+  t() 
+rownames(mu) <- NULL
 
 # estimate and CI for prediction intervals
 # the predictions factor in additional uncertainty around the mean (mu)
 # as indicated by sigma
 # this is computed in the predicted-quantities block of the Stan code
-outpred <- predict(nowmodel, newdata = preddat, probs = c(0.055, 0.945) )
-  
-# estimate and CI for parameter variation
-# we ask for predictions for the new data generated above
-linkmod <- rethinking::link(nowmodel, data = preddat)
-  
-  #computing mean and various credibility intervals
-  #these choices are inspired by the Statistical Rethinking book
-  #and purposefully do not include 95%
-  #to minimize thoughts of statistical significance
-  #significance is not applicable here since we are doing bayesian fitting
-  modmean <- apply( linkmod$mu , 2 , mean )
-  modPI79 <- apply( linkmod$mu , 2 , PI , prob=0.79 )
-  modPI89 <- apply( linkmod$mu , 2 , PI , prob=0.89 )
-  modPI97 <- apply( linkmod$mu , 2 , PI , prob=0.97 )
-  
-  # estimate and CI for prediction intervals
-  # this uses the sim function from rethinking
-  # the predictions factor in additional uncertainty around the mean (mu)
-  # as indicated by sigma
-  simmod <- rethinking::sim(nowmodel, data = preddat)
-  
-  # mean and credible intervals for outcome predictions
-  # modmeansim should agree with above modmean values
-  modmeansim <- apply( simmod , 2 , mean )
-  modPIsim <- apply( simmod , 2 , PI , prob=0.89 )
-  
-  #place all predictions into a data frame
-  fitpred = data.frame(id = as.factor(preddat$id),
-                            dose = as.factor(preddat$dose_cat),
-                            predtime = preddat$time,
-                            Estimate = modmean,
-                            Q79lo = modPI79[1,], Q79hi = modPI79[2,],
-                            Q89lo = modPI89[1,], Q89hi = modPI89[2,],
-                            Q97lo = modPI97[1,], Q97hi = modPI97[2,],
-                            Qsimlo=modPIsim[1,], Qsimhi=modPIsim[2,]
-  )
-
+# the average of mu and preds should be more or less the same
+# but preds will have wider uncertainty due to the residual variation sigma
+preds <- samp_m1 |>
+  select(starts_with("ypred")) |>
+  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
+  t() 
+rownames(preds) <- NULL
 
 
 ## ---- plot_predictions ----
 
-predplot <- ggplot(data = fitpred, aes(x = predtime, y = Estimate, group = id, color = dose ) ) +
+# change dose so it looks nicer in plot
+dose = as.factor(fitdat$dose_adj)
+levels(dose)[1] <- "low"
+levels(dose)[2] <- "medium"
+levels(dose)[3] <- "high"
+
+#place everything into a data frame
+fitpred = data.frame(id = as.factor(fitdat$id),
+                     dose = dose,
+                     time = fitdat$time,
+                     Outcome = fitdat$outcome,
+                     Estimate = mu[,2],
+                     Qmulo = mu[,1], Qmuhi = mu[,3],
+                     Qsimlo = preds[,1], Qsimhi = preds[,3]
+)
+
+#make the plot
+predplot <- ggplot(data = fitpred, aes(x = time, y = Estimate, group = id, color = dose ) ) +
   geom_line() +
-  #geom_ribbon( aes(x=time, ymin=Q79lo, ymax=Q79hi, fill = dose), alpha=0.6, show.legend = F) +
-  geom_ribbon(aes(x=predtime, ymin=Q89lo, ymax=Q89hi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
-  #geom_ribbon(aes(x=time, ymin=Q97lo, ymax=Q97hi, fill = dose), alpha=0.2, show.legend = F) +
-  geom_ribbon(aes(x=predtime, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
-  geom_point(data = plotdat, aes(x = time, y = outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
+  geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
+  geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
+  geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
   scale_y_continuous(limits = c(-30,50)) +
   labs(y = "Virus load",
        x = "days post infection") +
-  theme_minimal() +
-  ggtitle(title)
+  theme_minimal() 
 plot(predplot)
 
