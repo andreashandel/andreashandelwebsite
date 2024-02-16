@@ -93,8 +93,41 @@ res_m1 <- stanmod1$sample(data = fitdat,
                           adapt_delta = fs_m1$adapt_delta
 )
 
+## ---- savefits ----
+# saving the list of results so we can use them later
+# the file is too large for standard Git/GitHub
+# Git Large File Storage should be able to handle it
+# I'm using a simple hack so I don't have to set up Git LFS
+# I am saving these large file to a folder that is synced with Dropbox
+# adjust accordingly for your setup
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr2par")
+if (!fs::file_exists(filepath))
+{
+  filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr2par", ext="Rds")
+}
+res_m1$save_object(file=filepath)
+
+
+## ---- loadfits --------
+# loading previously saved fit.
+# useful if we don't want to re-fit
+# every time we want to explore the results.
+# since the file is too large for GitHub
+# it is stored in a local cloud-synced folder
+# adjust accordingly for your setup
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr2par", ext="Rds")
+if (!fs::file_exists(filepath))
+{
+  filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr2par", ext="Rds")
+}
+res_m1 <- readRDS(filepath)
+
+
+
 ## ---- diagnose_m1 ----
 print(res_m1$cmdstan_diagnose())
+
+
 
 
 ## ---- get_samples_m1 ----

@@ -8,14 +8,16 @@
 ## General
 * Some information that applies to this site and handelgroup is not repeated here, see the handelgroup notes file.
 
-* It seems that qmd sites can't handle the weaving of code with markdown using the read_chunk setup. They ignore eval=FALSE and run stuff anyway. Might need to run those as Rmd files until fixed.
+* It seems that qmd sites can't handle the weaving of code with markdown using the read_chunk setup. They ignore eval=FALSE and run stuff anyway. Might need to run those as Rmd files until fixed. - SEEMS FIXED NOW?
+
+* Using these Quarto extensions: fontawsome, include-code-files
 
 
 ## Needed R packages
 
 We use renv to manage the packages needed. It usually finds automatically what is needed. As a backup, this is a hopefully complete list of all R packages needed to recompile all the posts of the website:
 
-install.packages(c('cowplot','geosphere','scholar','wordcloud','bibliometrix','tidytext','visdat','kableExtra','janitor','ggplot2','dplyr','stringr','tidytuesdayR','readr','emoji',"rethinking","cmdstanr","brms"))
+install.packages(c('cowplot','geosphere','scholar','wordcloud','bibliometrix','tidytext','visdat','kableExtra','janitor','ggplot2','dplyr','stringr','tidytuesdayR','readr','emoji',"rethinking","cmdstanr","brms","cmdstanr"))
 
 remotes::install_github('rmcelreath/rethinking')
 remotes::install_github('andreashandel/flowdiagramr')

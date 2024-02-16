@@ -22,6 +22,8 @@ execute:
   freeze: auto
 description-meta: "Andreas Handel personal website."
 engine: knitr
+filters:
+   - include-code-files
 
 website:
   title: "Andreas Handel"

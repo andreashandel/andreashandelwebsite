@@ -100,13 +100,12 @@ We'll use the same data as before. We just need to reshape it a bit to get it in
 
 Next, we need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-2par.stan`. This code loads and compiles the Stan model.
 
-```{r, make_stanmodel, message=FALSE, warning = FALSE}
+```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
 ```
 
 Next, we'll take a quick look at the Stan model code. I added some comments to the Stan model, but if you have never written Stan code, this is likely not fully clear. I won't try to explain Stan code n detail here. There are lots of good resources on the [Stan website](https://mc-stan.org/) and other places online. I'm sure you'll find something that you find accessible to learn the basics of writing Stan code.
 
-
-```{r, show_stancode}
+```{.stan include="stancode-2par.stan"}
 ```
 
 
@@ -134,8 +133,19 @@ It is also a good idea to specify starting values for the parameters. Models can
 
 At this point, we have specified everything necessary to run the model. This runs the model with the specified settings. I'm supressing the output but it's useful to look at it when you run it to make sure the sampler is running ok.
 
-```{r, run_m1, message=FALSE, warning = FALSE, output = FALSE}
+This runs the model. It's not actually run here to speed up generation of this Quarto file, but the code chunk is in the R script, so you can run it.
+
+```{r, run_m1, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
 ```
+
+
+# Model result loading
+
+To save time, we don't run the model each time, instead we save the results and load them.
+
+```{r, loadfits, message=FALSE, warning = FALSE}
+```
+
 
 
 # Model diagnostics
@@ -225,7 +235,19 @@ The marginal posterior predictive plot suggests some improvement might be possib
 
 # Model predictions
 
+Finally, we want to look at the actual data and the model predictions. 
+These lines of code compute the predictions for both the deterministic part of the model only (the mean) and for individual predictions that account for additional variability around the mean.
 
+```{r, make_predictions,  warning = FALSE, message = FALSE}
+```
+
+This plots the data and the predictions, similarly to previous posts of this series. 
+As before, it shows the deterministic mean and credible interval (I chose 95% here) and the prediction intervals (the very light shaded areas, also chosen here at 95%). Agreement of model with data is good, as before.
+
+Note that previously, I used new data to predict at more time points to get smoother curves. That was easy to do with `rethinking` and `cmdstanr`. I couldn't figure out an easy way to do it here. It is possible to re-run a version of the Stan model that only includes the `generated quantities` block and give it new "data" with more time points and thereby return predictions. It should also be possible to do this with R code by recomputing trajectories for more data given the parameter distributions. I couldn't right away think of a good way of doing it, so left it as is. One can still reasonably well compare models and data.
+
+```{r, plot_predictions,  warning = FALSE, message = FALSE}
+```
 
 
 
