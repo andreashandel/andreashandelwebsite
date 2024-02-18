@@ -75,7 +75,7 @@ transformed parameters{
     // we need to index with that extra id[i] notation
     for (i in 1:Nobs)
     {
-      virus_pred[i] = log( 2*exp(alph[id[i]]) / ( exp( -exp(bet[id[i]]) * (exp(gamm[id[i]]) - time[i]) )  +  exp( exp(et[id[i]]) * (time[i] - exp(gamm[id[i]])) )  ) ) ;
+      virus_pred[i] = log( 2*exp(alph[id[i]]) / ( exp( -exp(bet[id[i]]) * (time[i] - exp(gamm[id[i]])) )  +  exp( exp(et[id[i]]) * (time[i] - exp(gamm[id[i]])) )  ) ) ;
      }
 
 } // end transformed parameters block
@@ -85,17 +85,17 @@ transformed parameters{
 model{
 
     // residual population variation
-    sigma ~ exponential( 0.1 ); 
+    sigma ~ exponential( 0.2 ); 
     // variance of priors
-    sigma_a ~ exponential( 1 );
-    sigma_b ~ exponential( 1 );
-    sigma_g ~ exponential( 1 );
-    sigma_e ~ exponential( 1 );
+    sigma_a ~ exponential(0.2);
+    sigma_b ~ exponential(0.2);
+    sigma_g ~ exponential(0.2);
+    sigma_e ~ exponential(0.2);
     // average dose-dependence of each ODE model parameter
-    a1 ~ normal( 0 , 0.2); 
-    b1 ~ normal( 0 , 0.2);
-    g1 ~ normal( 0.5, 0.2 );
-    e1 ~ normal( 0 , 0.2 );
+    a1 ~ normal( 2 , 1); 
+    b1 ~ normal( 1 , 0.5);
+    g1 ~ normal( 0.5, 0.5 );
+    e1 ~ normal( 0.5 , 0.5 );
     // hyper-priors to allow for adaptive pooling among individuals 
     // values for the distributions are passed into the Stan code as part of the data
     mu_a ~ normal( mu_a_mu , mu_a_sd );
@@ -140,16 +140,16 @@ generated quantities {
     
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
-    sigma_prior = exponential_rng( 0.1 );
-    sigma_a_prior =  exponential_rng(  1 );
-    sigma_b_prior = exponential_rng(  1 );
-    sigma_g_prior = exponential_rng(  1 );
-    sigma_e_prior = exponential_rng(  1 );
-    a1_prior = normal_rng( 0 , 0.2);
-    b1_prior = normal_rng( 0 , 0.2);
-    g1_prior = normal_rng( 0.5 , 0.2);
-    e1_prior = normal_rng( 0 , 0.2);
-    mu_a_prior = normal_rng( mu_a_mu , mu_a_sd );
+    sigma_prior = exponential_rng( 0.2 );
+    sigma_a_prior =  exponential_rng(  0.2 );
+    sigma_b_prior = exponential_rng(  0.2 );
+    sigma_g_prior = exponential_rng(  0.2 );
+    sigma_e_prior = exponential_rng(  0.2 );
+    a1_prior = normal_rng( 2 , 1);
+    b1_prior = normal_rng( 1 , 0.5);
+    g1_prior = normal_rng( 0.5 , 0.5);
+    e1_prior = normal_rng( 0.5 , 0.5);
+    mu_a_prior = normal_rng( mu_a_mu , mu_a_sd);
     mu_b_prior = normal_rng( mu_b_mu , mu_b_sd);
     mu_g_prior = normal_rng( mu_g_mu , mu_g_sd);
     mu_e_prior = normal_rng( mu_e_mu , mu_e_sd);

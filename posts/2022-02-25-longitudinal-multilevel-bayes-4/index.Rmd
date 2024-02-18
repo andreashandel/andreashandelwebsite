@@ -3,7 +3,7 @@ title: Bayesian analysis of longitudinal multilevel data using brms and rethinki
 description: Some more musings and explorations that didn't fit into the main posts of this series.
 author: Andreas Handel
 date: '2022-02-25'
-lastMod: "2022-04-20"
+lastMod: "2024-01-17"
 aliases: 
   - ../longitudinal-multilevel-bayesian-analysis-4/
 categories: 
@@ -90,7 +90,7 @@ I mentioned there that this equation does in fact not capture real data too well
 
 
 $$
-\mu_{i,t} = \log\left( \frac{2 p_i}{e^{-g_i  (k_i - t_i)} + e^{d_i  (t_i - k_i)}}\right).
+\mu_{i,t} = \log\left( \frac{2 p_i}{e^{-g_i  (t_i - k_i)} + e^{d_i  (t_i - k_i)}}\right).
 $$
 
 Instead of two parameters, this model has 4. The parameters approximately represent virus peak, $p_i$, initial growth rate, $g_i$, decay rate, $d_i$, and time of peak, $k_i$. Colleagues [showed previously](https://bmcpublichealth.biomedcentral.com/articles/10.1186/1471-2458-11-S1-S10) that this can fit virus load data for acute infections fairly well. The original use was for influenza, we found that it also worked reasonably well for our norovirus data, and thus used it. For the tutorial, I decided to stick to the simpler 2-parameter model. But everything I discussed there applies to this alternative model. For all 4 parameters, we can define individual-level and population level parameters, make them dose-dependent, etc. The main models for the 4 parameters are:

@@ -155,26 +155,74 @@ And that's the full model. Again, it is similar to the previous models, but now 
 
 # Model implementation
 
-
-
 We previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. One can use these packages for ODEs, but still has to write some `Stan` code. I decided instead, for flexibility, I'm writing the full model in `Stan` and then fit it through `cmdstanr` in R.
 
 
+```{r, packages, message=FALSE, warning = FALSE}
+```
 
-## Stan model code
+We'll use the same data as before. We need to reshape it a bit to get it into the format that `cmdstanr` requires. To make things inside the Stan code easier, we added some additional information.
 
-https://stanpmx.github.io/
+
+```{r, data}
+```
+
+
+# Stan code
+
+Next, we need to write the Stan model code. The code is again in a separate file called `stancode-ode.stan`. This code loads and compiles the Stan model.
+
+```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
+```
+
+Here is the code. It's getting big. I'm not going to explain it further. For some of the parts, I took inspiration from [this blog post by Danielle Narravo](https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/) 
+
+
+```{.stan include="stancode-ode.stan"}
+```
+
+# Model fitting settings
+
+As before, we need to specify settings for the MCMC algorithm and starting values (the latter of which is optional but I consider good practice).
+
+```{r, fitconditions}
+```
+
+```{r, initialconditions}
+```
+
+
+# Model fitting 
+
+
+This runs the model. It's not actually run here to speed up generation of this Quarto file, but the code chunk is in the R script, so you can run it.
+
+```{r, run_m1, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
+```
+
+
+# Model result loading
+
+To save time, we don't run the model each time, instead we save the results and load them.
+
+```{r, loadfits, message=FALSE, warning = FALSE}
+```
+
+
+
+
+
+
+I found [this book](https://stanpmx.github.io/) that covers some additional topics on the pharmacometrics type of modeling using Stan that I've been covering here. 
+
+
 
 https://mpopov.com/tutorials/ode-stan-r/
-
-https://blog.djnavarro.net/posts/2023-05-16_stan-ode/
-
-https://blog.djnavarro.net/posts/2023-05-16_stan-ode/#when-biology-isnt-analytically-tractable
 
 https://mc-stan.org/docs/stan-users-guide/ode-solver.html
 
 
-https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/
+
 
 
 

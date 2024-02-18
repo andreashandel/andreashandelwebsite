@@ -100,7 +100,7 @@ res_m1 <- stanmod1$sample(data = fitdat,
 # I'm using a simple hack so I don't have to set up Git LFS
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr2par")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr2par", ext="Rds")
 if (!fs::file_exists(filepath))
 {
   filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr2par", ext="Rds")

@@ -57,7 +57,7 @@ $$
 Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
 \\
 \textrm{main model describing the virus trajectory} \\
-\mu_{i,t} = \log\left( \frac{2 \exp(\alpha_{i})}{e^{-\exp(\beta_{i})  (\exp(\gamma_{i}) - t_i)} + e^{\exp(\eta_{i})  (t_i - \exp(\gamma_{i}))}}\right).\\
+\mu_{i,t} = \log\left( \frac{2 \exp(\alpha_{i})}{e^{-\exp(\beta_{i})  (t_i - \exp(\gamma_{i}))} + e^{\exp(\eta_{i})  (t_i - \exp(\gamma_{i}))}}\right).\\
 \\
 \textrm{Deterministic models for main parameters} \\
 \alpha_{i}   =  a_{0,i} + a_1 \left(\log (D_i) - \log (D_m)\right)  \\
@@ -145,12 +145,12 @@ We'll use the same data as before. I'm making one more change. Instead of hard-c
 
 Next, we need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-4par.stan`. This code loads and compiles the Stan model.
 
-```{r, make_stanmodel, message=FALSE, warning = FALSE}
+```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
 ```
 
 Next, we'll take a quick look at the Stan model code. The model is basically like the previous one, updated to reflect the model equations above. Another change I made is instead of hard-coding values for prior distributions inside the Stan code, I'm passing some of them into the code as data. I could (and probably should have) passed them all in, but I got lazy 😁. The advantage of passing them in is that I can more quickly play around with different values and see how results change. It also ensures that I use the same values in all parts of the model (e.g., `model` and `generated quantities` blocks).
 
-```{r, show_stancode}
+```{.stan include="stancode-4par.stan"}
 ```
 
 
@@ -167,11 +167,20 @@ These are the settings for the model fitting routine. Basically the same as befo
 ```{r, initialconditions}
 ```
 
+
 # Model fitting 
 
-At this point, we have specified everything necessary to run the model. This runs the model with the specified settings. I'm supressing the output but it's useful to look at it when you run it to make sure the sampler is running ok.
+This runs the model. It's not actually run here to speed up generation of this Quarto file, but the code chunk is in the R script, so you can run it.
 
-```{r, run_m1, message=FALSE, warning = FALSE, output = FALSE}
+```{r, run_m1, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
+```
+
+
+# Model result loading
+
+To save time, we don't run the model each time, instead we save the results and load them.
+
+```{r, loadfits, message=FALSE, warning = FALSE}
 ```
 
 
@@ -191,11 +200,10 @@ Next, we'll take a look at a summary table for the distributions of some of the 
 ```{r, summarize_m1}
 ```
 
-We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. So we need further diagnostics to decide if the model did a reasonable job.
+We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the paramters (after addressing the problems with the algorithm not working well).
 
 
-
-So let's again look at a few plots to make sure everything looks reasonable. We'll first need to get the samples, both with and without warmups, to be able to make various figures.
+Let's again look at a few plots to make sure everything looks reasonable. We'll first need to get the samples, both with and without warmups, to be able to make various figures.
 
 ```{r, get_samples_m1,  warning = FALSE}
 ```
@@ -206,6 +214,7 @@ Now we can look at a few figures. Here I'm showing again a trace plot, a posteri
 ```{r, plot_par_m1,  warning = FALSE}
 ```
 
+The pairs plot shows a strong correlation between $\beta$ and $\gamma$.
 
 
 Next, we'll compare prior and posterior distributions. This can give an indication if the priors were selected well or are too broad or overly influential. To be able to show priors, we needed all that extra information in the _generated quantities_ block in the Stan code.
@@ -227,15 +236,14 @@ Another useful plot is to look at observed versus predicted results. This is sho
 ```
 
 
-The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following each other fairly closely. That's a good sign. Systematic deviations would indicate that the model didn't fully capture the patterns found in the data and might need modification.
-
+The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following are a bit off. That indicates that the model didn't fully capture the patterns found in the data and might need modification.
 
 Here's again some further exploration via cross-validation with the `loo` package. 
 
 ```{r, loo_m1_part1,  warning = FALSE, message = FALSE}
 ```
 
-Some values aren't too great. But it's only a few and it's very likely that if we were to run the model with more iterations and more stringent settings, we'll get even better results. You can give it a try 😁. 
+Some values aren't too great. This again suggests that we need to tweak the model or run it longer with more stringent settings.
 
 Here's some more LOO diagnostics.
 
@@ -243,6 +251,19 @@ Here's some more LOO diagnostics.
 ```
 
 The marginal posterior predictive plot suggests some improvement might be possible (so that the solid line is more on top of the green lines). [See here for more](https://mc-stan.org/loo/articles/loo2-example.html).
+
+
+# Model predictions
+
+Finally, we again want to look at the actual data and the model predictions. It's exactly the same code as for the 2-parameter model.
+
+```{r, make_predictions,  warning = FALSE, message = FALSE}
+```
+
+```{r, plot_predictions,  warning = FALSE, message = FALSE}
+```
+
+The model fits don't look that great. I'm not sure why the model isn't capturing the data better, if it needs more iterations and/or better choice of priors, or if there's something inherent about the structure of this model not being able to capture the data generated by the 2-parameter model, even though it is more flexible with its 4 parameters.
 
 
 
