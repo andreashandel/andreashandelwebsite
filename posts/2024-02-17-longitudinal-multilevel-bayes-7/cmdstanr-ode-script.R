@@ -62,6 +62,14 @@ fitdat=list(id=simdat[[3]]$id, #an ID for each individual, for indexing
             )
 fitdat = c(fitdat,priorvals)
 
+## ---- make_stanmodel-simple -----
+# make Stan model. 
+stanmod1 <- cmdstanr::cmdstan_model(here('posts','2024-02-17-longitudinal-multilevel-bayes-7',"stancode-ode-simple.stan"), 
+                                    pedantic=TRUE, 
+                                    force_recompile=TRUE)
+
+
+
 ## ---- make_stanmodel -----
 # make Stan model. 
 stanmod1 <- cmdstanr::cmdstan_model(here('posts','2024-02-17-longitudinal-multilevel-bayes-7',"stancode-ode.stan"), 
@@ -120,7 +128,7 @@ fs_m1$init = inits
 ## ---- run_m1 ----
 res_m1 <- stanmod1$sample(data = fitdat,
                           chains = fs_m1$chains,
-                          init = fs_m1$init,
+                          #init = fs_m1$init,
                           seed = fs_m1$seed,
                           parallel_chains = fs_m1$chains,
                           iter_warmup = fs_m1$warmup,
