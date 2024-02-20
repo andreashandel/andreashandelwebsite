@@ -865,6 +865,20 @@
       ],
       "Hash": "cfbbb4aed6e78cd45f17123a9ec9981a"
     },
+    "deSolve": {
+      "Package": "deSolve",
+      "Version": "1.40",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "methods",
+        "stats"
+      ],
+      "Hash": "0a861334beb4eb8ca0d24a27b28b6679"
+    },
     "desc": {
       "Package": "desc",
       "Version": "1.4.3",

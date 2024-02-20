@@ -2,6 +2,11 @@
 # https://www.andreashandel.com/posts/longitudinal-multilevel-bayesian-analysis-1/
 # This code simulates the data we'll fit in later posts
 
+## ---- package-loading --------
+library(ggplot2)
+library(readr)
+
+
 ## ---- settings --------
 ## General settings
 set.seed(123) #for reproducibility
@@ -10,7 +15,9 @@ timevec <- c(0.1,1,3,5,7,10,14,21,28,35,42)
 
 #different number of individuals per dose to make it clearer which is which
 #also, that's the structure of the data which motivated the tutorial
-Nlow = 7; Nmed = 8; Nhigh = 9; filename = "simdat.Rds"
+Nlow = 7; Nmed = 8; Nhigh = 9; 
+filename = "simdat.Rds"
+filenamecsv = "simdat.csv"
 #if you want to explore how model fitting changes if you increase sample size
 #turn on this line of code
 #this is used in part 4 of the tutorial
@@ -131,8 +138,6 @@ m3_dat <- data.frame(id = rep(1:Nind,length(timevec)),
 
 
 
-## ---- packages --------
-library('ggplot2')
 
 ## ---- makeplots --------
 p1 <- ggplot(m1_dat) +
@@ -161,10 +166,14 @@ p3 <- ggplot(m3_dat) +
 plot(p1)
 plot(p2)
 plot(p3)
+#save a plot so we can use it in the blog post
+#ggsave(file = paste0("featured.png"), p3, dpi = 300, units = "in", width = 6, height = 6)
 
 ## ---- savesims --------
-#save a plot so we can use it in the blog post
+# write all simulations to an RDS file
 simdat <- list(m1 = m1_dat, m2 = m2_dat, m3 = m3_dat, m1pars = m1pars, m2pars = m2pars, m3pars = m3pars, Nlow = Nlow, Nmed = Nmed, Nhigh = Nhigh)
 saveRDS(simdat, file = filename)
-ggsave(file = paste0("featured.png"), p3, dpi = 300, units = "in", width = 6, height = 6)
+# also write one to a CSV file so I can use it with Julia
+readr::write_csv(m3_dat, file = filenamecsv)
+
 

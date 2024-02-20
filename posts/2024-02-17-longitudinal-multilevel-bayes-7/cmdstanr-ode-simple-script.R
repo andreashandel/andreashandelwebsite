@@ -71,6 +71,7 @@ priorvals = list(a0_mu = 3, a0_sd = 1,
 fitdat=list(id=simdat[[3]]$id, #an ID for each individual, for indexing
             outcome = simdat[[3]]$outcome, #all outcomes
             time = simdat[[3]]$time, #all times
+            dose_adj = simdat[[3]]$dose_adj,
             dose_level = as.numeric(factor(simdat[[3]]$dose_adj[1:Nind])), #dose category for each individual
             Ntot =  Ntot,
             Nobs =  Nobs,
@@ -99,8 +100,8 @@ fs_m1 = list(warmup = 1500,
              sampling = 1000, 
              max_td = 15, #tree depth
              adapt_delta = 0.99,
-             chains = 1,
-             cores  = 1,
+             chains = 2,
+             cores  = 2,
              seed = 1234,
              save_warmup = TRUE)
 
@@ -179,8 +180,8 @@ samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
 allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 
 ## ---- plot_par_m1 ----
-# only main parameters, excluding parameters that we have for each individual, is too much
-plotpars = c("a1","b1","g1","e1","sigma")
+# only picking a few parameters
+plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","V0[1]","V0[2]","V0[3]","sigma")
 bayesplot::color_scheme_set("viridis")
 bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
 bp2 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
@@ -192,8 +193,15 @@ plot(bp3)
 
 ## ---- prep_data_m1 ----
 # data manipulation to get in shape for plotting
-postdf <- samp_m1 %>% select(!ends_with('prior')) %>% select(!starts_with(".")) %>% select(-"lp__") %>% select(!contains("["))
-priordf <- samp_m1 %>% select(ends_with('prior')) %>% rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
+postdf <- samp_m1 %>% 
+          select(!ends_with('prior')) %>% 
+          select(!starts_with(".")) %>% 
+          select(-"lp__") %>% 
+          select(contains("[1]")) %>%
+          rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
+priordf <-  samp_m1 %>% 
+            select(ends_with('prior')) %>% 
+            rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
 postlong <- tidyr::pivot_longer(data = postdf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "posterior")
 priorlong <- tidyr::pivot_longer(data = priordf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "prior")
 ppdf <- dplyr::bind_rows(postlong,priorlong)

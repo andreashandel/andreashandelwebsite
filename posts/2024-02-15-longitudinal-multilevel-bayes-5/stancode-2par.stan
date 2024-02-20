@@ -63,11 +63,11 @@ model{
     sigma_a ~ exponential(  1 );
     sigma_b ~ exponential(  1 );
   
-    // individual variation of each ODE model parameter
+    // individual variation of each model parameter
     a0 ~ normal( mu_a , sigma_a );
     b0 ~ normal( mu_b , sigma_b );
   
-    // average dose-dependence of each ODE model parameter
+    // average dose-dependence of each model parameter
     a1 ~ normal( 0.1 , 0.1); 
     b1 ~ normal( -0.1 , 0.1);
   

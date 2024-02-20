@@ -426,6 +426,14 @@ Note that we can use any of the models to both generate simulated data, and to f
 
 It's often useful to go slow and type your own code, or copy and paste the code chunks below and execute one at a time. However, if you are in a hurry, you can find the code shown below in [this file](generatedata.R).
 
+## Package loading
+
+Load required packages.
+
+```{r, package-loading, message=FALSE, warning=FALSE}
+```
+
+
 ## General settings
 
 ```{r, settings}
@@ -495,12 +503,6 @@ Now we just repeat the same code again for the other models.
 ## Plotting the simulated data
 
 To ensure our simulated data makes sense, let's plot what we produced. 
-We'll use `ggplot2`, so let's load it first.
-
-
-```{r packages, message = FALSE, warning = FALSE}
-```
-
 These lines of code create plots for each model/simulated dataset.
 
 ```{r, makeplots}

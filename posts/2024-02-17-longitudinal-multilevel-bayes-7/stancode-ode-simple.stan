@@ -31,6 +31,7 @@ data{
    array[Ntot] real time; // times at which virus load is measured
    real tstart; //starting time for model
    array[Ntot] int id;  //vector of person IDs to keep track which data points belong to whom
+   array[Nind] real dose_adj; //dose after adjustment, 1 value per individual
    array[Nind] int dose_level; //dose level for each individual, needed to index V0 starting values
    //everything below are variables that contain values for prior distributions
    real a0_mu; 
@@ -118,9 +119,7 @@ transformed parameters{
         et[i] 
         );
     
-      for (j in 1:Nobs[i]) {
-          virus_pred[start[i] + j - 1] = y_all[start[i] + j - 1, 3];
-      }
+      virus_pred[start[i]:stop[i]] = to_vector(y_all[start[i]:stop[i], 3]);
     } // end loop over each individual    
 } // end transformed parameters block
 

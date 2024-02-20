@@ -20,7 +20,15 @@ project:
 execute:
   # Re-render only when source changes
   freeze: auto
+  echo: true
+  message: false
+  warning: true
+  output: false
+  cache: false 
 description-meta: "Andreas Handel personal website."
+editor: 
+  markdown: 
+    wrap: sentence
 engine: knitr
 filters:
    - include-code-files
@@ -65,6 +73,9 @@ website:
 
 format:
   html:
+    code-fold: false
+#    embed-resources: true	
+#    self-contained: true
     theme: 
       light: [matria,customstyle.scss]
       dark: [slate,customstyle.scss]
