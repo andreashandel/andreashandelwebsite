@@ -15,9 +15,9 @@ functions {
              real gamm, 
              real et) {
     vector[3] dydt;
-    dydt[1] = - exp(bet) * y[1] * y[3];
-    dydt[2] = exp(bet) * y[1] * y[3] - exp(gamm) * y[2];
-    dydt[3] = exp(alph) * y[2] - exp(et) * y[3];
+    dydt[1] = - bet * y[1] * y[3];
+    dydt[2] = bet * y[1] * y[3] - gamm * y[2];
+    dydt[3] = alph * y[2] - et * y[3];
     return dydt;
   }
 }
@@ -25,22 +25,24 @@ functions {
 data{
    int<lower = 1> Ntot; //number of observations for each individual
    int<lower = 1> Nind; //number of individuals
+   int<lower = 1> Ndose; //number of dose levels
    array[Nind] int Nobs; //number of observations for each individual
    array[Ntot] real outcome; //virus load
    array[Ntot] real time; // times at which virus load is measured
    real tstart; //starting time for model
    array[Ntot] int id;  //vector of person IDs to keep track which data points belong to whom
-   array[Nind] real dose_adj; //dose after adjustment, 1 value per individual
    array[Nind] int dose_level; //dose level for each individual, needed to index V0 starting values
    //everything below are variables that contain values for prior distributions
-   real mu_a_mu; 
-   real mu_b_mu;
-   real mu_g_mu;
-   real mu_e_mu;
-   real mu_a_sd;
-   real mu_b_sd;
-   real mu_g_sd;
-   real mu_e_sd;
+   real a1_mu; 
+   real b1_mu;
+   real g1_mu;
+   real e1_mu;
+   real a1_sd;
+   real b1_sd;
+   real g1_sd;
+   real e1_sd;
+   real V0_mu;
+   real V0_sd;
 }
 
 // specifying where in the vector each individual starts and stops
@@ -59,26 +61,22 @@ parameters{
     // population variance
     real<lower=0> sigma;
     // population-level dose dependence parameters
-    real a1;
-    real b1;
-    real g1;
-    real e1;
+    vector[Ndose] a1;
+    vector[Ndose] b1;
+    vector[Ndose] g1;
+    vector[Ndose] e1;
     // starting value of virus for individuals in each dose group
     // is being estimated
-    array[3] real V0;
+    vector[Ndose] V0;
 }
 
 // Generated/intermediate parameters
 transformed parameters{
 
-    // time series for all ODE model variables
-    // in our example, each individual has the same number of data points
-    // and all data points are collected at the same time
-    // if this is not the case, one would need to recode this
-    // see e.g. here for an example where the data is more complex
-    // https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/
     // main model parameters
-    // each individual has their potentially own value 
+    // this is coded such that each individual can have their own value
+    // however, in this iteration of the code, the values only differ by dose level
+    // a later iteration of the code will include individal level variation
     // I'm removing the last letter from each variable name
     // just to avoid potential conflicts with bulit-in names of Stan
     // such as beta for a beta distribution
@@ -89,20 +87,24 @@ transformed parameters{
     vector[Nind] et;
     // predicted virus load from model
     vector[Ntot] virus_pred; 
+    // time series for all 3 ODE model variables
     array[Ntot] vector[3] y_all;
+    // starting conditions for ODE model
     vector[3] ystart;
 
     // loop over all individuals
     for ( i in 1:Nind ) {
 
       // compute main model parameters
-      alph[i] =  a1 * (dose_adj[i] + 1);
-      bet[i] =  b1 * (dose_adj[i] + 1);
-      gamm[i] =  g1 * (dose_adj[i] + 1);
-      et[i] =  e1 * (dose_adj[i] + 1);
+      // here just exponentiated version of estimated parameters
+      alph[i] = exp(a1[dose_level[i]]) ;
+      bet[i] =  exp(b1[dose_level[i]]) ;
+      gamm[i] =  exp(g1[dose_level[i]]) ;
+      et[i] =  exp(e1[dose_level[i]]) ;
      
       // starting value for virus depends on dose 
-      ystart = [1e8,0,exp(V0[dose_level[i]])]';
+      // we are fitting/running model with variables on a log scale
+      ystart = [log(1e8),0,V0[dose_level[i]]]';
      
      // run ODE for each individual
       y_all[start[i]:stop[i]] = ode_rk45(
@@ -110,7 +112,10 @@ transformed parameters{
         ystart,      // initial state
         tstart,      // initial time
         time[start[i]:stop[i]],  // observation times - here same for everyone
-        alph[i], bet[i], gamm[i], et[i] // model parameters
+        alph[i], // model parameters - exponentiated to enforce positivity 
+        bet[i], 
+        gamm[i], 
+        et[i] 
         );
     
       for (j in 1:Nobs[i]) {
@@ -125,12 +130,12 @@ model{
         // residual population variation
     sigma ~ exponential( 1 ); 
     // average dose-dependence of each ODE model parameter
-    a1 ~ normal( 10 , 1); 
-    b1 ~ normal( -23 , 1);
-    g1 ~ normal( 1,  1);
-    e1 ~ normal( 1 , 1);
-    // prior for starting value 
-    V0 ~ normal(5,1);
+    a1 ~ normal( a1_mu , a1_sd); 
+    b1 ~ normal( b1_mu , b1_sd);
+    g1 ~ normal( g1_mu,  g1_sd);
+    e1 ~ normal( e1_mu , e1_sd);
+    // prior for virus load starting value 
+    V0 ~ normal(V0_mu, V0_sd);
 
     // distribution of outcome (virus load)
     // all computations to get the time-series trajectory for the outcome are done  
@@ -138,3 +143,35 @@ model{
     outcome ~ normal( virus_pred , sigma );
 
 }
+
+// for model diagnostics and exploration
+generated quantities {
+    // define quantities that are computed in this block
+    vector[Ntot] ypred;
+    vector[Ntot] log_lik;
+    real<lower=0> sigma_prior;
+    real a1_prior;
+    real b1_prior;
+    real g1_prior;
+    real e1_prior;
+    real V0_prior;     
+    
+    
+    // this is so one can plot priors and compare with posterior later   
+    // simulate the priors
+    sigma_prior = exponential_rng( 1 );
+    a1_prior = normal_rng( a1_mu , a1_sd);
+    b1_prior = normal_rng( b1_mu , b1_sd);
+    g1_prior = normal_rng( g1_mu , g1_sd);
+    e1_prior = normal_rng( e1_mu , e1_sd);
+    V0_prior = normal_rng( V0_mu , V0_sd);
+
+
+  // compute log-likelihood and predictions
+    for(i in 1:Ntot)
+    {
+      log_lik[i] = normal_lpdf(outcome[i] | virus_pred[i], sigma);
+      ypred[i] = normal_rng(virus_pred[i], sigma);
+    }
+} //end generated quantities block 
+

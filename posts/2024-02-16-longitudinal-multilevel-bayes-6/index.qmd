@@ -200,7 +200,7 @@ Next, we'll take a look at a summary table for the distributions of some of the 
 ```{r, summarize_m1}
 ```
 
-We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the paramters (after addressing the problems with the algorithm not working well).
+We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the parameters (after addressing the problems with the algorithm not working well).
 
 
 Let's again look at a few plots to make sure everything looks reasonable. We'll first need to get the samples, both with and without warmups, to be able to make various figures.
