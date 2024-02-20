@@ -33,14 +33,14 @@ data{
    array[Ntot] int id;  //vector of person IDs to keep track which data points belong to whom
    array[Nind] int dose_level; //dose level for each individual, needed to index V0 starting values
    //everything below are variables that contain values for prior distributions
-   real a1_mu; 
-   real b1_mu;
-   real g1_mu;
-   real e1_mu;
-   real a1_sd;
-   real b1_sd;
-   real g1_sd;
-   real e1_sd;
+   real a0_mu; 
+   real b0_mu;
+   real g0_mu;
+   real e0_mu;
+   real a0_sd;
+   real b0_sd;
+   real g0_sd;
+   real e0_sd;
    real V0_mu;
    real V0_sd;
 }
@@ -60,11 +60,11 @@ transformed data {
 parameters{
     // population variance
     real<lower=0> sigma;
-    // population-level dose dependence parameters
-    vector[Ndose] a1;
-    vector[Ndose] b1;
-    vector[Ndose] g1;
-    vector[Ndose] e1;
+    // individual-level  parameters
+    vector[Nind] a0;
+    vector[Nind] b0;
+    vector[Nind] g0;
+    vector[Nind] e0;
     // starting value of virus for individuals in each dose group
     // is being estimated
     vector[Ndose] V0;
@@ -97,10 +97,10 @@ transformed parameters{
 
       // compute main model parameters
       // here just exponentiated version of estimated parameters
-      alph[i] = exp(a1[dose_level[i]]) ;
-      bet[i] =  exp(b1[dose_level[i]]) ;
-      gamm[i] =  exp(g1[dose_level[i]]) ;
-      et[i] =  exp(e1[dose_level[i]]) ;
+      alph[i] = exp(a0[i]) ;
+      bet[i] =  exp(b0[i]) ;
+      gamm[i] =  exp(g0[i]) ;
+      et[i] =  exp(e0[i]) ;
      
       // starting value for virus depends on dose 
       // we are fitting/running model with variables on a log scale
@@ -130,10 +130,10 @@ model{
         // residual population variation
     sigma ~ exponential( 1 ); 
     // average dose-dependence of each ODE model parameter
-    a1 ~ normal( a1_mu , a1_sd); 
-    b1 ~ normal( b1_mu , b1_sd);
-    g1 ~ normal( g1_mu,  g1_sd);
-    e1 ~ normal( e1_mu , e1_sd);
+    a0 ~ normal( a0_mu , a0_sd); 
+    b0 ~ normal( b0_mu , b0_sd);
+    g0 ~ normal( g0_mu,  g0_sd);
+    e0 ~ normal( e0_mu , e0_sd);
     // prior for virus load starting value 
     V0 ~ normal(V0_mu, V0_sd);
 
@@ -150,20 +150,20 @@ generated quantities {
     vector[Ntot] ypred;
     vector[Ntot] log_lik;
     real<lower=0> sigma_prior;
-    real a1_prior;
-    real b1_prior;
-    real g1_prior;
-    real e1_prior;
+    real a0_prior;
+    real b0_prior;
+    real g0_prior;
+    real e0_prior;
     real V0_prior;     
     
     
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
     sigma_prior = exponential_rng( 1 );
-    a1_prior = normal_rng( a1_mu , a1_sd);
-    b1_prior = normal_rng( b1_mu , b1_sd);
-    g1_prior = normal_rng( g1_mu , g1_sd);
-    e1_prior = normal_rng( e1_mu , e1_sd);
+    a0_prior = normal_rng( a0_mu , a0_sd);
+    b0_prior = normal_rng( b0_mu , b0_sd);
+    g0_prior = normal_rng( g0_mu , g0_sd);
+    e0_prior = normal_rng( e0_mu , e0_sd);
     V0_prior = normal_rng( V0_mu , V0_sd);
 
 

@@ -134,7 +134,7 @@ I'm showing the ODE model in its original form, without the extra $\exp()$ and $
 $$
 \begin{aligned}
 \textrm{Outcome} \\
-Y_{i,t}   \sim \mathrm{Normal}\left(\log(V_{i,t}), \sigma\right) \\
+Y_{i,t}   \sim \mathrm{Normal}\left(V_{i,t}, \sigma\right) \\
 \\
 \textrm{ODE model defining V} \\
 \dot U  = -\beta_i UV \\ 
@@ -142,39 +142,38 @@ Y_{i,t}   \sim \mathrm{Normal}\left(\log(V_{i,t}), \sigma\right) \\
 \dot V  = \alpha_i I - \eta_i V \\
 \\
 \textrm{Starting values for ODE model} \\
-\textrm{initial uninfected cells} \qquad U(0) =   \\
-\textrm{initial infected cells} \qquad  I(0) = 1  \\
-\textrm{initial virus, to be fit}  \qquad V(0) = V[dose] \\
+\textrm{initial uninfected cells} \qquad U(0) = \log(1E8)  \\
+\textrm{initial infected cells} \qquad  I(0) = 0  \\
+\textrm{initial virus, to be fit}  \qquad V(0) = V_i[dose] \\
 \\
 \textrm{Deterministic models for main parameters} \\
-\alpha_{i}   =  a_1[dose]  \\
-\beta_{i}   =   b_1[dose] \\
-\gamma_{i}   =   g_1[dose] \\
-\eta_{i}   =   e_1[dose] \\
+\alpha_{i}   =  a_{0,i}  \\
+\beta_{i}   =   b_{0,i} \\
+\gamma_{i}   =   g_{0,i} \\
+\eta_{i}   =   e_{0,i} \\
 \end{aligned}
 $$
-The index $i$ again represents indexation with respect to individuals. The index $dose$ indicates the 3 different dose levels. Different to previously, I'm not making a linear assumption between dose and the parameter values, it doesn't seem justified. Instead, I'll treat dose as categorical.
+The index $i$ represents indexation with respect to individuals. The index $dose$ indicates the 3 different dose levels. 
 
-This model structure assumes that there is no individual-level variation. Instead, the 4 ODE model parameters, and the initial value for the virus load, only differ for different dose groups. This model is too restrictive, but I wanted to get it to work first before I implement the individual-level variation from the prior models.
+This model structure assumes that every individual has their own value for the ODE model parameters. The initial value for the virus load only differs for different dose groups. 
 
-To fully specify the model, we need to give all parameters distributions. 
-Again, a reminder that the parameters inside the ODE are the exponentiated version of this, while the starting value for the virus load, which we estimate here, is on a log scale.
+To fully specify the model, we need to give all parameters distributions. I'm not yet implementing the partial pooling, instead each parameter has some fixed prior distribution. As a reminder, the parameters inside the ODE are the exponentiated version of this, while the starting value for the virus load is on a log scale (so the true value is the exponentiated form, but we never use that, we fully operate on a log scale for all 3 ODE model variables).
 
 
 $$
 \begin{aligned}
 \textrm{population-level priors} \\
 \sigma  \sim \mathrm{Exponential}(1)  \\
-a_1 \sim \mathrm{Normal}(3, 1) \\
-b_1 \sim \mathrm{Normal}(-1, 1) \\
-g_1 \sim \mathrm{Normal}(1, 1) \\
-e_1 \sim \mathrm{Normal}(1, 1) \\
-V_0 \sim \mathrm{Normal}(5, 1) \\
+a_{0,i} \sim \mathrm{Normal}(3, 1) \\
+b_{0,i} \sim \mathrm{Normal}(-1, 1) \\
+g_{0,i} \sim \mathrm{Normal}(1, 1) \\
+e_{0,i} \sim \mathrm{Normal}(1, 1) \\
+V_i[dose] \sim \mathrm{Normal}(5, 1) \\
 \end{aligned}
 $$
 
 
-And that's the simple ODE model.Now we need to implement it with Stan. 
+And that's the full model for the simplified case. Now we need to implement it with Stan. 
 
 
 

@@ -60,10 +60,10 @@ Nobs = as.numeric(table(simdat[[3]]$id)) #number of observations per individual,
 Ndose = length(unique(simdat$m3$dose_adj))
 # values for prior distributions
 # allows for exploring different values without having to edit Stan model code
-priorvals = list(a1_mu = 3, a1_sd = 1,
-                 b1_mu = -1, b1_sd = 1,
-                 g1_mu = 1, g1_sd = 1,
-                 e1_mu = 1, e1_sd = 1,
+priorvals = list(a0_mu = 3, a0_sd = 1,
+                 b0_mu = -1, b0_sd = 1,
+                 g0_mu = 1, g0_sd = 1,
+                 e0_mu = 1, e0_sd = 1,
                  V0_mu = exp(5), V0_sd = 10
 )
 
@@ -110,10 +110,10 @@ fs_m1 = list(warmup = 1500,
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
 set.seed(1234) #make inits reproducible
-init_vals_1chain <- function() (list(a1 = runif(Ndose,3,4),
-                                     b1 = runif(Ndose,-1,-1),
-                                     g1 = runif(Ndose,1,1),
-                                     e1 = runif(Ndose,1,1),
+init_vals_1chain <- function() (list(a0 = runif(Nind,3,4),
+                                     b0 = runif(Nind,-1,-1),
+                                     g0 = runif(Nind,1,1),
+                                     e0 = runif(Nind,1,1),
                                      sigma = runif(1,0,1),
                                      V0 = runif(Ndose,4,6)
                                      ))
