@@ -18,13 +18,12 @@ project:
     browser: true
     watch-inputs: false
 execute:
-  # Re-render only when source changes
-  freeze: auto
-  echo: true
-  message: false
-  warning: true
-  output: false
-  cache: false 
+  freeze: auto   # Re-render only when source changes
+  echo: true #Include the source code in output
+  message: false # don't show messages
+  warning: false #don't include warnings in the output
+  output: true #include the results of executing the code
+  cache: false # don't cache code junks by default
 description-meta: "Andreas Handel personal website."
 editor: 
   markdown: 
@@ -40,8 +39,6 @@ website:
   description: "Website of Andreas Handel"
   favicon: /files/icon.png 
   google-analytics: "UA-48442618-4"
-  twitter-card: 
-    creator: "@andreashandel"
   cookie-consent: true    
   search: true
   navbar:
@@ -56,27 +53,23 @@ website:
         file: presentations.qmd
       - text: "Projects"
         file: projects.qmd
-
-
   page-footer:
     left: |
       {{< fa regular copyright >}} Andreas Handel, 2023<br>
       All content licensed under {{< fa brands creative-commons >}}
       {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-sa >}} {{< fa brands creative-commons-nc >}} [(CC BY-NC-SA 4.0)](http://creativecommons.org/licenses/by-nc-sa/4.0/)<br>
       Opinions are my own and do not represent my employer
-      
     right: |
       Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
       Inspiration and code snippets taken from [these folks](/posts/quarto-website-migration.html)<br>
       [Source at {{< fa brands github >}} GitHub](https://github.com/andreashandel/andreashandelwebsite)
-
-
 format:
   html:
     code-fold: false
-#    embed-resources: true	
-#    self-contained: true
+    #embed-resources: true	
+    #self-contained: true
     theme: 
       light: [matria,customstyle.scss]
       dark: [slate,customstyle.scss]
     toc: true
+    

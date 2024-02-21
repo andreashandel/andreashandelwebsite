@@ -14,9 +14,12 @@ library('loo') #for model diagnostics
 
 ## ---- explore-model --------
 # brief plotting of model to get idea for priors
-t = seq(0.1,30,length=100) 
-alph = 25; bet = 2; 
-gamm = 1.5; et = 1;
+t = seq(0.1,40,length=100) 
+# all parameters are the log of their original values
+alph = 30; # approximately the peak of virus
+bet = 1.5; # approx. growth rate
+gamm = 2; # approx. peak time
+et = 0.3; # approx. decay rate
 num  = 2*exp(alph)
 d1 = exp( - exp(bet)*(t - exp(gamm)) )
 d2 =  exp( exp(et) * (t - exp(gamm)) )
@@ -28,20 +31,18 @@ plot(t,mu, type = "l") #looks somewhat like virus load in acute
 # adjust as necessary
 simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
 simdat <- readRDS(simdatloc)
-# using dataset 3 for fitting
-# also removing anything in the dataframe that's not used for fitting
-# makes the fitting more robust
-# We format the data slightly differently compared to the prior examples
-# We only store the dose for each individual
-# And also add number of observations and individuals
 Nind = length(unique(simdat$m3$id))
-Nobs =  length(simdat$m3$id)
+Ntot =  length(simdat$m3$id)
 # values for prior distributions
 # allows for exploring different values without having to edit Stan model code
-priorvals = list(mu_a_mu = 20, mu_a_sd = 5,
-                 mu_b_mu = 2, mu_b_sd = 1,
-                 mu_g_mu = 1.5, mu_g_sd = 1,
-                 mu_e_mu = 1, mu_e_sd = 1
+priorvals = list(mu_a_mu = 30, mu_a_sd = 5,
+                 mu_b_mu = 1.5, mu_b_sd = 1,
+                 mu_g_mu = 2, mu_g_sd = 1,
+                 mu_e_mu = 0.5, mu_e_sd = 1,
+                 a1_mu = 0.5, a1_sd = 1,
+                 b1_mu = 0.1, b1_sd = 1,
+                 g1_mu = 0.1, g1_sd = 1,
+                 e1_mu = -0.1, e1_sd = 1
 )
 
 # all data as one list, this is how Stan needs it
@@ -49,14 +50,15 @@ fitdat=list(id=simdat[[3]]$id,
             outcome = simdat[[3]]$outcome,
             time = simdat[[3]]$time,
             dose_adj = simdat[[3]]$dose_adj[1:Nind], #first Nind values
-            Nobs =  Nobs,
+            Ntot =  Ntot,
             Nind = Nind
             )
 fitdat = c(fitdat,priorvals)
 
 ## ---- make_stanmodel -----
 # make Stan model. 
-stanmod1 <- cmdstanr::cmdstan_model(here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par.stan"), 
+stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par.stan")
+stanmod1 <- cmdstanr::cmdstan_model(stanfile, 
                                     pedantic=TRUE, 
                                     force_recompile=TRUE)
 
@@ -68,10 +70,10 @@ print(stanmod1)
 #settings for fitting
 fs_m1 = list(warmup = 1500,
              sampling = 1000, 
-             max_td = 18, #tree depth
-             adapt_delta = 0.9999,
-             chains = 5,
-             cores  = 5,
+             max_td = 17, #tree depth
+             adapt_delta = 0.999,
+             chains = 4,
+             cores  = 4,
              seed = 1234,
              save_warmup = TRUE)
 
@@ -126,11 +128,8 @@ res_m1 <- stanmod1$sample(data = fitdat,
 # I'm using a simple hack so I don't have to set up Git LFS
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-if (!fs::file_exists(filepath))
-{
-  filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-}
+#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
+filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
 res_m1$save_object(file=filepath)
 
 
@@ -152,10 +151,6 @@ res_m1 <- readRDS(filepath)
 ## ---- diagnose_m1 ----
 res_m1$cmdstan_diagnose()
 
-## ---- summarize_m1 ----
-# uses posterior package 
-print(head(res_m1$summary(),15))
-
 ## ---- get_samples_m1 ----
 #this uses the posterior package to get draws
 samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
@@ -166,17 +161,33 @@ allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 plotpars = c("a1","b1","g1","e1","sigma")
 bayesplot::color_scheme_set("viridis")
 bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
-bp2 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
-bp3 <- bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
+bp2 <- bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
 plot(bp1)
 plot(bp2)
+
+
+## ---- results_m1 ----
+print(head(res_m1$summary(),15))
+bp3 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
 plot(bp3)
 
 
 ## ---- prep_data_m1 ----
 # data manipulation to get in shape for plotting
-postdf <- samp_m1 %>% select(!ends_with('prior')) %>% select(!starts_with(".")) %>% select(-"lp__") %>% select(!contains("["))
-priordf <- samp_m1 %>% select(ends_with('prior')) %>% rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
+postdf1 <- samp_m1 %>% 
+  select(!ends_with('prior')) %>% 
+  select(!starts_with(".")) %>% 
+  select(-"lp__") %>% 
+  select(!contains("[")) 
+# awkward way of getting some further parameters
+# namely values from first individual for a0,b0,g0,e0
+postdf2 <- samp_m1 %>%
+           select(contains("0[1]")) %>%
+           rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
+postdf <- cbind(postdf1, postdf2) 
+priordf <-  samp_m1 %>% 
+  select(ends_with('prior')) %>% 
+  rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
 postlong <- tidyr::pivot_longer(data = postdf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "posterior")
 priorlong <- tidyr::pivot_longer(data = priordf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "prior")
 ppdf <- dplyr::bind_rows(postlong,priorlong)
@@ -203,7 +214,6 @@ plot(m1_p2)
 loo_m1 <- res_m1$loo(cores = fs_m1$chains, save_psis = TRUE)
 print(loo_m1)
 plot(loo_m1)
-
 
 ## ---- loo_m1_part2 ----
 ypred_df <- samp_m1 %>% select(starts_with("ypred"))
@@ -240,7 +250,6 @@ rownames(preds) <- NULL
 
 
 ## ---- plot_predictions ----
-
 # change dose so it looks nicer in plot
 dose = as.factor(fitdat$dose_adj)
 levels(dose)[1] <- "low"
@@ -261,7 +270,7 @@ fitpred = data.frame(id = as.factor(fitdat$id),
 predplot <- ggplot(data = fitpred, aes(x = time, y = Estimate, group = id, color = dose ) ) +
   geom_line() +
   geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
-  geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
+  #geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
   geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
   scale_y_continuous(limits = c(-30,50)) +
   labs(y = "Virus load",

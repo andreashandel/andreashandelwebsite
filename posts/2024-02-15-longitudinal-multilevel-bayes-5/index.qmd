@@ -41,7 +41,7 @@ To implement ODEs with Stan, one can't fully use the `rethinking` or `brms` pack
 
 I was going to do all at once, but then realized it's better if I first re-implement the old (non ODE-based) setup with Stan code, and then once that's up and running, switch to the ODE model. 
 
-So this post is really an intermediary step to my final goal. It might be of interest to folks to see how to implement this question fully with Stan, even if they don't plan on using ODEs.
+So this post is an intermediary step to my final goal. It might be of interest to folks to see how to implement this question fully with Stan, even if they don't plan on using ODEs.
 
 
 # Quick recap
@@ -177,8 +177,7 @@ The plots look reasonable. Well-mixing chains and no noticeable correlations amo
 
 Now that we think we can somewhat trust that the sampling worked, we'll take a look at a summary table for the distributions of some of the model parameters. I cut it off since there are too many to show (each individual as multiple parameters with associated distributions). We'll also look at the posteriors in a graph.
 
-
-```{r, summarize_m1}
+```{r, results_m1}
 ```
 
 
@@ -188,7 +187,7 @@ The estimates for the parameters are fairly close to those used to simulate the 
 
 
 
-## Priors and Posteriors
+# Priors and Posteriors
 
 Next, we'll compare prior and posterior distributions. This can give an indication if the priors were selected well or are too broad or overly influential. To be able to show priors, we needed all that extra information in the _generated quantities_ block in the Stan code. 
 The individual-level posteriors for $a_0[i]$ and $b_0[i]$ are omitted since there are too many. With a bit more data wrangling, one could plot the averages for these parameters, but I couldn't quickly think of how to do it, so I'm skipping it 😁. The priors for these parameters are shown since they same for each individual. 
@@ -203,7 +202,7 @@ The individual-level posteriors for $a_0[i]$ and $b_0[i]$ are omitted since ther
 The plots show that the priors don't overly influence the results, the data dominates the posteriors (they move and get more peaked, an indication that the data controls the posterior shape).
 
 
-## Observed versus predicted
+# Observed versus predicted
 
 Another useful plot is to look at observed versus predicted results. This is shown in the following plot. The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following each other fairly closely. That's a good sign. Systematic deviations would indicate that the model didn't fully capture the patterns found in the data and might need modification.
 
@@ -212,9 +211,7 @@ Another useful plot is to look at observed versus predicted results. This is sho
 ```
 
 
-
-
-## Cross-validation tests
+# Cross-validation tests
 
 We can explore further doing cross-validation with the `loo` package. For this to work, the Stan code needs to include computation of the log-likelihood (stored in a variable called `log_lik`). We included that in the `Stan` code for this model.
 
