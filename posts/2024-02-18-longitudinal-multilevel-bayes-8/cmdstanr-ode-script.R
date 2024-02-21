@@ -41,7 +41,8 @@ fitdat=list(id=simdat[[3]]$id, #an ID for each individual, for indexing
             Ntot =  Ntot,
             Nobs =  Nobs,
             Nind = Nind,
-            Ndose = length(unique(simdat[[3]]$dose_adj))
+            Ndose = length(unique(simdat[[3]]$dose_adj)),
+            tstart = 0
             )
 fitdat = c(fitdat,priorvals)
 
