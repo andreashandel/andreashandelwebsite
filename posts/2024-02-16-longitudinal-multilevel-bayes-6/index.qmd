@@ -35,20 +35,35 @@ Here is [the Stan code for this example](stancode-4par.stan) and this is [the R 
 
 As described [in the prior post](/posts/2024-02-15-longitudinal-multilevel-bayes-5/) I want to implement an ordinary differential equation (ODE) model with Stan. I am slowly building up to that. 
 
-While I had planned to hop from the 2-parameter `cmdstanr` and Stan model straight to the ODE model, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I switch. The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/#alternative-model-for-time-series-trajectory) and that we ended up using in [one of our  papers](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
+While I had planned to hop from the 2-parameter `cmdstanr` and Stan model straight to the ODE model, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I try to implement the ODE model.
+
+
+# New deterministic model 
+
+The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/#alternative-model-for-time-series-trajectory) and that we ended up using in [one of our  papers](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/). This equation was introduced as a good model to fit virus load data for an acute infection in [this paper](https://bmcpublichealth.biomedcentral.com/articles/10.1186/1471-2458-11-S1-S10).
+
+I'm deviating from the original paper by giving the parameters different names ($\alpha$, $\beta$, $\gamma$, $\eta$ instead of $p$, $g$, $d$, $k$) to be consistent with what I've been doing so far. 
+
+Also, since the original model was developed and set up with the assumptions that all 4 main parameters are positive, I need to ensure that by using the [previously described approach](/posts/2022-02-22-longitudinal-multilevel-bayes-1/#numerical-trickeries) of exponentiating the parameters. 
+
+This leads to this equation for the virus load trajectory.
+
+$$
+\begin{aligned}
+\mu_{i,t} = \log\left( \frac{2 \exp(\alpha_{i})}{e^{-\exp(\beta_{i})  (t_i - \exp(\gamma_{i}))} + e^{\exp(\eta_{i})  (t_i - \exp(\gamma_{i}))}}\right).\\
+\end{aligned}
+$$
+
+Here's a bit of R code to explore this equation and to determine values for parameter priors and starting conditions that lead to curves that are consistent with our simulated data.
+
+```{r, explore-model}
+```
 
 
 
-# Model setup
+## Full model structure
 
-[The prior post](/posts/2024-02-15-longitudinal-multilevel-bayes-5/) revisited the model briefly. The only part that's different here is that I'm using a different main model to describe the virus load trajectories. This model has more parameters, therefore there are more equations. [I briefly described the model I will use here](/posts/2022-02-25-longitudinal-multilevel-bayes-4/#alternative-model-for-time-series-trajectory). A somewhat more detailed description is provided [in one of our papers](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/), or the [original paper that came up with it](https://bmcpublichealth.biomedcentral.com/articles/10.1186/1471-2458-11-S1-S10).
-
-I'm giving the parameters different names ($\alpha$, $\beta$, $\gamma$, $\eta$ instead of $p$, $g$, $d$, $k$) to be consistent with what I've been doing so far. Otherwise it's the same model described in that previous post. Of course, each of the new parameters needs to be further specified and assigned distributions. Here are the components of the the new  model.
-
-
-## Main model structure
-
-This defines the main trajectory equation, which is the new part of the model.
+The rest of the model follow the previous one, just with more parameters. They all get their own equations. Here are the main components of the the new  model.
 
 
 $$
@@ -67,29 +82,21 @@ Y_{i,t}   \sim \mathrm{Normal}\left(\mu_{i,t}, \sigma\right) \\
 \end{aligned}
 $$
 
-Note that the original model was developed and set up with the assumptions that all 4 main parameters are positive. 
-To ensure that, I'll use the [previously described approach](/posts/2022-02-22-longitudinal-multilevel-bayes-1/#numerical-trickeries) of exponentiating the parameters. 
-
-
 
 ## Parameter distributions
 
 To fully specify the model, we need to give all parameters distributions. 
-Here are the distributions for the population-level parameters. These do not vary between individuals. 
-
-I already know that my model is too flexible/complex for the data, since the data was generated using the 2-parameter model and I'm fitting it with 4. 
-
-This overfitting might lead to poor performance of the fitting routine. To minimize potential problems, I'll set priors somewhat narrow. That's generally not the best idea, you don't want your priors to be overly influential, unless you have very strong _a priori_ scientific knowledge why they should be very constraining.
+Here are the distributions for the population-level parameters. These do not vary between individuals. I'm choosing values for the prior distributions assuming that dose will lead to an increase in peak, time to peak and growth rate, and a reduction in decay rate. I'm only indicating the values with an `X` below since I keep changing them in the code and then they are out of sync here. Check the R script to see the chosen values.
 
 
 $$
 \begin{aligned}
 \textrm{population-level priors} \\
 \sigma  \sim \mathrm{Exponential}(1)  \\
-a_1 \sim \mathrm{Normal}(0, 0.1) \\
-b_1 \sim \mathrm{Normal}(0, 0.1) \\
-g_1 \sim \mathrm{Normal}(0, 0.1) \\
-e_1 \sim \mathrm{Normal}(0, 0.1) \\
+a_1 \sim \mathrm{Normal}(X,X) \\
+b_1 \sim \mathrm{Normal}(X,X) \\
+g_1 \sim \mathrm{Normal}(X,X) \\
+e_1 \sim \mathrm{Normal}(X,X) \\
 \end{aligned}
 $$
 
@@ -134,7 +141,7 @@ Links to the Stan and R code files are given at the top of this document.
 ```
 
 
-We'll use the same data as before. I'm making one more change. Instead of hard-coding the values for the prior distributions into the Stan code, I'm assigning some of them labels and then pass values into Stan from R. This makes exploring the Stan model more flexible, I don't need to re-edit the Stan code if I want to try different values for the priors. These values for the priors need to be passed in as part of the data. I could do this for all parameters, but out of laziness, I'm only doing it for the individual-level hyper-parameters. Of course one could do it for all parameters, and I probably would do it for a real research problem where I expect having to fiddle with the priors a bit, but the main point here is to illustrate this approach, so I'm keeping it simple.
+We'll use the same data as before. I'm making one more change. Instead of hard-coding the values for the prior distributions into the Stan code, I'm assigning some of them labels and then pass values into Stan from R. This makes exploring the Stan model more flexible, I don't need to re-edit the Stan code if I want to try different values for the priors. These values for the priors need to be passed in as part of the data. I could do this for all parameters, but out of laziness, and because I don't change them much, I'm hard-coding the sigma parameters.
 
 
 ```{r, data}
@@ -148,7 +155,7 @@ Next, we need to write the Stan model code. While one could embed Stan code insi
 ```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
 ```
 
-Next, we'll take a quick look at the Stan model code. The model is basically like the previous one, updated to reflect the model equations above. Another change I made is instead of hard-coding values for prior distributions inside the Stan code, I'm passing some of them into the code as data. I could (and probably should have) passed them all in, but I got lazy 😁. The advantage of passing them in is that I can more quickly play around with different values and see how results change. It also ensures that I use the same values in all parts of the model (e.g., `model` and `generated quantities` blocks).
+Next, we'll take a quick look at the Stan model code. The model is basically like the previous one, updated to reflect the model equations above. As mentioned above, instead of hard-coding values for prior distributions inside the Stan code, I'm passing some of them into the code as data. The advantage of passing them in is that I can more quickly play around with different values and see how results change. It also ensures that I use the same values in all parts of the model (e.g., `model` and `generated quantities` blocks).
 
 ```{.stan include="stancode-4par.stan"}
 ```
@@ -183,8 +190,7 @@ To save time, we don't run the model each time, instead we save the results and 
 ```{r, loadfits, message=FALSE, warning = FALSE}
 ```
 
-
-# Model exploration
+# Model diagnostics
 
 First, we look at diagnostics from the fitting routine to make sure nothing obviously wrong shows up.
 
@@ -194,28 +200,32 @@ First, we look at diagnostics from the fitting routine to make sure nothing obvi
 
 Ok, so the sampler isn't quite happy. We should sample more and more stringently, but that would take very long. So for the purpose of this investigation, and given that I'm only exploring this model as a stepping stone to the ODE model I'm really interested in, I'll leave it the way it is. If this were an actual research project, I would obviously need to improve the model performance.
 
-Next, we'll take a look at a summary table for the distributions of some of the model parameters. I cut it off since there are too many to show (each individual as multiple parameters with associated distributions).
-
-
-```{r, summarize_m1}
-```
-
-We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the parameters (after addressing the problems with the algorithm not working well).
-
-
-Let's again look at a few plots to make sure everything looks reasonable. We'll first need to get the samples, both with and without warmups, to be able to make various figures.
+Another important check are to make a few diagnostic plots. We'll first need to get the samples, both with and without warmups, to be able to make various figures.
 
 ```{r, get_samples_m1,  warning = FALSE}
 ```
 
-
-Now we can look at a few figures. Here I'm showing again a trace plot, a posterior density plot and a pairs plot. 
+Now we can look at a few figures. Here I'm again showing a trace plot and a pairs plot. 
 
 ```{r, plot_par_m1,  warning = FALSE}
 ```
 
-The pairs plot shows a strong correlation between $\beta$ and $\gamma$.
+The plots look reasonable. Well-mixing chains and no noticeable correlations among parameters.
 
+
+# Model results
+
+Now that we think we can somewhat trust that the sampling worked, we'll take a look at a summary table for the distributions of some of the model parameters. I cut it off since there are too many to show (each individual as multiple parameters with associated distributions). We'll also look at the posteriors in a graph.
+
+```{r, results_m1}
+```
+
+
+We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the parameters (after addressing the problems with the algorithm not working well).
+
+
+
+# Priors and Posteriors
 
 Next, we'll compare prior and posterior distributions. This can give an indication if the priors were selected well or are too broad or overly influential. To be able to show priors, we needed all that extra information in the _generated quantities_ block in the Stan code.
 
@@ -229,6 +239,10 @@ Next, we'll compare prior and posterior distributions. This can give an indicati
 
 The plots show that the priors don't overly influence the results, the data dominates the posteriors (they move and get more peaked, an indication that the data controls the posterior shape).
 
+
+# Observed versus predicted
+
+
 Another useful plot is to look at observed versus predicted results. This is shown in the following plot.
 
 
@@ -237,6 +251,9 @@ Another useful plot is to look at observed versus predicted results. This is sho
 
 
 The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following are a bit off. That indicates that the model didn't fully capture the patterns found in the data and might need modification.
+
+
+# Cross-validation tests
 
 Here's again some further exploration via cross-validation with the `loo` package. 
 
@@ -251,6 +268,7 @@ Here's some more LOO diagnostics.
 ```
 
 The marginal posterior predictive plot suggests some improvement might be possible (so that the solid line is more on top of the green lines). [See here for more](https://mc-stan.org/loo/articles/loo2-example.html).
+
 
 
 # Model predictions

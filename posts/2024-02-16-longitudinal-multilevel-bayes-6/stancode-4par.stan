@@ -3,12 +3,12 @@
 //
 
 data{
-   int<lower = 1> Nobs; //number of observations
+   int<lower = 1> Ntot; //number of observations
    int<lower = 1> Nind; //number of individuals
-   vector[Nobs] outcome; //virus load
-   vector[Nobs] time; // times at which virus load is measured
+   vector[Ntot] outcome; //virus load
+   vector[Ntot] time; // times at which virus load is measured
    vector[Nind] dose_adj; //dose after adjustment, 1 value per individual
-   array[Nobs] int id;  //vector of person IDs to keep track which data points belong to whom
+   array[Ntot] int id;  //vector of person IDs to keep track which data points belong to whom
    //everything below are variables that contain values for prior distributions
    real mu_a_mu; 
    real mu_b_mu;
@@ -18,6 +18,15 @@ data{
    real mu_b_sd;
    real mu_g_sd;
    real mu_e_sd;
+   real a1_mu; 
+   real b1_mu;
+   real g1_mu;
+   real e1_mu;
+   real a1_sd;
+   real b1_sd;
+   real g1_sd;
+   real e1_sd;
+
 }
 
 parameters{
@@ -50,7 +59,7 @@ parameters{
 transformed parameters{
 
     // predicted virus load from model
-    vector[Nobs] virus_pred; 
+    vector[Ntot] virus_pred; 
     // main model parameters
     // each individual has their potentially own value 
     // I'm removing the last letter from each variable name
@@ -73,7 +82,7 @@ transformed parameters{
     // loop over all observations
     // since parameters are saved in vectors of length corresponding to number of individuals
     // we need to index with that extra id[i] notation
-    for (i in 1:Nobs)
+    for (i in 1:Ntot)
     {
       virus_pred[i] = log( 2*exp(alph[id[i]]) / ( exp( -exp(bet[id[i]]) * (time[i] - exp(gamm[id[i]])) )  +  exp( exp(et[id[i]]) * (time[i] - exp(gamm[id[i]])) )  ) ) ;
      }
@@ -85,17 +94,17 @@ transformed parameters{
 model{
 
     // residual population variation
-    sigma ~ exponential( 0.2 ); 
+    sigma ~ exponential(1); 
     // variance of priors
-    sigma_a ~ exponential(0.2);
-    sigma_b ~ exponential(0.2);
-    sigma_g ~ exponential(0.2);
-    sigma_e ~ exponential(0.2);
+    sigma_a ~ exponential(1);
+    sigma_b ~ exponential(1);
+    sigma_g ~ exponential(1);
+    sigma_e ~ exponential(1);
     // average dose-dependence of each ODE model parameter
-    a1 ~ normal( 2 , 1); 
-    b1 ~ normal( 1 , 0.5);
-    g1 ~ normal( 0.5, 0.5 );
-    e1 ~ normal( 0.5 , 0.5 );
+    a1 ~ normal( a1_mu , a1_sd); 
+    b1 ~ normal( b1_mu , b1_sd);
+    g1 ~ normal( g1_mu , g1_sd);
+    e1 ~ normal( e1_mu , e1_sd);
     // hyper-priors to allow for adaptive pooling among individuals 
     // values for the distributions are passed into the Stan code as part of the data
     mu_a ~ normal( mu_a_mu , mu_a_sd );
@@ -117,8 +126,8 @@ model{
 // for model diagnostics and exploration
 generated quantities {
     // define quantities that are computed in this block
-    vector[Nobs] ypred;
-    vector[Nobs] log_lik;
+    vector[Ntot] ypred;
+    vector[Ntot] log_lik;
     real<lower=0> sigma_prior;
     real<lower=0> sigma_a_prior;
     real<lower=0> sigma_b_prior;
@@ -140,15 +149,15 @@ generated quantities {
     
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
-    sigma_prior = exponential_rng( 0.2 );
-    sigma_a_prior =  exponential_rng(  0.2 );
-    sigma_b_prior = exponential_rng(  0.2 );
-    sigma_g_prior = exponential_rng(  0.2 );
-    sigma_e_prior = exponential_rng(  0.2 );
-    a1_prior = normal_rng( 2 , 1);
-    b1_prior = normal_rng( 1 , 0.5);
-    g1_prior = normal_rng( 0.5 , 0.5);
-    e1_prior = normal_rng( 0.5 , 0.5);
+    sigma_prior = exponential_rng( 1 );
+    sigma_a_prior =  exponential_rng(  1 );
+    sigma_b_prior = exponential_rng(  1 );
+    sigma_g_prior = exponential_rng(  1 );
+    sigma_e_prior = exponential_rng(  1 );
+    a1_prior = normal_rng( a1_mu , a1_sd);
+    b1_prior = normal_rng( b1_mu , b1_sd);
+    g1_prior = normal_rng( g1_mu , g1_sd);
+    e1_prior = normal_rng( e1_mu , e1_sd);
     mu_a_prior = normal_rng( mu_a_mu , mu_a_sd);
     mu_b_prior = normal_rng( mu_b_mu , mu_b_sd);
     mu_g_prior = normal_rng( mu_g_mu , mu_g_sd);
@@ -160,7 +169,7 @@ generated quantities {
     e0_prior = normal_rng(mu_e, sigma_e);
   
   // compute log-likelihood and predictions
-    for(i in 1:Nobs)
+    for(i in 1:Ntot)
     {
       log_lik[i] = normal_lpdf(outcome[i] | virus_pred[i], sigma);
       ypred[i] = normal_rng(virus_pred[i], sigma);
