@@ -46,20 +46,26 @@ transformed parameters{
     vector[Nind] bet;
     vector[Nind] gamm;
     vector[Nind] et;
+    // intermediate variables for denominators
+    // just to make equation easier to understand
+    real d1; 
+    real d2; 
 
     // compute main model parameters
     for ( i in 1:Nind ) {
-        alph[i] = a0[i];
-        bet[i] = b0[i];
-        gamm[i] = g0[i];
-        et[i] = e0[i];
+        alph[i] = exp(30*a0[i]);
+        bet[i] = exp(b0[i]);
+        gamm[i] = exp(g0[i]);
+        et[i] = exp(e0[i]);
     }
     // loop over all observations
     // since parameters are saved in vectors of length corresponding to number of individuals
     // we need to index with that extra id[i] notation
     for (i in 1:Ntot)
     {
-      virus_pred[i] = log( 2*exp(alph[id[i]]) / ( exp( -exp(bet[id[i]]) * (time[i] - exp(gamm[id[i]])) )  +  exp( exp(et[id[i]]) * (time[i] - exp(gamm[id[i]])) )  ) ) ;
+      d1 = exp( -bet[id[i]] * (time[i] - gamm[id[i]]) );
+      d2 = exp(   et[id[i]] * (time[i] - gamm[id[i]]) ); 
+      virus_pred[i] = log(  2*alph[id[i]] / ( d1 + d2) );
      }
 
 } // end transformed parameters block

@@ -25,8 +25,8 @@ rngseed = 1234
 # I'm using a simple hack so I don't have to set up Git LFS
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
-# filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+# filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
 filename = "cmdstanr4par.Rds"
 stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par.stan")
 
@@ -36,8 +36,8 @@ stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-
 t = seq(0.1,40,length=100) 
 # all parameters are the log of their original values
 alph = 30; # approximately the peak of virus
-bet = 1.5; # approx. growth rate
-gamm = 2; # approx. peak time
+bet = 1.0; # approx. growth rate
+gamm = 2.5; # approx. peak time
 et = 0.3; # approx. decay rate
 num  = 2*exp(alph)
 d1 = exp( - exp(bet)*(t - exp(gamm)) )
@@ -54,10 +54,10 @@ Nind = length(unique(simdat$m3$id))
 Ntot =  length(simdat$m3$id)
 # values for prior distributions
 # allows for exploring different values without having to edit Stan model code
-priorvals = list(mu_a_mu = 30, mu_a_sd = 5,
-                 mu_b_mu = 1.5, mu_b_sd = 1,
-                 mu_g_mu = 2, mu_g_sd = 1,
-                 mu_e_mu = 0.5, mu_e_sd = 1,
+priorvals = list(mu_a_mu = 1, mu_a_sd = 1,
+                 mu_b_mu = 1, mu_b_sd = 1,
+                 mu_g_mu = 2.5, mu_g_sd = 1,
+                 mu_e_mu = 0.3, mu_e_sd = 1,
                  a1_mu = 0.5, a1_sd = 1,
                  b1_mu = 0.1, b1_sd = 1,
                  g1_mu = 0.1, g1_sd = 1,
@@ -72,7 +72,7 @@ fitdatbase=list(id=simdat[[3]]$id,
             Ntot =  Ntot,
             Nind = Nind
             )
-fitdat = c(fitdatbase,priorvals)
+fitdat = c(fitdatbase, priorvals)
 
 ## ---- make_stanmodel -----
 # make Stan model. 
@@ -101,18 +101,18 @@ fs_m1 = list(warmup = 1500,
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
 set.seed(rngseed) #make inits reproducible
-init_vals_1chain <- function() (list(mu_a = runif(1,25,35), 
-                                     mu_b = runif(1,1,2),
-                                     mu_g = runif(1,1.5,2.5),
-                                     mu_e = runif(1,0,1),
+init_vals_1chain <- function() (list(mu_a = runif(1,1,1.5), 
+                                     mu_b = runif(1,0.8,1.2),
+                                     mu_g = runif(1,2,3),
+                                     mu_e = runif(1,0.2,0.6),
                                      sigma_a = runif(1,0,1),
                                      sigma_b = runif(1,0,1),
                                      sigma_g = runif(1,0,1),
                                      sigma_e = runif(1,0,1),
-                                     a0 = runif(Nind,25,35),
-                                     b0 = runif(Nind,1,2),
-                                     g0 = runif(Nind,1.5,2.5),
-                                     e0 = runif(Nind,0,1),
+                                     # a0 = runif(Nind,1,1.5),
+                                     # b0 = runif(Nind,0.8,1.5),
+                                     # g0 = runif(Nind,1.5,2.5),
+                                     # e0 = runif(Nind,0,1),
                                      a1 = runif(1,0.5,0.6),
                                      b1 = runif(1,0.1,0.1),
                                      g1 = runif(1,0.1,0.1),
@@ -289,21 +289,21 @@ plot(predplot)
 
 ## ---- data_m2 --------
 # need to update priors
-priorvals2 = list(a0_mu = 30, a0_sd = 5,
-                 b0_mu = 1.5, b0_sd = 1,
-                 g0_mu = 2, g0_sd = 1,
-                 e0_mu = 0.5, e0_sd = 1
+priorvals2 = list(a0_mu = 1, a0_sd = 1,
+                 b0_mu = 1, b0_sd = 1,
+                 g0_mu = 2.5, g0_sd = 1,
+                 e0_mu = 0.3, e0_sd = 1
                 )
 fitdat2 = c(fitdatbase,priorvals2)
 
 ## ---- initialconditions_m2 ----
 # need different initial values
-init_vals_1chain <- function() (list(a0_mu = runif(Nind,25,35), 
-                                    b0_mu = runif(Nind,1,2),
-                                     g0_mu = runif(Nind,1.5,2.5),
-                                     e0_mu = runif(Nind,0,1),
+init_vals_1chain <- function() (list(a0_mu = runif(Nind,1,1), 
+                                    b0_mu = runif(Nind,0.8,1.2),
+                                     g0_mu = runif(Nind,2,3),
+                                     e0_mu = runif(Nind,0,0.5),
                                    
-                                     a0_sd = runif(Nind,5,5),
+                                     a0_sd = runif(Nind,1,1),
                                      b0_sd = runif(Nind,1,1),
                                      g0_sd = runif(Nind,1,1),
                                      e0_sd = runif(Nind,1,1),
@@ -340,17 +340,48 @@ res_m2 <- stanmod2$sample(data = fitdat2,
                           output_dir = filepath
 )
 
-## ---- savefits2 ----
+## ---- savefits_m2 ----
 filename = "cmdstanr4par-simple.Rds"
 res_m2$save_object(fs::path(filepath,filename))
 
-## ---- loadfits2 --------
+## ---- loadfits_m2 --------
 res_m2 <- readRDS(fs::path(filepath,filename))
 
 ## ---- get_samples_m2 ----
 #this uses the posterior package to get draws
 samp_m2 <- res_m2$draws(inc_warmup = FALSE, format = "draws_df")
 allsamp_m2 <- res_m2$draws(inc_warmup = TRUE, format = "draws_df")
+
+## ---- diagnose_m2 ----
+res_m2$cmdstan_diagnose()
+
+## ---- prep_data_m1 ----
+# data manipulation to get in shape for plotting
+postdf1 <- samp_m2 %>% 
+  select(!ends_with('prior')) %>% 
+  select(!starts_with(".")) %>% 
+  select(-"lp__") %>% 
+  select(!contains("[")) 
+# awkward way of getting some further parameters
+# namely values from first individual for a0,b0,g0,e0
+postdf2 <- samp_m2 %>%
+  select(contains("0[1]")) %>%
+  rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
+postdf <- cbind(postdf1, postdf2) 
+priordf <-  samp_m2 %>% 
+  select(ends_with('prior')) %>% 
+  rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
+postlong <- tidyr::pivot_longer(data = postdf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "posterior")
+priorlong <- tidyr::pivot_longer(data = priordf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "prior")
+ppdf <- dplyr::bind_rows(postlong,priorlong)
+
+## ---- prior_post_m2 ----
+m2_p1 <- ppdf %>%
+  ggplot() +
+  geom_density(aes(x = value, color = type), linewidth = 1) +
+  facet_wrap("parname", scales = "free") +
+  theme_minimal()
+plot(m2_p1)
 
 
 
@@ -377,7 +408,7 @@ fitpred2 = data.frame(id = as.factor(fitdat2$id),
                      dose = dose,
                      time = fitdat2$time,
                      Outcome = fitdat2$outcome,
-                     Estimate = mu[,2],
+                     Estimate = mu2[,2],
                      Qmulo = mu2[,1], Qmuhi = mu2[,3],
                      Qsimlo = preds2[,1], Qsimhi = preds2[,3]
 )
@@ -385,7 +416,7 @@ fitpred2 = data.frame(id = as.factor(fitdat2$id),
 #make the plot
 predplot2 <- ggplot(data = fitpred2, aes(x = time, y = Estimate, group = id, color = dose ) ) +
   geom_line() +
-  #geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
+  geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
   #geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
   geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
   scale_y_continuous(limits = c(-30,50)) +

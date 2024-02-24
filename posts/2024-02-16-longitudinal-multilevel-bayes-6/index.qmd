@@ -140,6 +140,12 @@ Links to the Stan and R code files are given at the top of this document.
 ```{r, packages, message=FALSE}
 ```
 
+Some setup bits
+
+```{r, setup, message=FALSE}
+```
+
+
 
 We'll use the same data as before. I'm making one more change. Instead of hard-coding the values for the prior distributions into the Stan code, I'm assigning some of them labels and then pass values into Stan from R. This makes exploring the Stan model more flexible, I don't need to re-edit the Stan code if I want to try different values for the priors. These values for the priors need to be passed in as part of the data. I could do this for all parameters, but out of laziness, and because I don't change them much, I'm hard-coding the sigma parameters.
 
@@ -329,10 +335,27 @@ We of course have a new Stan model, need to pick new priors and new initial cond
 ```
 
 
-```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
+```{r, make_stanmodel2, message=FALSE, warning = FALSE, eval=FALSE}
 ```
 
 
+This runs the model and saves results.
+
+```{r, run_m2, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
+```
+
+```{r, savefits_m2, message=FALSE, warning = FALSE, eval=FALSE}
+```
+
+Load results.
+
+```{r, loadfits_m2}
+```
+
+Get the samples.
+
+```{r, get_samples_m2}
+```
 
 
 Plotting of data and model predictions
