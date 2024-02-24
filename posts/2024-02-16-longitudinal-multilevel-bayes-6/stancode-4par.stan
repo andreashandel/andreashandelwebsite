@@ -93,29 +93,30 @@ transformed parameters{
 
 model{
 
-    // residual population variation
-    sigma ~ exponential(1); 
-    // variance of priors
-    sigma_a ~ exponential(1);
-    sigma_b ~ exponential(1);
-    sigma_g ~ exponential(1);
-    sigma_e ~ exponential(1);
-    // average dose-dependence of each ODE model parameter
-    a1 ~ normal( a1_mu , a1_sd); 
-    b1 ~ normal( b1_mu , b1_sd);
-    g1 ~ normal( g1_mu , g1_sd);
-    e1 ~ normal( e1_mu , e1_sd);
     // hyper-priors to allow for adaptive pooling among individuals 
     // values for the distributions are passed into the Stan code as part of the data
     mu_a ~ normal( mu_a_mu , mu_a_sd );
     mu_b ~ normal( mu_b_mu , mu_b_sd );
     mu_g ~ normal( mu_g_mu , mu_g_sd );
     mu_e ~ normal( mu_e_mu , mu_e_sd );
+    // variance of priors
+    sigma_a ~ exponential(1);
+    sigma_b ~ exponential(1);
+    sigma_g ~ exponential(1);
+    sigma_e ~ exponential(1);
     // individual variation of each ODE model parameter
     a0 ~ normal( mu_a , sigma_a );
     b0 ~ normal( mu_b , sigma_b );
     g0 ~ normal( mu_g , sigma_g );
     e0 ~ normal( mu_e , sigma_e );
+    // average dose-dependence of each ODE model parameter
+    // values for the distributions are passed into the Stan code as part of the data
+    a1 ~ normal( a1_mu , a1_sd); 
+    b1 ~ normal( b1_mu , b1_sd);
+    g1 ~ normal( g1_mu , g1_sd);
+    e1 ~ normal( e1_mu , e1_sd);
+    // residual population variation
+    sigma ~ exponential(1); 
 
     // distribution of outcome (virus load)
     // all computations to get the time-series trajectory for the outcome are done  
@@ -126,47 +127,55 @@ model{
 // for model diagnostics and exploration
 generated quantities {
     // define quantities that are computed in this block
-    vector[Ntot] ypred;
-    vector[Ntot] log_lik;
-    real<lower=0> sigma_prior;
-    real<lower=0> sigma_a_prior;
-    real<lower=0> sigma_b_prior;
-    real<lower=0> sigma_g_prior;
-    real<lower=0> sigma_e_prior;
-    real a1_prior;
-    real b1_prior;
-    real g1_prior;
-    real e1_prior;
+    // for the individual level parameters, every individual
+    // has the same prior so we only specify one
     real mu_a_prior;
     real mu_b_prior;
     real mu_g_prior;
     real mu_e_prior;
-    real a0_prior;     // same prior for each individual so only specify one
+    real<lower=0> sigma_a_prior;
+    real<lower=0> sigma_b_prior;
+    real<lower=0> sigma_g_prior;
+    real<lower=0> sigma_e_prior;
+    real a0_prior;  
     real b0_prior;     
     real g0_prior;     
     real e0_prior;     
-    
+
+    real a1_prior;
+    real b1_prior;
+    real g1_prior;
+    real e1_prior;
+
+    real<lower=0> sigma_prior;
+    vector[Ntot] log_lik;
+    vector[Ntot] ypred;
+
     
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
-    sigma_prior = exponential_rng( 1 );
-    sigma_a_prior =  exponential_rng(  1 );
-    sigma_b_prior = exponential_rng(  1 );
-    sigma_g_prior = exponential_rng(  1 );
-    sigma_e_prior = exponential_rng(  1 );
-    a1_prior = normal_rng( a1_mu , a1_sd);
-    b1_prior = normal_rng( b1_mu , b1_sd);
-    g1_prior = normal_rng( g1_mu , g1_sd);
-    e1_prior = normal_rng( e1_mu , e1_sd);
     mu_a_prior = normal_rng( mu_a_mu , mu_a_sd);
     mu_b_prior = normal_rng( mu_b_mu , mu_b_sd);
     mu_g_prior = normal_rng( mu_g_mu , mu_g_sd);
     mu_e_prior = normal_rng( mu_e_mu , mu_e_sd);
-  
-    a0_prior = normal_rng(mu_a, sigma_a);
-    b0_prior = normal_rng(mu_b, sigma_b);
-    g0_prior = normal_rng(mu_g, sigma_g);
-    e0_prior = normal_rng(mu_e, sigma_e);
+
+    sigma_a_prior =  exponential_rng(  1 );
+    sigma_b_prior = exponential_rng(  1 );
+    sigma_g_prior = exponential_rng(  1 );
+    sigma_e_prior = exponential_rng(  1 );
+
+    a0_prior = normal_rng(mu_a_prior, sigma_a_prior);
+    b0_prior = normal_rng(mu_b_prior, sigma_b_prior);
+    g0_prior = normal_rng(mu_g_prior, sigma_g_prior);
+    e0_prior = normal_rng(mu_e_prior, sigma_e_prior);
+
+    a1_prior = normal_rng( a1_mu , a1_sd);
+    b1_prior = normal_rng( b1_mu , b1_sd);
+    g1_prior = normal_rng( g1_mu , g1_sd);
+    e1_prior = normal_rng( e1_mu , e1_sd);
+
+    sigma_prior = exponential_rng( 1 );
+
   
   // compute log-likelihood and predictions
     for(i in 1:Ntot)

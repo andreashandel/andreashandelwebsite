@@ -12,6 +12,25 @@ library('posterior') #for post-processing
 library('loo') #for model diagnostics
 
 
+## ---- setup --------
+############################################
+# some general definitons and setup stuff
+############################################
+#setting random number seed for reproducibility
+rngseed = 1234
+
+# I'll be saving results so we can use them without always running the model
+# Note that the files are often too large for standard Git/GitHub - where this project lives
+# Git Large File Storage should be able to handle it
+# I'm using a simple hack so I don't have to set up Git LFS
+# I am saving these large file to a folder that is synced with Dropbox
+# adjust accordingly for your setup
+# filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filename = "cmdstanr4par.Rds"
+stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par.stan")
+
+
 ## ---- explore-model --------
 # brief plotting of model to get idea for priors
 t = seq(0.1,40,length=100) 
@@ -46,18 +65,17 @@ priorvals = list(mu_a_mu = 30, mu_a_sd = 5,
 )
 
 # all data as one list, this is how Stan needs it
-fitdat=list(id=simdat[[3]]$id,
+fitdatbase=list(id=simdat[[3]]$id,
             outcome = simdat[[3]]$outcome,
             time = simdat[[3]]$time,
             dose_adj = simdat[[3]]$dose_adj[1:Nind], #first Nind values
             Ntot =  Ntot,
             Nind = Nind
             )
-fitdat = c(fitdat,priorvals)
+fitdat = c(fitdatbase,priorvals)
 
 ## ---- make_stanmodel -----
 # make Stan model. 
-stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par.stan")
 stanmod1 <- cmdstanr::cmdstan_model(stanfile, 
                                     pedantic=TRUE, 
                                     force_recompile=TRUE)
@@ -70,11 +88,11 @@ print(stanmod1)
 #settings for fitting
 fs_m1 = list(warmup = 1500,
              sampling = 1000, 
-             max_td = 17, #tree depth
-             adapt_delta = 0.999,
-             chains = 4,
-             cores  = 4,
-             seed = 1234,
+             max_td = 20, #tree depth
+             adapt_delta = 0.99999,
+             chains = 5,
+             cores  = 5,
+             seed = rngseed,
              save_warmup = TRUE)
 
 
@@ -82,24 +100,25 @@ fs_m1 = list(warmup = 1500,
 # separate definition of initial values, added to fs_m1 structure 
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
-set.seed(1234) #make inits reproducible
-init_vals_1chain <- function() (list(mu_a = runif(1,20,30), 
-                                     mu_b = runif(1,2,3),
-                                     mu_g = runif(1,1,2),
-                                     mu_e = runif(1,1,2),
+set.seed(rngseed) #make inits reproducible
+init_vals_1chain <- function() (list(mu_a = runif(1,25,35), 
+                                     mu_b = runif(1,1,2),
+                                     mu_g = runif(1,1.5,2.5),
+                                     mu_e = runif(1,0,1),
                                      sigma_a = runif(1,0,1),
                                      sigma_b = runif(1,0,1),
                                      sigma_g = runif(1,0,1),
                                      sigma_e = runif(1,0,1),
-                                     a0 = runif(Nind,20,30),
-                                     b0 = runif(Nind,2,3),
-                                     g0 = runif(Nind,1,2),
-                                     e0 = runif(Nind,1,2),
-                                     a1 = rnorm(1,-0.1,0.1),
-                                     b1 = rnorm(1,-0.1,0.1),
-                                     g1 = rnorm(1,-0.1,0.1),
-                                     e1 = rnorm(1,-0.1,0.1),
-                                     sigma = runif(1,0,2)))
+                                     a0 = runif(Nind,25,35),
+                                     b0 = runif(Nind,1,2),
+                                     g0 = runif(Nind,1.5,2.5),
+                                     e0 = runif(Nind,0,1),
+                                     a1 = runif(1,0.5,0.6),
+                                     b1 = runif(1,0.1,0.1),
+                                     g1 = runif(1,0.1,0.1),
+                                     e1 = runif(1,-0.1,-0.1),
+                                     sigma = runif(1,0,1))
+                                )
 inits = NULL
 for (n in 1:fs_m1$chains)
 {
@@ -118,19 +137,12 @@ res_m1 <- stanmod1$sample(data = fitdat,
                           iter_sampling = fs_m1$sampling,
                           save_warmup = fs_m1$save_warmup,
                           max_treedepth = fs_m1$max_td,
-                          adapt_delta = fs_m1$adapt_delta
+                          adapt_delta = fs_m1$adapt_delta,
+                          output_dir = filepath
 )
 
 ## ---- savefits ----
-# saving the list of results so we can use them later
-# the file is too large for standard Git/GitHub
-# Git Large File Storage should be able to handle it
-# I'm using a simple hack so I don't have to set up Git LFS
-# I am saving these large file to a folder that is synced with Dropbox
-# adjust accordingly for your setup
-#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-res_m1$save_object(file=filepath)
+res_m1$save_object(fs::path(filepath,filename))
 
 
 ## ---- loadfits --------
@@ -140,12 +152,7 @@ res_m1$save_object(file=filepath)
 # since the file is too large for GitHub
 # it is stored in a local cloud-synced folder
 # adjust accordingly for your setup
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-if (!fs::file_exists(filepath))
-{
-  filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr4par", ext="Rds")
-}
-res_m1 <- readRDS(filepath)
+res_m1 <- readRDS(fs::path(filepath,filename))
 
 
 ## ---- diagnose_m1 ----
@@ -277,4 +284,113 @@ predplot <- ggplot(data = fitpred, aes(x = time, y = Estimate, group = id, color
        x = "days post infection") +
   theme_minimal() 
 plot(predplot)
+
+
+
+## ---- data_m2 --------
+# need to update priors
+priorvals2 = list(a0_mu = 30, a0_sd = 5,
+                 b0_mu = 1.5, b0_sd = 1,
+                 g0_mu = 2, g0_sd = 1,
+                 e0_mu = 0.5, e0_sd = 1
+                )
+fitdat2 = c(fitdatbase,priorvals2)
+
+## ---- initialconditions_m2 ----
+# need different initial values
+init_vals_1chain <- function() (list(a0_mu = runif(Nind,25,35), 
+                                    b0_mu = runif(Nind,1,2),
+                                     g0_mu = runif(Nind,1.5,2.5),
+                                     e0_mu = runif(Nind,0,1),
+                                   
+                                     a0_sd = runif(Nind,5,5),
+                                     b0_sd = runif(Nind,1,1),
+                                     g0_sd = runif(Nind,1,1),
+                                     e0_sd = runif(Nind,1,1),
+                                     sigma = runif(1,0,1))
+                                )
+inits = NULL
+for (n in 1:fs_m1$chains)
+{
+  inits[[n]] = init_vals_1chain()
+}
+fs_m1$init = inits
+
+## ---- make_stanmodel2 -----
+# make Stan model. 
+stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par-simple.stan")
+stanmod2 <- cmdstanr::cmdstan_model(stanfile, 
+                                    pedantic=TRUE, 
+                                    force_recompile=TRUE)
+
+
+
+
+## ---- run_m2 ----
+res_m2 <- stanmod2$sample(data = fitdat2,
+                          chains = fs_m1$chains,
+                          init = fs_m1$init,
+                          seed = fs_m1$seed,
+                          parallel_chains = fs_m1$chains,
+                          iter_warmup = fs_m1$warmup,
+                          iter_sampling = fs_m1$sampling,
+                          save_warmup = fs_m1$save_warmup,
+                          max_treedepth = fs_m1$max_td,
+                          adapt_delta = fs_m1$adapt_delta,
+                          output_dir = filepath
+)
+
+## ---- savefits2 ----
+filename = "cmdstanr4par-simple.Rds"
+res_m2$save_object(fs::path(filepath,filename))
+
+## ---- loadfits2 --------
+res_m2 <- readRDS(fs::path(filepath,filename))
+
+## ---- get_samples_m2 ----
+#this uses the posterior package to get draws
+samp_m2 <- res_m2$draws(inc_warmup = FALSE, format = "draws_df")
+allsamp_m2 <- res_m2$draws(inc_warmup = TRUE, format = "draws_df")
+
+
+
+## ---- make_predictions_m2 ----
+mu2 <- samp_m2 |>
+  select(starts_with("virus_pred")) |>
+  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
+  t() 
+rownames(mu) <- NULL
+preds2 <- samp_m2 |>
+  select(starts_with("ypred")) |>
+  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
+  t() 
+rownames(preds) <- NULL
+
+
+## ---- plot_predictions_m2 ----
+# change dose so it looks nicer in plot
+dose = as.factor(fitdat2$dose_adj)
+levels(dose)[1] <- "low"
+levels(dose)[2] <- "medium"
+levels(dose)[3] <- "high"
+fitpred2 = data.frame(id = as.factor(fitdat2$id),
+                     dose = dose,
+                     time = fitdat2$time,
+                     Outcome = fitdat2$outcome,
+                     Estimate = mu[,2],
+                     Qmulo = mu2[,1], Qmuhi = mu2[,3],
+                     Qsimlo = preds2[,1], Qsimhi = preds2[,3]
+)
+
+#make the plot
+predplot2 <- ggplot(data = fitpred2, aes(x = time, y = Estimate, group = id, color = dose ) ) +
+  geom_line() +
+  #geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
+  #geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
+  geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
+  scale_y_continuous(limits = c(-30,50)) +
+  labs(y = "Virus load",
+       x = "days post infection") +
+  theme_minimal() 
+plot(predplot2)
 
