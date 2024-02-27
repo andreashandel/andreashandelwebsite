@@ -81,7 +81,7 @@ model{
     e0 ~ normal( e0_mu , e0_sd );
 
     // residual population variation
-    sigma ~ exponential(1); 
+    sigma ~ cauchy(0, 1); 
 
     // distribution of outcome (virus load)
     // all computations to get the time-series trajectory for the outcome are done  
@@ -94,7 +94,8 @@ generated quantities {
     // define quantities that are computed in this block
     vector[Ntot] ypred;
     vector[Ntot] log_lik;
-    real<lower=0> sigma_prior;
+    //real<lower=0> sigma_prior;
+    real sigma_prior;
     real a0_prior;
     real b0_prior;
     real g0_prior;
@@ -102,7 +103,7 @@ generated quantities {
         
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
-    sigma_prior = exponential_rng( 1 );
+    sigma_prior = abs(cauchy_rng(0, 1));
     a0_prior = normal_rng( a0_mu , a0_sd);
     b0_prior = normal_rng( b0_mu , b0_sd);
     g0_prior = normal_rng( g0_mu , g0_sd);

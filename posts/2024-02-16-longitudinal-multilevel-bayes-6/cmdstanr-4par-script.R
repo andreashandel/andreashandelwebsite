@@ -14,10 +14,10 @@ library('loo') #for model diagnostics
 
 ## ---- setup --------
 ############################################
-# some general definitons and setup stuff
+# some general definitions and setup stuff
 ############################################
 #setting random number seed for reproducibility
-rngseed = 1234
+rngseed = 12345
 
 # I'll be saving results so we can use them without always running the model
 # Note that the files are often too large for standard Git/GitHub - where this project lives
@@ -25,8 +25,8 @@ rngseed = 1234
 # I'm using a simple hack so I don't have to set up Git LFS
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
-filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
-# filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
 filename = "cmdstanr4par.Rds"
 stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par.stan")
 
@@ -87,7 +87,7 @@ print(stanmod1)
 ## ---- fitconditions ----
 #settings for fitting
 fs_m1 = list(warmup = 1500,
-             sampling = 1000, 
+             sampling = 2000, 
              max_td = 20, #tree depth
              adapt_delta = 0.99999,
              chains = 5,
@@ -109,10 +109,10 @@ init_vals_1chain <- function() (list(mu_a = runif(1,1,1.5),
                                      sigma_b = runif(1,0,1),
                                      sigma_g = runif(1,0,1),
                                      sigma_e = runif(1,0,1),
-                                     # a0 = runif(Nind,1,1.5),
-                                     # b0 = runif(Nind,0.8,1.5),
-                                     # g0 = runif(Nind,1.5,2.5),
-                                     # e0 = runif(Nind,0,1),
+                                     a0 = runif(Nind,1,1.5),
+                                     b0 = runif(Nind,0.8,1.5),
+                                     g0 = runif(Nind,1.5,2.5),
+                                     e0 = runif(Nind,0,1),
                                      a1 = runif(1,0.5,0.6),
                                      b1 = runif(1,0.1,0.1),
                                      g1 = runif(1,0.1,0.1),
@@ -274,6 +274,7 @@ fitpred = data.frame(id = as.factor(fitdat$id),
 )
 
 #make the plot
+#not including the prediction intervals since it looks too messy
 predplot <- ggplot(data = fitpred, aes(x = time, y = Estimate, group = id, color = dose ) ) +
   geom_line() +
   geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
@@ -285,6 +286,15 @@ predplot <- ggplot(data = fitpred, aes(x = time, y = Estimate, group = id, color
   theme_minimal() 
 plot(predplot)
 
+
+## ---- alt-model --------
+############################
+# Try an alternative model
+############################
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filename_simple = "cmdstanr4par-simple.Rds"
+stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par-simple.stan")
+rngseed = 12345
 
 
 ## ---- data_m2 --------
@@ -298,6 +308,7 @@ fitdat2 = c(fitdatbase,priorvals2)
 
 ## ---- initialconditions_m2 ----
 # need different initial values
+set.seed(rngseed) #make inits reproducible
 init_vals_1chain <- function() (list(a0_mu = runif(Nind,1,1), 
                                     b0_mu = runif(Nind,0.8,1.2),
                                      g0_mu = runif(Nind,2,3),
@@ -318,7 +329,6 @@ fs_m1$init = inits
 
 ## ---- make_stanmodel2 -----
 # make Stan model. 
-stanfile <- here('posts','2024-02-16-longitudinal-multilevel-bayes-6',"stancode-4par-simple.stan")
 stanmod2 <- cmdstanr::cmdstan_model(stanfile, 
                                     pedantic=TRUE, 
                                     force_recompile=TRUE)
@@ -327,10 +337,11 @@ stanmod2 <- cmdstanr::cmdstan_model(stanfile,
 
 
 ## ---- run_m2 ----
+# most of it the same as previously
 res_m2 <- stanmod2$sample(data = fitdat2,
                           chains = fs_m1$chains,
                           init = fs_m1$init,
-                          seed = fs_m1$seed,
+                          seed = rngseed,
                           parallel_chains = fs_m1$chains,
                           iter_warmup = fs_m1$warmup,
                           iter_sampling = fs_m1$sampling,
@@ -341,11 +352,10 @@ res_m2 <- stanmod2$sample(data = fitdat2,
 )
 
 ## ---- savefits_m2 ----
-filename = "cmdstanr4par-simple.Rds"
-res_m2$save_object(fs::path(filepath,filename))
+res_m2$save_object(fs::path(filepath,filename_simple))
 
 ## ---- loadfits_m2 --------
-res_m2 <- readRDS(fs::path(filepath,filename))
+res_m2 <- readRDS(fs::path(filepath,filename_simple))
 
 ## ---- get_samples_m2 ----
 #this uses the posterior package to get draws
@@ -355,24 +365,43 @@ allsamp_m2 <- res_m2$draws(inc_warmup = TRUE, format = "draws_df")
 ## ---- diagnose_m2 ----
 res_m2$cmdstan_diagnose()
 
-## ---- prep_data_m1 ----
+## ---- plot_par_m2 ----
+# only a few parameters
+plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","sigma")
+bayesplot::color_scheme_set("viridis")
+bp1 <- bayesplot::mcmc_trace(samp_m2, pars = plotpars)
+bp3 <- bayesplot::mcmc_dens_overlay(samp_m2, pars = plotpars)
+plot(bp1)
+plot(bp3)
+
+
+## ---- prep_data_m2 ----
 # data manipulation to get in shape for plotting
+# start with manipulation of posterior parameters
 postdf1 <- samp_m2 %>% 
   select(!ends_with('prior')) %>% 
-  select(!starts_with(".")) %>% 
-  select(-"lp__") %>% 
-  select(!contains("[")) 
-# awkward way of getting some further parameters
+  select(contains("sigma")) 
+# akward way of getting some further parameters
 # namely values from first individual for a0,b0,g0,e0
 postdf2 <- samp_m2 %>%
   select(contains("0[1]")) %>%
   rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
 postdf <- cbind(postdf1, postdf2) 
+postlong <- tidyr::pivot_longer(data = postdf, 
+                                cols = everything() , 
+                                names_to = "parname", 
+                                values_to = "value") %>% 
+  dplyr::mutate(type = "posterior")
+# manipulation of prior parameters
 priordf <-  samp_m2 %>% 
   select(ends_with('prior')) %>% 
   rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
-postlong <- tidyr::pivot_longer(data = postdf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "posterior")
-priorlong <- tidyr::pivot_longer(data = priordf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "prior")
+priorlong <- tidyr::pivot_longer(data = priordf, 
+                                 cols = everything() , 
+                                 names_to = "parname", 
+                                 values_to = "value") %>% 
+                        dplyr::mutate(type = "prior")
+
 ppdf <- dplyr::bind_rows(postlong,priorlong)
 
 ## ---- prior_post_m2 ----
@@ -414,9 +443,10 @@ fitpred2 = data.frame(id = as.factor(fitdat2$id),
 )
 
 #make the plot
+#not including the CI or prediction intervals since it looks too messy
 predplot2 <- ggplot(data = fitpred2, aes(x = time, y = Estimate, group = id, color = dose ) ) +
   geom_line() +
-  geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
+  #geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
   #geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
   geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
   scale_y_continuous(limits = c(-30,50)) +

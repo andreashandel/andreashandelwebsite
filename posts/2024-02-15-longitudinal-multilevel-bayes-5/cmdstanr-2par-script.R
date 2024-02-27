@@ -12,6 +12,26 @@ library("posterior") # for post-processing
 library("loo") # for model diagnostics
 
 
+## ---- setup --------
+############################################
+# some general definitons and setup stuff
+############################################
+#setting random number seed for reproducibility
+rngseed = 1234
+
+# I'll be saving results so we can use them without always running the model
+# Note that the files are often too large for standard Git/GitHub - where this project lives
+# Git Large File Storage should be able to handle it
+# I'm using a simple hack so I don't have to set up Git LFS
+# I am saving these large file to a folder that is synced with Dropbox
+# adjust accordingly for your setup
+#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filename = "cmdstanr2par.Rds"
+stanfile <- here('posts','2024-02-15-longitudinal-multilevel-bayes-5',"stancode-2par.stan")
+
+
+
 ## ---- data --------
 # adjust as necessary
 simdatloc <- here::here("posts", "2022-02-22-longitudinal-multilevel-bayes-1", "simdat.Rds")
@@ -29,18 +49,16 @@ fitdat <- list(
   Nind = Nind
 )
 
-
-## ---- make_stanmodel -----
-# make Stan model
-stanfile <- here("posts", "2024-02-15-longitudinal-multilevel-bayes-5", "stancode-2par.stan")
-stanmod1 <- cmdstanr::cmdstan_model(stanfile,
-  pedantic = TRUE,
-  force_recompile = TRUE
-)
-
-
 ## ---- show_stancode -----
 print(stanmod1)
+
+## ---- make_stanmodel -----
+# make Stan model. 
+stanmod1 <- cmdstanr::cmdstan_model(stanfile, 
+                                    pedantic=TRUE, 
+                                    force_recompile=TRUE)
+
+
 
 ## ---- fitconditions ----
 # settings for fitting
@@ -49,12 +67,12 @@ print(stanmod1)
 # and set more stringent conditions
 fs_m1 <- list(
   warmup = 1500,
-  sampling = 1000,
-  max_td = 15, # tree depth
-  adapt_delta = 0.99,
-  chains = 4,
-  cores = 4,
-  seed = 1234,
+  sampling = 2000,
+  max_td = 18, # tree depth
+  adapt_delta = 0.9999,
+  chains = 5,
+  cores = 5,
+  seed = rngseed,
   save_warmup = TRUE
 )
 
@@ -63,7 +81,7 @@ fs_m1 <- list(
 # separate definition of initial values, added to fs_m1 structure
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
-set.seed(1234) # make inits reproducible
+set.seed(rngseed) #make inits reproducible
 init_vals_1chain <- function() {
   (list(
     mu_a = runif(1, 1, 3),
@@ -94,19 +112,13 @@ res_m1 <- stanmod1$sample(
   iter_sampling = fs_m1$sampling,
   save_warmup = fs_m1$save_warmup,
   max_treedepth = fs_m1$max_td,
-  adapt_delta = fs_m1$adapt_delta
+  adapt_delta = fs_m1$adapt_delta,
+  output_dir = filepath
+  
 )
 
 ## ---- savefits ----
-# saving the list of results so we can use them later
-# the file is too large for standard Git/GitHub
-# Git Large File Storage should be able to handle it
-# I'm using a simple hack so I don't have to set up Git LFS
-# I am saving these large file to a folder that is synced with Dropbox
-# adjust accordingly for your setup
-#filepath <- fs::path("D:", "Dropbox", "datafiles", "longitudinalbayes", "cmdstanr2par", ext = "Rds")
-filepath <- fs::path("C:", "Data", "Dropbox", "datafiles", "longitudinalbayes", "cmdstanr2par", ext = "Rds")
-res_m1$save_object(file = filepath)
+res_m1$save_object(fs::path(filepath,filename))
 
 
 ## ---- loadfits --------
@@ -116,11 +128,7 @@ res_m1$save_object(file = filepath)
 # since the file is too large for GitHub
 # it is stored in a local cloud-synced folder
 # adjust accordingly for your setup
-filepath <- fs::path("D:", "Dropbox", "datafiles", "longitudinalbayes", "cmdstanr2par", ext = "Rds")
-if (!fs::file_exists(filepath)) {
-  filepath <- fs::path("C:", "Data", "Dropbox", "datafiles", "longitudinalbayes", "cmdstanr2par", ext = "Rds")
-}
-res_m1 <- readRDS(filepath)
+res_m1 <- readRDS(fs::path(filepath,filename))
 
 
 ## ---- diagnose_m1 ----

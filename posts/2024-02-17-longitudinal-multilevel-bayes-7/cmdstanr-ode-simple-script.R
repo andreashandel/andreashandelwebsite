@@ -11,6 +11,21 @@ library('bayesplot') #for plotting results
 library('loo') #for model diagnostics
 library("deSolve") #to explore the ODE model in R
 
+## ---- setup --------
+############################################
+# some general definitons and setup stuff
+############################################
+#setting random number seed for reproducibility
+rngseed = 1234
+# File locations and names
+# adjust as needed
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filename = "cmdstanr-ode-simple.Rds"
+stanfile <- here('posts','2024-02-17-longitudinal-multilevel-bayes-7',"stancode-ode-simple.stan")
+simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
+
+
+
 
 ## ---- explore-model --------
 # brief plotting of model to get idea for priors
@@ -49,8 +64,7 @@ plot(oderes[,1],oderes[,4])
 
 
 ## ---- data --------
-# adjust as necessary
-simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
+# loading data, path set in setup
 simdat <- readRDS(simdatloc)
 # using dataset 3 for fitting
 # formatted for Stan use
@@ -71,7 +85,7 @@ priorvals = list(a0_mu = 3, a0_sd = 1,
 fitdat=list(id=simdat[[3]]$id, #an ID for each individual, for indexing
             outcome = simdat[[3]]$outcome, #all outcomes
             time = simdat[[3]]$time, #all times
-            dose_adj = simdat[[3]]$dose_adj,
+            dose_adj = simdat[[3]]$dose_adj[1:Nind],
             dose_level = as.numeric(factor(simdat[[3]]$dose_adj[1:Nind])), #dose category for each individual
             Ntot =  Ntot,
             Nobs =  Nobs,
@@ -84,8 +98,7 @@ fitdat = c(fitdat,priorvals)
 
 ## ---- make_stanmodel -----
 # make Stan model. 
-stan_file <- here('posts','2024-02-17-longitudinal-multilevel-bayes-7',"stancode-ode-simple.stan")
-stanmod1 <- cmdstanr::cmdstan_model(stan_file = stan_file, 
+stanmod1 <- cmdstanr::cmdstan_model(stan_file = stanfile, 
                                     compile = TRUE,
                                     pedantic=TRUE,
                                     force_recompile=TRUE)
@@ -110,7 +123,7 @@ fs_m1 = list(warmup = 1500,
 # separate definition of initial values, added to fs_m1 structure 
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
-set.seed(1234) #make inits reproducible
+set.seed(rngseed) #make inits reproducible
 init_vals_1chain <- function() (list(a0 = runif(Nind,3,4),
                                      b0 = runif(Nind,-1,-1),
                                      g0 = runif(Nind,1,1),
@@ -137,19 +150,13 @@ res_m1 <- stanmod1$sample(data = fitdat,
                           iter_sampling = fs_m1$sampling,
                           save_warmup = fs_m1$save_warmup,
                           max_treedepth = fs_m1$max_td,
-                          adapt_delta = fs_m1$adapt_delta
+                          adapt_delta = fs_m1$adapt_delta,
+                          output_dir = filepath
+                          
 )
 
 ## ---- savefits ----
-# saving the list of results so we can use them later
-# the file is too large for standard Git/GitHub
-# Git Large File Storage should be able to handle it
-# I'm using a simple hack so I don't have to set up Git LFS
-# I am saving these large file to a folder that is synced with Dropbox
-# adjust accordingly for your setup
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr-ode-simple", ext="Rds")
-#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr-ode-simple", ext="Rds")
-res_m1$save_object(file=filepath)
+res_m1$save_object(fs::path(filepath,filename))
 
 
 ## ---- loadfits --------
@@ -159,13 +166,12 @@ res_m1$save_object(file=filepath)
 # since the file is too large for GitHub
 # it is stored in a local cloud-synced folder
 # adjust accordingly for your setup
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes","cmdstanr-ode-simple", ext="Rds")
-if (!fs::file_exists(filepath))
-{
-  filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes","cmdstanr-ode-simple", ext="Rds")
-}
-res_m1 <- readRDS(filepath)
+res_m1 <- readRDS(fs::path(filepath,filename))
 
+## ---- get_samples_m1 ----
+#this uses the posterior package to get draws
+samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
+allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 
 ## ---- diagnose_m1 ----
 res_m1$cmdstan_diagnose()
@@ -174,37 +180,48 @@ res_m1$cmdstan_diagnose()
 # uses posterior package 
 print(head(res_m1$summary(),15))
 
-## ---- get_samples_m1 ----
-#this uses the posterior package to get draws
-samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
-allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 
 ## ---- plot_par_m1 ----
-# only picking a few parameters
-plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","V0[1]","V0[2]","V0[3]","sigma")
+# only a few parameters
+plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","sigma")
 bayesplot::color_scheme_set("viridis")
-bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
-bp2 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
-bp3 <- bayesplot::mcmc_pairs(samp_m1, pars = plotpars)
+bp1 <- bayesplot::mcmc_trace(samp_m2, pars = plotpars)
+bp3 <- bayesplot::mcmc_dens_overlay(samp_m2, pars = plotpars)
 plot(bp1)
-plot(bp2)
 plot(bp3)
 
 
 ## ---- prep_data_m1 ----
 # data manipulation to get in shape for plotting
-postdf <- samp_m1 %>% 
-          select(!ends_with('prior')) %>% 
-          select(!starts_with(".")) %>% 
-          select(-"lp__") %>% 
-          select(contains("[1]")) %>%
-          rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
+# data manipulation to get in shape for plotting
+# start with manipulation of posterior parameters
+postdf1 <- samp_m1 %>% 
+  select(!ends_with('prior')) %>% 
+  select(contains("sigma")) 
+# akward way of getting some further parameters
+# namely values from first individual for a0,b0,g0,e0
+postdf2 <- samp_m1 %>%
+  select(contains("0[1]")) %>%
+  rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
+postdf <- cbind(postdf1, postdf2) 
+postlong <- tidyr::pivot_longer(data = postdf, 
+                                cols = everything() , 
+                                names_to = "parname", 
+                                values_to = "value") %>% 
+  dplyr::mutate(type = "posterior")
+# manipulation of prior parameters
 priordf <-  samp_m1 %>% 
-            select(ends_with('prior')) %>% 
-            rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
-postlong <- tidyr::pivot_longer(data = postdf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "posterior")
-priorlong <- tidyr::pivot_longer(data = priordf, cols = everything() , names_to = "parname", values_to = "value") %>% mutate(type = "prior")
+  select(ends_with('prior')) %>% 
+  rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
+priorlong <- tidyr::pivot_longer(data = priordf, 
+                                 cols = everything() , 
+                                 names_to = "parname", 
+                                 values_to = "value") %>% 
+  dplyr::mutate(type = "prior")
+
 ppdf <- dplyr::bind_rows(postlong,priorlong)
+
+
 
 ## ---- prior_post_m1 ----
 m1_p1 <- ppdf %>%

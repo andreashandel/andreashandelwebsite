@@ -86,8 +86,14 @@ $$
 
 I previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. Of course, we could implement the model above in either of those packages. But in preparation of what I really want to do (using ODE models, and eventually fully account for censored data), I need to switch to coding the model in `Stan`. There might be hacks to do it with `brms` or `rethinking`, but it seems more flexible and also more transparent to just code the full model in `Stan`. We'll still run it through R using `cmdstanr`. Links to the Stan and R code files are given at the top of this document.
 
+We start by loading packages and defining a few settings.
+
 ```{r, packages, message=FALSE, warning = FALSE}
 ```
+
+```{r, setup, message=FALSE, warning = FALSE}
+```
+
 
 We'll use the same data as before. We just need to reshape it a bit to get it into the format that `cmdstanr` requires.
 
@@ -98,19 +104,21 @@ We'll use the same data as before. We just need to reshape it a bit to get it in
 
 # Stan code
 
-Next, we need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-2par.stan`. This code loads and compiles the Stan model.
-
-```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
-```
-
-Next, we'll take a quick look at the Stan model code. I added some comments to the Stan model, but if you have never written Stan code, this is likely not fully clear. I won't try to explain Stan code n detail here. There are lots of good resources on the [Stan website](https://mc-stan.org/) and other places online. I'm sure you'll find something that you find accessible to learn the basics of writing Stan code.
+We need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-2par.stan`. This is how it looks like. 
 
 ```{.stan include="stancode-2par.stan"}
 ```
 
-
+I added some comments to the Stan model, but if you have never written Stan code, this is likely not fully clear. I won't try to explain Stan code in detail here. There are lots of good resources on the [Stan website](https://mc-stan.org/) and other places online. 
 Note that the `generated quantities` block is not technically part of the model, and we would get the same results without it. But it is included to compute priors, likelihood and posterior predictions, so we can explore those later. You'll see that used below.
 While we could have all the information that's inside the `transformed parameters` block part of the `model` block, that would mean that the `generated quantities` code bits can't access that information. Therefore, all of these intermediate steps are done in `transformed parameters` and then used in both the `model` and the `generated quantities` block. I generally find it easiest to have any distributional/probabilistic bits of code (those that include the `~` sign) in the `model` block, and everything else as much as possible in `transformed parameters`.
+
+
+This uses `cmdstanr` to load and compile the Stan model.
+
+```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
+```
+
 
 
 # Model fitting settings
@@ -207,7 +215,7 @@ The plots show that the priors don't overly influence the results, the data domi
 Another useful plot is to look at observed versus predicted results. This is shown in the following plot. The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following each other fairly closely. That's a good sign. Systematic deviations would indicate that the model didn't fully capture the patterns found in the data and might need modification.
 
 
-```{r, obs_pred_m1}
+```{r, obs_pred_m1, cache=TRUE}
 ```
 
 
@@ -217,14 +225,14 @@ We can explore further doing cross-validation with the `loo` package. For this t
 
 Here are the diagnostics we get from `loo`. I won't go into the details of cross-validation and LOO here, see the [`loo` package website](https://mc-stan.org/loo/) for good explanations.
 
-```{r, loo_m1_part1,  warning = FALSE, message = FALSE}
+```{r, loo_m1_part1,  warning = FALSE, message = FALSE, cache=TRUE}
 ```
 
 Some values aren't too great. But it's only a few and it's very likely that if we were to run the model with more iterations and more stringent settings, we'll get even better results. You can give it a try 😁. 
 
 Here's some more LOO diagnostics.
 
-```{r, loo_m1_part2,  warning = FALSE, message = FALSE}
+```{r, loo_m1_part2,  warning = FALSE, message = FALSE, cache=TRUE}
 ```
 
 The marginal posterior predictive plot suggests some improvement might be possible (so that the solid line is more on top of the green lines). [See here for more](https://mc-stan.org/loo/articles/loo2-example.html).
@@ -250,7 +258,7 @@ Note that previously, I used new data to predict at more time points to get smoo
 
 # Summary and continuation
 
-This completes the `cmdstanr`/`Stan` re-implementation and exploration of one of the previously explored models. Comparing the results to those found previously, we find good agreement. That's comforting.
+This completes the `cmdstanr`/`Stan` re-implementation and exploration of one of the previously explored models. Comparing the results to those found previously, we find good agreement. That's somewhat comforting.
 
 While I had planned to now implement the ODE model as a next step, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I switch. The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/#alternative-model-for-time-series-trajectory) and that we ended up using in [our paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
 

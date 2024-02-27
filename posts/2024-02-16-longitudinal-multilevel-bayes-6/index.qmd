@@ -54,16 +54,20 @@ $$
 \end{aligned}
 $$
 
-Here's a bit of R code to explore this equation and to determine values for parameter priors and starting conditions that lead to curves that are consistent with our simulated data.
+Here's a bit of R code to explore this equation and to determine values for parameter priors that produce curves that are broadly consistent [with our simulated data](/posts/2022-02-22-longitudinal-multilevel-bayes-1/).
 
 ```{r, explore-model}
 ```
 
 
 
+
+
 ## Full model structure
 
-The rest of the model follow the previous one, just with more parameters. They all get their own equations. Here are the main components of the the new  model.
+The rest of the model follow the previous one, just with more parameters. They all get their own equations. Here are the main components of the the new  model. 
+
+<!-- I made one further change. Instead of assuming that the main model parameters depend linearly on the log of the dose, I instead treat the dose as categorical, with 3 dose levels. While one might generally expect a monotone relation between dose and virus load, there's not necessarily a reason to assume that it's linear. That will be especially true for the ODE model, where the mapping of some predictor variable on model parameters can be highly nonlinear. I tried a linear version first here, and found it to be too constricting, so I switched. -->
 
 
 $$
@@ -146,8 +150,9 @@ Some setup bits
 ```
 
 
+# Data
 
-We'll use the same data as before. I'm making one more change. Instead of hard-coding the values for the prior distributions into the Stan code, I'm assigning some of them labels and then pass values into Stan from R. This makes exploring the Stan model more flexible, I don't need to re-edit the Stan code if I want to try different values for the priors. These values for the priors need to be passed in as part of the data. I could do this for all parameters, but out of laziness, and because I don't change them much, I'm hard-coding the sigma parameters.
+We'll use the same data as before. I'm making one more change. Instead of hard-coding the values for the prior distributions into the Stan code, I'm passing them into the Stan code as part of the data. This makes exploring the Stan model more flexible, I don't need to re-edit the Stan code if I want to try different values for the priors. I could do this for all parameters, but out of laziness, and because I don't change them much, I'm hard-coding the sigma parameters inside the Stan file.
 
 
 ```{r, data}
@@ -156,14 +161,16 @@ We'll use the same data as before. I'm making one more change. Instead of hard-c
 
 # Stan code
 
-Next, we need to write the Stan model code. While one could embed Stan code inside an R script, I find it best to write that code in a separate file and then load it. Here, the code is in file called `stancode-4par.stan`. This code loads and compiles the Stan model.
-
-```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
-```
-
-Next, we'll take a quick look at the Stan model code. The model is basically like the previous one, updated to reflect the model equations above. As mentioned above, instead of hard-coding values for prior distributions inside the Stan code, I'm passing some of them into the code as data. The advantage of passing them in is that I can more quickly play around with different values and see how results change. It also ensures that I use the same values in all parts of the model (e.g., `model` and `generated quantities` blocks).
+I again wrote the Stan code in a separate Stan file. Here is the code. The model is basically like the previous one, updated to reflect the model equations above. As mentioned above, instead of hard-coding values for prior distributions inside the Stan code, I'm passing some of them into the code as data. The advantage of passing them in is that I can more quickly play around with different values and see how results change. It also ensures that I use the same values in all parts of the model (e.g., `model` and `generated quantities` blocks).
 
 ```{.stan include="stancode-4par.stan"}
+```
+
+
+
+This loads and compiles the Stan model.
+
+```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
 ```
 
 
@@ -225,13 +232,13 @@ The plots look reasonable. Well-mixing chains and no noticeable correlations amo
 
 # Model results
 
-Now that we think we can somewhat trust that the sampling worked, we'll take a look at a summary table for the distributions of some of the model parameters. I cut it off since there are too many to show (each individual as multiple parameters with associated distributions). We'll also look at the posteriors in a graph.
+Let's also look at the results, namely the posterior distributions of the parameters. We'll again do both a table and a figure. We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the parameters (after addressing the problems with the algorithm not working well).
+
 
 ```{r, results_m1}
 ```
 
 
-We can't really compare with the values we used to generate the model since we are using a different model to fit the data, so we shouldn't expect any parameters to be similar. Thus, I'm not focusing further on the values. Again, for a real research project, you would want to carefully evaluate the parameters (after addressing the problems with the algorithm not working well).
 
 
 
@@ -256,25 +263,25 @@ The plots show that the priors don't overly influence the results, the data domi
 Another useful plot is to look at observed versus predicted results. This is shown in the following plot.
 
 
-```{r, obs_pred_m1}
+```{r, obs_pred_m1, cache=TRUE}
 ```
 
 
-The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are following are a bit off. That indicates that the model didn't fully capture the patterns found in the data and might need modification.
+The data (black line, $y$ variable) and the model (thin green line, $y_{rep}$) are a bit off. That indicates that the model didn't fully capture the patterns found in the data and might need modification.
 
 
 # Cross-validation tests
 
 Here's again some further exploration via cross-validation with the `loo` package. 
 
-```{r, loo_m1_part1,  warning = FALSE, message = FALSE}
+```{r, loo_m1_part1,  warning = FALSE, message = FALSE, cache=TRUE}
 ```
 
 Some values aren't too great. This again suggests that we need to tweak the model or run it longer with more stringent settings.
 
 Here's some more LOO diagnostics.
 
-```{r, loo_m1_part2,  warning = FALSE, message = FALSE}
+```{r, loo_m1_part2,  warning = FALSE, message = FALSE, cache=TRUE}
 ```
 
 The marginal posterior predictive plot suggests some improvement might be possible (so that the solid line is more on top of the green lines). [See here for more](https://mc-stan.org/loo/articles/loo2-example.html).
@@ -291,16 +298,19 @@ Finally, we again want to look at the actual data and the model predictions. It'
 ```{r, plot_predictions,  warning = FALSE, message = FALSE}
 ```
 
-The model fits don't look that great. I'm not sure why the model isn't capturing the data better, if it needs more iterations and/or better choice of priors, or if there's something inherent about the structure of this model not being able to capture the data generated by the 2-parameter model, even though it is more flexible with its 4 parameters.
+The model fits don't look that great. I'm not sure why the model isn't capturing the data better, if it needs more iterations and/or better choice of priors, or if there's something inherent about the structure of this model not being able to capture the data generated by the 2-parameter model, even though it is more flexible with its 4 parameters. I suspect it's the last one, it seems even though this new model has more parameters, and thus should be more flexible, it can't quite capture the more gentle increase and decrease of the data generated by the simpler model.
+
+In a reasearch/real-world setting, I would try to explore the model, priors, algorithm to make sure 1) I don't have any remaining mistakes in my code️ 🙄, 2) The problem is not due to poor choice of priors or starting values, 3) the hierarchical structure is not constraining the model too much. If those are ruled out, change the model to something that is better able to capture the patterns seen in the data. 
+
+In fact, I did a bit of that and figured I'll show it too.
+
 
 
 # Alternative model
 
-The previous model isn't fitting too well. I'm not sure why. Either it's because the underlying model just doesn't fit well, or there's something about the statistical model and the adaptive (and non-adaptive) priors that lead to the strange results.
+Since the previous model isn't fitting too well, I wanted to understand a bit more why that might be. I decided to implement a simpler model. It's the same 4-parameter equation for the virus load as above, but with a simpler parameter structure. I only used individual-level parameters which are independent of each other, and there's no dependence on dose. The complete independence of each parameter from each other is expected to make the model too flexible and overfit. The dose dependence is the scientific question, so removing them makes the model scientifically pointless. But I wanted to see if a model that basically allows each individual to have their completely independent set of main model parameters could get me something that matches the data closer. In some sense, this is the most flexible model I can make. If that doesn't work, it suggests the underlying model for the virus load is not able to capture the pattern seen here.
 
-I wanted to try another model to look into that. It's the same virus load model as above, but with a much simpler parameter structure. We'll have only individual-level parameters which are independent of each other, and there's no dose dependence. This is scientifically not interesting, I'm just using it to understand better why the fits aren't that great.
-
-This is the updated model.
+This is the updated model. I would of course not need both the $\alpha, \beta, ...$ and $a_0, b_0,...$ parameters since they are the same here and just duplicates. I decided to keep it anyway so it's easier to compare to the above model - and I had to make fewer changes to the code 😁.
 
 $$
 \begin{aligned}
@@ -321,6 +331,7 @@ a_{0,i} \sim \mathrm{Normal}(X, X) \\
 b_{0,i}  \sim \mathrm{Normal}(X, X) \\
 g_{0,i} \sim \mathrm{Normal}(X, X) \\
 e_{0,i}  \sim \mathrm{Normal}(X, X) \\
+\sigma  \sim \mathrm{HalfCauchy}(X)  \\
 \end{aligned}
 $$
 
@@ -328,16 +339,33 @@ $$
 # Alternative model implementation
 
 Here's the code to set up and run this model.
-We of course have a new Stan model, need to pick new priors and new initial conditions.
+We of course have a new Stan model and need to pick new priors and new initial conditions.
+
+```{r, alt-model}
+```
 
 
 ```{r, data_m2}
 ```
 
+```{r, initialconditions_m2}
+```
+
+
+# Stan Code
+
+This is the updated Stan code. Here is the [file](stancode-4par-simple.stan).
+
+```{.stan include="stancode-4par-simple.stan"}
+```
+
+Compiling the Stan model.
 
 ```{r, make_stanmodel2, message=FALSE, warning = FALSE, eval=FALSE}
 ```
 
+
+# Model run
 
 This runs the model and saves results.
 
@@ -346,6 +374,9 @@ This runs the model and saves results.
 
 ```{r, savefits_m2, message=FALSE, warning = FALSE, eval=FALSE}
 ```
+
+
+# Result exploration
 
 Load results.
 
@@ -358,7 +389,30 @@ Get the samples.
 ```
 
 
-Plotting of data and model predictions
+Diagnostics. Still not quite right.
+
+```{r, diagnose_m2,  warning = FALSE, message = FALSE}
+```
+
+A few plots. They look fairly reasonable.
+
+```{r, plot_par_m2,  warning = FALSE, message = FALSE}
+```
+
+Comparing priors and posteriors.
+
+```{r, prep_data_m2,  warning = FALSE, message = FALSE}
+```
+
+```{r, prior_post_m2,  warning = FALSE, message = FALSE}
+```
+
+Skipping over all the other diagnostics plot we did above.
+
+
+# Outcome predictions
+
+Going straight to plotting of data and model predictions.
 
 ```{r, make_predictions_m2,  warning = FALSE, message = FALSE}
 ```
@@ -367,8 +421,11 @@ Plotting of data and model predictions
 ```
 
 
+This doesn't really look any better compared to the other model. So I -- preliminarily -- conclude that the main 4-parameter deterministic model I use here to describe the virus load trajectories just can't capture the shape of the data generated by the simpler 2-parameter model.
+
 
 
 # Summary and continuation
 
-This completes the 4-parameter model. I just wanted to get a working model, I'm not really interested in the model results. I just wanted to set the stage for the next version, which is the 4-parameter ODE model. So it's finally time to [tackle that one](/posts/2024-02-17-longitudinal-multilevel-bayes-7/).
+This completes the 4-parameter model. I would not use this model if I really wanted to fit the data here. But I just wanted to get a working model, I'm not really interested in the model results. I just wanted to set the stage for the next version, which is the 4-parameter ODE model. So it's finally time to [tackle that one](/posts/2024-02-17-longitudinal-multilevel-bayes-7/).
+

@@ -127,7 +127,7 @@ transformed parameters{
 model{
 
         // residual population variation
-    sigma ~ exponential( 1 ); 
+    sigma ~ cauchy(0, 1 ); 
     // average dose-dependence of each ODE model parameter
     a0 ~ normal( a0_mu , a0_sd); 
     b0 ~ normal( b0_mu , b0_sd);
@@ -158,7 +158,7 @@ generated quantities {
     
     // this is so one can plot priors and compare with posterior later   
     // simulate the priors
-    sigma_prior = exponential_rng( 1 );
+    sigma_prior = abs(cauchy_rng(0, 1 ));
     a0_prior = normal_rng( a0_mu , a0_sd);
     b0_prior = normal_rng( b0_mu , b0_sd);
     g0_prior = normal_rng( g0_mu , g0_sd);
