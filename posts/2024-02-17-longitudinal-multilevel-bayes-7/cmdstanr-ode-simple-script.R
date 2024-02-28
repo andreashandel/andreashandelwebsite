@@ -19,7 +19,8 @@ library("deSolve") #to explore the ODE model in R
 rngseed = 1234
 # File locations and names
 # adjust as needed
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
 filename = "cmdstanr-ode-simple.Rds"
 stanfile <- here('posts','2024-02-17-longitudinal-multilevel-bayes-7',"stancode-ode-simple.stan")
 simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
@@ -67,11 +68,43 @@ plot(oderes[,1],oderes[,4])
 # loading data, path set in setup
 simdat <- readRDS(simdatloc)
 # using dataset 3 for fitting
-# formatted for Stan use
-Ntot =  length(simdat$m3$id) #total observations
-Nind = length(unique(simdat$m3$id)) #number of individuals
-Nobs = as.numeric(table(simdat[[3]]$id)) #number of observations per individual, the same for everyone here
-Ndose = length(unique(simdat$m3$dose_adj))
+# need to reformat all data as one list, this is how Stan needs it
+# we used to have things arranged by observations at a given time for every individual
+# for this model to make it work in Stan, we need to reorganize to
+# have all data for one individual, then the next, etc.
+dat <- simdat[[3]] %>% dplyr::arrange(id,time)
+
+Ntot =  length(dat$id) #total observations
+Nind = length(unique(dat$id)) #number of individuals
+Nobs = as.numeric(table(dat$id)) #number of observations per individual, the same for everyone here
+Ndose = length(unique(dat$dose_adj))
+# since Stan needs the data as one long vector
+# we make two vectors that indicate for each individual where the first
+# and last observation is
+start = rep(0,Nind)
+stop = start
+start[1] = 1
+stop[1] = Nobs[1]
+for (i in 2:Nind) {
+    start[i] = start[i - 1] + Nobs[i - 1];
+    stop[i] = stop[i - 1] + Nobs[i];
+}
+fitdat=list(id=newdat$id, #an ID for each individual, for indexing
+            outcome = newdat$outcome, #all outcomes
+            time = newdat$time, #all times
+            dose_adj = newdat$dose_adj,
+            dose_level = as.numeric(factor(newdat$dose_adj)), 
+            Ntot =  Ntot,
+            Nobs =  Nobs,
+            Nind = Nind,
+            Ndose = Ndose,
+            start = start,
+            stop = stop,
+            tstart = 0
+)
+
+
+
 # values for prior distributions
 # allows for exploring different values without having to edit Stan model code
 priorvals = list(a0_mu = 3, a0_sd = 1,
@@ -80,19 +113,6 @@ priorvals = list(a0_mu = 3, a0_sd = 1,
                  e0_mu = 1, e0_sd = 1,
                  V0_mu = exp(5), V0_sd = 10
 )
-
-# all data as one list, this is how Stan needs it
-fitdat=list(id=simdat[[3]]$id, #an ID for each individual, for indexing
-            outcome = simdat[[3]]$outcome, #all outcomes
-            time = simdat[[3]]$time, #all times
-            dose_adj = simdat[[3]]$dose_adj[1:Nind],
-            dose_level = as.numeric(factor(simdat[[3]]$dose_adj[1:Nind])), #dose category for each individual
-            Ntot =  Ntot,
-            Nobs =  Nobs,
-            Nind = Nind,
-            Ndose = Ndose,
-            tstart = 0
-            )
 fitdat = c(fitdat,priorvals)
 
 
@@ -177,9 +197,31 @@ allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 res_m1$cmdstan_diagnose()
 
 ## ---- summarize_m1 ----
-# uses posterior package 
-print(head(res_m1$summary(),15))
+# get summaries across samples for all parameters
+par_res <- res_m1$summary()
+print(head(par_res,15))
 
+
+## ---- test_m1 ----
+#get means of 4 main parameters
+x <- par_res[3:(3+4*Nind),]$mean
+t = seq(0,10,length=100)
+odeall = NULL
+for (n in 1:Nind){
+  # virus load varies by dose, but barely so keeping it fixed here
+  y0 = log(c(1e8,1,149))
+  parms = exp(c(alph=x2[n],bet=x2[n+Nind],gamm=x2[n+2*Nind],et=x2[n+2*Nind]))
+  # run model for each set of parameters for each individual
+  oderes <- ode(y = y0, t = t, func = odemod, parms = parms)
+  # combine all results, also add individual ID as n
+  odeall=rbind(odeall, cbind(oderes,n))
+}
+#plot virus load curve for each individual
+odeall = data.frame(odeall)
+p1 <- odeall %>% ggplot2::ggplot() + geom_line(aes(x=time, y=X3, group=as.factor(n),color=as.factor(n)))
+plot(p1)
+
+x2 <- par_res %>% dplyr::filter(grepl("virus",variable))
 
 ## ---- plot_par_m1 ----
 # only a few parameters
