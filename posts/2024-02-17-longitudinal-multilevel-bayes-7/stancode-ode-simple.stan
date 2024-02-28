@@ -82,6 +82,8 @@ transformed parameters{
     array[Ntot] vector[3] y_all;
     // starting conditions for ODE model
     vector[3] ystart;
+    // compute fitness of virus
+    real R0;
 
     // loop over all individuals
     for ( i in 1:Nind ) {
@@ -95,8 +97,18 @@ transformed parameters{
      
       // starting value for virus depends on dose 
       // we are fitting/running model with variables on a log scale
-      ystart = [log(1e8),0,V0[dose_level[start[i]]]]';
+      ystart = [1e8,0,exp(V0[dose_level[start[i]]]) ]';
      
+
+      R0 = alph[i] * bet[i] * ystart[1] / (gamm[i] * et[i]);  
+      // this means parameters would lead to silly ODE behaviour
+      // so we don't run ODE and instead just return values for the "predicted" virus load
+      // that are far from the data, so the likelihood is low 
+      // (and hopefully tells the sample to not try those values further)
+      if ( (R0 > 100) || (R0 < 1) ){
+          virus_pred[start[i]:stop[i]] = rep_vector(1e20,Nobs[i]);
+      }else{
+
      // run ODE for each individual
       y_all[start[i]:stop[i]] = ode_rk45(
         odemod,      // name of ode function
@@ -109,7 +121,8 @@ transformed parameters{
         et[i] 
         );
     
-      virus_pred[start[i]:stop[i]] = to_vector(y_all[start[i]:stop[i], 3]);
+      virus_pred[start[i]:stop[i]] = log(to_vector(y_all[start[i]:stop[i], 3]));
+      } //end if-else statement
     } // end loop over each individual    
 } // end transformed parameters block
 

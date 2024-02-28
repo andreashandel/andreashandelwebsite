@@ -1,6 +1,6 @@
 ---
-title: Bayesian analysis of longitudinal multilevel data using brms and rethinking - part 7  
-description: In part 7 of this series, I show how to fit a very simple ODE model using Stan.
+title: Bayesian analysis of longitudinal multilevel data - part 7  
+description: In part 7 of this series, I show how to fit a very simple ODE model using Stan and cmdstanr.
 author: Andreas Handel
 date: 2024-02-17
 date-modified: last-modified
