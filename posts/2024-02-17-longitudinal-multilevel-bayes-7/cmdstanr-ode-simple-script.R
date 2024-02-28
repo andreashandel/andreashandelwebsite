@@ -185,8 +185,8 @@ print(head(res_m1$summary(),15))
 # only a few parameters
 plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","sigma")
 bayesplot::color_scheme_set("viridis")
-bp1 <- bayesplot::mcmc_trace(samp_m2, pars = plotpars)
-bp3 <- bayesplot::mcmc_dens_overlay(samp_m2, pars = plotpars)
+bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
+bp3 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
 plot(bp1)
 plot(bp3)
 

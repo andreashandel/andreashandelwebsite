@@ -50,7 +50,8 @@ fitdat <- list(
 )
 
 ## ---- show_stancode -----
-print(stanmod1)
+# not done this way currently, using alternative, see Quarto file
+#print(stanmod1)
 
 ## ---- make_stanmodel -----
 # make Stan model. 
