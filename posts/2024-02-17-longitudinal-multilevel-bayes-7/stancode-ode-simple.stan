@@ -27,12 +27,14 @@ data{
    int<lower = 1> Nind; //number of individuals
    int<lower = 1> Ndose; //number of dose levels
    array[Nind] int Nobs; //number of observations for each individual
+   array[Nind] int start; //start index for observations for each individual
+   array[Nind] int stop; //stop index for observations for each individual
    array[Ntot] real outcome; //virus load
    array[Ntot] real time; // times at which virus load is measured
    real tstart; //starting time for model
    array[Ntot] int id;  //vector of person IDs to keep track which data points belong to whom
-   array[Nind] real dose_adj; //dose after adjustment, 1 value per individual
-   array[Nind] int dose_level; //dose level for each individual, needed to index V0 starting values
+   array[Ntot] real dose_adj; //dose after adjustment, 1 value per individual
+   array[Ntot] int dose_level; //dose level for each individual, needed to index V0 starting values
    //everything below are variables that contain values for prior distributions
    real a0_mu; 
    real b0_mu;
@@ -44,18 +46,6 @@ data{
    real e0_sd;
    real V0_mu;
    real V0_sd;
-}
-
-// specifying where in the vector each individual starts and stops
-transformed data {
-  array[Nind] int start;
-  array[Nind] int stop;
-  start[1] = 1;
-  stop[1] = Nobs[1];
-  for(i in 2:Nind) {
-    start[i] = start[i - 1] + Nobs[i - 1];
-    stop[i] = stop[i - 1] + Nobs[i];
-  }
 }
 
 parameters{
@@ -105,7 +95,7 @@ transformed parameters{
      
       // starting value for virus depends on dose 
       // we are fitting/running model with variables on a log scale
-      ystart = [log(1e8),0,V0[dose_level[i]]]';
+      ystart = [log(1e8),0,V0[dose_level[start[i]]]]';
      
      // run ODE for each individual
       y_all[start[i]:stop[i]] = ode_rk45(
