@@ -8,9 +8,10 @@ listing:
   sort-ui: true
   filter-ui: true
   fields:
+    - title
+    - subtitle
     - date
     - reading-time
-    - title
     - description
     - image
     - image-alt

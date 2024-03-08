@@ -1,20 +1,14 @@
 ---
 title: Page Not Found
-listing:
-  contents: 
-    - posts
-    - presentations
-  type: table
-  sort: "date desc"
-  categories: true
-  sort-ui: true
-  filter-ui: true
-page-layout: full
-title-block-banner: true
 comments: false
 ---
 
-The page you requested cannot be found. 
-This page was recently converted to Quarto, it is possible a link changed. 
-Below is a list of all posts and presentations, perhaps you can find the one you are looking for.
-For projects, see the [projects](./projects.html) page.
+We are sorry, the  page you requested cannot be found. 
+
+This page was recently updated, it is possible a link changed. 
+
+The content should still be available. 
+
+Please check the [posts](./posts.qmd), [presentations](./presentations.qmd), or [projects](./projects.qmd) pages.
+
+Perhaps you can find what you are looking for.
