@@ -1,14 +1,27 @@
 //
-// Stan code for fitting an ODE model to time-series data
+// Stan code for simulating two ODE models 
 //
 
-// this code block defines the ODE model
+// the functions code block defines the 2 ODE models
     // I'm removing the last letter from each variable name
     // just to avoid potential conflicts with bulit-in names of Stan
     // such as beta for a beta distribution
     // it might not matter, but I wanted to be safe
 functions {
-  vector odemod(real t,
+  vector odemod1(real t,
+             vector y,
+             real alph, 
+             real bet, 
+             real gamm, 
+             real et) {
+    vector[3] dydt;
+    dydt[1] = - bet * y[1] * y[3];
+    dydt[2] = bet * y[1] * y[3] - gamm * y[2];
+    dydt[3] = alph * y[2] - et * y[3];
+    return dydt;
+  }
+
+  vector odemod2(real t,
              vector y,
              real alph, 
              real bet, 
@@ -18,9 +31,6 @@ functions {
     dydt[1] = - bet * exp(y[3]);
     dydt[2] = bet * exp(y[1] + y[3] - y[2]) - gamm;
     dydt[3] = alph * exp(y[2] - y[3]) - et;
-    //dydt[1] = - bet * y[1] * y[3];
-    //dydt[2] = bet * y[1] * y[3] - gamm * y[2];
-    //dydt[3] = alph * y[2] - et * y[3];
     return dydt;
   }
 }
@@ -61,39 +71,42 @@ model{
 
 // for model diagnostics and exploration
 generated quantities {
-    // define quantities that are computed in this block
-    vector[Ntot] ypred;
-    vector[Ntot] log_lik;
-    
-    // population variance
-    real<lower=0> sigma;
-    // individual-level  parameters
-    vector[Nind] a0;
-    vector[Nind] b0;
-    vector[Nind] g0;
-    vector[Nind] e0;
-    // starting value of virus for individuals in each dose group
-    // is being estimated
-    vector[Ndose] V0;
-
     // main model parameters
     // this is coded such that each individual can have their own value
-    // however, in this iteration of the code, the values only differ by dose level
-    // a later iteration of the code will include individal level variation
-    // I'm removing the last letter from each variable name
-    // just to avoid potential conflicts with bulit-in names of Stan
-    // such as beta for a beta distribution
-    // it might not matter, but I wanted to be safe
     vector[Nind] alph;
     vector[Nind] bet;
     vector[Nind] gamm;
     vector[Nind] et;
-    // predicted virus load from model
-    vector[Ntot] virus_pred; 
+
+    // individual-level  parameters
+    // right now just the non-exponentiated form of the main ones
+    vector[Nind] a0;
+    vector[Nind] b0;
+    vector[Nind] g0;
+    vector[Nind] e0;
+
+  
+    // starting value of virus for individuals in each dose group
+    // is being estimated
+    vector[Ndose] V0;
+    // population variance
+    real<lower=0> sigma;
+
     // time series for all 3 ODE model variables
-    array[Ntot] vector[3] y_all;
+    array[Ntot] vector[3] y_all1;
+    array[Ntot] vector[3] y_all2;
+
+    // predicted virus load from model
+    vector[Ntot] virus_pred1; 
+    vector[Ntot] virus_pred2; 
+
+    // define quantities that are computed in this block
+    vector[Ntot] ypred1;
+    vector[Ntot] ypred2;
+
     // starting conditions for ODE model
     vector[3] ystart;
+
     // compute fitness of virus
     real R0;
 
@@ -103,7 +116,7 @@ generated quantities {
     // loop over dose for starting value
     for (n in 1:3)
     {
-        V0[n] = normal_rng(V0_mu, V0_sd);
+        V0[n] = exp(normal_rng(V0_mu, V0_sd));
     }
 
     // loop over all individuals
@@ -125,21 +138,11 @@ generated quantities {
      
       // starting value for virus depends on dose 
       // we are fitting/running model with variables on a log scale
-      ystart =  [ log(1e8), 0, V0[dose_level[start[i]]] ]';
-     
-
-      // R0 = alph[i] * bet[i] * ystart[1] / (gamm[i] * et[i]);  
-      // this means parameters would lead to silly ODE behaviour
-      // so we don't run ODE and instead just return values for the "predicted" virus load
-      // that are far from the data, so the likelihood is low 
-      // (and hopefully tells the sample to not try those values further)
-      //if ( (R0 > 100) || (R0 < 1) ){
-      //    virus_pred[start[i]:stop[i]] = rep_vector(100,Nobs[i]);
-      //}else{
-
+      ystart =  [ 1e8, 1, V0[dose_level[start[i]]] ]';
+ 
      // run ODE for each individual
-      y_all[start[i]:stop[i]] = ode_bdf(
-        odemod,      // name of ode function
+      y_all1[start[i]:stop[i]] = ode_bdf(
+        odemod1,      // name of ode function
         ystart,      // initial state
         tstart,      // initial time
         time[start[i]:stop[i]],  // observation times - here same for everyone
@@ -148,18 +151,30 @@ generated quantities {
         gamm[i], 
         et[i] 
         );
-      //virus_pred[start[i]:stop[i]] = to_vector(y_all[start[i]:stop[i], 3]);
-      virus_pred[start[i]:stop[i]] = log(abs(to_vector(y_all[start[i]:stop[i], 3])));
-      //} //end if-else statement
+      virus_pred1[start[i]:stop[i]] = log(abs(to_vector(y_all1[start[i]:stop[i], 3])));
+
+     // repeat for second ODE model
+      y_all2[start[i]:stop[i]] = ode_bdf(
+        odemod2,      // name of ode function
+        log(ystart),      // initial state
+        tstart,      // initial time
+        time[start[i]:stop[i]],  // observation times - here same for everyone
+        alph[i], // model parameters - exponentiated to enforce positivity 
+        bet[i], 
+        gamm[i], 
+        et[i] 
+        );
+      virus_pred2[start[i]:stop[i]] = to_vector(y_all2[start[i]:stop[i], 3]);
+
     } // end loop over each individual    
-
-
 
   // compute log-likelihood and predictions
     for(i in 1:Ntot)
     {
-      log_lik[i] = normal_lpdf(outcome[i] | virus_pred[i], sigma);
-      ypred[i] = normal_rng(virus_pred[i], sigma);
+      ypred1[i] = normal_rng(virus_pred1[i], sigma);
+      ypred2[i] = normal_rng(virus_pred2[i], sigma);
     }
+
+
 } //end generated quantities block 
 

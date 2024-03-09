@@ -1,9 +1,10 @@
-# code for part 7 of longitudinal Bayesian fitting tutorial 
-# https://www.andreashandel.com/posts/longitudinal-multilevel-bayesian-analysis-7/
+# code for part XX of longitudinal Bayesian fitting tutorial 
+# https://www.andreashandel.com/posts/longitudinal-multilevel-bayesian-analysis-XX/
 
 ## ---- packages --------
 library('here') #for file loading
 library('dplyr') # for data manipulation
+library('tidyr') # for data manipulation
 library('ggplot2') # for plotting
 library('fs') #for file path
 library('cmdstanr') #for model fitting
@@ -19,10 +20,11 @@ library("deSolve") #to explore the ODE model in R
 rngseed = 1234
 # File locations and names
 # adjust as needed
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
-#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
-filename = "cmdstanr-ode-simple.Rds"
-stanfile <- here('myresources','2024-XX-X-baeysian-workflow',"stancode-ode-testing.stan")
+#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+filename = "cmdstanr-ode-testing.Rds"
+stanfile <- here('myresources','2024-XX-XX-bayes-workflow',"stancode-ode-testing.stan")
+stanfile2 <- here('myresources','2024-XX-XX-bayes-workflow',"stancode-ode-testing2.stan")
 simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
 
 ## ---- data --------
@@ -65,8 +67,6 @@ fitdat=list(id=dat$id, #an ID for each individual, for indexing
 )
 
 
-
-
 ## ---- odemodel1 --------
 odemod1 <- function(t,y,parms) 
   {
@@ -93,84 +93,82 @@ odemod2 <- function(t,y,parms)
 
 ## ---- priors --------
 # values for prior distributions
-pv = list(a0_mu = 4, a0_sd = 1,
-                 b0_mu = -21, b0_sd = 1,
-                 g0_mu = -1, g0_sd = 1,
-                 e0_mu = 0.5, e0_sd = 1,
+pv = list(a0_mu = 5, a0_sd = 0.5,
+                 b0_mu = -22, b0_sd = 1,
+                 g0_mu = -1, g0_sd = 0.5,
+                 e0_mu = 0.5, e0_sd = 0.5,
                  V0_mu = 5, V0_sd = 1
 )
 
 
 ## ---- r-simulation --------
-Nsamp = 100
-t = seq(0,50,length=100)
+Nsamp = 20 #number of samples
+timevec = seq(0,max(dat$time),length=100) #time
+odeall1 = NULL #set up empty array to hold all simulations
+odeall2 = NULL #same empty array for model version 2
+U0 = 1e8; #number of uninfected cells
+R0 = rep(0,Nsamp) #record R0 for all samples
+set.seed(rngseed) #set seed for reproducibility
 # could be done more efficiently without a loop
-odeall = NULL
 for (n in 1:Nsamp)
 {
   alph = exp(rnorm(1,pv$a0_mu, pv$a0_sd))
   bet = exp(rnorm(1,pv$b0_mu, pv$b0_sd))
   gamm = exp(rnorm(1,pv$g0_mu, pv$g0_sd)) 
   et = exp(rnorm(1,pv$e0_mu, pv$e0_sd))
-  V0 = exp(rnorm(1,pv$a0_mu, pv$a0_sd))
+  V0 = exp(rnorm(1,pv$V0_mu, pv$V0_sd))
+  R0[n] = bet*alph*U0/(gamm*et)
   odeparms = c(alph=alph,bet=bet,gamm=gamm,et=et)  
-  y0 = c(1e8,1,V0)  
-  oderes1 <- ode(y = y0, t = t, func = odemod1, parms = odeparms)
+  # Uninfected cells, infected cells, virus
+  # note that I'm starting with 1 infected cells so I can take the log
+  y0 = c(U0,1,V0)  
+  # run the ODE model twice, in linear and log space
+  # should give the same results 
+  oderes1 <- ode(y = y0, t = timevec, func = odemod1, parms = odeparms)
+  oderes2 <- ode(y = log(y0), t = timevec, func = odemod2, parms = odeparms)
   # combine all results, also add individual ID as n and add dose for a given individual
-  odeall=rbind(odeall, cbind(oderes1,n))
+  odeall1=rbind(odeall1, cbind(oderes1,n))
+  odeall2=rbind(odeall2, cbind(oderes2,n))
 }
-odeall = data.frame(odeall)
-p1 <- odeall %>% ggplot2::ggplot() + geom_line(aes(x=time, y=log(X3), group=as.factor(n),color=as.factor(n))) +
+#convert to data frame
+odeall1 = data.frame(odeall1)
+# make plot showing all trajectories and the data
+p1 <- odeall1 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=log(X3), group=as.factor(n),color=as.factor(n))) +
   geom_point(aes(x=time,y=outcome,group=as.factor(id)), data = dat) +
-  scale_y_continuous(limits = c(-30,50))
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme_minimal() +
+  theme(legend.position="none")
 plot(p1)
-
-
-  
-# reproductive number, gives an indication of virus growth
-# needs to be >1 
-R0 = exp(bet)*exp(alph)*y0[1]/(exp(gamm)*exp(et))
-print(R0)
-# run the ODE model
-plot(oderes1[,1],log(oderes1[,4]),type='l',lwd=2)
-
-# run the ODE model again, now in log space
-# initial conditions, on log scale 
-# Uninfected cells, infected cells, virus
-# note that I'm starting with 1 infected cells so I can take the log
-oderes2 <- ode(y = log(y0), t = t, func = odemod2, parms = odeparms)
-# look at virus load trajectory
-# note that it's already on the log scale
-points(oderes2[,1],oderes2[,4], col='red')
+# repeat for model 2
+# result should look same as for model 1
+odeall2 = data.frame(odeall2)
+p2 <- odeall2 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=X3, group=as.factor(n),color=as.factor(n))) +
+  geom_point(aes(x=time,y=outcome,group=as.factor(id)), data = dat) +
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme_minimal() +
+  theme(legend.position="none")
+plot(p2)
 
 
 
-# values for prior distributions
-# allows for exploring different values without having to edit Stan model code
-priorvals = list(a0_mu = 3, a0_sd = 5,
-                 b0_mu = -20, b0_sd = 5,
-                 g0_mu = -1, g0_sd = 5,
-                 e0_mu = 0.5, e0_sd = 5,
-                 V0_mu = 1, V0_sd = 5
-)
-fitdat = c(fitdat,priorvals)
 
 
-## ---- make_stanmodel -----
+## ---- make_stanmodel1 -----
 # make Stan model. 
 stanmod1 <- cmdstanr::cmdstan_model(stan_file = stanfile, 
                                     compile = TRUE,
                                     pedantic=TRUE,
                                     force_recompile=TRUE)
 
-
 ## ---- show_stancode -----
 print(stanmod1)
 
 ## ---- fitconditions ----
 #settings for fitting
-fs_m1 = list(warmup = 1000,
-             sampling = 1000, 
+fs_m1 = list(warmup = 1,
+             sampling = 40, 
              max_td = 15, #tree depth
              adapt_delta = 0.99,
              chains = 2,
@@ -184,12 +182,12 @@ fs_m1 = list(warmup = 1000,
 # a different sample will be drawn for each chain
 # there's probably a better way to do that than a for loop
 set.seed(rngseed) #make inits reproducible
-init_vals_1chain <- function() (list(a0 = runif(Nind,3,4),
-                                     b0 = runif(Nind,-21,-19),
+init_vals_1chain <- function() (list(a0 = runif(Nind,5,5),
+                                     b0 = runif(Nind,-22,-22),
                                      g0 = runif(Nind,-1,-1),
                                      e0 = runif(Nind,0.4,0.5),
                                      sigma = runif(1,0,1),
-                                     V0 = runif(Ndose,1,2)
+                                     V0 = runif(Ndose,5,6)
                                      ))
 
 inits = NULL
@@ -201,18 +199,19 @@ fs_m1$init = inits
 
 
 ## ---- run_m1 ----
-res_m1 <- stanmod1$sample(data = fitdat,
-                          chains = 1,
+fitdatstan = c(fitdat,pv)
+res_m1 <- stanmod1$sample(data = fitdatstan,
+                          chains = fs_m1$chains,
+                          init = fs_m1$init,
                           seed = fs_m1$seed,
-                          parallel_chains = 1,
-                          iter_warmup = 1,
+                          parallel_chains = fs_m1$chains,
+                          iter_warmup = fs_m1$warmup,
                           iter_sampling = fs_m1$sampling,
-                          output_dir = filepath, 
+                          output_dir = filepath,
                           fixed_param = TRUE
+                          
 )
 
-## ---- savefits ----
-res_m1$save_object(fs::path(filepath,filename))
 
 
 ## ---- loadfits --------
@@ -227,157 +226,173 @@ res_m1 <- readRDS(fs::path(filepath,filename))
 ## ---- get_samples_m1 ----
 #this uses the posterior package to get draws
 samp_m1 <- res_m1$draws(inc_warmup = FALSE, format = "draws_df")
-allsamp_m1 <- res_m1$draws(inc_warmup = TRUE, format = "draws_df")
 
-## ---- diagnose_m1 ----
-res_m1$cmdstan_diagnose()
+
+## ---- par_test_ind1 ----
+#get samples of parameters for first individual 
+x1 <- samp_m1 %>% select(c("alph[1]","bet[1]","gamm[1]","et[1]")) 
+odeall3 = NULL
+for (n in 1:nrow(x1)){
+  # virus load varies by dose, but barely so keeping it fixed here
+  y0 = c(U0,1,150)
+  parms = c(alph=x1$`alph[1]`[n],bet=x1$`bet[1]`[n],gamm=x1$`gamm[1]`[n],et=x1$`et[1]`[n])
+  # run model for each set of parameters for each individual
+  oderes3 <- ode(y = y0, t = timevec, func = odemod1, parms = parms)
+  # combine all results, also add individual ID as n and add dose for a given individual
+  odeall3 = rbind(odeall3, cbind(oderes3, n, dat$dose_cat[match(n,dat$id)]))
+}
+#plot virus load curve for each individual from ODE model
+odeall3 = data.frame(odeall3)
+p3 <- odeall3 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=log(X3), group=as.factor(n),color=as.factor(n))) +
+  geom_point(aes(x=time,y=outcome,group=as.factor(id),color=as.factor(dose_cat)), data = dat) +
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme_minimal() +
+  theme(legend.position="none")
+plot(p3)
+#ggsave("featured.png",p3)
+
+
+## ---- pred_test_ind1 ----
+#get predictions for first model  
+x2 <- samp_m1 %>% select( contains("virus_pred1")) 
+#observations of all samples for first individual only
+x3 <- data.frame(x2[,1:Nobs[1]]) 
+# turn into a long data frame that contains value for each individual and time
+# some transformation shennanigans to get the values in the right order
+df4 <- data.frame(time = rep(dat$time, nrow(samp_m1)), 
+                 sample = rep(1:nrow(samp_m1), each = Nobs[1]),
+                 value = as.vector(t(as.matrix(x3)))
+                 )
+#plot virus load curve for first individual from Stan model predictions
+p4 <- df4 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=value, group=as.factor(sample),color=as.factor(sample))) +
+  geom_point(aes(x=time,y=outcome,group=as.factor(id),color=as.factor(dose_cat)), data = dat) +
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme_minimal() +
+  theme(legend.position="none")
+plot(p4)
+
+## ---- pred_test_ind1v2 ----
+#get predictions for first model  
+x2 <- samp_m1 %>% select( contains("virus_pred2")) 
+#observations of all samples for first individual only
+x3 <- data.frame(x2[,1:Nobs[1]]) 
+# turn into a long data frame that contains value for each individual and time
+# some transformation shennanigans to get the values in the right order
+df4 <- data.frame(time = rep(dat$time, nrow(samp_m1)), 
+                  sample = rep(1:nrow(samp_m1), each = Nobs[1]),
+                  value = as.vector(t(as.matrix(x3)))
+)
+#plot virus load curve for first individual from Stan model predictions
+p5 <- df4 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=value, group=as.factor(sample),color=as.factor(sample))) +
+  geom_point(aes(x=time,y=outcome,group=as.factor(id),color=as.factor(dose_cat)), data = dat) +
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme_minimal() +
+  theme(legend.position="none")
+plot(p5)
+
 
 ## ---- summarize_m1 ----
 # get summaries across samples for all parameters
 par_res <- res_m1$summary()
-print(head(par_res,15))
 
 
-## ---- test_m1 ----
+## ---- par_test_m1 ----
 #get means of 4 main parameters
-x <- par_res[3:(3+4*Nind),]$mean
-t = seq(0,45,length=100)
-odeall = NULL
+# 24 values each (one for each individual) of each parameter
+x <- par_res[1:(4*Nind),]$mean
+odeall4 = NULL
 for (n in 1:Nind){
   # virus load varies by dose, but barely so keeping it fixed here
-  y0 = c(1e8,1,149)
-  parms = exp(c(alph=x[n],bet=x[n+Nind],gamm=x[n+2*Nind],et=x[n+2*Nind]))
+  y0 = c(U0,1,150)
+  parms = c(alph=x[n],bet=x[n+Nind],gamm=x[n+2*Nind],et=x[n+2*Nind])
   # run model for each set of parameters for each individual
-  oderes <- ode(y = y0, t = t, func = odemod1, parms = parms)
+  oderes4 <- ode(y = y0, t = timevec, func = odemod1, parms = parms)
   # combine all results, also add individual ID as n and add dose for a given individual
-  odeall=rbind(odeall, cbind(oderes,n,dat$dose_cat[match(n,dat$id)]))
+  odeall4 = rbind(odeall4, cbind(oderes4, n, dat$dose_cat[match(n,dat$id)]))
 }
 #plot virus load curve for each individual from ODE model
-odeall = data.frame(odeall)
-p1 <- odeall %>% ggplot2::ggplot() + geom_line(aes(x=time, y=log(X3), group=as.factor(n),color=as.factor(n))) +
+odeall4 = data.frame(odeall4)
+p6 <- odeall4 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=log(X3), group=as.factor(n),color=as.factor(n))) +
   geom_point(aes(x=time,y=outcome,group=as.factor(id),color=as.factor(dose_cat)), data = dat) +
-  scale_y_continuous(limits = c(-30,50))
-plot(p1)
-ggsave("featured.png",p1)
-#plot virus load curve for each individual from ODE model for predictions
-t1 = filter(par_res, grepl(",3]",variable)) 
-t2 = filter(par_res, grepl("virus",variable))
-df2 = data.frame(y = t2$mean, x = dat$time, n = dat$id, dose_cat = dat$dose_cat)
-p2 <- odeall %>% #filter(n == 1) %>% 
-      ggplot2::ggplot() + geom_line(aes(x=time, y=X3, group=as.factor(n),color=as.factor(V6))) +
-      geom_line(aes(x=x,y=y, group=as.factor(n),color=dose_cat), data = df2 ) +
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme(legend.position="none")
+plot(p6)
+#ggsave("featured.png",p3)
+
+
+## ---- pred_test_m1 ----
+vir1 = filter(par_res, grepl("virus_pred1",variable))
+df1 = data.frame(y = vir1$mean, x = dat$time, n = dat$id, dose_cat = dat$dose_cat)
+p7 <- df1 %>% 
+      ggplot2::ggplot() +
+      geom_line(aes(x=x,y=y, group=as.factor(n),color=dose_cat)) +
       geom_point(aes(x=time,y=outcome,group=as.factor(id),color=as.factor(dose_cat)), data = dat) +
-      scale_y_continuous(limits = c(-30,50))
-plot(p2)
+      scale_y_continuous(limits = c(-30,50)) + 
+      scale_x_continuous(limits = c(0,45)) +
+      theme(legend.position="none")
+plot(p7)
+
+vir2 = filter(par_res, grepl("virus_pred2",variable))
+df2 = data.frame(y = vir2$mean, x = dat$time, n = dat$id, dose_cat = dat$dose_cat)
+p5 <- df2 %>% 
+  ggplot2::ggplot() + 
+  geom_line(aes(x=x,y=y, group=as.factor(n),color=dose_cat)) +
+  geom_point(aes(x=time,y=outcome,group=as.factor(id),color=as.factor(dose_cat)), data = dat) +
+  scale_y_continuous(limits = c(-30,50)) + 
+  scale_x_continuous(limits = c(0,45)) +
+  theme(legend.position="none")
+plot(p5)
+
+## ---- make_stanmodel2 -----
+# make Stan model. 
+stanmod2 <- cmdstanr::cmdstan_model(stan_file = stanfile2, 
+                                    compile = TRUE,
+                                    pedantic=TRUE,
+                                    force_recompile=TRUE)
 
 
-## ---- plot_par_m1 ----
-# only a few parameters
-plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","sigma")
-bayesplot::color_scheme_set("viridis")
-bp1 <- bayesplot::mcmc_trace(samp_m1, pars = plotpars)
-bp3 <- bayesplot::mcmc_dens_overlay(samp_m1, pars = plotpars)
-plot(bp1)
-plot(bp3)
+## ---- fitconditions ----
+#settings for fitting
+fs_m2 = list(warmup = 500,
+             sampling = 500, 
+             max_td = 15, #tree depth
+             adapt_delta = 0.99,
+             chains = 2,
+             cores  = 2,
+             seed = 1234,
+             save_warmup = TRUE)
+
+fs_m2$init = inits
 
 
-## ---- prep_data_m1 ----
-# data manipulation to get in shape for plotting
-# data manipulation to get in shape for plotting
-# start with manipulation of posterior parameters
-postdf1 <- samp_m1 %>% 
-  select(!ends_with('prior')) %>% 
-  select(contains("sigma")) 
-# akward way of getting some further parameters
-# namely values from first individual for a0,b0,g0,e0
-postdf2 <- samp_m1 %>%
-  select(contains("0[1]")) %>%
-  rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
-postdf <- cbind(postdf1, postdf2) 
-postlong <- tidyr::pivot_longer(data = postdf, 
-                                cols = everything() , 
-                                names_to = "parname", 
-                                values_to = "value") %>% 
-  dplyr::mutate(type = "posterior")
-# manipulation of prior parameters
-priordf <-  samp_m1 %>% 
-  select(ends_with('prior')) %>% 
-  rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
-priorlong <- tidyr::pivot_longer(data = priordf, 
-                                 cols = everything() , 
-                                 names_to = "parname", 
-                                 values_to = "value") %>% 
-  dplyr::mutate(type = "prior")
-
-ppdf <- dplyr::bind_rows(postlong,priorlong)
-
-
-
-## ---- prior_post_m1 ----
-m1_p1 <- ppdf %>%
-  ggplot() +
-  geom_density(aes(x = value, color = type), linewidth = 1) +
-  facet_wrap("parname", scales = "free") +
-  theme_minimal()
-plot(m1_p1)
-# just to get a picture that can be shown together with the post
-
-
-
-## ---- make_predictions ----
-# averages and CI for 
-# estimates of deterministic model trajectory
-# for each observation
-# this is computed in the transformed parameters block of the Stan code
-mu <- samp_m1 |>
-  select(starts_with("virus_pred")) |>
-  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
-  t() 
-rownames(mu) <- NULL
-
-# estimate and CI for prediction intervals
-# the predictions factor in additional uncertainty around the mean (mu)
-# as indicated by sigma
-# this is computed in the predicted-quantities block of the Stan code
-# the average of mu and preds should be more or less the same
-# but preds will have wider uncertainty due to the residual variation sigma
-preds <- samp_m1 |>
-  select(starts_with("ypred")) |>
-  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
-  t() 
-rownames(preds) <- NULL
-
-
-## ---- plot_predictions ----
-
-# change dose so it looks nicer in plot
-dose = as.factor(fitdat$dose_adj)
-levels(dose)[1] <- "low"
-levels(dose)[2] <- "medium"
-levels(dose)[3] <- "high"
-
-#place everything into a data frame
-fitpred = data.frame(id = as.factor(fitdat$id),
-                     dose = dose,
-                     time = fitdat$time,
-                     Outcome = fitdat$outcome,
-                     Estimate = mu[,2],
-                     Qmulo = mu[,1], Qmuhi = mu[,3]
-                     #Qsimlo = preds[,1], Qsimhi = preds[,3]
+## ---- run_m2 ----
+res_m2 <- stanmod2$sample(data = fitdatstan,
+                          chains = fs_m2$chains,
+                          init = fs_m2$init,
+                          seed = fs_m2$seed,
+                          parallel_chains = fs_m2$chains,
+                          iter_warmup = fs_m2$warmup,
+                          iter_sampling = fs_m2$sampling,
+                          save_warmup = fs_m2$save_warmup,
+                          max_treedepth = fs_m2$max_td,
+                          adapt_delta = fs_m2$adapt_delta,
+                          output_dir = filepath
 )
 
-#make the plot
-predplot <- ggplot(data = fitpred, aes(x = time, y = Estimate, group = id, color = dose ) ) +
-  geom_line() +
-  #geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
-  #geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
-  geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
-  scale_y_continuous(limits = c(-30,50)) +
-  labs(y = "Virus load",
-       x = "days post infection") +
-  theme_minimal() 
-plot(predplot)
 
+## ---- savefits ----
+res_m1$save_object(fs::path(filepath,filename))
 
-
+## ---- loadfits --------
+# loading previously saved fit.
+# useful if we don't want to re-fit
+# every time we want to explore the results.
+# since the file is too large for GitHub
+# it is stored in a local cloud-synced folder
+# adjust accordingly for your setup
+res_m1 <- readRDS(fs::path(filepath,filename))
 
