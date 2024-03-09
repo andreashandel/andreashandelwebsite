@@ -1,6 +1,3 @@
-# Freeze computed outputs
-freeze: auto
-
 # Enable banner style title blocks
 title-block-banner: true
 
@@ -9,20 +6,10 @@ toc: true
 toc-title: Table of contents
 toc-location: left
 
-# Default knitr options
-execute:
-  echo: true
-  message: true
-  warning: true
-
 # Default author
 author:
   - name: Andreas Handel
     url: https://www.andreashandel.com
 
 # Default fields for citation
-citation: true
-
-comments: 
-  utterances:
-    repo: andreashandel/andreashandelwebsite
+citation: false

@@ -8,9 +8,9 @@ listing:
   sort-ui: true
   filter-ui: true
   fields:
-    - date
     - title
     - subtitle
+    - date
     - location
     - event
     - image
@@ -18,4 +18,5 @@ listing:
     - categories
 page-layout: full
 title-block-banner: false
+comments: false
 ---
