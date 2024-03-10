@@ -8,7 +8,6 @@ library('tidyr') # for data manipulation
 library('ggplot2') # for plotting
 library('fs') #for file path
 library('cmdstanr') #for model fitting
-library('bayesplot') #for plotting results
 library("deSolve") #to explore the ODE model in R
 
 ## ---- setup --------
@@ -19,8 +18,8 @@ library("deSolve") #to explore the ODE model in R
 rngseed = 1234
 # File locations and names
 # adjust as needed
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
-#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
 filename = "cmdstanr-ode-testing.Rds"
 stanfile <- here('myresources','2024-XX-XX-bayes-workflow',"stancode-ode-testing.stan")
 stanfile2 <- here('myresources','2024-XX-XX-bayes-workflow',"stancode-ode-testing2.stan")
@@ -92,38 +91,42 @@ odemod2 <- function(t,y,parms)
 
 ## ---- priors --------
 # values for prior distributions
-pv = list(a0_mu = 7, a0_sd = 0.5,
-                 b0_mu = -22, b0_sd = 0.5,
-                 g0_mu = -1, g0_sd = 0.5,
+pv = list(a0_mu = 1, a0_sd = 0.1,
+                 b0_mu = -1, b0_sd = 0.1,
+                 g0_mu = 0, g0_sd = 0.5,
                  e0_mu = 1, e0_sd = 0.5
 )
 
 
 ## ---- r-simulation --------
 Nsamp = 20 #number of samples
-timevec = seq(0,max(dat$time),length=100) #time
+timevec = seq(0,max(dat$time),length=1000) #time
 odeall1 = NULL #set up empty array to hold all simulations
 odeall2 = NULL #same empty array for model version 2
-U0 = 1e8; #number of uninfected cells
-V0 = 100; #same value for everyone - doesn't agree with data but easy to try
+U0 = 1e12; #number of uninfected cells
+I0 = 1e-15; #set to small non-zero so we can take log
+V0 = 1e-3; #same value for everyone - doesn't agree with data but easy to try
+# scaling such that parameter distributions are close to 1
+as = 12;
+bs = 35;
 R0 = rep(0,Nsamp) #record R0 for all samples
 set.seed(rngseed) #set seed for reproducibility
 # could be done more efficiently without a loop
 for (n in 1:Nsamp)
 {
-  alph = exp(rnorm(1,pv$a0_mu, pv$a0_sd))
-  bet = exp(rnorm(1,pv$b0_mu, pv$b0_sd))
+  alph = exp(as*rnorm(1,pv$a0_mu, pv$a0_sd))
+  bet = exp(bs*rnorm(1,pv$b0_mu, pv$b0_sd))
   gamm = exp(rnorm(1,pv$g0_mu, pv$g0_sd)) 
   et = exp(rnorm(1,pv$e0_mu, pv$e0_sd))
   R0[n] = bet*alph*U0/(gamm*et)
   odeparms = c(alph=alph,bet=bet,gamm=gamm,et=et)  
   # Uninfected cells, infected cells, virus
   # note that I'm starting with 1 infected cells so I can take the log
-  y0 = c(U0,1,V0)  
+  y0 = c(U0,I0,V0)  
   # run the ODE model twice, in linear and log space
   # should give the same results 
-  oderes1 <- ode(y = y0, t = timevec, func = odemod1, parms = odeparms)
-  oderes2 <- ode(y = log(y0), t = timevec, func = odemod2, parms = odeparms)
+  oderes1 <- ode(y = y0, t = timevec, func = odemod1, parms = odeparms, method = "bdf", atol = 1e-10, rtol = 1e-10)
+  oderes2 <- ode(y = log(y0), t = timevec, func = odemod2, parms = odeparms, method = "bdf")
   # combine all results, also add individual ID as n and add dose for a given individual
   odeall1=rbind(odeall1, cbind(oderes1,n))
   odeall2=rbind(odeall2, cbind(oderes2,n))
@@ -133,6 +136,7 @@ odeall1 = data.frame(odeall1)
 # make plot showing all trajectories and the data
 p1 <- odeall1 %>% ggplot2::ggplot() + geom_line(aes(x=time, y=log(X3), group=as.factor(n),color=as.factor(n))) +
   geom_point(aes(x=time,y=outcome,group=as.factor(id)), data = dat) +
+  #scale_y_log10() + 
   scale_y_continuous(limits = c(-30,50)) + 
   scale_x_continuous(limits = c(0,45)) +
   theme_minimal() +
@@ -229,7 +233,6 @@ x1 <- samp_m1 %>% select(c("alph[1]","bet[1]","gamm[1]","et[1]"))
 odeall3 = NULL
 for (n in 1:nrow(x1)){
   # virus load varies by dose, but barely so keeping it fixed here
-  y0 = c(U0,1,V0)
   parms = c(alph=x1$`alph[1]`[n],bet=x1$`bet[1]`[n],gamm=x1$`gamm[1]`[n],et=x1$`et[1]`[n])
   # run model for each set of parameters for each individual
   oderes3 <- ode(y = y0, t = timevec, func = odemod1, parms = parms)
@@ -301,7 +304,6 @@ x <- par_res[1:(4*Nind),]$mean
 odeall4 = NULL
 for (n in 1:Nind){
   # virus load varies by dose, but barely so keeping it fixed here
-  y0 = c(U0,1,V0)
   parms = c(alph=x[n],bet=x[n+Nind],gamm=x[n+2*Nind],et=x[n+2*Nind])
   # run model for each set of parameters for each individual
   oderes4 <- ode(y = y0, t = timevec, func = odemod1, parms = parms)

@@ -85,7 +85,7 @@ transformed parameters{
     
       // starting value for virus depends on dose 
       // we are fitting/running model with variables on a log scale
-      ystart =  [ 1e8, 1, 100 ]';
+      ystart =  [ 1e12, 1e-15, 1e-3]';
 
     // loop over all individuals
     for ( i in 1:Nind ) {

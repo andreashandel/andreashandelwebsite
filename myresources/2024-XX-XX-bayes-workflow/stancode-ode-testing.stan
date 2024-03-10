@@ -84,9 +84,6 @@ generated quantities {
     vector[Nind] e0;
 
   
-    // starting value of virus for individuals in each dose group
-    // is being estimated
-    vector[Ndose] V0;
     // population variance
     real<lower=0> sigma;
 
@@ -113,7 +110,7 @@ generated quantities {
     
     // starting value for virus depends on dose 
     // we are fitting/running model with variables on a log scale
-    ystart =  [ 1e8, 1, 100]';
+    ystart =  [ 1e12, 1e-15, 1e-3]';
  
 
 
