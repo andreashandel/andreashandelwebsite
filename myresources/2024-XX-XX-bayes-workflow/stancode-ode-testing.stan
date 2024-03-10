@@ -57,8 +57,6 @@ data{
    real b0_sd;
    real g0_sd;
    real e0_sd;
-   real V0_mu;
-   real V0_sd;
 }
 
 
@@ -113,11 +111,11 @@ generated quantities {
     // sample residual variation
     sigma = abs(cauchy_rng(0, 1 ));
     
-    // loop over dose for starting value
-    for (n in 1:3)
-    {
-        V0[n] = exp(normal_rng(V0_mu, V0_sd));
-    }
+    // starting value for virus depends on dose 
+    // we are fitting/running model with variables on a log scale
+    ystart =  [ 1e8, 1, 100]';
+ 
+
 
     // loop over all individuals
     for ( i in 1:Nind ) {
@@ -136,10 +134,6 @@ generated quantities {
       gamm[i] =  exp(g0[i]) ;
       et[i] =  exp(e0[i]) ;
      
-      // starting value for virus depends on dose 
-      // we are fitting/running model with variables on a log scale
-      ystart =  [ 1e8, 1, V0[dose_level[start[i]]] ]';
- 
      // run ODE for each individual
       y_all1[start[i]:stop[i]] = ode_bdf(
         odemod1,      // name of ode function

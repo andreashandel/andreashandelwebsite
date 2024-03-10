@@ -45,8 +45,6 @@ data{
    real b0_sd;
    real g0_sd;
    real e0_sd;
-   real V0_mu;
-   real V0_sd;
 }
 
 // everything that is estimated goes here
@@ -128,8 +126,6 @@ model{
     b0 ~ normal( b0_mu , b0_sd);
     g0 ~ normal( g0_mu,  g0_sd);
     e0 ~ normal( e0_mu , e0_sd);
-    // prior for virus load starting value 
-    //V0 ~ normal(V0_mu, V0_sd);
 
     // distribution of outcome (virus load)
     // all computations to get the time-series trajectory for the outcome are done  
