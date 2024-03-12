@@ -1,0 +1,305 @@
+---
+title: Bayesian analysis of longitudinal multilevel data - part 9  
+description: In part 9 of this series, I explore a step-by-step approach to building a testing a Stan model.
+author: Andreas Handel
+date: 2024-03-17
+date-modified: last-modified
+aliases: 
+  - ../longitudinal-multilevel-bayesian-analysis-9/
+categories: 
+- R
+- Data Analysis
+- Bayesian
+- Stan
+image: "featured.png"
+image-alt: ""
+execute:
+  echo: true
+engine: knitr
+---
+
+
+
+```{r, include=FALSE, cache=FALSE}
+knitr::read_chunk('cmdstanr-ode-test-script.R')
+```
+
+
+# Overview
+
+This tutorial is part of [the series of posts](/posts/2022-02-22-longitudinal-multilevel-bayes-1/)
+showing how to fit longitudinal data using Bayesian multilevel/hierarchical/mixed-effects models. To be able to follow along, you should start with the first post, and at least skim through the posts all the way to the ODE model posts. Otherwise, the following won't make much sense 😁.
+
+This tutorial shows a way I find helpful for building more complicated (at least to me) Stan models.
+
+
+There are two Stan scripts, here is [the first Stan code](stancode-ode-testing1.stan), [this is the second Stan code](stancode-ode-testing2.stan) and this is [the R script that runs everything](cmdstanr-ode-test-script.R).
+
+
+
+# Introduction
+
+A while ago, I wrote [a series of tutorials](/posts/2022-02-22-longitudinal-multilevel-bayes-1/) that discuss fitting longitudinal data using Bayesian multilevel/hierarchical/mixed-effects models. 
+
+I started with fairly simple models to describe the longitudinal/time-series/panel data (in my case, virus load). Initially, I used the [`rethinking`](/posts/2022-02-22-longitudinal-multilevel-bayes-2/) and [`brms`](/posts/2022-02-22-longitudinal-multilevel-bayes-3/) packages to build the models.
+
+A while later, I wanted to implement the underlying model as set of ordinary differential equations, and I wanted to do that using Stan directly. 
+
+I worked my way up to the ODE model by re-implementing the original simpler model with Stan/cmdstanr first. Even then, I had a hard time getting the ODE model to work and had to do a good bit of debugging. I found it hard to debug in Stan. So I tried to come up with a way to slowly build up my model and test if my code works. 
+
+This post describes my approach for a way to build complicated Stan models. This is mostly a note to my future self. Maybe others will find it useful too.
+
+I assume that you read the previous parts in this series. Specifically, I explained the overall setup in [part 1](/longitudinal-multilevel-bayes-1/), the implementation with `cmdstanr` and Stan in [part 5](/longitudinal-multilevel-bayes-5/) and [part 6](/longitudinal-multilevel-bayes-6/) and the ODE model used here in [part 7](/longitudinal-multilevel-bayes-7/). See those posts for more details, here I won't repeat most of what I wrote about in those earlier posts.
+
+
+
+# The idea
+
+I'm trying to implement the model described [in this post](/longitudinal-multilevel-bayes-7/). I won't repeat it here. This post is all about how to code it up.
+
+When I tried to implement the model to fit it, Stan refused to do it. I didn't know what the problem was, staring at the code didn't show an obvious (to me) problem. 
+
+I haven't figured out a good way to diagnose and debug Stan code. I needed to test if my Stan code was working at all. To do so, I decided to implement the generative simulation model in R, then in Stan, and compare. If the simulations I get back from Stan agree with R and make sense, then I'm at least somewhat reassured that my code might be right.
+
+What follows is a fairly detailed step-through of the process I found helpful.
+
+
+# Setup
+
+Loading packages and setting some stuff.
+
+```{r, packages, message=FALSE, warning = FALSE}
+```
+
+```{r, setup, message=FALSE, warning = FALSE}
+```
+
+
+# Data
+
+It's the same data as before.
+
+
+```{r, data}
+```
+
+# ODE models in R
+
+This implements the ODE models in R. I'm using both ways, the regular way and the way that runs the model in log space.
+
+
+```{r, odemodel1}
+```
+
+```{r, odemodel2}
+```
+
+
+# Parameter distributions
+
+This defines the distributions for the model parameters (later when we fit, these are the priors). 
+
+These values are chosen based on exploring the model and finding values that lead to trajectories that broadly agree with the data. 
+
+Note that some of the parameters are being scaled below, the distributions are chosen such that the MCMC sampler can run somewhat efficiently.
+
+```{r, priors}
+```
+
+
+# Simulations in R
+
+The first step is to run simulations of the model in R. This allows me to explore ranges of reasonable parameters. Here, I'm showing code that runs the 2 versions of the ODE model for a fairly small number of samples. Parameters are chosen to give trajectories that are broadly in line with the simulated data.
+
+```{r, r-simulation}
+```
+
+This processes the simulations and makes plots.
+
+```{r, r-simulation-plots}
+```
+
+We see that the trajectories look roughly compatible with the data -- though some clearly lead to unreasonable curves. We also see that the 2 models produce the same results. So far, so good. Now to the part we are really interested in, the Stan code.
+
+
+# The Stan model
+
+Now I'll implement the model in Stan. Instead of going straight to fitting the data, I'll (ab)use Stan for simulating the model. This way, I can test if the model I implemented in Stan does produce the proper results, namely trajectories that match with what I'm getting from R.
+
+To use Stan as a simulator, one places all of the relevant code into the `generated quantities` section. 
+
+This is how the Stan code looks like. For more explanations, see the Stan code in the previous posts of this series.
+
+```{.stan include="stancode-ode-testing1.stan"}
+```
+
+
+Next, we load and compile the Stan model.
+
+```{r, make-stanmodel1, message=FALSE, warning = FALSE, eval=TRUE}
+```
+
+
+# Stan model settings
+
+Settings to run the model with.
+
+```{r, sim-conditions}
+```
+
+
+```{r, initialconditions}
+```
+
+
+# Stan model simulation
+
+Now we'll simulate using the Stan code. To do this, one has to set the `fixed_param` to true.
+
+
+```{r, run-code1-m1}
+```
+
+Get samples.
+
+```{r, get_samples_m1}
+```
+
+
+# Examine Stan simulation
+
+Now we can investigate what the Stan code produced. 
+It won't be exactly the same as the R code, due to randomness of sampling, but the trajectories should look overall similar.
+
+First, we'll look at all parameter samples from one of the individuals. We'll use those parameters and run the R ODE model with them. We expect that this looks similar to the samples we created above using only R. More importantly, these simulated trajectories should look the same as those produced by Stan. If that's the case, we can be somewhat sure that the Stan ODE model works.
+
+This code runs the R ODE and sticks them in a data frame.
+
+```{r, par_test_stan}
+```
+
+This uses the Stan predictions generated by the Stan ODE model. This should look the same as the previous figure (just more crude, since we only have it at the observation times). 
+
+```{r, pred_test_stan}
+```
+
+Now we'll put it all in a figure.
+
+
+```{r, fig_test_stan}
+```
+
+
+Ok, that's good. Things are consistent. The large Stan simulations (diamond symbols) are the same as the R ODE model, and things are broadly in line with the samples generated with R above, and consistent with the data (circles).
+
+Finally, just to make sure the two models we implemented in Stan that are supposed to be equivalent give the same results, we run this code here to look at the Stan results produced running the second model.
+
+```{r, pred_test_stanv2}
+```
+
+The two types of symbols are from the 2 versions of the ODE model. This shows the 2 models produce the same results.
+
+So far, so good. We can also look at the average trajectories for each individual (instead of samples for 1 individual, which we did so far). This doesn't really help in further confirming that the code works, I think we established that by now. 
+But it gives a bit more intuition in what's going on.
+
+First, we'll compute the summaries for the parameters.
+
+```{r, summarize_m1}
+```
+
+Now we'll use the mean parameters for the samples for each individual, feed them to the R ode model to generate trajectories.
+
+```{r, mean-par-test}
+```
+
+And this uses the mean Stan prediction across all samples for each individual.
+
+
+```{r, mean-pred-test}
+```
+
+Let's compare the results in a plot.
+
+The curves in this plot show the R ODE solutions being run with the mean of the parameters. 
+
+The symbols show the mean of the predicted trajectories running either the linear or log version of the ODE model in Stan. First, the 2 Stan models agree again, that's good. Next, the mean curves from Stan look like they go close to the data, that's good. Finally, we see that the simulations using the mean of the parameters, is **not** the same as the mean outcomes. This is expected for nonlinear models like the one we have here. Overall, things look reasonable.
+
+To wrap up, these are the steps I took:
+
+* Implement and run the model in R to explore.
+* Implement the model in Stan and simulate from it.
+* Compare R and Stan results to make sure the Stan code is (hopefully) correct.
+
+Now I'm in a position to take this code and reorganize so I can use Stan to fit.
+
+
+# Update Stan code for fitting
+
+Here is the Stan code, updated to allow fitting.
+It's essentially the same code, just moved into different parts of the Stan code. 
+
+That's the whole point, we have code that we tested, so hopefully by moving it around we don't introduce new errors and can therefore be somewhat confident that we have working code.
+
+Here's the updated Stan code. It's a bit updated, for instance there is now a selector -- supplied as data -- called `modeltype` that allows one to fit either one or the other model.
+
+
+```{.stan include="stancode-ode-testing2.stan"}
+```
+
+
+Next, we load and compile the Stan model.
+
+```{r, make-stanmodel2, message=FALSE, warning = FALSE, eval=FALSE}
+```
+
+
+# Settings to run model
+
+
+```{r, fit-conditions}
+```
+
+
+```{r, initialconditions2}
+```
+
+# Run Stan model to fit
+
+Now we are running a "standard" Stan model by fitting it to the data.
+
+```{r, run_m2, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
+```
+
+# Model result loading
+
+To save time, we don't run the model each time, instead we save the results and load them.
+
+```{r, loadfits, message=FALSE, warning = FALSE}
+```
+
+
+# Model exploration
+
+Get the samples.
+
+```{r, get_samples_m2,  warning = FALSE}
+```
+
+We'll repeat the figures from above, but now we are using the estimated parameter values, not the simulated.
+
+
+
+
+
+
+# Summary and continuation
+
+This was a bit of an aside post to the main series, but I wanted to get it "on paper". At this point, there's no direct continuation. For a list of all of the posts related to this topic, see the introduction [of the first blog post](/longitudinal-multilevel-bayes-1/).
+
+
+
+
+
+
+
+
