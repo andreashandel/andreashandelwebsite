@@ -37,6 +37,9 @@ So this post introduces the ODE model and a simple statistical model, and then i
 
 Here is [the Stan code for this example](stancode-ode-simple.stan) and this is [the R script that runs everything](cmdstanr-ode-simple-script.R).
 
+::: note
+As it stands, I am actually not able to get the ODE model fit properly in Stan. Despite a bunch of fiddling around, I haven't figured out how to get it to work. I had to stop spending time on it, so decided to post what I have done so far. Maybe someone reads this and can tell me what I need to do to get it to work?
+:::
 
 
 # Introduction
@@ -92,9 +95,7 @@ As is common, it turns out that directly coding up the model in the form specifi
 
 First, we have the issue with positive parameters again. The model above assumes all parameters are positive. To enforce that, we can again use the trick of exponentiating the parameters. This is what we'll do. You'll see it in the code below.
 
-Second the values for the model variables change a lot. We start with a lot of uninfected cells (millions or more), no infected cells and a little bit of virus. The virus then grows rapidly, and so do the infected cells. The uninfected cell numbers crash. These extreme changes in variables are hard on the ODE solver. I initially tried to implement the model as written above (after enforcing parameters to be positive by exponentiating), and then in the end take the log of the virus load. That didn't work well. So I decided to just run the whole model in log units. 
-
-That means, the model I'm actually running is
+Second the values for the model variables change a lot. We start with a lot of uninfected cells (millions or more), no infected cells and a little bit of virus. The virus then grows rapidly, and so do the infected cells. The uninfected cell numbers crash. These extreme changes in variables are hard on the ODE solver. Also, all the variables can't go below zero, but due to numerical rounding issues, it can happen that they not only approach zero but turn negative, and then bad things inside the ODE might happen. To address this issue, I [followed this approach](https://stackoverflow.com/questions/41648878/replacing-negative-values-in-a-model-system-of-odes-with-zero) and explored a version of the model where the variables are all simulated in log space. That means, the model I'm running is given by these equations:
 
 
 $$
@@ -106,7 +107,7 @@ $$
 $$
 
 
-I want to re-iterate that this is the same model as above, just doing various transformations to make the code run.
+I want to re-iterate that this is the same model as above, just doing various transformations to make the code run. The only difference in setting it is up that the starting values for the variables also need to provided in log units.
 
 
 # ODE model exploration
@@ -135,9 +136,9 @@ I played around with the parameter values to find some that gives me a curve tha
 
 I wanted a statistical model that had the overall structure of the model structure from the previous non-ODE model examples, with the only difference that now the virus trajectory is described by an ODE model. I'll get to this in the next blog post. But I wasn't able to get that model to work and therefore had to resort to building a simpler model first, just to figure out what's going on.
 
-For the simpler model, I used the approach from the last model in the previous post, namely a model for which the main parameters are different for each individual and don't depend on dose or each other. The initial value for the virus variable is assumed to depend on dose. 
+For the simpler model, I used the approach from the last model in the previous post, namely a model for which the main parameters are different for each individual and don't depend on dose or each other. The initial value for the virus variable is assumed to depend on dose. The initial value for the uninfected cells is set to some high (but biologically potentially reasonable) value. I need to start the infected cells with a very small positive value so it's possible to take the log. 
 
-I'm not sure what the best mathematical notation is to write down this model, here is an option. I'm showing the ODE model in its original form, without the extra $\exp()$ and $\log()$ notation. The understanding is that model will be implemented as shown in the second model above, with parameters on an exponentiated scale and variables on the log scale. This is reflected in the initial condition values.
+I'm not sure what the best mathematical notation is to write down this model, here is an option. I'm showing the ODE model in its original form, without the $\log()$ transform of the variables. The understanding is that model will be implemented both ways, ith model variables run either on a linear or a log scale. You'll see that in the code.
 
 
 $$
@@ -151,24 +152,24 @@ Y_{i,t}   \sim \mathrm{Normal}\left(V_{i,t}, \sigma\right) \\
 \dot V  = \alpha_i I - \eta_i V \\
 \\
 \textrm{Starting values for ODE model} \\
-\textrm{initial uninfected cells} \qquad U(0) = \log(1E8)  \\
-\textrm{initial infected cells} \qquad  I(0) = 0  \\
+\textrm{initial uninfected cells} \qquad U(0) = 1E12  \\
+\textrm{initial infected cells} \qquad  I(0) = 1E-15  \\
 \textrm{initial virus, to be fit}  \qquad V(0) = V_i[dose] \\
 \\
 \textrm{Deterministic models for main parameters} \\
-\alpha_{i}   =  a_{0,i}  \\
-\beta_{i}   =   b_{0,i} \\
-\gamma_{i}   =   g_{0,i} \\
-\eta_{i}   =   e_{0,i} \\
+\alpha_{i}   = \exp(a_s *  a_{0,i} )  \\
+\beta_{i}   =  \exp(b_s * b_{0,i} ) \\
+\gamma_{i}   =  \exp( g_{0,i} ) \\
+\eta_{i}   =   \exp( e_{0,i} )\\
 \end{aligned}
 $$
 The index $i$ represents indexation with respect to individuals. The index $dose$ indicates the 3 different dose levels. 
 
-As mentioned before, I don't really need both $\alpha, \beta,...$ here and $a_0, b_0,...$, but I'm setting this up this way so it's similar to all previous setups and easy to extend.
+As mentioned before, I don't really need both $\alpha, \beta,...$ and $a_0, b_0,...$, but I'm setting this up this way so it's similar to all previous setups and easy to extend. One new part is the multiplication of $a_0$ and $b_0$ with $a_s$ and $b_s$. That's done because these parameters are far from zero, and Stan doesn't like parameter distributions that don't have a mean close to zero or one, so I'm using these extra, fixed, parameters to rescale.
 
 To fully specify the model, we need to give all parameters distributions. As before, I'm not showing the exact prior values to prevent it being different than the code, instead I'm only indicating them here with an `X`. See the code for the exact values. 
 
-As mentioned, I'm not yet implementing partial pooling, instead each parameter has some fixed prior distribution. As a reminder, the parameters inside the ODE are the exponentiated version of this, while the starting value for the virus load is on a log scale (so the true value is the exponentiated form, but we never use that, we fully operate on a log scale for all 3 ODE model variables).
+As mentioned, I'm not yet implementing partial pooling, instead each parameter has some fixed prior distribution. As a reminder, the parameters inside the ODE are the exponentiated version of this.
 
 
 $$

@@ -18,8 +18,8 @@ library("deSolve") #to explore the ODE model in R
 rngseed = 1234
 # File locations and names
 # adjust as needed
-#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
-filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
 filename = "cmdstanr-ode-testing.Rds"
 stanfile1 <- here('myresources','2024-03-17-longitudinal-multilevel-bayes-9',"stancode-ode-testing1.stan")
 stanfile2 <- here('myresources','2024-03-17-longitudinal-multilevel-bayes-9',"stancode-ode-testing2.stan")
@@ -89,10 +89,10 @@ odemod2 <- function(t,y,parms)
 
 ## ---- priors --------
 # values for prior distributions
-pv = list(a0_mu = 1, a0_sd = 0.05,
-                 b0_mu = -1, b0_sd = 0.05,
-                 g0_mu = 0, g0_sd = 0.5,
-                 e0_mu = 1, e0_sd = 0.5
+pv = list(a0_mu = 1, a0_sd = 0.1,
+                 b0_mu = -1, b0_sd = 0.1,
+                 g0_mu = 0, g0_sd = 1,
+                 e0_mu = 1, e0_sd = 1
 )
 
 
@@ -341,7 +341,7 @@ stanmod2 <- cmdstanr::cmdstan_model(stan_file = stanfile2,
 #settings for fitting
 fs_m2 = list(warmup = 500,
              sampling = 500, 
-             max_td = 15, #tree depth
+             max_td = 18, #tree depth
              adapt_delta = 0.99,
              chains = 2,
              cores  = 2,
@@ -359,11 +359,19 @@ for (n in 1:fs_m2$chains)
 }
 fs_m2$init = inits
 
+## ---- priors-m2 --------
+# values for prior distributions
+pv2 = list(a0_mu = 1, a0_sd = 0.5,
+          b0_mu = -1, b0_sd = 0.5,
+          g0_mu = 0, g0_sd = 2,
+          e0_mu = 1, e0_sd = 2
+)
+
 
 ## ---- run_m2 ----
 # adding priors to data
 fitdatstan2 = c(fitdat,
-               pv,
+               pv2,
                as = 12, #scaling of a0
                bs = 35, #scaling of b0
                modeltype = 1
@@ -382,9 +390,36 @@ res_m2 <- stanmod2$sample(data = fitdatstan2,
                           output_dir = filepath
 )
 
-
-## ---- savefits ----
+## ---- savefits_m2 ----
 res_m2$save_object(fs::path(filepath,filename))
+
+
+## ---- run_m2_v2 ----
+# adding priors to data
+fitdatstan2 = c(fitdat,
+                pv,
+                as = 12, #scaling of a0
+                bs = 35, #scaling of b0
+                modeltype = 2
+)
+
+res_m2_v2 <- stanmod2$sample(data = fitdatstan2,
+                          chains = fs_m2$chains,
+                          init = fs_m2$init,
+                          seed = fs_m2$seed,
+                          parallel_chains = fs_m2$chains,
+                          iter_warmup = fs_m2$warmup,
+                          iter_sampling = fs_m2$sampling,
+                          save_warmup = fs_m2$save_warmup,
+                          max_treedepth = fs_m2$max_td,
+                          adapt_delta = fs_m2$adapt_delta,
+                          output_dir = filepath
+)
+
+
+
+## ---- savefits_m2_v2 ----
+res_m2_v2$save_object(fs::path(filepath,filename))
 
 ## ---- loadfits --------
 # loading previously saved fit.
@@ -394,6 +429,11 @@ res_m2$save_object(fs::path(filepath,filename))
 # it is stored in a local cloud-synced folder
 # adjust accordingly for your setup
 res_m2 <- readRDS(fs::path(filepath,filename))
+res_m2_v2 <- readRDS(fs::path(filepath,filename))
+
+## ---- diagnose_m2 ----
+res_m2$cmdstan_diagnose()
+res_m2_v2$cmdstan_diagnose()
 
 
 ## ---- get_samples_m2----
@@ -402,16 +442,94 @@ samp_m2 <- res_m2$draws(inc_warmup = FALSE, format = "draws_df")
 allsamp_m2 <- res_m2$draws(inc_warmup = TRUE, format = "draws_df")
 
 
-## ---- diagnose_m2 ----
-res_m2$cmdstan_diagnose()
 
 ## ---- plot_par_m2 ----
 # only a few parameters
 plotpars = c("a0[1]","b0[1]","g0[1]","e0[1]","sigma")
 bayesplot::color_scheme_set("viridis")
-bp1 <- bayesplot::mcmc_trace(samp_m2, pars = plotpars)
+bp1 <- bayesplot::mcmc_trace(allsamp_m2, pars = plotpars)
 bp3 <- bayesplot::mcmc_dens_overlay(samp_m2, pars = plotpars)
 plot(bp1)
 plot(bp3)
+
+
+## ---- prep_data_m2 ----
+# data manipulation to get in shape for plotting
+# start with manipulation of posterior parameters
+postdf1 <- samp_m2 %>% 
+  select(!ends_with('prior')) %>% 
+  select(contains("sigma")) 
+# akward way of getting some further parameters
+# namely values from first individual for a0,b0,g0,e0
+postdf2 <- samp_m2 %>%
+  select(contains("0[1]")) %>%
+  rename_with(~ gsub("[1]", "", .x, fixed = TRUE) )
+postdf <- cbind(postdf1, postdf2) 
+postlong <- tidyr::pivot_longer(data = postdf, 
+                                cols = everything() , 
+                                names_to = "parname", 
+                                values_to = "value") %>% 
+  dplyr::mutate(type = "posterior")
+# manipulation of prior parameters
+priordf <-  samp_m2 %>% 
+  select(ends_with('prior')) %>% 
+  rename_with(~ gsub("_prior", "", .x, fixed = TRUE) ) 
+priorlong <- tidyr::pivot_longer(data = priordf, 
+                                 cols = everything() , 
+                                 names_to = "parname", 
+                                 values_to = "value") %>% 
+  dplyr::mutate(type = "prior")
+
+ppdf <- dplyr::bind_rows(postlong,priorlong)
+
+## ---- prior_post_m2 ----
+m2_p1 <- ppdf %>%
+  ggplot() +
+  geom_density(aes(x = value, color = type), linewidth = 1) +
+  facet_wrap("parname", scales = "free") +
+  theme_minimal()
+plot(m2_p1)
+
+
+## ---- make_predictions_m2 ----
+mu2 <- samp_m2 |>
+  select(starts_with("virus_pred")) |>
+  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
+  t() 
+rownames(mu) <- NULL
+preds2 <- samp_m2 |>
+  select(starts_with("ypred")) |>
+  apply(2, quantile, c(0.05, 0.5, 0.95)) |>
+  t() 
+rownames(preds) <- NULL
+
+
+## ---- plot_predictions_m2 ----
+# change dose so it looks nicer in plot
+dose = as.factor(fitdat2$dose_adj)
+levels(dose)[1] <- "low"
+levels(dose)[2] <- "medium"
+levels(dose)[3] <- "high"
+fitpred2 = data.frame(id = as.factor(fitdat2$id),
+                      dose = dose,
+                      time = fitdat2$time,
+                      Outcome = fitdat2$outcome,
+                      Estimate = mu2[,2],
+                      Qmulo = mu2[,1], Qmuhi = mu2[,3],
+                      Qsimlo = preds2[,1], Qsimhi = preds2[,3]
+)
+
+#make the plot
+#not including the CI or prediction intervals since it looks too messy
+predplot2 <- ggplot(data = fitpred2, aes(x = time, y = Estimate, group = id, color = dose ) ) +
+  geom_line() +
+  #geom_ribbon(aes(x=time, ymin=Qmulo, ymax=Qmuhi, fill = dose, color = NULL), alpha=0.3, show.legend = F) +
+  #geom_ribbon(aes(x=time, ymin=Qsimlo, ymax=Qsimhi, fill = dose, color = NULL), alpha=0.1, show.legend = F) +
+  geom_point(aes(x = time, y = Outcome, group = id, color = dose), shape = 1, size = 2, stroke = 2) +
+  scale_y_continuous(limits = c(-30,50)) +
+  labs(y = "Virus load",
+       x = "days post infection") +
+  theme_minimal() 
+plot(predplot2)
 
 

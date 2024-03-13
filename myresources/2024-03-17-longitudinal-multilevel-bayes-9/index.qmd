@@ -263,12 +263,29 @@ Next, we load and compile the Stan model.
 ```{r, initialconditions2}
 ```
 
+We'll also adjust the parameter distributions, making them a bit wider here for the sampling compared to the simulation above. The hope is that this will let the MCMC algorithm explore the space better.
+
+
+```{r, priors-m2}
+```
+
+
+
 # Run Stan model to fit
 
 Now we are running a "standard" Stan model by fitting it to the data.
 
 ```{r, run_m2, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
 ```
+
+
+This runs the fits again, now using the version of the ODE model that runs in log space.
+
+```{r, run_m2_v2, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
+```
+
+
+
 
 # Model result loading
 
