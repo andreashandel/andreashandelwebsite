@@ -1,0 +1,184 @@
+---
+title: Bayesian analysis of longitudinal multilevel data - part X  
+description: In part X of this series, I re-implement one of the previous models with Turing.jl/Julia.
+author: Andreas Handel
+date: 2024-03-18
+date-modified: last-modified
+aliases: 
+  - ../longitudinal-multilevel-bayesian-analysis-X/
+categories: 
+- Data Analysis
+- Bayesian
+- Julia
+image: "featured.png"
+image-alt: ""
+---
+
+
+# Overview
+
+This tutorial continues [the series of posts](/posts/2022-02-22-longitudinal-multilevel-bayes-1/)
+showing how to fit longitudinal data using Bayesian multilevel/hierarchical/mixed-effects models. To be able to follow along, you should start with the first post. Otherwise, the following won't make much sense 😁.
+
+This tutorial is a re-implementation of one of the models with Julia and `Turing.jl`.
+
+Here is [the Julia code for this example](julia-bayes-model.jl).
+
+
+
+# Introduction
+
+I previously described how I wanted to fit an ODE model in a Bayesian framework to some data. I implemented it in Stan. It worked, but it's too slow. Julia is supposed to be faster, especially with ODE models. So I decided to try and re-implement it with Julia and Turing.jl. I decided that before I try to tackle the ODE model, I'll go slow and re-implement one of the non-ODE models. 
+
+This is basically a re-implementation of [this example](/longitudinal-multilevel-bayes-5/) but instead of using `cmdstanr` and Stan, I'm using Turing.jl and Julia.
+
+
+
+
+# Setup
+
+You need to have Julia installed. If you just want to run the code, the easiest is to install VS Code and the Julia extension and run it there.
+
+If you also want to try to replicate the combination of Quarto and Julia that I'm using here, you need to do a few extra steps. Note that the [Julia Quarto documentation](https://quarto.org/docs/computations/julia.html) doesn't work for the purpose. Specifically, we can't use `jupyter: julia-1.10` (or whatever version is the latest) in the YAML. If we do this, we can't mix R code chunks (the one above to read in the file) and Julia code chunks (all below). 
+
+Instead, we can use the [JuliaCall `R` package](https://non-contradiction.github.io/JuliaCall/index.html). Install it and set it up. With that Quarto will use it for Julia code chunks and rendering this Quarto document with mixed R and Julia code chunks should work. I learned this trick from [Tim Knab](https://www.linkedin.com/in/timothyknab/).
+
+
+
+
+## The model
+
+It's the same overall model as in the [prior post](). I'm therfore not repeating it here.
+
+
+
+# Julia implementation 
+
+Import code from file so it can be executed in chunks below.
+This is the only `R` code chunk in this Quarto document, the rest are `Julia` code chunks.
+
+```{r}
+# read the Julia code with knitr, for later inclusion/execution in chunks below
+knitr::read_chunk(here::here('script','julia-bayes-model.jl'))
+```
+
+Loading and initializing the project. This uses the [DrWatson](https://juliadynamics.github.io/DrWatson.jl/dev/) Julia package. More details are in the Julia code file as comments.
+
+
+
+Import code from file so it can be executed in chunks below.
+This is the only `R` code chunk in this Quarto document, the rest are `Julia` code chunks.
+
+```{r}
+# read the Julia code with knitr, for later inclusion/execution in chunks below
+knitr::read_chunk(here::here('script','turing-fitting.jl'))
+```
+
+Loading and initializing the project.
+This uses the [DrWatson](https://juliadynamics.github.io/DrWatson.jl/dev/) Julia package.
+More details are in the Julia code file as comments.
+
+```{julia, setup}
+```
+
+Loading of needed packages:
+
+```{julia, loadpackages}
+```
+
+Defining paths and files, all relative to current project:
+
+```{julia, setpaths}
+```
+
+
+
+
+
+
+
+# Model implementation
+
+We previously used the `brms` and `rethinking` R packages to run our `Stan` models in `R`, without having to write `Stan` code. One can use these packages for ODEs, but still has to write some `Stan` code. I decided instead, for flexibility, I'm writing the full model in `Stan` and then fit it through `cmdstanr` in R.
+
+
+```{r, packages, message=FALSE, warning = FALSE}
+```
+
+We'll use the same data as before. We need to reshape it a bit to get it into the format that `cmdstanr` requires. To make things inside the Stan code easier, we added some additional information.
+
+
+```{r, data}
+```
+
+
+# Stan code
+
+Next, we need to write the Stan model code. The code is again in a separate file called `stancode-ode.stan`. This code loads and compiles the Stan model.
+
+```{r, make_stanmodel, message=FALSE, warning = FALSE, eval=FALSE}
+```
+
+Here is the code. It's getting big. I'm not going to explain it further. For some of the parts, I took inspiration from [this blog post by Danielle Narravo](https://blog.djnavarro.net/posts/2023-06-10_pop-pk-models/) 
+
+
+```{.stan include="stancode-ode.stan"}
+```
+
+# Model fitting settings
+
+As before, we need to specify settings for the MCMC algorithm and starting values (the latter of which is optional but I consider good practice).
+
+```{r, fitconditions}
+```
+
+```{r, initialconditions}
+```
+
+
+# Model fitting 
+
+
+This runs the model. It's not actually run here to speed up generation of this Quarto file, but the code chunk is in the R script, so you can run it.
+
+```{r, run_m1, message=FALSE, warning = FALSE, output = FALSE, eval=FALSE}
+```
+
+
+# Model result loading
+
+To save time, we don't run the model each time, instead we save the results and load them.
+
+```{r, loadfits, message=FALSE, warning = FALSE}
+```
+
+
+
+
+
+
+I found [this book](https://stanpmx.github.io/) that covers some additional topics on the pharmacometrics type of modeling using Stan that I've been covering here. 
+
+
+
+https://mpopov.com/tutorials/ode-stan-r/
+
+https://mc-stan.org/docs/stan-users-guide/ode-solver.html
+
+
+
+
+
+
+
+# Summary and further resources
+
+I seem to borrow a lot of ideas and inspiration from [Danielle Navarro](https://djnavarro.net/). In the past, I've used her blog posts on Quarto, R and related topics. She also wrote a series of [pharmacometrics blog posts](https://blog.djnavarro.net/#category=Pharmacometrics), and the one called [] 
+
+
+
+
+
+
+
+

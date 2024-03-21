@@ -58,6 +58,7 @@ transformed parameters{
         gamm[i] = exp(g0[i]);
         et[i] = exp(e0[i]);
     }
+    
     // loop over all observations
     // since parameters are saved in vectors of length corresponding to number of individuals
     // we need to index with that extra id[i] notation
