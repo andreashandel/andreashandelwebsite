@@ -24,10 +24,10 @@ using Chain #for chaining commands like the R pipe
 using MCMCChains #for visualization of turing output
 using Plots # for basic plots
 using StatsPlots # enhancements to basic plots
-using CairoMakie # different plotting system
-using AlgebraOfGraphics # even more plotting - similar to ggplot2, uses Makie
+#using CairoMakie # different plotting system
+#using AlgebraOfGraphics # even more plotting - similar to ggplot2, uses Makie
 using CSV #to read CSV data
-#using DataFrames #for data wrangling 
+using DataFrames #for data wrangling 
 #using DataFramesMeta #for data wrangling similar to dplyr functionality
 # using ParetoSmooth #for LOO cross-validation computations
 # using DifferentialEquations
@@ -45,7 +45,7 @@ Random.seed!(1234)
 ## ---- loaddata --------
 datafile = "simdat.csv"
 #dataFile = "../posts/2022-02-22-longitudinal-multilevel-bayes-1/simdat.Rds"
-# load data into a DataFrame object
+# load data into a DataFrame object - uses DataFrames package
 dat = CSV.read(datafile, DataFrame)
 
 
@@ -107,13 +107,83 @@ id = dat.id # vector keeping track of which data point belongs to which individu
  turingmod1 = turingmod(outcome, time, pv, Nind, Nobs, id)
 
 
+
+## ---- diagnose_mods ----
+function modeldiagnostics(postsamp,priorsamp, parnames)
+    
+    # pull out parameters we want to explore
+    # Not sure why this weird syntax works, got it from here:
+    # https://discourse.julialang.org/t/debugging-and-visualizing-high-dimensional-models-turing-mcmcchains/41872
+    subsamp = postsamp[:,parnames,:]
+    subsamppr = priorsamp[:,parnames,:]
+    
+    # model performance
+    modperform = summarystats(subsamp)
+    
+    # parameter distributions
+    pardist = quantile(subsamp)
+    
+    # trace, density, correlation, mean trace, autocorrelation plots
+    tp = StatsPlots.plot(subsamp, seriestype = :traceplot)
+    dp = StatsPlots.plot(subsamp, seriestype = :mixeddensity)
+    cp = StatsPlots.plot(subsamp, seriestype = :corner)
+    mp = StatsPlots.plot(subsamp, seriestype = :meanplot)
+    acp = StatsPlots.plot(subsamp, seriestype = :autocorplot)
+
+    # comparing prior and posterior distribution for parameters 
+    # convert MCMCChains object returned from Turing into a data frame
+    dfpost = DataFrame(subsamp)
+    dfprior = DataFrame(subsamppr)
+
+    # select and transform the 2 data frames into a single one
+    # uses the Chain and DataFramesMeta packages
+    # note that Turing returns objects of type Chains and there is the
+    # completely unrelated Chain package for doing R pipe-style coding
+    dfpo2 = @chain dfpost begin
+        @select $(parnames) # keep only model parameters
+        @transform(:type = "post") #add column indicating it's posterior
+    end
+
+    dfpr2 = @chain dfprior begin
+        @select $(parnames) 
+        @transform(:type = "prior")
+    end
+
+    df = [dfpr2;dfpo2] #combine data frames
+
+    # turn into long format for plotting
+    dflong = DataFrames.stack(df, parnames, [:type], variable_name=:parameter, value_name=:value)
+
+    # prior and posterior density distribution
+    # facetted by paremeter
+    ppplot = draw( data(dflong) * 
+            mapping(:value, color=:type, layout = :parameter) *
+                       AlgebraOfGraphics.density() 
+                   )
+
+    # put all results in a dictionary (similar to an R list)
+    moddiag = Dict("modperform" => modperform, 
+                   "pardist" => pardist,
+                   "traceplot" => tp,
+                   "densityplot" => dp,
+                   "corrplot" => cp,
+                   "meantraceplot" => mp,
+                   "autocorrplot" => acp,
+                   "ppplot" => ppplot
+                    )
+
+    return moddiag
+end #end function that does diagnostics
+
+
+
+
 ## ---- fitconditions_m1 ----
 # Specify settings for sampler
 iterations = 200
 warmup = 100
 adapt_delta = 0.8
 max_td = 5
-rngseed = 1234
 chains = 2
 
 
@@ -137,6 +207,10 @@ write("m1res_prior.jls", priorsamp)
 ##uncomment to load saved chains
 postsamp = read("m1res_post.jls", Chains)
 priorsamp = read("m1res_prior.jls", Chains)
+
+
+
+
 
 
 ## ---- diagnose_m1 ----
