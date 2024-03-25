@@ -17,6 +17,7 @@ pwd() #get/check directory
 ######################################
 using Pkg; # load the package manager package
 Pkg.activate(".") #activate project and package manager
+# use `instantiate` on first run to install packages
 using Random #for random numbers
 using Distributions #for probabilistic distributions
 using Turing #Bayesian fitting routines
@@ -24,11 +25,12 @@ using Chain #for chaining commands like the R pipe
 using MCMCChains #for visualization of turing output
 using Plots # for basic plots
 using StatsPlots # enhancements to basic plots
-#using CairoMakie # different plotting system
-#using AlgebraOfGraphics # even more plotting - similar to ggplot2, uses Makie
+using Serialization #to read/write turing chains
+using CairoMakie # different plotting system
+using AlgebraOfGraphics # even more plotting - similar to ggplot2, uses Makie
 using CSV #to read CSV data
 using DataFrames #for data wrangling 
-#using DataFramesMeta #for data wrangling similar to dplyr functionality
+using DataFramesMeta #for data wrangling similar to dplyr functionality
 # using ParetoSmooth #for LOO cross-validation computations
 # using DifferentialEquations
 #using LinearAlgebra: I #identity matrix, for use in models
@@ -122,7 +124,7 @@ function modeldiagnostics(postsamp,priorsamp, parnames)
     
     # parameter distributions
     pardist = quantile(subsamp)
-    
+
     # trace, density, correlation, mean trace, autocorrelation plots
     tp = StatsPlots.plot(subsamp, seriestype = :traceplot)
     dp = StatsPlots.plot(subsamp, seriestype = :mixeddensity)
@@ -156,6 +158,7 @@ function modeldiagnostics(postsamp,priorsamp, parnames)
 
     # prior and posterior density distribution
     # facetted by paremeter
+    # uses AlgebraOfGraphics
     ppplot = draw( data(dflong) * 
             mapping(:value, color=:type, layout = :parameter) *
                        AlgebraOfGraphics.density() 
@@ -188,126 +191,51 @@ chains = 2
 
 
 # Do the sampling/fitting 
-res1 = sample(turingmod1, NUTS(warmup, adapt_delta), MCMCThreads(), iterations, chains; max_td)
+@time res1 = sample(turingmod1, NUTS(warmup, adapt_delta), MCMCThreads(), iterations, chains; max_td)
 #res1 = sample(mod1, NUTS(warmup, adapt_delta), MCMCThreads(), iterations, chains, init_params = init_vals; max_td)
 # to get prior distributions
-res1pr =  sample(turingmod1, Prior(), MCMCThreads(), iterations, chains;)
+@time res1pr =  sample(turingmod1, Prior(), MCMCThreads(), iterations, chains;)
 
 
 ## ---- prep_explore_m1 ----
 postsamp = res1 #consistent naming
 priorsamp = res1pr
-parnames = names(res1, :parameters) #parameters to show in outputs
+allparnames = names(res1, :parameters) #parameters to show in outputs
 # need to do further filtering to get the ID specific parameters removed
+parnames = allparnames[[1,2,2+Nind,2+2*Nind,2+3*Nind]]
 
 ## ---- savefits ----
-write("m1res_post.jls", postsamp)
-write("m1res_prior.jls", priorsamp)
+f = open("m1res_post.jls", "w")
+serialize(f, postsamp)
+close(f)
+f = open("m1res_prior.jls", "w")
+serialize(f, priorsamp)
+close(f)
 
 ##uncomment to load saved chains
-postsamp = read("m1res_post.jls", Chains)
-priorsamp = read("m1res_prior.jls", Chains)
+f = open("m1res_post.jls", "r")
+postsamp = deserialize(f)
+close(f)
+f = open("m1res_prior.jls", "r")
+priorsamp = deserialize(f)
+close(f)
 
 
 
+## ---- explore_mod ----
+# run above function to generate diagnostic outputs
+mdiag = modeldiagnostics(postsamp,priorsamp,parnames)
+# show various diagnostic outputs
+# summarystats()
+mdiag["modperform"]
+# quantiles()
+mdiag["pardist"]
+mdiag["traceplot"]
+mdiag["densityplot"]
+mdiag["corrplot"]
+mdiag["meantraceplot"]
+mdiag["autocorrplot"]
+mdiag["ppplot"]
 
-
-
-## ---- diagnose_m1 ----
-## get summary results and diagnostics
-summarystats(postsamp)
-# seems equivalent
-# summarize(res1)
-# MCMCChains.summarize(res1; sections = :parameters)
-
-## ---- summarize_m1 ----
-# parameter distributions
-quantile(postsamp)
-
-## ---- plots_m1 ----
-## various plots
-# trace, density, correlation, mean trace, autocorrelation
-tp = StatsPlots.plot(postsamp, seriestype = :traceplot)
-dp = StatsPlots.plot(postsamp, seriestype = :mixeddensity)
-cp = StatsPlots.plot(postsamp, seriestype = :corner)
-mp = StatsPlots.plot(postsamp, seriestype = :meanplot)
-acp = StatsPlots.plot(postsamp, seriestype = :autocorplot)
-
-## ---- priorplots_m1 ----
-# comparing prior and posterior distribution for parameters 
-
-# convert MCMCChains object returned from Turing into a data frame
-dfpost = DataFrame(postsamp)
-dfprior = DataFrame([priorsamp])
-parnames = names(res1, :parameters)
-
-# select and transform the 2 data frames into a single one
-# uses the Chain and DataFramesMeta packages
-# note that Turing returns objects of type Chains and there is the
-# completely unrelated Chain package for doing R pipe-style coding
-dfpo2 = @chain dfpost begin
-    @select $(parnames) # keep only model parameters
-    @transform(:type = "post") #add column indicating it's posterior
-end
-
-dfpr2 = @chain dfprior begin
-    @select $(parnames) 
-    @transform(:type = "prior")
-end
-
-df = [dfpr2;dfpo2] #combine data frames
-
-# turn into long format for plotting
-dflong = DataFrames.stack(df, parnames, [:type], variable_name=:parameter, value_name=:value)
-
-# prior and posterior density distribution
-# facetted by paremeter
-# uses the AlgebraOfGraphics package 
-# (which is meant to be similar to ggplot)
-plt = draw(
-        data(dflong) * 
-        mapping(:value, color=:type, layout = :parameter) *
-                     AlgebraOfGraphics.density() 
-           )
-save(joinpath(figDir,"ppplot_m1.png"), plt)
-
-## ---- preds_m1 ----
-## predictive checks
-## need to set outcome/Y-values to missing so they will be predicted
-Y_new = Vector{Missing}(missing, length(Y)) # vector of `missing`
-model_pred = mod1turing(C, Y_new)
-pred_post = predict(model_pred, res1)  # posterior
-pred_prior = predict(model_pred, res1pr)
-
-# distributions for prior/posterior predicted outcomes
-postpred = quantile(pred_post)
-priorpred = quantile(pred_prior)
-
-## ---- make_predplot1_m1 ----
-# plot showing prior and posterior predictions
-f = Figure()
-Axis(f[1, 1], xlabel = "Concentration", ylabel = "Reduction", title = "Prior predictive check")
-CairoMakie.scatter!(dat2.C, dat2.Y)
-# 4th column is 50% quartile
-CairoMakie.lines!(dat2.C, priorpred[:, 4])
-# column 2 and 6 are 2.5 and 97.5 quartiles
-CairoMakie.band!(
-    dat2.C,
-    priorpred[:, 2],
-    priorpred[:, 6],
-    color = (:blue, 0.2),
-)
-Axis( f[1, 2], xlabel = "Concentration", ylabel = "Reduction", title = "Posterior predictive check")
-CairoMakie.scatter!(dat2.C, dat2.Y)
-# 4th column is 50% quartile
-CairoMakie.lines!(dat2.C, postpred[:, 4])
-# column 2 and 6 are 2.5 and 97.5 quartiles
-CairoMakie.band!(
-    dat2.C,
-    postpred[:, 2],
-    postpred[:, 6],
-    color = (:blue, 0.2),
-)
-save(joinpath(figDir,"pppred_m1.png"), f)
 
 
