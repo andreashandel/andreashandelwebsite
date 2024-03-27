@@ -1,7 +1,7 @@
 ########################################################
 # Model fitting with Turing/Julia 
 # Fitting longitudinal data with a Bayesian hierarchical model
-# Last updated 2024-02-16 (or later) by Andreas Handel
+# Last updated 2024-03-16 (or later) by Andreas Handel
 ########################################################
 
 ######################################
@@ -119,6 +119,9 @@ function modeldiagnostics(postsamp,priorsamp, parnames)
     subsamp = postsamp[:,parnames,:]
     subsamppr = priorsamp[:,parnames,:]
     
+    # model diagnostics
+    moddiag = describe(subsamp)
+
     # model performance
     modperform = summarystats(subsamp)
     
@@ -165,7 +168,8 @@ function modeldiagnostics(postsamp,priorsamp, parnames)
                    )
 
     # put all results in a dictionary (similar to an R list)
-    moddiag = Dict("modperform" => modperform, 
+    moddiag = Dict("moddiag" => moddiag, 
+                   "modperform" => modperform, 
                    "pardist" => pardist,
                    "traceplot" => tp,
                    "densityplot" => dp,
