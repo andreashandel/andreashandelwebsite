@@ -1,0 +1,17 @@
+---
+title: Antibody ceiling effects following influenza vaccination
+event: 2024 CIVR-HRP meeting 
+location: Memphis, TN
+date: "2024-04-23"
+date-modified: "2024-04-23"
+image: featured.png
+image-alt: pre versus post antibody titers
+categories:
+  - Research
+  - Vaccine
+  - Influenza
+---
+
+
+<a href="Handel-CIVR-2024-04.html" target="_blank">These are the slides</a> for this presentation.
+
