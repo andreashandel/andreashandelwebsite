@@ -1,0 +1,17 @@
+---
+title: Assessing homologous and heterologous influenza vaccine responses
+event: 2024 UGA Flu day 
+location: Athens, GA
+date: "2024-05-20" 
+date-modified: "2024-05-20"
+image: featured.png
+image-alt: titer increase versus pre-vaccine titers  
+categories:
+  - Research
+  - Vaccine
+  - Influenza
+---
+
+
+<a href="Handel-fluday-2024-05.html" target="_blank">These are the slides</a> for this presentation.
+
