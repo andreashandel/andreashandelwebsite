@@ -1,0 +1,17 @@
+---
+title: Infectious Diseases, Immunology, and Within-Host Models
+description: For the 16th time, my colleague Paul Thomas and I taught our annual SISMID workshop. For the first time in Atlanta.
+event: Workshop
+location: Atlanta, US 
+date: "2024-07-17"
+image: featured.jpg
+image-alt: SISMID 2024 logo
+categories:
+  - Workshop
+  - Teaching
+  - Modeling
+  - Immunology
+---
+
+For the 16th time, my colleague Paul Thomas and I taught our annual SISMID workshop. For the first time in Atlanta. The workshop website is [here](https://andreashandel.github.io/SISMID2024/). Most materials are found on a dedicated, stand-alone website called [Simulation Modeling in Immunology](https://andreashandel.github.io/SMIcourse/).
+

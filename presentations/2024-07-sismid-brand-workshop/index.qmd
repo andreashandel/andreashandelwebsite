@@ -1,0 +1,19 @@
+---
+title:  Building and curating your brand (online presence)
+description: Slides for a presentation and discussion at SISMID 2024
+event: Workshop
+location: Atlanta, US 
+date: "2024-07-18"
+image: featured.jpeg
+image-alt: Some pretty dumb AI generated image
+categories:
+  - Career
+  - Website
+---
+
+
+These are slides for a discussion I led on online presence/brand building as part of a career development workshop at [SISMID 2024](https://sph.emory.edu/SISMID/professional-development/index.html).
+
+<a href="2024-SISMID-building-your-brand.html" target="_blank">The presentation slides are here.</a>
+
+
