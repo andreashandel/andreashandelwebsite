@@ -402,6 +402,23 @@
       ],
       "Hash": "9fe98599ca456d6552421db0d6772d8f"
     },
+    "bookdown": {
+      "Package": "bookdown",
+      "Version": "0.40",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "htmltools",
+        "jquerylib",
+        "knitr",
+        "rmarkdown",
+        "tinytex",
+        "xfun",
+        "yaml"
+      ],
+      "Hash": "896a79478a50c78fb035a37148638f4e"
+    },
     "bridgesampling": {
       "Package": "bridgesampling",
       "Version": "1.1-2",

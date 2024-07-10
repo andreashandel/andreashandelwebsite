@@ -8,7 +8,6 @@ image: msbalance.png
 image-alt: Schematic of mutation-selection balance
 categories:
   - Drugs
-  - Resistance
   - Teaching
 ---
 

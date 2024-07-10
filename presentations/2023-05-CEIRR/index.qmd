@@ -10,7 +10,7 @@ image-alt: modelbuilder logo
 categories:
   - Research
   - Influenza
-  - R Packages
+  - R package
   - Tools
   - Modeling
 ---
