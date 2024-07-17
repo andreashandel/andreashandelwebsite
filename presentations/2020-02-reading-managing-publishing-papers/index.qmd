@@ -8,7 +8,6 @@ date: "2020-02-20"
 image: featured.jpg
 image-alt: Photo by Dmitry Ratushny on Unsplash
 categories:
-  - Academia
   - Career
 ---
 

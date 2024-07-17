@@ -1,8 +1,8 @@
 ---
-title: "The Role of Influenza Vaccine Dose Towards Homologous and Heterologous Protection"
-description: "A (virtual) presentation of some work on understanding the impact of dose for Influenza vaccines." 
-event: "International Society for Vaccines North America Influenza Vaccine Symposium"
-location: "ISV Influenza Vaccine Symposium (Virtual)"
+title: "The Role of Influenza Vaccines Dose Towards Homologous and Heterologous Protection"
+description: "A (virtual) presentation of some work on understanding the impact of dose for Influenza Vaccines." 
+event: "International Society for Vaccines North America Influenza Vaccines Symposium"
+location: "ISV Influenza Vaccines Symposium (Virtual)"
   
 date: "2020-12-02"
 image: featured.png
@@ -14,6 +14,6 @@ categories:
   - Vaccines
 ---
 
-These are slides for a talk discussing a recent project that investigated the impact of standard-dose versus high-dose Influenza vaccine on immune responses. I gave the talk during the ISV Virtual Congress North America Influenza Vaccine Symposium. <a href="2020_12_ISV.html" target="_blank">The presentation slides are here.</a>
+These are slides for a talk discussing a recent project that investigated the impact of standard-dose versus high-dose Influenza Vaccines on immune responses. I gave the talk during the ISV Virtual Congress North America Influenza Vaccines Symposium. <a href="2020_12_ISV.html" target="_blank">The presentation slides are here.</a>
 
 The organizers also recorded the event, the video recording [can be found here.](https://www.youtube.com/watch?v=t_Lx6Q9jT0o) 

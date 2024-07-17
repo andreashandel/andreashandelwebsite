@@ -1,6 +1,6 @@
 ---
-title:  Drivers of heterologous influenza vaccine antibody responses
-description: A research presentation covering some of our recent influenza vaccine work.
+title:  Drivers of heterologous influenza Vaccines antibody responses
+description: A research presentation covering some of our recent influenza Vaccines work.
 event: CIVR-HRP webinar
 location: Athens, US (remote)
   
@@ -10,7 +10,7 @@ image-alt: Schematic for antibody response
 categories:
   - Research
   - Influenza
-  - Vaccine
+  - Vaccines
 ---
 
 

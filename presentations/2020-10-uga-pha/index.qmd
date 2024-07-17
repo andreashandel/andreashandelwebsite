@@ -1,6 +1,6 @@
 ---
-title: "An overview of COVID-19 vaccines and modeling"
-description: A (virtual) presentation and discussion covering COVID-19 vaccines and modeling.
+title: "An overview of COVID-19 Vaccines and modeling"
+description: A (virtual) presentation and discussion covering COVID-19 Vaccines and modeling.
 event: UGA Public Health Association Seminar
 location: "Athens, GA, US (virtual)"
   
@@ -15,4 +15,4 @@ categories:
   
 ---
 
-These are slides for a brief presentation on COVID-19 vaccines and how to model their deployment. <a href="2020-10-PHA-UGA.html" target="_blank">The presentation slides are here.</a>
+These are slides for a brief presentation on COVID-19 Vaccines and how to model their deployment. <a href="2020-10-PHA-UGA.html" target="_blank">The presentation slides are here.</a>

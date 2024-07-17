@@ -1,12 +1,12 @@
 ---
-title: The impact of seasonal Influenza vaccine dose on homologous and heterologous immunity
+title: The impact of seasonal Influenza Vaccines dose on homologous and heterologous immunity
 description: A presentation given at the 12th European Conference on Mathematical and Theoretical Biology.
 event: Presentation
 location: Heidelberg, Germany
   
 date: "2022-09-22"
 image: featured.png
-image-alt: Influenza vaccine response
+image-alt: Influenza Vaccines response
 categories:
 
 - Research

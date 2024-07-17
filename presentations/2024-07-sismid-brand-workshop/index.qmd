@@ -8,7 +8,6 @@ image: featured.jpeg
 image-alt: Some pretty dumb AI generated image
 categories:
   - Career
-  - Website
 ---
 
 

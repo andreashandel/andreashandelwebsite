@@ -1,11 +1,11 @@
 ---
-title: Modeling the role of dose for vaccines & some other projects
+title: Modeling the role of dose for Vaccines & some other projects
 description: A presentation given to team members of Metrum RG
 event: Online Presentation
 location: Tariffville, CT, US (virtual)
 date: "2021-10-26"
 image: featured.png
-image-alt: Dose-outcome relation for vaccines
+image-alt: Dose-outcome relation for Vaccines
 categories:
 
 - Research

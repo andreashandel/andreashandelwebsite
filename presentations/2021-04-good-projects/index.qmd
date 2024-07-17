@@ -8,7 +8,6 @@ date: "2021-04-01"
 image: featured.jpg
 image-alt: Photo by [Carlos Alvarenga](https://pixabay.com/users/carlosalvarenga-2116392/)/Pixabay
 categories:
-  - Academia
   - Career
   - Research
 ---

@@ -1,5 +1,5 @@
 ---
-title: Model-based optimization of vaccine inoculum dose
+title: Model-based optimization of Vaccines inoculum dose
 description: Some recent research exploring the role of dose for infection and vaccination.
 event: 4th Workshop on Virus Dynamics
 location: Paris, France

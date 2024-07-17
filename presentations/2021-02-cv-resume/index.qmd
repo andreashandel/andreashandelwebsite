@@ -9,7 +9,6 @@ image: featured.jpg
 image-alt: Photo by [Tobias Herrmann](https://pixabay.com/users/5138153-5138153/)/Pixabay
 categories:
   - Career
-  - Academia
 ---
 
 These are slides for a talk/discussion I led with our graduate students discussing CVs and resumes and how to create good ones. 

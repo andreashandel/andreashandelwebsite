@@ -8,7 +8,6 @@ date: "2022-01-15"
 image: featured.jpg
 image-alt: Photo by Annie Sprat/Unsplash
 categories:
-  - Academia
   - Career
   - Research
 ---

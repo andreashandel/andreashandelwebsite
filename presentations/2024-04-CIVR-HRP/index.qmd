@@ -8,7 +8,7 @@ image: featured.png
 image-alt: pre versus post antibody titers
 categories:
   - Research
-  - Vaccine
+  - Vaccines
   - Influenza
 ---
 

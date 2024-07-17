@@ -1,6 +1,6 @@
 ---
-title:  Analysis and Modeling to evaluate influenza vaccine responses
-description: A research presentation covering some of our recent influenza vaccine work.
+title:  Analysis and Modeling to evaluate influenza Vaccines responses
+description: A research presentation covering some of our recent influenza Vaccines work.
 event: Emory University PBEE Seminar
 location: Atlanta, GA
 date: "2023-09-15"
@@ -10,7 +10,7 @@ image-alt: Antibody histogram
 categories:
   - Research
   - Influenza
-  - Vaccine
+  - Vaccines
 ---
 
 
