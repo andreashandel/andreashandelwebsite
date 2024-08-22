@@ -54,7 +54,7 @@ m1_mub = 1
 m1_sigmaa = 1
 m1_sigmab = 1
 m1_a0 = rnorm(n=Nind, m1_mua, m1_sigmaa)
-m1_b0 = rnorm(n=Nind, m1_mub, m1_sigmaa)
+m1_b0 = rnorm(n=Nind, m1_mub, m1_sigmab)
 # saving main parameters
 m1pars = c(sigma = sigma, a1 = a1, b1 = b1,
            a0_mu = m1_mua, b0_mu = m1_mub)
