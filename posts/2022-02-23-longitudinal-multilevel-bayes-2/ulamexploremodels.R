@@ -28,7 +28,7 @@ fl <- readRDS(filepath)
 # also load data file used for fitting
 simdatloc <- here::here('posts','2022-02-22-longitudinal-multilevel-bayes-1','simdat.Rds')
 simdat <- readRDS(simdatloc)
-#pull our the data set we used for fitting
+#pull the data set we used for fitting
 #if you fit a different one of the simulated datasets, change accordingly
 fitdat <- simdat$m3
 #contains parameters used for fitting
