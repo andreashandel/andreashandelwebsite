@@ -187,7 +187,7 @@ startlist = list(startm1,startm2,startm3,startm4,startm2a,startm4,startm5)
 #general settings for fitting
 #you might want to adjust based on your computer
 warmup = 3000 
-iter = 2000
+iter = 5000
 max_td = 15 #tree depth
 adapt_delta = 0.999
 chains = 5
