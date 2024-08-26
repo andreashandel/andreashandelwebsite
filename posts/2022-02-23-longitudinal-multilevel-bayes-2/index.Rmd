@@ -226,7 +226,7 @@ First, both models produce similar estimates. Since model 2a is simpler and does
 
 Both models do a very poor job estimating $\sigma$. That's because we don't allow the models to have the flexibility needed to fit the data, so it has to account for any variation between its estimated mean trajectory and the real data by making $\sigma$ large.
 
-Since the models are more constrained compared to models 1 and 3, they produce estimates for $a_1$ and $b_1$ that are tighter. However, these estimates are over-confident. overall these models underfitting and are not good. We can for instance look at this using the `compare` function:
+Since the models are more constrained compared to models 1 and 3, they produce estimates for $a_1$ and $b_1$ that are tighter. However, these estimates are over-confident. Overall these models are underfitting and not reliable. We can for instance look at this using the `compare` function:
 
 ```{r, mod_comparison}
 ```
