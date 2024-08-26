@@ -351,7 +351,7 @@ The model fits look fine, suggesting that one parameter for each individual is e
 ```{r, mod_5_plots, warning=FALSE}
 ```
 
-So overall, the figures make sense It seems that if we want to do prediction, all models that include individual variability are fine, models 2/2a are not great. If we wanted to estimate the model parameters, specifically $a_1$ and $b_1$, models 1 and 3 and of course 5 don't work. In that case, model 2/2a works ok. I consider model 4/4a the best one overall.
+So overall, the figures make sense. It seems that if we want to do prediction, all models that include individual variability are fine, models 2/2a are not great. If we wanted to estimate the model parameters, specifically $a_1$ and $b_1$, models 1 and 3 and of course 5 don't work. In that case, model 2/2a works ok. I consider model 4/4a the best one overall.
 
 For another example and more discussion of estimation versus prediction, see e.g. Section 6.1. in *Statistical Rethinking*, as well as 9.5.4 (all referring to the 2nd edition of the book).
 
