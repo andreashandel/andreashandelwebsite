@@ -1,0 +1,18 @@
+---
+title: Vaccines to combat infectious diseases
+description: A guest lecture for a UGA First Year Odyssey Seminar
+event: First Year Odyssey Seminar
+location: Athens, GA
+date: "2024-11-06"
+date-modified: "2024-11-06"
+image: CoP-protection-schematic.png
+image-alt: relation between an immunological marker and protection
+categories:
+  - Teaching
+  - Infectious Disease
+  - Vaccine
+---
+
+
+<a href="2024-11-Vaccine-FYOS.html" target="_blank">These are the slides</a> for this presentation.
+

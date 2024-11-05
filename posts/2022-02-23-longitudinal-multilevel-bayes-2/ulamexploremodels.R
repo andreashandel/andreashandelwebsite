@@ -41,7 +41,7 @@ show(fl[[5]]$fit)
 ## ---- traceplot ------
 # Model 2a trace plots
 # for some reason didn't work on last compile
-traceplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
+rethinking::traceplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 ## ---- trankplot ------
 # Model 2a trank plots
