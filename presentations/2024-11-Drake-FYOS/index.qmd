@@ -14,5 +14,5 @@ categories:
 ---
 
 
-<a href="2024-11-Vaccine-FYOS.html" target="_blank">These are the slides</a> for this presentation.
+<a href="2024-11-Vaccines-FYOS.html" target="_blank">These are the slides</a> for this presentation.
 

@@ -9,6 +9,7 @@ project:
     - "!myresources/"
     - "!renv/"
     - "!certificate*"
+    - "!posts/2022-02-23-longitudinal-multilevel-bayes-2/"
   resources:
     - "files/"
   post-render:
