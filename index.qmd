@@ -35,7 +35,7 @@ writeLines(redirects, here::here("_site", "_redirects"))
 
 I am a Professor in the [Department of Epidemiology and Biostatistics](https://publichealth.uga.edu/departments/epidemiology-biostatistics/), [College of Public Health](https://www.publichealth.uga.edu/), at the [University of Georgia (UGA)](https://www.uga.edu/).
 
-My research and teaching focus on data analysis and modeling of infectious diseases.
+My research and teaching is in the area of data analytics, statistical inference, and computational modeling, with a focus on infectious diseases.
 
 This website contains [a short bio](about.qmd) and products such as [blog posts](posts.qmd), [presentations](presentations.qmd), and [various tools and resources related to teaching and research](projects.qmd).
 
