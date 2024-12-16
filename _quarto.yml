@@ -9,7 +9,7 @@ project:
     - "!myresources/"
     - "!renv/"
     - "!certificate*"
-    - "!posts/2022-02-23-longitudinal-multilevel-bayes-2/"
+    # - "!posts/2022-02-23-longitudinal-multilevel-bayes-2/"
   resources:
     - "files/"
   post-render:
@@ -56,7 +56,7 @@ website:
         file: projects.qmd
   page-footer:
     left: |
-      {{< fa regular copyright >}} Andreas Handel, 2023<br>
+      {{< fa regular copyright >}} Andreas Handel, 2024<br>
       All content licensed under {{< fa brands creative-commons >}}
       {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-sa >}} {{< fa brands creative-commons-nc >}} [(CC BY-NC-SA 4.0)](http://creativecommons.org/licenses/by-nc-sa/4.0/)<br>
       Opinions are my own and do not represent my employer

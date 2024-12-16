@@ -7,33 +7,34 @@ comments: false
 
 ### Current position
 
-I am currently the UGA Foundation Professor in Public Health and Associate Department Head in the [Department of Epidemiology and Biostatistics](http://www.publichealth.uga.edu/epibio/), [College of Public Health](http://www.publichealth.uga.edu/), at the [University of Georgia (UGA)](http://www.uga.edu/). 
+I am currently the UGA Foundation Professor in Public Health and Associate Department Head in the [Department of Epidemiology and Biostatistics](https://publichealth.uga.edu/departments/epidemiology-biostatistics/), [College of Public Health](https://www.publichealth.uga.edu/), at the [University of Georgia (UGA)](https://www.uga.edu/).
 
-I am also a Member of UGA's [Institute of Bioinformatics](http://iob.uga.edu/faculty/) and [Center for the Ecology of Infectious Diseases](https://www.ceid.uga.edu/), and have an adjunct appointment in the [Department of Epidemiology, Rollins School of Public Health](http://sph.emory.edu/faculty/profile/#AHANDEL) at [Emory University](http://www.emory.edu/). 
+I am also a Member of UGA's [Institute of Bioinformatics](https://iob.uga.edu/) and [Center for the Ecology of Infectious Diseases](https://www.ceid.uga.edu/), and have an adjunct appointment in the [Department of Epidemiology, Rollins School of Public Health](https://sph.emory.edu/departments/epi/index.html) at [Emory University](http://www.emory.edu/). 
 
 
 
 ### Research focus
 
-My research is in the area of data analytics, statistical inference, and computational modeling, with a focus on infectious diseases. I use statistical (preferentially Bayesian hierarchical) models to analyze data, and mechanistic computational models (usually formulated as ordinary differential equations) to study the dynamics of the system of interest. The ultimate goal of my work is to help design better intervention and control strategies, such as improved drugs and vaccines.
+My research focuses on data analytics, statistical inference, and computational modeling, particularly in the context of infectious diseases. I use different types of statistical and machine learning approaches to analyze data. My preferred statistical framework is Bayesian, but I adjust as needed. I also develop mechanistic computational models, often based on ordinary differential equations, to investigate the dynamics of the systems I study. These models can help evaluate the impact of drugs and vaccines and other interventions on the dynamics of infections. The ultimate aim of my work is to contribute to the development of more effective interventions and control strategies, both on the level of individuals as well as the population.
+
  
 <!-- My work covers both the individual level (the immunology, virology, microbiology scale) and the population level (the epidemiology, ecology, evolution scale).  -->
 
 Descriptions of some current research projects can be found [on my research group website](https://handelgroup.uga.edu/). Slides for recent talks and presentations are located on this website and [can be found here](presentations.qmd).
 
+
 ### Previous positions
 
-I started in 2009 as Assistant Professor in the [Department of Epidemiology and Biostatistics](http://www.publichealth.uga.edu/epibio/),
-[College of Public Health](http://www.publichealth.uga.edu/), at the [University of Georgia (UGA)](http://www.uga.edu/), was promoted to Associate Professor in 2015 and to Full Professor in 2021. 
+I started in 2009 as Assistant Professor in the Department of Epidemiology and Biostatistics at UGA, was promoted to Associate Professor in 2015 and to Full Professor in 2021. 
 
 From 2004 - 2009, I was a Postdoctoral Fellow in the [Department of Biology](http://www.biology.emory.edu/) 
 at [Emory University](http://www.emory.edu/) in the group of [Rustom Antia](http://www.biology.emory.edu/Antia/). During my Postdoc I made the transition from physics to infectious disease modeling. 
 
-From 1999 - 2004, I did a PhD in theoretical physics at the [Center for Nonlinear Science](http://cns.physics.gatech.edu/) and 
-[School of Physics](http://www.physics.gatech.edu/), [Georgia Institute of Technology](http://www.gatech.edu/). 
-I worked with [Roman Grigoriev](http://www.cns.gatech.edu/~roman/) on the topic of localized control of spatially extended, nonlinear dynamical systems. 
+From 1999 - 2004, I did a PhD in theoretical physics at the [Center for Nonlinear Science](https://cns.gatech.edu/) and 
+[School of Physics](https://www.physics.gatech.edu/) at the [Georgia Institute of Technology](https://www.gatech.edu/). 
+I worked with [Roman Grigoriev](https://cns.gatech.edu/~roman/) on the topic of localized control of spatially extended, nonlinear dynamical systems. 
 
-I grew up in Germany and started my undergrad studies in 1996 at the [University of Stuttgart](http://www.uni-stuttgart.de/en/), in [Physics](https://www.f08.uni-stuttgart.de/en/physics/). I received my B.S. (or what could be considered the German equivalent) in 1999, after which I moved to the U.S.
+I grew up in Germany and started my undergrad studies in 1996 at the [University of Stuttgart](https://www.uni-stuttgart.de/en/), in [Physics](https://www.f08.uni-stuttgart.de/en/physics/). I received my B.S. (or what could be considered the German equivalent) in 1999, after which I moved to the U.S.
 
 
 ### Additional, completely irrelevant information 
