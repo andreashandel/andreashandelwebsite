@@ -6,6 +6,7 @@
 library('dplyr') # for data manipulation
 library('tidyr') # for data manipulation
 library('ggplot2') # for plotting
+library('rstan') #for model fitting
 library('cmdstanr') #for model fitting
 library('brms') # for model fitting
 library('posterior') #for post-processing

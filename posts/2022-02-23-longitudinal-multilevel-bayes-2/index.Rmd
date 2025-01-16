@@ -3,7 +3,7 @@ title: Bayesian analysis of longitudinal multilevel data using brms and rethinki
 description: Part 2 of a tutorial showing how to fit Bayesian models using the `rethinking` package.
 author: Andreas Handel
 date: '2022-02-23'
-lastMod: "2022-05-02"
+lastMod: "2024-12-11"
 aliases: 
   - ../longitudinal-multilevel-bayesian-analysis-2/
 categories: 
@@ -11,10 +11,13 @@ categories:
 - Data Analysis
 - Bayesian
 image: "featured.png"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 library(emoji)
+library(rethinking)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
@@ -163,8 +166,12 @@ To keep output manageable, I'm using model 2a here, which has no individual-leve
 ```{r, traceplot}
 ```
 
-```{r, trankplot}
+For some reason, the trank-plots don't work in the current version of rethinking, at least not in this context of pulling code chunks from an R script into a Quarto file. So this is the code I would use to make the trank-plot, but I'm not running it.
+
+```{r, trankplot, eval = FALSE}
 ```
+
+The pair plot works.
 
 ```{r, pairplot}
 ```

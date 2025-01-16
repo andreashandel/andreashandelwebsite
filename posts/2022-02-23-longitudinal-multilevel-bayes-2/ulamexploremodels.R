@@ -36,12 +36,12 @@ pars <- simdat$m3pars
 
 ## ---- diagnostics ------
 # Model 2a summary
-show(fl[[5]]$fit)
+#show(fl[[5]]$fit)
 
 ## ---- traceplot ------
 # Model 2a trace plots
 # for some reason didn't work on last compile
-traceplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
+#rethinking::traceplot(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 ## ---- trankplot ------
 # Model 2a trank plots
@@ -55,11 +55,11 @@ rethinking::pairs(fl[[5]]$fit, pars = c("a0","b0","a1","b1","sigma"))
 
 ## ---- mod_1_3_prior --------
 #get priors and posteriors for models 1 and 3
-m1prior <- extract.prior(fl[[1]]$fit, n = 1e4)
-m1post <- extract.samples(fl[[1]]$fit, n = 1e4)
+m1prior <- rethinking::extract.prior(fl[[1]]$fit, n = 1e4)
+m1post <- rethinking::extract.samples(fl[[1]]$fit, n = 1e4)
 
-m3prior <- extract.prior(fl[[3]]$fit, n = 1e4)
-m3post <- extract.samples(fl[[3]]$fit, n = 1e4)
+m3prior <- rethinking::extract.prior(fl[[3]]$fit, n = 1e4)
+m3post <- rethinking::extract.samples(fl[[3]]$fit, n = 1e4)
 
 ## ---- mod_1_3_prior_plots --------
 #showing density plots for a0
@@ -193,7 +193,7 @@ print(precis(fl[[6]]$fit,depth=1),digits = 2)
 
 ## ---- mod_4_4a_comparison --------
 rethinking::compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = WAIC)
-rethinking::compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = PSIS)
+#rethinking::compare(fl[[3]]$fit,fl[[4]]$fit,fl[[6]]$fit, func = PSIS)
 
 
 

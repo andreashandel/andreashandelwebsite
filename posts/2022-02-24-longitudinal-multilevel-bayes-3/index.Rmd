@@ -32,7 +32,9 @@ I assume you've read both [part 1](/posts/longitudinal-multilevel-bayesian-analy
 
 # Introduction
 
-In the previous post, I showed how to fit the data using the `rethinking` package. Now I'm re-doing it using `brms`. The [`brms` package](https://paul-buerkner.github.io/brms/) is a widely used and very powerful tool to interface with Stan. It has overall more capabilities compared to `rethinking`. In my opinion, the main disadvantage is that it is often not obvious how to go from mathematical model to code, unless one has a good bit of experience jumping between the often terse formula notation of `brms` and the model equations. I'm not there yet, so I currently prefer to start with `rethinking`. But since `brms` can do things that are not as easy (or impossible) with `rethinking`, it seems good to know how to use both.
+In the previous post, I showed how to fit the data using the `rethinking` package. Now I'm re-doing it using `brms`. The [`brms` package](https://paul-buerkner.github.io/brms/) is a widely used and very powerful tool to interface with Stan. It has overall more capabilities compared to `rethinking`. It tends to also be more robustly developed and maintained.
+
+In my opinion, the main disadvantage is that it is often not obvious how to go from mathematical model to code, unless one has a good bit of experience jumping between the often terse formula notation of `brms` and the model equations. I'm not there yet, so I currently prefer to start with `rethinking`. But since `brms` can do things that are not as easy (or impossible) with `rethinking`, it seems good to know how to use both.
 
 Also, comparing results using two different numerical packages is always good (even though both use `Stan` underneath, so in some sense those are not truly independent software routines).
 
