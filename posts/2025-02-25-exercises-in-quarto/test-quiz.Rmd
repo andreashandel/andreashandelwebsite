@@ -1,7 +1,7 @@
 Question
 ========
-Which of these is not a component of a [READy workflow](https://andreashandel.github.io/MADAcourse/content/module-ready-workflow/ready-overview.html)?
-
+Which of these is NOT a component of a READy workflow?
+(See here: https://andreashandel.github.io/MADAcourse/content/module-ready-workflow/ready-overview.html)
 
 Answerlist
 ----------
@@ -9,7 +9,6 @@ Answerlist
 * Efficient
 * Analytical
 * Documented
-
 
 Solution
 ========
@@ -21,7 +20,6 @@ Answerlist
 * False
 * True
 * False
-
 
 Meta-information
 ================

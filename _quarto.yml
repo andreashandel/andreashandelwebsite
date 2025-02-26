@@ -9,6 +9,7 @@ project:
     - "!myresources/"
     - "!renv/"
     - "!certificate*"
+    - "!posts/2025-02-25-exercises-in-quarto/test-quiz.Rmd"
     # - "!posts/2022-02-23-longitudinal-multilevel-bayes-2/"
   resources:
     - "files/"
@@ -66,11 +67,13 @@ website:
       [Source at {{< fa brands github >}} GitHub](https://github.com/andreashandel/andreashandelwebsite)
 format:
   html:
+    include-after-body: files/webex.js    
     code-fold: false
     #embed-resources: true	
     #self-contained: true
     theme: 
-      light: [matria,customstyle.scss]
-      dark: [slate,customstyle.scss]
+      light: [matria,files/customstyle.scss]
+      dark: [slate,files/customstyle.scss]
+    css: files/webex.css
     toc: true
     

@@ -1,0 +1,15 @@
+{
+  "hash": "eaf9ced3f8bdd85963f5237ec66e2271",
+  "result": {
+    "engine": "knitr",
+    "markdown": "Question\n========\nWhich of these is not a component of a [READy workflow](https://andreashandel.github.io/MADAcourse/content/module-ready-workflow/ready-overview.html)?\n\n\nAnswerlist\n----------\n* Reproducible\n* Efficient\n* Analytical\n* Documented\n\n\nSolution\n========\nREADy stands for \"Reproducible, efficient, automated, and documented\" \n\nAnswerlist\n----------\n* False\n* False\n* True\n* False\n\n\nMeta-information\n================\nexname: test quiz\nextype: schoice\nexsolution: 0010",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
