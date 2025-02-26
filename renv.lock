@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.4.0",
+    "Version": "4.4.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -835,6 +835,40 @@
         "R"
       ],
       "Hash": "3fd29944b231036ad67c3edb32e02201"
+    },
+    "exams": {
+      "Package": "exams",
+      "Version": "2.4-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "base64enc",
+        "grDevices",
+        "graphics",
+        "knitr",
+        "rmarkdown",
+        "stats",
+        "tools",
+        "utils"
+      ],
+      "Hash": "25beadb9b1212325ab35885c65ccd244"
+    },
+    "exams2forms": {
+      "Package": "exams2forms",
+      "Version": "0.1-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "exams",
+        "grDevices",
+        "knitr",
+        "rmarkdown",
+        "tools",
+        "utils"
+      ],
+      "Hash": "9b236b777a8275df27e435497ede14a0"
     },
     "fansi": {
       "Package": "fansi",

@@ -10,9 +10,9 @@ about:
     - icon: github
       text: Github
       href: https://github.com/andreashandel
-    - icon: mastodon
-      text: Mastodon
-      href: https://fosstodon.org/@andreashandel
+    - icon: bluesky
+      text: Bluesky
+      href: https://bsky.app/profile/andreashandel.bsky.social
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/andreashandel/
