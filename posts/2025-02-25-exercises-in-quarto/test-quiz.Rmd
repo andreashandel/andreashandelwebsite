@@ -3,6 +3,7 @@ Question
 Which of these is NOT a component of a READy workflow?
 (See here: https://andreashandel.github.io/MADAcourse/content/module-ready-workflow/ready-overview.html)
 
+
 Answerlist
 ----------
 * Reproducible
@@ -10,9 +11,11 @@ Answerlist
 * Analytical
 * Documented
 
+
 Solution
 ========
-READy stands for "Reproducible, efficient, automated, and documented" 
+READy stands for: Reproducible, efficient, automated, and documented 
+
 
 Answerlist
 ----------
@@ -20,6 +23,7 @@ Answerlist
 * False
 * True
 * False
+
 
 Meta-information
 ================

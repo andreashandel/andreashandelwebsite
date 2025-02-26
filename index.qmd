@@ -10,20 +10,21 @@ about:
     - icon: github
       text: Github
       href: https://github.com/andreashandel
-    - icon: bluesky
-      text: Bluesky
+    - text: "Bluesky {{< fa brands bluesky >}}"
+      icon: fa-brands fa-bluesky
       href: https://bsky.app/profile/andreashandel.bsky.social
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/andreashandel/
-    - icon: google-scholar
-      text: Google Scholar
+    - text: "Google Scholar {{< fa brands google-scholar >}}"
       href: https://scholar.google.com/citations?user=bruHK0YAAAAJ&hl=en
-    - icon: orcid
-      text: ORCID
+    - text: "ORCID {{< fa brands orcid >}}"
       href: https://orcid.org/0000-0002-4622-1146
 comments: false
 ---
+
+<!-- # see here for the icon setup  -->
+<!-- # https://forum.posit.co/t/overwriting-bootstrap-icons-in-quarto/195804/2 -->
 
 ```{r, echo=FALSE, eval = TRUE}
 # Based on: https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto/#netlify-redirects

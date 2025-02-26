@@ -88,7 +88,7 @@ There are several new options that make use of the new [`webR` framework](https:
 
 [`quarto-webr`](https://quarto-webr.thecoatlessprofessor.com/) is one such option, [`quarto-live`](https://github.com/r-wasm/quarto-live) is an alternative, very similar option. As far as I can tell these two options provide roughly similar functionality[^3]. They are meant to allow execution of code - and exercises based on code - being run in the browser without the need for an R/Shiny server. A related package, [`shinylive`](https://posit-dev.github.io/r-shinylive/), provides somwhat similar functionality (R/Shiny without a server) but is not as Quarto focused.
 
-[^3]: Without havine tried each, that's just my impression after reading through some of the documentation.
+[^3]: Without having actually tried each, that's just my impression after reading through some of the documentation.
   
 
 
@@ -96,7 +96,7 @@ The main drawback (for me) is that these packages do not - as far as I can tell 
 
 If someone were to implement an easy way to write non-coding quiz questions using either of those approaches, it would likely be ideal for me since then I could use the same approach for classes where I want to show/do coding exercises and for those where I only want to have interactive quiz functionality. I guess I basically want a re-implementation of `learnr` using the `webR` framework to allow deployment on static websites. Alas, that does not currently seem to exist[^4].
 
-[^4]: It [seems to be possible](https://yabellini.netlify.app/blog/2024-09-29-quarto_live_quiz/) to do it, but that approach looks too tedious to me.
+[^4]: It [seems to be possible](https://yabellini.netlify.app/blog/2024-09-29-quarto_live_quiz/) to do it, but that approach looks too involved and complex to me.
 
  
 
@@ -130,39 +130,9 @@ The following shows a simple example of making and embedding questions into a Qu
 **Step 2:** Write up each question as an `Rmd` file following their provided templates/examples. Here's a simple example:
 
 
-```{verbatim}
-Question
-========
-Which of these is NOT a component of a READy workflow?
-(See here: https://andreashandel.github.io/MADAcourse/content/module-ready-workflow/ready-overview.html)
-
-
-Answerlist
-----------
-* Reproducible
-* Efficient
-* Analytical
-* Documented
-
-
-Solution
-========
-READy stands for "Reproducible, efficient, automated, and documented" 
-
-Answerlist
-----------
-* False
-* False
-* True
-* False
-
-
-Meta-information
-================
-exname: test quiz
-extype: schoice
-exsolution: 0010
+```{include="test-quiz.Rmd"}
 ```
+
 
 
 Step 3: Load that question inside your Quarto document with code like this:
