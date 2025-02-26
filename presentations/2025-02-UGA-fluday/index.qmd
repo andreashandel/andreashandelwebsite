@@ -1,0 +1,17 @@
+---
+title: Modeling to support influenza vaccine development
+event: 2025 UGA Flu day 
+location: Athens, GA
+date: "2025-02-19" 
+date-modified: "2025-02-19"
+image: featured.png
+image-alt: sampling scheme for new metric evaluation  
+categories:
+  - Research
+  - Vaccines
+  - Influenza
+---
+
+
+<a href="Handel-fluday-2025-02.html" target="_blank">These are the slides</a> for this presentation.
+
