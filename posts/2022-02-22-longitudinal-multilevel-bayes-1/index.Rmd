@@ -35,8 +35,8 @@ The original series of posts, which I wrote in 2022 and continue to slightly upd
 In 2024, I wrote a few additional posts on that topic:
 
 * [Part 5](/posts/longitudinal-multilevel-bayesian-analysis-5/), re-implements one of the original models with `cmdstanr` and `Stan` code. It also contains a few post-fitting additional diagnostic explorations.
-* [Part 6](/posts/longitudinal-multilevel-bayesian-analysis-6/), uses `Stan` and `cmdstanr` and implements a larger main model that I briefly discuss in part 4. This sets the stage for part 7.
-* [Part 7](/posts/longitudinal-multilevel-bayesian-analysis-7/), implements an ODE-based model.
+* [Part 6](/posts/longitudinal-multilevel-bayesian-analysis-6/), uses `Stan` and `cmdstanr` and implements a larger main model that I briefly discuss in part 4. 
+<!-- * [Part 7](/posts/longitudinal-multilevel-bayesian-analysis-7/), implements an ODE-based model. -->
 
 
 I generally place further resources and acknowledgments sections at the end. However, since this series seems to be expanding and the order in which one goes through the posts is a bit flexible, I'll list some major resources right here at the beginning, before starting with the tutorial sequence. There are still links to additional resources spread throughout the posts.
@@ -439,7 +439,7 @@ Load required packages.
 ```{r, settings}
 ```
 
-I chose fairly low sample sizes, with less than 10 individuals for each dose group. This is motivated by the real data I have in mind, which has similar sample sizes. Of course, more data is generally better. In [part 4 of the tutorial](/posts/longitudinal-multilevel-bayesian-analysis-4) I play around a bit with fitting larger samples.
+I chose fairly low sample sizes, with less than 10 individuals for each dose group. This is motivated by the real data I have in mind, which has similar sample sizes. Of course, more data is generally better. In [part 4 of the tutorial](/posts/longitudinal-multilevel-bayesian-analysis-4/) I play around a bit with fitting larger samples.
 
 
 ## Setting parameter values

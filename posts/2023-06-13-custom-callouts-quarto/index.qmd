@@ -2,7 +2,8 @@
 title: How to make custom callouts for Quarto    
 description: A brief tutorial on implementing callout style layouts in Quarto for those with rudimentary CSS/HTML skills like myself.
 author: Andreas Handel
-date: '2023-06-13'
+date: 2023-06-13
+date-modified: 2025-03-05
 aliases: 
   - ../custom-callouts-quarto/
 categories: 
@@ -15,6 +16,10 @@ execute:
   echo: false
 engine: knitr
 ---
+
+# Update 2025-03-05
+
+I wrote this post about 2 years ago. I since had forgotton about it. I recently needed to revisit the topic, re-discovered my own post, and realized that what I was writing here, namely that I was making custom callouts for Quarto, is not quite correct. I'm just defining styling for new divs that look somewhat like Quarto callouts, but I'm not using the "callout machinery". For my updated thoughts and notes, [see this new blog post](https://www.andreashandel.com/posts/2025-03-05-custom-quarto-divs/).
 
 
 # Motivation

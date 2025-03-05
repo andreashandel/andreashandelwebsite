@@ -22,6 +22,8 @@ install.packages(c('cowplot','geosphere','scholar','wordcloud','bibliometrix','t
 remotes::install_github('rmcelreath/rethinking')
 remotes::install_github('andreashandel/flowdiagramr')
 
+`cmdstanr` and `cmdstan` are iffy and often misbehave. 
+
 
 ## Website Logo
 * Save your icon as a square 512x512 pixel image named icon.png and place the image in your root assets/images/ folder, creating the assets and images folders if they don't already exist. (https://sourcethemes.com/academic/docs/customization/)

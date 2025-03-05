@@ -13,8 +13,8 @@ project:
     # - "!posts/2022-02-23-longitudinal-multilevel-bayes-2/"
   resources:
     - "files/"
-  post-render:
-    - makeredirects.R
+#  post-render:
+#    - makeredirects.R
   preview:
     port: 4321
     browser: true

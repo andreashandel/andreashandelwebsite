@@ -3,7 +3,7 @@ title: Bayesian analysis of longitudinal multilevel data - part 5
 description: Part 5 of a tutorial showing how to fit directly with Stan and cmdstanr.
 author: Andreas Handel
 date: 2024-02-15
-date-modified: last-modified
+date-modified: 2025-03-05
 aliases: 
   - ../longitudinal-multilevel-bayesian-analysis-5/
 categories: 
@@ -262,7 +262,9 @@ This completes the `cmdstanr`/`Stan` re-implementation and exploration of one of
 
 While I had planned to now implement the ODE model as a next step, I ended up deciding on one more intermediate step. Namely, I know that the ODE model I want to use has 4 main parameters, as opposed to the 2 parameters used here. I figured I might first build a more complex, 4-parameter non-ODE model before I switch. The obvious candidate for that 4-parameter model is the equation I [mentioned previously](/posts/2022-02-25-longitudinal-multilevel-bayes-4/#alternative-model-for-time-series-trajectory) and that we ended up using in [our paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10310361/).
 
-So [the next part in this series](/posts/2024-02-16-longitudinal-multilevel-bayes-6/) is a more complex non-ODE model. I recommend you go there and at least skim through it. Nothing much new is happening, but it sets the stage for what's coming after. Or, if you are impatient, [jump straight to the ODE model implementation](/posts/2024-02-17-longitudinal-multilevel-bayes-7/).
+So [the next part in this series](/posts/2024-02-16-longitudinal-multilevel-bayes-6/) is a more complex non-ODE model. 
+
+<!-- I recommend you go there and at least skim through it. Nothing much new is happening, but it sets the stage for what's coming after. Or, if you are impatient, [jump straight to the ODE model implementation](/posts/2024-02-17-longitudinal-multilevel-bayes-7/). -->
 
 
 
