@@ -25,8 +25,8 @@ rngseed = 1234
 # I'm using a simple hack so I don't have to set up Git LFS
 # I am saving these large file to a folder that is synced with Dropbox
 # adjust accordingly for your setup
-#filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
-filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
+filepath = fs::path("C:","Data","Dropbox","datafiles","longitudinalbayes")
+#filepath = fs::path("D:","Dropbox","datafiles","longitudinalbayes")
 filename = "cmdstanr2par.Rds"
 stanfile <- here('posts','2024-02-15-longitudinal-multilevel-bayes-5',"stancode-2par.stan")
 
