@@ -1,0 +1,19 @@
+---
+title: ""
+output: pdf_document
+classoption: landscape
+---
+
+\begin{center}
+\includegraphics[height=4cm]{fig1.png}
+\hfill
+\includegraphics[height=4cm]{fig2.jpg} \\
+\bigskip
+{\Huge\bf Certificate of Accomplishment } \\
+\bigskip
+{\Huge <<FIRSTNAME>> <<LASTNAME>> } \\
+\bigskip
+{\Large has successfully completed the course {\it Generating Certificates with R} with a score of <<SCORE>> } \\
+\bigskip
+{\Huge Congratulations!}
+\end{center}

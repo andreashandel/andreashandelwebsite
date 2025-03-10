@@ -1,0 +1,19 @@
+name: "Mywebsite"
+title: "My new website"
+type: inverse
+left:
+  - text: "About me"
+    menu:
+      - text: "Learn more about me"
+        href: ./aboutme.html
+  - text: "Project"
+    menu:
+       - text: "Project part 1"
+         href: ./project1.html
+       - text: "Project part 2"
+         href: ./project2.html
+  - text: "Contact"
+    href: ./contact.html
+right:
+  - icon: fa-github fa-lg
+    href: https://github.com/githubusername/mywebsite

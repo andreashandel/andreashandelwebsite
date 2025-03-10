@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andreas Handel">
+<meta name="dcterms.date" content="2020-05-29">
+<meta name="description" content="Andreas Handel personal website.">
+
+<title>Generating a conflict of interest form automatically – Andreas Handel</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//files/icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-da60e7ad1f9a62f230873b9433e0812d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-3ba875a8fb9b81e9215146dcd6280b4b.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48442618-4', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<link href="../../site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+
+<script src="../../site_libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+
+<link rel="stylesheet" href="../../files/webex.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../files/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Andreas Handel</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../presentations.html"> 
+<span class="menu-text">Presentations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link" data-scroll-target="#required-packages">Required packages</a></li>
+  <li><a href="#loading-data" id="toc-loading-data" class="nav-link" data-scroll-target="#loading-data">Loading data</a></li>
+  <li><a href="#getting-the-right-time-period" id="toc-getting-the-right-time-period" class="nav-link" data-scroll-target="#getting-the-right-time-period">Getting the right time period</a></li>
+  <li><a href="#getting-a-table-of-co-authors" id="toc-getting-a-table-of-co-authors" class="nav-link" data-scroll-target="#getting-a-table-of-co-authors">Getting a table of co-authors</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Generating a conflict of interest form automatically</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Grant Writing</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Some code and examples showing how to generate a conflict of interest statement required by some funding agencies in an almost completely automated manner.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andreas Handel </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 29, 2020</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>While most of my grant proposals go to the NIH, which thankfully does not require an arcane conflict of interest (COI) document, I am sometimes part of a grant proposal that goes to the NSF or another agency that require a COI. Instead of just asking for any actual conflicts of interest, these documents ask one to list every co-author in the last N years, which is fairly stupid these days when most papers in the biomedical sciences have many co-authors. I hope the agencies get rid of this in my opinion pointless document soon. Until then, I have to do it.</p>
+<p>I don’t want to retrieve all my co-authors and fill the form by hand. In a previous post, I showed how one can use the <a href="https://www.bibliometrix.org/"><code>bibliometrix</code></a> R package to <a href="../..\posts/publications-analysis-2/">do an analysis of a set of publications</a>. Among other things, this approach returns all co-authors, which I will use here to make the COI table almost completely automated.</p>
+<p>The RMarkdown/Quarto file to run this analysis <a href="../../posts/2020-05-29-automate-conflict-of-interest-form/index.html">is here</a>.</p>
+</section>
+<section id="required-packages" class="level1">
+<h1>Required packages</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#remotes::install_github('massimoaria/bibliometrix')</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bibliometrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="loading-data" class="level1">
+<h1>Loading data</h1>
+<p>As explained <a href="../..\posts/publications-analysis-2/">in a previous post</a>, the currently best way to get all my papers is to download them from NIH’s “My Bibliography” and export it in MEDLINE format. Then read in the file with the code below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read bib file, turn file of references into data frame</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pubs <span class="ot">&lt;-</span> bibliometrix<span class="sc">::</span><span class="fu">convert2df</span>(<span class="st">"medline.txt"</span>, <span class="at">dbsource=</span><span class="st">"pubmed"</span>,<span class="at">format=</span><span class="st">"pubmed"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your pubmed collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+</div>
+<p>Each row of the data frame created by the <code>convert2df</code> function is a publication, the columns contain information for each publication. For a list of what each column variable codes for, see the <a href="https://www.bibliometrix.org/">bibliometrix website</a>.</p>
+</section>
+<section id="getting-the-right-time-period" class="level1">
+<h1>Getting the right time period</h1>
+<p>This specific funding agency I’m currently writing a COI for (NIFA) requires co-authors of the last 3 years, so let’s get them. I don’t know if they mean 3 full years. I’m doing this mid-2020, so to be on safe side, I go back to 2017.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>period_start <span class="ot">=</span> <span class="dv">2017</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pubs_new <span class="ot">=</span> pubs[pubs<span class="sc">$</span>PY<span class="sc">&gt;=</span>period_start,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I need the full names of the authors. They are stored for each publication in the <em>AF</em> field. This is the only information I need for the COI form. I pull it out, then do a bit of processing to get it in the right shape, then remove duplicates and sort.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>allauthors <span class="ot">=</span> <span class="fu">paste0</span>(pubs_new<span class="sc">$</span>AF,<span class="at">collapse =</span> <span class="st">";"</span>) <span class="co">#merge all authors into one vector</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>allauthors2 <span class="ot">=</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(allauthors, <span class="at">split =</span><span class="st">";"</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>authors <span class="ot">=</span> <span class="fu">sort</span>(<span class="fu">unique</span>(allauthors2)) <span class="co">#split vector of authors, get unique authors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that I originally did the above steps using <code>biblioAnalysis(pubs_new)</code>. However, this function/approach broke in a recent version of the package, and I realized that I can just use a few base R commands to get what I need, which is the approach shown above. If you use the <code>biblioAnalysis()</code> function, the Authors are in the <code>Authors</code> field of the returned object.</p>
+</section>
+<section id="getting-a-table-of-co-authors" class="level1">
+<h1>Getting a table of co-authors</h1>
+<p>Here is the full table of my co-authors in the specified time period. I made a tibble that looks similar to what the COI document requires.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#removing the 1st one since that's me</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>authortable <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">Name =</span> authors, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Co-Author"</span> <span class="ot">=</span> <span class="st">'x'</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Collaborator =</span> <span class="st">''</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Advisees/Advisors'</span> <span class="ot">=</span> <span class="st">''</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Other – Specify Nature'</span> <span class="ot">=</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, I’m using the <code>flextable</code> package to make a decent looking table and save it to a word document.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ft <span class="ot">&lt;-</span> flextable<span class="sc">::</span><span class="fu">flextable</span>(authortable)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>flextable<span class="sc">::</span><span class="fu">autofit</span>(ft)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-c0d459f0{}.cl-c0a4b830{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c0b49aa2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-c0b4fff6{width:2.348in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5001e{width:0.981in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50028{width:1.117in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5003c{width:1.533in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50046{width:1.839in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50050{width:2.348in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50064{width:0.981in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5006e{width:1.117in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50082{width:1.533in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50096{width:1.839in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b500aa{width:2.348in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b500be{width:0.981in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b500c8{width:1.117in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b500d2{width:1.533in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b500dc{width:1.839in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b500fa{width:2.348in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50104{width:0.981in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50118{width:1.117in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50122{width:1.533in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5012c{width:1.839in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50136{width:2.348in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5014a{width:0.981in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5014b{width:1.117in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b5015e{width:1.533in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0b50172{width:1.839in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-c0d459f0"><thead><tr style="overflow-wrap:break-word;"><th class="cl-c0b4fff6"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">Name</span></p></th><th class="cl-c0b5001e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">Co-Author</span></p></th><th class="cl-c0b50028"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">Collaborator</span></p></th><th class="cl-c0b5003c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">Advisees/Advisors</span></p></th><th class="cl-c0b50046"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">Other – Specify Nature</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">AHMED, HASAN</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ALIKHAN, MALIHA A</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">AMANNA, IAN J</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ANTIA, ALICE</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ANTIA, RUSTOM</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">BOOM, W HENRY</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">BULUSHEVA, IRINA</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CARLSON, NICHOLE E</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CASTELLANOS, M E</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CASTELLANOS, MARIA</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CHAKRABURTY, SRIJITA</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CHEN, ENFU</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CHENG, WEI</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">COATES, P TOBY</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">CROFT, NATHAN P</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">DALE, ARIELLA PERRY</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">DENHOLM, J T</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">DOBBIN, KEVIN</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">DUDEK, NADINE L</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">EBELL, MARK</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">EBELL, MARK H</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">EGGENHUIZEN, PETER J</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">FOREHAND, RONALD</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">FUGGER, LARS</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">GAN, POH Y</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">GARCIA-SASTRE, ADOLFO</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">GREGERSEN, JON W</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">GUAN, JING</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HALLORAN, M ELIZABETH</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HANDEL, A</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HANDEL, ANDREAS</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HECKMAN, TIMOTHY G</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HOLDSWORTH, STEPHEN R</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HOLT, STEPHEN G</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HOUBEN, R M G J</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HUANG, HAODI</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HUDSON, BILLY G</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HUO, XIANG</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">HUYNH, MEGAN</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">JOLOBA, MOSES L</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">KAKAIRE, R</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">KIRIMUNDA, S</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">KITCHING, A RICHARD</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">KIWANUKA, N</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LA GRUTA, NICOLE L</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LI, CHANGWEI</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LI, CHAO</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LI, YAN</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LING, FENG</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LOH, KHAI L</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">LONGINI, IRA M</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MALONE, LASHAUNDA L</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MANICASSAMY, BALAJI</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MARTINEZ, L</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MARTINEZ, LEONARDO</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MCBRYDE, E S</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MCKAY, BRIAN</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MOORE, JAMES R</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">MU, LAN</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">OOI, JOSHUA D</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">PAWELEK, KASIA A</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">PETERSEN, JAN</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">POWER, DAVID A</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">PURCELL, ANTHONY W</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">QUACH, T</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">QUINN, FREDERICK D</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">RAGONNET, R</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">RAMARATHINAM, SRI H</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">REID, HUGH H</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ROSSJOHN, JAMIE</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">SETTE, ALESSANDRO</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">SHEN, YE</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">SIDNEY, JOHN</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">SLIFKA, MARK</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">SNG, XAVIER Y X</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">STEIN, CATHERINE M</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">SUMNER, T</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">TAN, YU H</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">THOMAS, PAUL G</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">TRAUER, J M</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">TSCHARKE, DAVID C</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500aa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WAKIM, LINDA M</span></p></td><td class="cl-c0b500be"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b500c8"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500d2"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b500dc"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WANG, XIAOXIAO</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WATSON, KATHERINE A</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WHALEN, C C</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WHALEN, CHRISTOPHER C</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WILLETT, ZOE J</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WOLDU, H</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WOLDU, HENOK</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50050"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">WU, TING</span></p></td><td class="cl-c0b50064"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5006e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50082"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50096"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ZALWANGO, S</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ZALWANGO, SARAH</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ZARNITSYNA, VERONIKA</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b500fa"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ZARNITSYNA, VERONIKA I</span></p></td><td class="cl-c0b50104"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b50118"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50122"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5012c"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0b50136"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">ZHU, LIMEI</span></p></td><td class="cl-c0b5014a"><p class="cl-c0b49aa2"><span class="cl-c0a4b830">x</span></p></td><td class="cl-c0b5014b"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b5015e"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td><td class="cl-c0b50172"><p class="cl-c0b49aa2"><span class="cl-c0a4b830"></span></p></td></tr></tbody></table></div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flextable<span class="sc">::</span><span class="fu">save_as_docx</span>(<span class="st">"my table"</span> <span class="ot">=</span> ft, <span class="at">path =</span> <span class="st">"COItable.docx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I notice a few duplicates in the table that need to be removed. Of course I also need to remove myself. And for some, the full name doesn’t show. I need to fill in a few of the other columns and potentially add a few individuals who were not captured. So it’s not fully automated, but I can copy this table into the COI statement and the remaining edits are still annoying but not that terrible.</p>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p>These kinds of COI documents that ask for all co-authors are in my opinion antiquated and should go away. In the meantime using a somewhat automated approach makes the problem not too bad. I will have to make a few manual adjustments to the table, but overall it’s not too bad. I’m still glad that NIH does not require this.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+
+
+/* definition of content for the buttons */
+
+const webex_buttons = {check_hidden:          "<b>&check;</b>",
+
+                       check_hidden_alt:      "Check answer",
+
+                       check_shown:           "<b>&lsh;</b>",
+
+                       check_shown_alt:       "Hide check",
+
+                       check_of_total:        "/",
+
+                       solution:              "<b>&quest;</b>",
+
+                       solution_alt:          "Correct solution",
+
+                       question_next:         "<b>&#8634;</b>",
+
+                       question_next_alt:     "Next question",
+
+                       question_previous:     "",
+
+                       question_previous_alt: ""}
+
+
+
+/* update total correct if #webex-total_correct exists */
+
+update_total_correct = function() {
+
+  console.log("webex: update total_correct");
+
+
+
+  document.querySelectorAll(".webex-total_correct").forEach(total => {
+
+    p = total.closest(".webex-box");
+
+    var correct = p.getElementsByClassName("webex-correct").length;
+
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    /* no specific class on input node, thus searching via query selector */
+
+    var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
+
+
+
+    /* show number of correct / total number of answers */
+
+    total.innerHTML = correct + "&nbsp;" + webex_buttons.check_of_total + "&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
+
+  });
+
+}
+
+
+
+/* check answers */
+
+check_func = function() {
+
+  console.log("webex: check answer");
+
+
+
+  //var cl = this.parentElement.classList;
+
+  var cl = this.closest(".webex-box").classList;
+
+  if (cl.contains("unchecked")) {
+
+    cl.remove("unchecked");
+
+    this.innerHTML = webex_buttons.check_shown; //"Hide check";
+
+    if (webex_buttons.check_shown_alt.length > 0) this.setAttribute("title", webex_buttons.check_shown_alt);
+
+  } else {
+
+    cl.add("unchecked");
+
+    this.innerHTML = webex_buttons.check_hidden; //"Check answer";
+
+    if (webex_buttons.check_hidden_alt.length > 0) this.setAttribute("title", webex_buttons.check_hidden_alt);
+
+  }
+
+}
+
+
+
+/* Show/hide correct solution */
+
+solution_func = function() {
+
+  console.log("webex: show/hide solution");
+
+
+
+  var div = this.closest(".webex-question").querySelector(".webex-solution");
+
+  var cl = div.classList;
+
+
+
+  if (cl.contains("visible")) {
+
+    cl.remove("visible");
+
+  } else {
+
+    cl.add("visible");
+
+  }
+
+}
+
+
+
+/* function to check if the real answer is numeric */
+
+convert_to_numeric = function(x) {
+
+    if (typeof x == "string") {
+
+        /* do nothing */
+
+    } else if (x.length == 1) {
+
+        /* take first element */
+
+        x = x[0]
+
+    } else {
+
+        return NaN;
+
+    }
+
+
+
+    /* remove spaces for easier parsing */
+
+    x = x.replace(/\s/g, "");
+
+
+
+    /* Define patterns for different formats, note that spaces have been removed above */
+
+    const patterns = [
+
+        {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
+
+        {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
+
+        {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
+
+        {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+
+    ];
+
+
+
+    /* testing all regular expressions, convert to float if possible */
+
+    for (const { regex, decimal, thousand } of patterns) {
+
+        if (regex.test(x)) {
+
+            let numeric = x;
+
+            if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
+
+            numeric = numeric.replace(decimal, ".");
+
+            return parseFloat(numeric);
+
+        }
+
+    }
+
+    
+
+    /* input of length 1 but none of the known formats, return NaN */
+
+    return NaN;
+
+}
+
+
+
+/* function for checking solveme answers */
+
+solveme_func = function(e) {
+
+  /* avoid that keyup and keychange twice execute this function within nms = 10
+
+   * ms, clearing inputTimer and add timeout */
+
+  console.log("webex: check solveme");
+
+
+
+  /* float, precision for checking numeric answers */
+
+  const eps = 0.00000000000001;
+
+
+
+  /* get last checked user answer */
+
+  const question = this.closest(".webex-question")
+
+
+
+  /* extracting classes */
+
+  var cl = this.classList;
+
+  var my_answer = this.value;
+
+
+
+  /* empty answer? Job done */
+
+  if (my_answer == "") {
+
+    cl.remove("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+    return false;
+
+  }
+
+
+
+  /* "Else" we continue evaluating the answer */
+
+  var real_answers = JSON.parse(this.dataset.answer);
+
+
+
+  /* by default we assume the users' answer is incorrect */
+
+  var user_answer_correct = false;
+
+
+
+  /* check if the correct answer is numeric, i.e. if 
+
+   * real_answers is of length 1 containing one single numeric
+
+   * value in a known format, else, NaN is returned */
+
+  const num_real_answer = convert_to_numeric(real_answers);
+
+  const num_my_answer   = convert_to_numeric(my_answer);
+
+
+
+  /* if the correct answer is numeric (float), the user's answer
+
+   * must also be numeric. If not, it is wrong. Else we can
+
+   * compare floating point numbers */
+
+  if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
+
+    //DEV// console.log("webex: evaluating numeric answer")
+
+    /* check if the real answer and the user input are numerically the same;
+
+     * adding 'delta' to avoid precision issues */
+
+    var diff = Math.abs(num_real_answer - num_my_answer);
+
+    if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
+
+
+
+  /* if the question contains regex, a regular expression is used
+
+   * to evaluate the users answer (only possible if length of answers is 1) */
+
+  } else if (cl.contains("regex") && real_answers.length == 1) {
+
+    //console.log("webex: evaluating answer using regular expression")
+
+    let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
+
+    if (regex.test(my_answer)) { user_answer_correct = true; }
+
+
+
+  /* else we evaluate on 'string level', considering the creators preferences
+
+   * regarding set options */
+
+  } else {
+
+    //console.log("webex: evaluating string answer")
+
+    /* modify/prepare answer */
+
+    if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
+
+    if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
+
+
+
+    /* if the real answer includes user input - correct */
+
+    if (real_answers.includes(my_answer)) {
+
+      user_answer_correct = true;
+
+  
+
+      // added regex bit
+
+      if (cl.contains("regex")) {
+
+        answer_regex = RegExp(real_answers.join("|"))
+
+        if (answer_regex.test(my_answer)) {
+
+          cl.add("webex-correct");
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+
+  if (user_answer_correct) {
+
+      cl.add("webex-correct");
+
+      cl.remove("webex-incorrect");
+
+  } else {
+
+      cl.add("webex-incorrect");
+
+      cl.remove("webex-correct");
+
+  }
+
+
+
+  update_total_correct();
+
+
+
+}
+
+
+
+/* function for checking select answers */
+
+select_func = function(e) {
+
+  console.log("webex: check select");
+
+
+
+  var cl = this.classList
+
+
+
+  /* add style */
+
+  cl.remove("webex-incorrect");
+
+  cl.remove("webex-correct");
+
+  if (this.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else if (this.value != "blank") {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking radiogroups answers */
+
+radiogroups_func = function(e) {
+
+  console.log("webex: check radiogroups");
+
+
+
+  var checked_button = document.querySelector("input[name=" + this.id + "]:checked");
+
+  var cl = checked_button.parentElement.classList;
+
+  var labels = checked_button.parentElement.parentElement.children;
+
+
+
+  /* get rid of styles */
+
+  for (i = 0; i < labels.length; i++) {
+
+    labels[i].classList.remove("webex-incorrect");
+
+    labels[i].classList.remove("webex-correct");
+
+  }
+
+
+
+  /* add style */
+
+  if (checked_button.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+
+
+/* function for checking checkboxgroups answers */
+
+checkboxgroups_func = function(e) {
+
+  console.log("webex: check checkboxgroups");
+
+
+
+  /* list of all answer elements (correct and incorrect) */
+
+  var inputs = document.querySelectorAll("div[id='" + this.id + "'] input")
+
+
+
+  /* setting class for correct/incorrect answers */
+
+  inputs.forEach(function(input) {
+
+      var label = input.parentNode
+
+      if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
+
+          //input.setAttribute("class", "webex-correct")
+
+          label.setAttribute("class", "webex-correct")
+
+      } else {
+
+          label.setAttribute("class", "webex-incorrect")
+
+      }
+
+  });
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* shuffling array (thanks to stack overflow)
+
+ * If argument x is an integer we create an integer sequence
+
+ * from 0, 1, ..., (x - 1) and return a shuffled version. If
+
+ * the input is an array, we simply shuffle it */
+
+shuffle_array = function(x) {
+
+   if (Number.isInteger(x) && !isNaN(x)) {
+
+     x = Array.from({length: x}, (v, i) => i);
+
+   }
+
+   let shuffled = x.map(value => ({ value, sort: Math.random() }))
+
+        .sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+
+   return shuffled;
+
+}
+
+
+
+/* ---------------------------------------------------------
+
+ * ---------------------------------------------------------
+
+ * --------------------------------------------------------- */
+
+window.onload = function() {
+
+  console.log("webex onload");
+
+
+
+  /* setting up buttons and actions to show/hide answers */
+
+  document.querySelectorAll(".webex-check").forEach(section => {
+
+    section.classList.add("unchecked");
+
+
+
+    /* ul to take up the list items with buttons */
+
+    let button_ul = document.createElement("ul");
+
+    button_ul.setAttribute("class", "webex-button-list");
+
+    section.appendChild(button_ul);
+
+
+
+    /* button to _check_ if answers given are correct */
+
+    let li_check = document.createElement("li");
+
+    button_ul.appendChild(li_check); /* add list item to ul */
+
+    let btn_check = document.createElement("button");
+
+    btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
+
+    btn_check.setAttribute("class", "webex-button webex-button-check");
+
+    if (webex_buttons.check_hidden_alt.length > 0) btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
+
+    btn_check.onclick = check_func;
+
+    li_check.appendChild(btn_check);
+
+
+
+    /* span to show current number of points (when _check_ active) */
+
+    let spn = document.createElement("span");
+
+    spn.classList.add("webex-total_correct");
+
+    li_check.appendChild(spn);
+
+
+
+    /* button to show the _solution_ if there is one */
+
+    var has_solution = section.parentNode.querySelectorAll(".webex-solution").length > 0;
+
+    if (has_solution) {
+
+      let li_solution = document.createElement("li");
+
+      button_ul.appendChild(li_solution); /* add list item to ul */
+
+      let btn_solution = document.createElement("button");
+
+      btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
+
+      btn_solution.setAttribute("class", "webex-button webex-button-solution");
+
+      if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
+
+      btn_solution.onclick = solution_func;
+
+      li_solution.appendChild(btn_solution);
+
+    }
+
+
+
+  });
+
+
+
+  /* set up webex-solveme inputs */
+
+  document.querySelectorAll(".webex-solveme").forEach(solveme => {
+
+    solveme.setAttribute("autocomplete","off");
+
+    solveme.setAttribute("autocorrect", "off");
+
+    solveme.setAttribute("autocapitalize", "off");
+
+    solveme.setAttribute("spellcheck", "false");
+
+    solveme.value = "";
+
+
+
+    /* adjust answer for ignorecase or nospaces */
+
+    if (solveme.classList.contains("ignorecase")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.toLowerCase();
+
+    }
+
+    /* adjust answer for 'no spaces' (ignore spaces) */
+
+    if (solveme.classList.contains("nospaces")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");
+
+    }
+
+
+
+    /* attach checking function, triggered on key up, change, and when
+
+     * elemnt is out of focus. Only evaluated once by tracking changes
+
+     * via variable solveme_last_user_answer */
+
+    solveme.addEventListener("keyup",  solveme_func);
+
+    solveme.addEventListener("change", solveme_func);
+
+    solveme.addEventListener("blur",   solveme_func);
+
+
+
+    /* adding span to show correct/incorrect icon */
+
+    solveme.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  });
+
+
+
+  /* set up radiogroups (single choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
+
+    radiogroup.onchange = radiogroups_func;
+
+  });
+
+
+
+  /* set up checkboxgroups (multiple choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-checkboxgroup").forEach(checkboxgroup => {
+
+    checkboxgroup.onchange = checkboxgroups_func;
+
+  });
+
+
+
+  /* set up selects (dropdown menus) */
+
+  document.querySelectorAll(".webex-select").forEach(select => {
+
+    select.onchange = select_func;
+
+    /* append webex-icon for correct/incorrect icons */
+
+    var elem = document.createElement("span")
+
+    elem.classList.add("webex-icon")
+
+    select.parentNode.appendChild(elem)
+
+  });
+
+
+
+  /* change to next/previous question if multiple are available */
+
+  function handleQuestionClick(group, questions, step) {
+
+    return async function() {
+
+      /* get question order as integer vector */
+
+      let questionOrder = group.dataset.questionOrder.split(",").map(str => parseInt(str));
+
+
+
+      /* current question/position */
+
+      let currentPosition = parseInt(group.dataset.currentPosition);
+
+  
+
+      /* Hide the current question */
+
+      questions.forEach(question => { question.classList.remove("active"); });
+
+
+
+      /* Move to the next question index */
+
+      currentPosition = (currentPosition + step) % questionOrder.length;
+
+      if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
+
+
+
+      /* Display the new question */
+
+      // devel // console.log("set question " + questionOrder[currentPosition] +
+
+      // devel //             " (" + currentPosition + ") as active");
+
+      questions[questionOrder[currentPosition]].classList.add("active");
+
+  
+
+      // Update the currentPosition data attribute on the group div
+
+      group.dataset.currentPosition = currentPosition;
+
+    };
+
+  }
+
+
+
+  
+
+  document.querySelectorAll(".webex-group").forEach(group => {
+
+    const questions = Array.from(group.querySelectorAll(".webex-question"));
+
+    const questionOrder = shuffle_array(questions.length);
+
+
+
+    /* take start position (if set) or start at 0 */
+
+    const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
+
+
+
+    /* show the default question for each group */
+
+    questions[questionOrder[currentPosition]].classList.add("active");
+
+    // devel // console.log("set question " + questionOrder[currentPosition] +
+
+    // devel //             " (" + currentPosition + ") as active; " + questionOrder);
+
+  
+
+    /* store random order of questions as well as current position */
+
+    group.dataset.questionOrder   = questionOrder;
+
+    group.dataset.currentPosition = currentPosition;
+
+
+
+    /* find all webex-questions, search for .webex-button-list and
+
+     * populate the list with necessary <li><button>...</button></li> elements */
+
+    questions.forEach(question => {
+
+        let button_ul = question.querySelector("ul.webex-button-list");
+
+
+
+        let li_next = document.createElement("li");
+
+        let nextButton = document.createElement("button");
+
+        nextButton.setAttribute("class", "webex-button webex-button-next");
+
+        if (webex_buttons.question_next_alt.length > 0) nextButton.setAttribute("title", webex_buttons.question_next_alt);
+
+        nextButton.innerHTML = webex_buttons.question_next; // "Next question";
+
+        nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
+
+        li_next.appendChild(nextButton);
+
+
+
+        let li_previous = document.createElement("li");
+
+        let previousButton = document.createElement("button");
+
+        previousButton.setAttribute("class", "webex-button webex-button-previous");
+
+        if (webex_buttons.question_previous_alt.length > 0) previousButton.setAttribute("title", webex_buttons.question_previous_alt);
+
+        previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
+
+        previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
+
+        li_previous.appendChild(previousButton);
+
+
+
+        console.log(button_ul);
+
+        if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
+
+        if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
+
+    });
+
+  });
+
+
+
+
+
+  update_total_correct();
+
+}
+
+
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.andreashandel\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-regular fa-copyright" aria-label="copyright"></i> Andreas Handel, 2024<br> All content licensed under <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">(CC BY-NC-SA 4.0)</a><br> Opinions are my own and do not represent my employer</p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> Inspiration and code snippets taken from <a href="../..\posts/quarto-website-migration.html">these folks</a><br> <a href="https://github.com/andreashandel/andreashandelwebsite">Source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

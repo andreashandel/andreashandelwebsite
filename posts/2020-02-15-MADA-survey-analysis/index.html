@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andreas Handel">
+<meta name="dcterms.date" content="2019-10-23">
+<meta name="description" content="Andreas Handel personal website.">
+
+<title>Text analysis of a mid-semester course survey – Andreas Handel</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//files/icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-da60e7ad1f9a62f230873b9433e0812d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-3ba875a8fb9b81e9215146dcd6280b4b.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48442618-4', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="../../files/webex.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../files/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Andreas Handel</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../presentations.html"> 
+<span class="menu-text">Presentations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading">Data loading</a>
+  <ul class="collapse">
+  <li><a href="#some-cleaning-actions" id="toc-some-cleaning-actions" class="nav-link" data-scroll-target="#some-cleaning-actions">Some cleaning actions</a></li>
+  <li><a href="#drawing-first-conclusions" id="toc-drawing-first-conclusions" class="nav-link" data-scroll-target="#drawing-first-conclusions">Drawing first conclusions</a></li>
+  <li><a href="#manual-text-analysis" id="toc-manual-text-analysis" class="nav-link" data-scroll-target="#manual-text-analysis">Manual text analysis</a></li>
+  <li><a href="#automated-text-analysis" id="toc-automated-text-analysis" class="nav-link" data-scroll-target="#automated-text-analysis">Automated text analysis</a></li>
+  <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link" data-scroll-target="#sentiment-analysis">Sentiment analysis</a></li>
+  <li><a href="#wordclouds" id="toc-wordclouds" class="nav-link" data-scroll-target="#wordclouds">Wordclouds</a></li>
+  </ul></li>
+  <li><a href="#overall-conclusions-and-my-commentary" id="toc-overall-conclusions-and-my-commentary" class="nav-link" data-scroll-target="#overall-conclusions-and-my-commentary">Overall conclusions and my commentary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Text analysis of a mid-semester course survey</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Data Analysis</div>
+    <div class="quarto-category">Teaching</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Some simple data analysis applied to a mid-semester student survey of my <a href="https://andreashandel.github.io/MADAcourse/">Modern Applied Data Analysis course.</a>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andreas Handel </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 23, 2019</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>Our center for teaching and learning administered a mid-semester survey to the students in my fall 2019 online <a href="https://andreashandel.github.io/MADAcourse/">Modern Applied Data Analysis course.</a> I figured it would make for a nice and topical exercise if I performed some analysis of the survey results. Students agreed to have the - fully anonymous - results posted publicly. This is my quick and simple text analysis.</p>
+</section>
+<section id="data-loading" class="level1">
+<h1>Data loading</h1>
+<p>Load and take a look.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"Handel_CTL_Survey.xlsx"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> data_raw</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15 11</code></pre>
+</div>
+</div>
+<section id="some-cleaning-actions" class="level2">
+<h2 class="anchored" data-anchor-id="some-cleaning-actions">Some cleaning actions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>() <span class="co">#clean column names, which are the full questions</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>orig_quest <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Number =</span> <span class="fu">paste0</span>(<span class="st">'Q'</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>), <span class="at">Question =</span> <span class="fu">names</span>(d)) <span class="co">#save names and replace with simpler ones for now</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">'Q'</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>) <span class="co">#just call each column as Q1, Q2,... originallly asked question is stored in orig_quest</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(orig_quest) <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>() <span class="co">#print them here for further reference  </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Number</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: left;">whats_working_well_in_this_class_what_are_the_strengths_of_the_class_and_which_aspects_are_having_a_positive_impact_on_your_learning</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: left;">what_aos_not_working_so_well_in_this_class_what_aspects_are_having_a_less_positive_impact_on_your_learning</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: left;">what_specific_changes_do_you_think_should_be_made_to_improve_your_experience_in_this_class</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: left;">i_think_the_pace_of_this_class_is</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: left;">are_there_specific_modules_that_should_be_adjusted_and_how_5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q6</td>
+<td style="text-align: left;">the_quantity_of_material_covered_in_each_module_is</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q7</td>
+<td style="text-align: left;">are_there_specific_modules_that_should_be_adjusted_and_how_7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q8</td>
+<td style="text-align: left;">the_level_of_difficult_of_each_module_is</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q9</td>
+<td style="text-align: left;">are_there_specific_modules_that_should_be_adjusted_and_how_9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q10</td>
+<td style="text-align: left;">on_average_i_spend_this_many_hours_per_week_doing_work_for_this_course</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q11</td>
+<td style="text-align: left;">finally_what_is_your_gold_star_top_choice_number_one_recommendation_for_a_constructive_change_your_instructor_can_make_in_this_course</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>More cleaning</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>visdat<span class="sc">::</span><span class="fu">vis_dat</span>(d) <span class="co">#missing values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#looks like a few students left some entries blank. Should be ok. One student only answered 1 question. Quick look at entry.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d[<span class="dv">12</span>,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  Q2                                       
+  &lt;chr&gt;                                    
+1 Elc system not work well for online class</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ok, not too useful (though I agree with the statement). Let's remove that student/observation.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>d<span class="ot">&lt;-</span> d[<span class="sc">-</span><span class="dv">12</span>,]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># most questions were free text, but some were specific choices, so should be grouped as factor.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"Q4"</span>, <span class="st">"Q6"</span>,<span class="st">"Q8"</span>), factor)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Q10 is number, should be numeric but was text field so different entries exist</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#small enough to print here</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d<span class="sc">$</span>Q10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "20"             "15-20"          "15 or more"     "15"            
+ [5] "14-16"          "12"             "15"             "10"            
+ [9] "30"             "20"             "10 to 12 hours" "&gt;10 hours"     
+[13] "2"              "20"            </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ok, this is kinda bad style, but the dataset is so small that it's easiest to replace the non-numeric values by hand. I'll set them to their mean or the specified limit.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Q10[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">12</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.5</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">11</span>,<span class="dv">10</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Q10 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(d<span class="sc">$</span>Q10)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d<span class="sc">$</span>Q10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 20.0 17.5 15.0 15.0 15.0 12.0 15.0 10.0 30.0 20.0 11.0 10.0  2.0 20.0</code></pre>
+</div>
+</div>
+</section>
+<section id="drawing-first-conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="drawing-first-conclusions">Drawing first conclusions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(orig_quest[<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>),]) <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Number</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Q4</td>
+<td style="text-align: left;">i_think_the_pace_of_this_class_is</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Q6</td>
+<td style="text-align: left;">the_quantity_of_material_covered_in_each_module_is</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Q8</td>
+<td style="text-align: left;">the_level_of_difficult_of_each_module_is</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Q4, Q6, Q8) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Q4                Q6                Q8    
+ just right:10   right amount:4   just right   :10  
+ too fast  : 4   too much    :9   too difficult: 3  
+                 NA's        :1   NA's         : 1  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>,d<span class="sc">$</span>Q10, <span class="at">ylab =</span> <span class="st">'Time spent per week'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>,<span class="fu">rep</span>(<span class="dv">12</span>,<span class="dv">14</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on answers to questions 4,6 and 8, the majority of students think the pace and level of difficulty of the course is right but the amount of material covered is too much. Based on answer to Q10, students spend more time than my target (12 hours, solid line). Even accounting for some “inflation factor” (people generally over-estimate the time they spend on tasks like these, counting all the other things they do at the same time e.g., texting/email/FB/drinknig coffee/…), the overall amount seems too high, and it agrees with Q6 answers about too much material.</p>
+<p><strong>First conclusion: Reduce weekly workload, probably best by reducing assigned reading (see text answers which I already glimpsed at 😃).</strong></p>
+</section>
+<section id="manual-text-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="manual-text-analysis">Manual text analysis</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dropping the question/variables analyzed above</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>( <span class="sc">-</span><span class="fu">c</span>(<span class="st">"Q4"</span>, <span class="st">"Q6"</span>, <span class="st">"Q8"</span>, <span class="st">"Q10"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Questions 5, 7 and 9 ask how modules should be adjusted regarding pace, quantity and difficulty, so it’s worth looking at those questions on their own.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>( Q5, Q7, Q9)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(d2) <span class="co">#some students didn't write anything for any of those questions, remove before printing content.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Q5    Q7    Q9
+ [1,] FALSE  TRUE FALSE
+ [2,] FALSE FALSE FALSE
+ [3,]  TRUE  TRUE  TRUE
+ [4,] FALSE FALSE FALSE
+ [5,] FALSE FALSE FALSE
+ [6,]  TRUE  TRUE  TRUE
+ [7,] FALSE FALSE FALSE
+ [8,]  TRUE  TRUE  TRUE
+ [9,]  TRUE  TRUE  TRUE
+[10,]  TRUE  TRUE  TRUE
+[11,] FALSE FALSE FALSE
+[12,]  TRUE  TRUE  TRUE
+[13,] FALSE  TRUE  TRUE
+[14,]  TRUE FALSE  TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d2[<span class="fu">which</span>(<span class="fu">rowSums</span>(<span class="fu">is.na</span>(d2)) <span class="sc">!=</span> <span class="dv">3</span>),] <span class="co">#remove all rows/obersvations that have NA to all 3 questions</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'too fast'</span>,<span class="st">'too much'</span>,<span class="st">'too hard'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(d2) <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>() <span class="do">##show rest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">too fast</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">too much</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">too hard</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">All of them are to long except for module 2.</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">The quizzes are becoming ridiculously difficult.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">None, I have enjoyed the pace.</td>
+<td style="text-align: left;">None, I think the content is appropriate.</td>
+<td style="text-align: left;">The toughest module thus far in the course was the strings module. Though it should be noted, I think the content was very appropriate to cover the concepts of this module as they are quite difficult. I really benefited from completing some of the Regex crosswords while working through this chapter.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I think all modules need to be adjusted.</td>
+<td style="text-align: left;">Considering we have only done the first half of the class and the shortest amount of time I have spent in one week on this class was the first module and I still did more than 9 hours of work for what should have been a half week seems unreasonable. For all other modules I spend over 12 hours each week on this class sometimes upwards of 25 hours in a single week.</td>
+<td style="text-align: left;">I don't think the modules themselves are difficult just the content is being squeezed in and the time it takes doesn't correlate to the amount I feel like I'm learning, where I should be learning/proficient in much more than I currently am based on the amount of time spent.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The visualization module is pretty hefty in terms of how much time is spent. But it's all the same topic so I don't know how that would be split up.</td>
+<td style="text-align: left;">see above</td>
+<td style="text-align: left;">The modules are just difficult enough that the first couple times I try I struggle and it's hard, but after giving it a go it becomes much easier and I get it. So its enjoyably difficult.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I feel like I like the order and pace of the course materials. We can learn all of the material in the module in one week - it's just exhausting to do so.</td>
+<td style="text-align: left;">Trim the reading in the modules and add more exploratory exercises.</td>
+<td style="text-align: left;">I feel like the modules scale up in difficulty each week, but proportionally to the growth in our skills. I feel like I am really learning R for the first time! (After three other courses in R...)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">In the tidyverse module, we used ggplot, but then we actually learned about how to do ggplot which would have been helpful before tidyverse. The R module was definitely a lot of material and the coding exercise was a steep learning curve for the first true coding exercise of the course. I understand sometimes the best way to learn something is struggling through, but I think it can be difficult for new students to make the sudden leap from follow a specific script in a book chapter to make up your own code. Maybe something as in altering existing scripts first?</td>
+<td style="text-align: left;">While now there is a distinction on what is going to be on the quiz, there are multiple chapters and tutorials I haven‚Äôt read through yet. I‚Äôm actively searching to see what to prioritize first in a module. Module 4/5 also had a lot of (useful) material to work through.</td>
+<td style="text-align: left;">I think working through the material for the quizzes themselves is just the right difficulty but the assessments range from not so difficult (Tidyverse) to spending a couple of hours googling and troubleshooting (first R and Visualization). While you said to spend no more than 1 or 2 hours on Visualization, it still took me 4 hours to figure out.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Not that I see so far.</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Most modules waver between just the right amount and a little too much. However, this goes hand in hand with what I have identified also as a strength of the course (great curation of resources), so perhaps adjustment isn't necessary... maybe it would be useful to have a more organized list of required and optional readings.</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><strong>Conclusions from anwers to those questions: Overall too much material (see above), level of difficulty overall ok but too fast/crowded. Again, solution is to reduce (required) material.</strong></p>
+<p>Next, let’s look at “whats working/not working” questions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>( Q1, Q2)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'good'</span>,<span class="st">'bad'</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(d2) <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">good</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">bad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">The positive impact would be that I am learning completely new things I have had no exposure too.</td>
+<td style="text-align: left;">This class is extremely overwhelming. It is online and the professor is the worst time estimator I have ever seen. He assigns way to much with absolutely no emphasis on what is important. As he is the ‚Äúexpert‚Äù in this subject he should be able to narrow it down and make this course more reasonable. I should not be spending 20-25 hours a week on one course that is 3 credits.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I really enjoy the exercises assigned for each module. I am receiving a good amount of background information from the modules/reading, however I feel I really start to understand the material once I have used it in practice. Additionally, a good portion of the exercises thus far are directly applicable to the analysis I will be using for my personal research which is excellent practice. I also really appreciate that the structure of the course. I really struggled with the basic work flow of R scripts and GitHub initially as I am newer to the program. However, the progressive flow that this course has created has allowed me to learn the process step-by-step and frequently connected back to information that was previously used in an earlier module. As a result, I have become very comfortable with the basic usage/flow of R and I am excited to move into the more detailed functions of the program in the latter half of the semester!</td>
+<td style="text-align: left;">The only small issue I have encountered thus far with this course is with the quiz time limits. I am sometimes having trouble sifting through all of my notes quickly enough to properly answer the quiz questions. I take approximately 10-20 pages of notes on each module (depending on the size and amount of exercises) and I can sometime struggle to locate the specific material in my notes within these time constraints. I absolutely understand the need for a time limit with an online class structure, however 20 minutes can be a bit tight for some of the quizzes. A simple bump from a 20-30 minute time range to 30-40 minute time range would be more than enough to address all questions adequately, while still ensuring students review the module content beforehand.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I love the tidyverse package and thanks to instructions on R primer. I love R primer, because it raise the problem and then have a space to write code to try, and available solution.</td>
+<td style="text-align: left;">Some materials (R data science, IDS) are useful too. However, I do not like them. The reason is that they give me the knowledge, and explain some simple code. Then, I have exercise part with more complicated questions. I do not know how to do it sometimes and got stuck. One example is chapter about regular expressions. Another thing is that this class took me so much time per week. It is one third of my week. I still have other three classes, and research duties. I expect that taking class is the quicker and better way to learn than learning by myself. This class is not what I expect. It is too time-consuming because I mainly have to learn by myself.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The R primers are very useful for understanding the material, the exercises you give us, and some of the exercises in the IDS book (however, they need to be narrowed down to what is actually important).</td>
+<td style="text-align: left;">Having 5+ chapters of reading each week isn't useful. The readings in general aren't useful for coding, at least for me. They should supplement and be a reference for the actual coding we are doing but not be the entire basis of the quizzes. I spend so much time reading and I don't actually understand any of it unless I'm doing the coding. However, expecting to do every exercise that comes with some of the reading isn't working because I currently spend at least 12 hours every week just doing the exercises that go with readings and I end up not retaining much because I'm overwhelmed.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I really enjoy having a structured way to learn r for data analysis instead of just learning it on my own. It makes it much more manageable and mentally-forgiving when there are other people learning/struggling at the same time as you. All of the data/resources are in one place and present in a timeline that makes it easier to understand and learn. I also really enjoyed how he makes us go back to the other student's repositories and work with them. It helps foster the feeling/attitude that we're classmates and get to know each other more even though it's an online course.</td>
+<td style="text-align: left;">The resources are a lot to work through. I don't have previous R experience but this class is taking a lot of my time to work through the R for data science book.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The amount of information available. Strengths of the class are being able to work with other students to complete assignments and get ideas from one another.</td>
+<td style="text-align: left;">The amount of work we have to do every week, including reading, quizzes, and lengthy assignments. Someone new to coding might find this extremely overwhelming considering they have other classes to work on as well as their own laboratory work. The quizzes make me feel like I have not learned anything because they are very weird, specific questions that I have to spend a long time going back through the reading to hunt for.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The course website is very thorough. It is very clear that Dr. Handel has put a lot of thought and effort into building the materials and course for this class. The writing is very clear and accessible. The site and materials are very consistent, which is helpful. The RPrimers, IDS, and R4DS chapters are helpful (in that order, respectively). The class exercises are very helpful. I am finding myself coding more often and drafting unique codes, which was my goal from the start. This is the most well-rounded course in R I have taken. Dr. Handel's exercises are by far the most helpful. We get to think through the material and use resources as-needed. These are exercises I will need in my own analysis. I have been using these codes as guidelines for working through my own data sets. I love the R-Primers as an introduction, and then the Exercises. I think we could take a stab at the exercises without the IDS and R4DS readings, or have those readings embedded into the exercise. Such as..."Try to make this figure" If you are stuck, Chapter 4.5 might be a good a reference.</td>
+<td style="text-align: left;">I'm lucky in that there are a five or six students in my department all taking this course. Since we see each other regularly, we can help each other along and make sense of the material. I can't imagine working through this course alone, with no face-to-face interaction. The group dynamic helps me read into what is important and helps trouble-shoot when there are problems. The eLC discussion board is not great for connecting with others... Outside of these few people that I am lucky to see in person, I think it is hard to connect with the other students to gauge if I am "on the right track" or "falling behind" or plain bad at coding. We don't engage much with other students, so it's hard to tell if they're succeeding or struggling as much as we are. I keep thinking - "am I the only one feeling this way?" The modules seem to be thick/dense for just one week's worth of work. As soon as I finish a module, I am exhausted by the material, but then have to start right back up again. I don't feel like I have enough time to play around with all of the functions we just learned before it's time to start learning new ones. I'd like more time to apply them to data sets in example exercises. I've been to a few meetings with my advisor now where I say that most of my week has been taken up with this course. Perhaps I need to work on my own time management and expectations for this course work. Of course, I do think the time investment will pay off! I am excited to start analyzing my own data set! To get by, I feel like I have started skimming the readings, or reading them "diagonally" as some people may say. I have "CTRL-F" through the readings just for the quizzes. I don't think this is ideal, and I'm sure Dr. Handel wouldn't want us to resort to this.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I like the exercises in R. While my lack of previous experience means I have to spend more time trying to understand how to put complex displays together, what I learn from this stays with me a lot better.</td>
+<td style="text-align: left;">I know that I review the material quite a bit for the quizzes yet continue to be surprised at what actually shows up on the quiz. This may be a personal problem as the class distribution shows that other individuals are doing well. However, I know that it continues to be frustrating. Also, the MADA course on GitHub is still a bit difficult to navigate and the info given for each module is a lot to absorb without there being an application element.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The supplementary readings are useful, but that's about all that's having a positive impact on my learning in this class.</td>
+<td style="text-align: left;">The class being online is convenient, but if the class were in person and I could see step by step instructions, and everything would make more sense. Yes I understand you learn by making mistakes but taking 20+ hours every single time I do an assignment or reading is absolutely ridiculous due to the fact that all of my instructions are typed out, and there's no "teaching" in my opinion. This class structure is not conducive to my learning style. There aren't even any videos of the professor lecturing and walking us through lessons. I'm not absorbing any material by reading over 50+ pages then being thrown an assignment and an overly detailed quiz that doesn't even focus on main points but extremely detailed findings that DO NOT showcase what I've learned.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The class is quite well structured with nice use of different video resources.</td>
+<td style="text-align: left;">Some of the assignments are very much like busy work and are time consuming without being particularly helpful and just end up putting one under pressure during the week whenever there are so many other draws on ones time at graduate school.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I do like the material we cover since it‚Äôs mostly relevant, I feel like I‚Äôm learning more of the ins and outs of R each week! I think the set up of the class with readings then an assessment works well.</td>
+<td style="text-align: left;">There is a lot of material to cover each week. While I enjoy it and I‚Äôm interested, it is all mostly new to me and I feel like I have to rush through the readings to do the quiz by Friday.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">This class requires a lot of coding, and I had no previous experience with coding, but we were provided with a lot of resources and exercises to start from the beginning.</td>
+<td style="text-align: left;">There are too much reading assignments. It really takes a lot of time for this class. I cold barely finish these assignments every week, not alone to digest them and use them.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I think this course is set up very well. The modules are constructed in a manner that makes the content accessible and the exercises are well guided.</td>
+<td style="text-align: left;">I would say that nothing related to the class is having a negative impact on my learning.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">We receive a ton of excellent resources. Dr. Handel is very responsive to my feedback, which I greatly appreciate. I was very apprehensive about taking an online course, but my fears have been completely assuaged. This class has already been incredibly beneficial to me.</td>
+<td style="text-align: left;">As I've already shared with Dr. Handel, the online quizzes are sometimes frustrating in that we are only asked 6 to 7 very specific questions on a great deal of material. I don't feel we're given enough time to complete it, and partial credit isn't awarded. However, as I mentioned above, Dr. Handel is very receptive to feedback and I have already spoken with him about my concerns with this issues.</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><strong>Conclusions from anwers to those questions: Overall too much material, especially too much reading. R primers are good. Other resources are hit or miss. Quizzes are not working, need to be ditched or altered. Maybe more exercises. Find better alternative to eLC.</strong></p>
+<p>Finally, the 2 remaining questions are about improvements, phrased in 2 different ways. Let’s look at them together.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>( Q3, Q11)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d2[<span class="sc">-</span><span class="dv">12</span>,] <span class="co">#this student didn't provide answers to either question</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(d2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'specific suggested changes'</span>,<span class="st">'number one recommendation'</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(d2) <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">specific suggested changes</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">number one recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Less information per module. Most of these modules should be split into two weeks.</td>
+<td style="text-align: left;">You need to put yourself in the eyes of a graduate student who is new to R and has a minimal stats background. As a graduate student in general public health field, what are the most important things to prepare is for publishing papers, understanding data, etc. We should have spent two weeks on data wrangling and two weeks on data visualization. These are EXTREMELY important topics, and they were rushed through in one week. I do not think my understanding of how to do these things is good, and instead we are moving onto other topics that are less important.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">As mentioned above, just a bit more time on the quizzes would be great!</td>
+<td style="text-align: left;">A small increase in the time allotted to take the weekly quizzes.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I suggest that you can give the solution for this chapter ahead. We can learn through solution if we get stuck. To reduce time to learn by myself, I suggest that professor can create R scripts with coding and explain what is the purpose of the code by text or better having a video to show how the code works in purpose.I think that this way will be better than the way that students have to go through many chapters of reading. If going through many chapters, students have to learn the new things and be able to finalize the knowledge at the same. This process is hard. So, I suggest that professor finalize the knowledge, then show it to us. You can indicate book in case they are still confused or do not understand, and need to read further.</td>
+<td style="text-align: left;">For the knowledge that I learn through the R primer, I am happy with them. However, for other chapters that have to read through R4DS, and IDS, it is too time consuming and not an efficient way to learn. If you can have a better resources for the knowledge covered in R4DS and IDS, I am happy with this course.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">More homework assignments that mimic the material that is in the readings, where we can use the readings as a reference/starting point. I feel like if we replace the quizzes/readings with an assignment that goes over what is generally important from the chapters you assign it would be more worthwhile.</td>
+<td style="text-align: left;">No quizzes - replace with short assignments that reinforce the material presented in the reading each week. Still makes it so you have to read but not that you have to spend hours upon hours doings so. Also as a side note - maybe introduce folders in the class github so that its organized by assignment so we can easily find things.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Specifically not much.</td>
+<td style="text-align: left;">Establishing a working discussion board from the beginning would probably be the best thing.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I think that there should be more time allotted for the quizzes, simply because of the complexity of the questions as well as the vast amount of reading required.</td>
+<td style="text-align: left;">Be a little more lenient on quizzes and giving out massive assignments. For an online course in coding, you're asking a lot from us.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">It might be helpful to have "coding drop in sessions" where students can meet in a room, bring snacks, and discuss the course as a group. It would be helpful if each modules was spread out over two weeks. It would be helpful to have more of Dr. Handel's exercises (not necessarily the IDS R4DS ones).</td>
+<td style="text-align: left;">Trim the modules</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I know that I do significantly better on the exercise portions of the class as I can see where the material is applicable but, again, this may be a personal preference. One blanket recommendation would be improving the navigational ability of the GitHub course site and breaking down the sections within each module to highlight where outside links need to be used.</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">If this class is going to remain online I think the professor should record himself lecturing and have a split screen showing him using R instead of reading everything to get instructions. I think the supplementary reading/interactive learnings are helpful, but they should be in addition to teaching, not the only mode of learning. At this point I don't even feel like my professor is teaching me, a website and book are (barely).</td>
+<td style="text-align: left;">Either change back to in person instruction or have video lectures with a computer split screen to show examples, THEN supplement with readings and interactive learning. The entire course just can't be a written instruction list and a website with definitions.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Make the assignments more relevant rather than busy work or at least have a required part and then then optional parts because to have to do a time consuming assignment each week isn't beneficial</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I liked the quiz this week (Module 7) because you specifically said that the exercises were optional in the reading so it did take the pressure off of having to go through multiple chapters. If the purpose of the quizzes are to make sure we are reading the material, then it was nice to focus on the content of the chapters. (And not lose 30 minutes to solving one exercise)</td>
+<td style="text-align: left;">exercises from chapters not be covered on quizzes. :)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Again, the class is great. The only improvements are needed by me.</td>
+<td style="text-align: left;">I do think the tidyverse is so massive an undertaking for a beginner that it could be split into two modules.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Nothing in particular comes to mind at the moment, as I've felt very comfortable voicing recommendations to Dr. Handel as they arise :)</td>
+<td style="text-align: left;">Alternative way of testing for our reading each week? As of right now, the quizzes are precarious (one wrong answer can doom a grade) and time-constrained, and a pretty significant source of stress for me. However, as mentioned earlier, Dr. Handel and I are in communication about this!</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><strong>Conlusions from these answers: Reduce content per module (or alternatively increase time). Adjust or drop quizzes. More exercises. Record some lectures or provide links to recordings.</strong></p>
+</section>
+<section id="automated-text-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="automated-text-analysis">Automated text analysis</h2>
+<p>So this is likely not too useful, but I wanted to play around with some automated text analysis. Maybe the computer can figure out things I can’t?</p>
+<p>I don’t actually know how to do text analysis, so I’ll have to peek at the <code>tidytext</code> tutorial. Getting some ideas from <a href="https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html">this tutorial</a> and the <a href="https://www.tidytextmining.com/">Text Mining with R book</a>.</p>
+<p>Turn all answers into a long dataframe of words</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">'Q'</span>), <span class="at">names_to =</span><span class="st">"question"</span>, <span class="at">values_to =</span> <span class="st">"answers"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">unnest_tokens</span>(word, answers, <span class="at">token =</span> <span class="st">"words"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Look at most frequent words.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="sc">%&gt;%</span>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 835 × 2
+   word      n
+   &lt;chr&gt; &lt;int&gt;
+ 1 the     215
+ 2 i       134
+ 3 to      126
+ 4 and      90
+ 5 of       81
+ 6 a        75
+ 7 is       59
+ 8 in       57
+ 9 that     48
+10 are      47
+# ℹ 825 more rows</code></pre>
+</div>
+</div>
+<p>The usual words are the most frequent.</p>
+</section>
+<section id="sentiment-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="sentiment-analysis">Sentiment analysis</h2>
+<p>Sentiment analysis, look at most frequent positive and negative words.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bing <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>positive <span class="ot">&lt;-</span> bing <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sentiment <span class="sc">==</span> <span class="st">"positive"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>d2 <span class="sc">%&gt;%</span> <span class="fu">semi_join</span>(positive) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 158</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>negative <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sentiment <span class="sc">==</span> <span class="st">"negative"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>d2 <span class="sc">%&gt;%</span> <span class="fu">semi_join</span>(negative) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 72</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>bing_word_counts <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(bing) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">ifelse</span>(sentiment <span class="sc">==</span> <span class="st">"negative"</span>, <span class="sc">-</span>n, n)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot positive and negative words.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bing_word_counts <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(word, n, <span class="at">fill =</span> sentiment)) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>( <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>About twice as many positive as negative words, i guess that’s good 😃. And the most frequent negative words do reflect that things are “too much”.</p>
+<p>Let’s look at sentiment per question. Higher values are more positive.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>question_sentiment <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">inner_join</span>(bing) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(question, sentiment) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(sentiment, n, <span class="at">fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> positive <span class="sc">-</span> negative)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(question_sentiment, <span class="fu">aes</span>(question, sentiment)) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Not surprising, the 1st question “what is working well” has lots of positive. Surprisingly, question 2, “what’s not working well” has fairly high positive sentiment. One problem could be that what I’m plotting is total counts, but I should probably normalize by total words written per question. Let’s try:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>words_per_q <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(question) <span class="sc">%&gt;%</span> <span class="fu">count</span>()</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(words_per_q)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+# Groups:   question [7]
+  question     n
+  &lt;chr&gt;    &lt;int&gt;
+1 Q1         799
+2 Q11        393
+3 Q2        1304
+4 Q3         582
+5 Q5         193
+6 Q7         202
+7 Q9         240</code></pre>
+</div>
+</div>
+<p>Yep, looks like most words were written by far for Q2. Maybe not a good sign? But maybe ok, since this specifically solicited feedback on all aspects. So let’s replot sentiment, normalized by number of words.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>question_sentiment <span class="ot">&lt;-</span> question_sentiment <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">sent_per_word =</span> sentiment <span class="sc">/</span> words_per_q<span class="sc">$</span>n)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(question_sentiment, <span class="fu">aes</span>(question, sent_per_word)) <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ok, changed things a bit but not a lot. Q2 drop (expected) is most noticable change. Still, even for the “what’s not good” section, positive words dominate. That either means the course is quite good, or students are very optimistic or polite, or it might mean nothing at all.</p>
+</section>
+<section id="wordclouds" class="level2">
+<h2 class="anchored" data-anchor-id="wordclouds">Wordclouds</h2>
+<p>Why not? Everyone loves a wordcloud, even if they are just fun to look at, right?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(bing) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acast</span>(word <span class="sc">~</span> sentiment, <span class="at">value.var =</span> <span class="st">"n"</span>, <span class="at">fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  wordcloud<span class="sc">::</span><span class="fu">comparison.cloud</span>(<span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#F8766D"</span>, <span class="st">"#00BFC4"</span>),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">max.words =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>At this point, I ran out of ideas for further text analysis. I didn’t think analysis by word pairs, or sentences, or such alternatives would lead to any further interesting results. I looked in the <a href="https://www.tidytextmining.com/">Text Mining with R book</a> for some more ideas of what kind of analyses might be useful, but can’t come up with anything else. Not that the above ones are that useful either, but it was fun to try some text analysis, which is a type of data analysis I’m not very familiar with. So, I’ll stop this here. Feel free to play around yourself, you have access to the raw data and this script in the GitHub repository.</p>
+</section>
+</section>
+<section id="overall-conclusions-and-my-commentary" class="level1">
+<h1>Overall conclusions and my commentary</h1>
+<p>There seem to be some clear themes to me, I’ll list them here and add my thoughts:</p>
+<p><strong>1. Less material per week/module:</strong> I’ll adjust reading and will move almost all external sources to the optional category, only require certain readings if I consider them essential. In a future version of the course, I’ll adjust all modules accordingly.</p>
+<p><strong>2. Change quizzes:</strong> There is a good bit of evidence showing that testing/quizzing helps learning. But I think the way I did it is covering too much per quiz, which didn’t work. Ideally, I wanted to build more <code>learnr</code> based content (like the one in module 10 and the R primers) which allow simple quizzes embedded (though currently no easy way of grading). I just didn’t have time to make a lot of those for this class. For the rest of the course, the quizzes I already created (up to M12) will be there, but only cover a limited amount of material, I won’t do any quizzes for the rest of the course.</p>
+<p><strong>3. More exercises:</strong> I had already planned a good bit of exercises for the rest of the class, now I’ll certainly make sure to focus on those. For future courses, I’ll add more of them.</p>
+<p><strong>4. Lecture recordings:</strong> I’m not too interested in recording myself going through things. It seems to me there are already 100s of such videos out there. I’ll try to find some good ones and place them in the <em>Resources</em> section. Suggestions appreciated.</p>
+<p><strong>Further thoughts:</strong> The theme of “too much” is clear. There are 2 main ways one can go. Reduce the amount of material covered, or increase time spent. The first will increase the <em>survey</em> nature of this course. I currently intend this to be a ‘broad but shallow’ survey course, the idea is to go through <em>everything</em> in one semester. Which is quite ambitious. At some point, I’m not sure if that works anymore or if the course becomes too superficial. The other option - and that’s common in other places that teach this material - is to split the course into separate ones. E.g. 1 semester/course only on R/Coding, 1 course on wrangling/visualization, 1 course on machine learning/model fitting. Or even further splits (e.g.&nbsp;the Coursera Data Analysis concentration has I think 9 courses.) That would allow more depth per course, but woudn’t allow students to get <em>everything</em> in a single course. I’m currently leaning toward sticking with the survey/intro/everything course and just further reduce materials. But I’d love to hear everyone’s opinion.</p>
+<p>Also further note: In the future, once our EPID 7500 (R Coding) course is fully up and running and regularly offered, that course will likely become a pre-requisite for MADA. In that sense, a bit of sequencing will be introduced.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+
+
+/* definition of content for the buttons */
+
+const webex_buttons = {check_hidden:          "<b>&check;</b>",
+
+                       check_hidden_alt:      "Check answer",
+
+                       check_shown:           "<b>&lsh;</b>",
+
+                       check_shown_alt:       "Hide check",
+
+                       check_of_total:        "/",
+
+                       solution:              "<b>&quest;</b>",
+
+                       solution_alt:          "Correct solution",
+
+                       question_next:         "<b>&#8634;</b>",
+
+                       question_next_alt:     "Next question",
+
+                       question_previous:     "",
+
+                       question_previous_alt: ""}
+
+
+
+/* update total correct if #webex-total_correct exists */
+
+update_total_correct = function() {
+
+  console.log("webex: update total_correct");
+
+
+
+  document.querySelectorAll(".webex-total_correct").forEach(total => {
+
+    p = total.closest(".webex-box");
+
+    var correct = p.getElementsByClassName("webex-correct").length;
+
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    /* no specific class on input node, thus searching via query selector */
+
+    var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
+
+
+
+    /* show number of correct / total number of answers */
+
+    total.innerHTML = correct + "&nbsp;" + webex_buttons.check_of_total + "&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
+
+  });
+
+}
+
+
+
+/* check answers */
+
+check_func = function() {
+
+  console.log("webex: check answer");
+
+
+
+  //var cl = this.parentElement.classList;
+
+  var cl = this.closest(".webex-box").classList;
+
+  if (cl.contains("unchecked")) {
+
+    cl.remove("unchecked");
+
+    this.innerHTML = webex_buttons.check_shown; //"Hide check";
+
+    if (webex_buttons.check_shown_alt.length > 0) this.setAttribute("title", webex_buttons.check_shown_alt);
+
+  } else {
+
+    cl.add("unchecked");
+
+    this.innerHTML = webex_buttons.check_hidden; //"Check answer";
+
+    if (webex_buttons.check_hidden_alt.length > 0) this.setAttribute("title", webex_buttons.check_hidden_alt);
+
+  }
+
+}
+
+
+
+/* Show/hide correct solution */
+
+solution_func = function() {
+
+  console.log("webex: show/hide solution");
+
+
+
+  var div = this.closest(".webex-question").querySelector(".webex-solution");
+
+  var cl = div.classList;
+
+
+
+  if (cl.contains("visible")) {
+
+    cl.remove("visible");
+
+  } else {
+
+    cl.add("visible");
+
+  }
+
+}
+
+
+
+/* function to check if the real answer is numeric */
+
+convert_to_numeric = function(x) {
+
+    if (typeof x == "string") {
+
+        /* do nothing */
+
+    } else if (x.length == 1) {
+
+        /* take first element */
+
+        x = x[0]
+
+    } else {
+
+        return NaN;
+
+    }
+
+
+
+    /* remove spaces for easier parsing */
+
+    x = x.replace(/\s/g, "");
+
+
+
+    /* Define patterns for different formats, note that spaces have been removed above */
+
+    const patterns = [
+
+        {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
+
+        {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
+
+        {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
+
+        {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+
+    ];
+
+
+
+    /* testing all regular expressions, convert to float if possible */
+
+    for (const { regex, decimal, thousand } of patterns) {
+
+        if (regex.test(x)) {
+
+            let numeric = x;
+
+            if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
+
+            numeric = numeric.replace(decimal, ".");
+
+            return parseFloat(numeric);
+
+        }
+
+    }
+
+    
+
+    /* input of length 1 but none of the known formats, return NaN */
+
+    return NaN;
+
+}
+
+
+
+/* function for checking solveme answers */
+
+solveme_func = function(e) {
+
+  /* avoid that keyup and keychange twice execute this function within nms = 10
+
+   * ms, clearing inputTimer and add timeout */
+
+  console.log("webex: check solveme");
+
+
+
+  /* float, precision for checking numeric answers */
+
+  const eps = 0.00000000000001;
+
+
+
+  /* get last checked user answer */
+
+  const question = this.closest(".webex-question")
+
+
+
+  /* extracting classes */
+
+  var cl = this.classList;
+
+  var my_answer = this.value;
+
+
+
+  /* empty answer? Job done */
+
+  if (my_answer == "") {
+
+    cl.remove("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+    return false;
+
+  }
+
+
+
+  /* "Else" we continue evaluating the answer */
+
+  var real_answers = JSON.parse(this.dataset.answer);
+
+
+
+  /* by default we assume the users' answer is incorrect */
+
+  var user_answer_correct = false;
+
+
+
+  /* check if the correct answer is numeric, i.e. if 
+
+   * real_answers is of length 1 containing one single numeric
+
+   * value in a known format, else, NaN is returned */
+
+  const num_real_answer = convert_to_numeric(real_answers);
+
+  const num_my_answer   = convert_to_numeric(my_answer);
+
+
+
+  /* if the correct answer is numeric (float), the user's answer
+
+   * must also be numeric. If not, it is wrong. Else we can
+
+   * compare floating point numbers */
+
+  if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
+
+    //DEV// console.log("webex: evaluating numeric answer")
+
+    /* check if the real answer and the user input are numerically the same;
+
+     * adding 'delta' to avoid precision issues */
+
+    var diff = Math.abs(num_real_answer - num_my_answer);
+
+    if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
+
+
+
+  /* if the question contains regex, a regular expression is used
+
+   * to evaluate the users answer (only possible if length of answers is 1) */
+
+  } else if (cl.contains("regex") && real_answers.length == 1) {
+
+    //console.log("webex: evaluating answer using regular expression")
+
+    let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
+
+    if (regex.test(my_answer)) { user_answer_correct = true; }
+
+
+
+  /* else we evaluate on 'string level', considering the creators preferences
+
+   * regarding set options */
+
+  } else {
+
+    //console.log("webex: evaluating string answer")
+
+    /* modify/prepare answer */
+
+    if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
+
+    if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
+
+
+
+    /* if the real answer includes user input - correct */
+
+    if (real_answers.includes(my_answer)) {
+
+      user_answer_correct = true;
+
+  
+
+      // added regex bit
+
+      if (cl.contains("regex")) {
+
+        answer_regex = RegExp(real_answers.join("|"))
+
+        if (answer_regex.test(my_answer)) {
+
+          cl.add("webex-correct");
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+
+  if (user_answer_correct) {
+
+      cl.add("webex-correct");
+
+      cl.remove("webex-incorrect");
+
+  } else {
+
+      cl.add("webex-incorrect");
+
+      cl.remove("webex-correct");
+
+  }
+
+
+
+  update_total_correct();
+
+
+
+}
+
+
+
+/* function for checking select answers */
+
+select_func = function(e) {
+
+  console.log("webex: check select");
+
+
+
+  var cl = this.classList
+
+
+
+  /* add style */
+
+  cl.remove("webex-incorrect");
+
+  cl.remove("webex-correct");
+
+  if (this.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else if (this.value != "blank") {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking radiogroups answers */
+
+radiogroups_func = function(e) {
+
+  console.log("webex: check radiogroups");
+
+
+
+  var checked_button = document.querySelector("input[name=" + this.id + "]:checked");
+
+  var cl = checked_button.parentElement.classList;
+
+  var labels = checked_button.parentElement.parentElement.children;
+
+
+
+  /* get rid of styles */
+
+  for (i = 0; i < labels.length; i++) {
+
+    labels[i].classList.remove("webex-incorrect");
+
+    labels[i].classList.remove("webex-correct");
+
+  }
+
+
+
+  /* add style */
+
+  if (checked_button.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+
+
+/* function for checking checkboxgroups answers */
+
+checkboxgroups_func = function(e) {
+
+  console.log("webex: check checkboxgroups");
+
+
+
+  /* list of all answer elements (correct and incorrect) */
+
+  var inputs = document.querySelectorAll("div[id='" + this.id + "'] input")
+
+
+
+  /* setting class for correct/incorrect answers */
+
+  inputs.forEach(function(input) {
+
+      var label = input.parentNode
+
+      if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
+
+          //input.setAttribute("class", "webex-correct")
+
+          label.setAttribute("class", "webex-correct")
+
+      } else {
+
+          label.setAttribute("class", "webex-incorrect")
+
+      }
+
+  });
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* shuffling array (thanks to stack overflow)
+
+ * If argument x is an integer we create an integer sequence
+
+ * from 0, 1, ..., (x - 1) and return a shuffled version. If
+
+ * the input is an array, we simply shuffle it */
+
+shuffle_array = function(x) {
+
+   if (Number.isInteger(x) && !isNaN(x)) {
+
+     x = Array.from({length: x}, (v, i) => i);
+
+   }
+
+   let shuffled = x.map(value => ({ value, sort: Math.random() }))
+
+        .sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+
+   return shuffled;
+
+}
+
+
+
+/* ---------------------------------------------------------
+
+ * ---------------------------------------------------------
+
+ * --------------------------------------------------------- */
+
+window.onload = function() {
+
+  console.log("webex onload");
+
+
+
+  /* setting up buttons and actions to show/hide answers */
+
+  document.querySelectorAll(".webex-check").forEach(section => {
+
+    section.classList.add("unchecked");
+
+
+
+    /* ul to take up the list items with buttons */
+
+    let button_ul = document.createElement("ul");
+
+    button_ul.setAttribute("class", "webex-button-list");
+
+    section.appendChild(button_ul);
+
+
+
+    /* button to _check_ if answers given are correct */
+
+    let li_check = document.createElement("li");
+
+    button_ul.appendChild(li_check); /* add list item to ul */
+
+    let btn_check = document.createElement("button");
+
+    btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
+
+    btn_check.setAttribute("class", "webex-button webex-button-check");
+
+    if (webex_buttons.check_hidden_alt.length > 0) btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
+
+    btn_check.onclick = check_func;
+
+    li_check.appendChild(btn_check);
+
+
+
+    /* span to show current number of points (when _check_ active) */
+
+    let spn = document.createElement("span");
+
+    spn.classList.add("webex-total_correct");
+
+    li_check.appendChild(spn);
+
+
+
+    /* button to show the _solution_ if there is one */
+
+    var has_solution = section.parentNode.querySelectorAll(".webex-solution").length > 0;
+
+    if (has_solution) {
+
+      let li_solution = document.createElement("li");
+
+      button_ul.appendChild(li_solution); /* add list item to ul */
+
+      let btn_solution = document.createElement("button");
+
+      btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
+
+      btn_solution.setAttribute("class", "webex-button webex-button-solution");
+
+      if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
+
+      btn_solution.onclick = solution_func;
+
+      li_solution.appendChild(btn_solution);
+
+    }
+
+
+
+  });
+
+
+
+  /* set up webex-solveme inputs */
+
+  document.querySelectorAll(".webex-solveme").forEach(solveme => {
+
+    solveme.setAttribute("autocomplete","off");
+
+    solveme.setAttribute("autocorrect", "off");
+
+    solveme.setAttribute("autocapitalize", "off");
+
+    solveme.setAttribute("spellcheck", "false");
+
+    solveme.value = "";
+
+
+
+    /* adjust answer for ignorecase or nospaces */
+
+    if (solveme.classList.contains("ignorecase")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.toLowerCase();
+
+    }
+
+    /* adjust answer for 'no spaces' (ignore spaces) */
+
+    if (solveme.classList.contains("nospaces")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");
+
+    }
+
+
+
+    /* attach checking function, triggered on key up, change, and when
+
+     * elemnt is out of focus. Only evaluated once by tracking changes
+
+     * via variable solveme_last_user_answer */
+
+    solveme.addEventListener("keyup",  solveme_func);
+
+    solveme.addEventListener("change", solveme_func);
+
+    solveme.addEventListener("blur",   solveme_func);
+
+
+
+    /* adding span to show correct/incorrect icon */
+
+    solveme.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  });
+
+
+
+  /* set up radiogroups (single choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
+
+    radiogroup.onchange = radiogroups_func;
+
+  });
+
+
+
+  /* set up checkboxgroups (multiple choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-checkboxgroup").forEach(checkboxgroup => {
+
+    checkboxgroup.onchange = checkboxgroups_func;
+
+  });
+
+
+
+  /* set up selects (dropdown menus) */
+
+  document.querySelectorAll(".webex-select").forEach(select => {
+
+    select.onchange = select_func;
+
+    /* append webex-icon for correct/incorrect icons */
+
+    var elem = document.createElement("span")
+
+    elem.classList.add("webex-icon")
+
+    select.parentNode.appendChild(elem)
+
+  });
+
+
+
+  /* change to next/previous question if multiple are available */
+
+  function handleQuestionClick(group, questions, step) {
+
+    return async function() {
+
+      /* get question order as integer vector */
+
+      let questionOrder = group.dataset.questionOrder.split(",").map(str => parseInt(str));
+
+
+
+      /* current question/position */
+
+      let currentPosition = parseInt(group.dataset.currentPosition);
+
+  
+
+      /* Hide the current question */
+
+      questions.forEach(question => { question.classList.remove("active"); });
+
+
+
+      /* Move to the next question index */
+
+      currentPosition = (currentPosition + step) % questionOrder.length;
+
+      if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
+
+
+
+      /* Display the new question */
+
+      // devel // console.log("set question " + questionOrder[currentPosition] +
+
+      // devel //             " (" + currentPosition + ") as active");
+
+      questions[questionOrder[currentPosition]].classList.add("active");
+
+  
+
+      // Update the currentPosition data attribute on the group div
+
+      group.dataset.currentPosition = currentPosition;
+
+    };
+
+  }
+
+
+
+  
+
+  document.querySelectorAll(".webex-group").forEach(group => {
+
+    const questions = Array.from(group.querySelectorAll(".webex-question"));
+
+    const questionOrder = shuffle_array(questions.length);
+
+
+
+    /* take start position (if set) or start at 0 */
+
+    const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
+
+
+
+    /* show the default question for each group */
+
+    questions[questionOrder[currentPosition]].classList.add("active");
+
+    // devel // console.log("set question " + questionOrder[currentPosition] +
+
+    // devel //             " (" + currentPosition + ") as active; " + questionOrder);
+
+  
+
+    /* store random order of questions as well as current position */
+
+    group.dataset.questionOrder   = questionOrder;
+
+    group.dataset.currentPosition = currentPosition;
+
+
+
+    /* find all webex-questions, search for .webex-button-list and
+
+     * populate the list with necessary <li><button>...</button></li> elements */
+
+    questions.forEach(question => {
+
+        let button_ul = question.querySelector("ul.webex-button-list");
+
+
+
+        let li_next = document.createElement("li");
+
+        let nextButton = document.createElement("button");
+
+        nextButton.setAttribute("class", "webex-button webex-button-next");
+
+        if (webex_buttons.question_next_alt.length > 0) nextButton.setAttribute("title", webex_buttons.question_next_alt);
+
+        nextButton.innerHTML = webex_buttons.question_next; // "Next question";
+
+        nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
+
+        li_next.appendChild(nextButton);
+
+
+
+        let li_previous = document.createElement("li");
+
+        let previousButton = document.createElement("button");
+
+        previousButton.setAttribute("class", "webex-button webex-button-previous");
+
+        if (webex_buttons.question_previous_alt.length > 0) previousButton.setAttribute("title", webex_buttons.question_previous_alt);
+
+        previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
+
+        previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
+
+        li_previous.appendChild(previousButton);
+
+
+
+        console.log(button_ul);
+
+        if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
+
+        if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
+
+    });
+
+  });
+
+
+
+
+
+  update_total_correct();
+
+}
+
+
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.andreashandel\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-regular fa-copyright" aria-label="copyright"></i> Andreas Handel, 2024<br> All content licensed under <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">(CC BY-NC-SA 4.0)</a><br> Opinions are my own and do not represent my employer</p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> Inspiration and code snippets taken from <a href="../..\posts/quarto-website-migration.html">these folks</a><br> <a href="https://github.com/andreashandel/andreashandelwebsite">Source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

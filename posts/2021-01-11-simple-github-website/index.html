@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andreas Handel">
+<meta name="dcterms.date" content="2021-01-11">
+<meta name="description" content="Andreas Handel personal website.">
+
+<title>Create a simple Markdown/GitHub website in less than 30 minutes – Andreas Handel</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//files/icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-da60e7ad1f9a62f230873b9433e0812d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-3ba875a8fb9b81e9215146dcd6280b4b.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48442618-4', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../files/webex.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../files/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Andreas Handel</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../presentations.html"> 
+<span class="menu-text">Presentations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#required-skills" id="toc-required-skills" class="nav-link" data-scroll-target="#required-skills">Required skills</a></li>
+  <li><a href="#what-this-document-covers" id="toc-what-this-document-covers" class="nav-link" data-scroll-target="#what-this-document-covers">What this document covers</a></li>
+  <li><a href="#who-this-is-not-for" id="toc-who-this-is-not-for" class="nav-link" data-scroll-target="#who-this-is-not-for">Who this is (not) for</a></li>
+  <li><a href="#motivating-examples" id="toc-motivating-examples" class="nav-link" data-scroll-target="#motivating-examples">Motivating Examples</a></li>
+  <li><a href="#quick-tool-overview" id="toc-quick-tool-overview" class="nav-link" data-scroll-target="#quick-tool-overview">Quick tool overview</a></li>
+  <li><a href="#pre-requisites" id="toc-pre-requisites" class="nav-link" data-scroll-target="#pre-requisites">Pre-requisites</a>
+  <ul class="collapse">
+  <li><a href="#install-r-and-rstudio" id="toc-install-r-and-rstudio" class="nav-link" data-scroll-target="#install-r-and-rstudio">Install R and RStudio</a></li>
+  <li><a href="#get-github-up-and-running" id="toc-get-github-up-and-running" class="nav-link" data-scroll-target="#get-github-up-and-running">Get Github up and running</a></li>
+  <li><a href="#install-gitkraken-optional-but-assumed" id="toc-install-gitkraken-optional-but-assumed" class="nav-link" data-scroll-target="#install-gitkraken-optional-but-assumed">Install Gitkraken (optional but assumed)</a></li>
+  </ul></li>
+  <li><a href="#starting-your-website" id="toc-starting-your-website" class="nav-link" data-scroll-target="#starting-your-website">Starting your website</a>
+  <ul class="collapse">
+  <li><a href="#github" id="toc-github" class="nav-link" data-scroll-target="#github">Github</a></li>
+  <li><a href="#gitkraken" id="toc-gitkraken" class="nav-link" data-scroll-target="#gitkraken">Gitkraken</a></li>
+  <li><a href="#starter-files" id="toc-starter-files" class="nav-link" data-scroll-target="#starter-files">Starter files</a></li>
+  <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio">RStudio</a></li>
+  </ul></li>
+  <li><a href="#a-brief-explanation-of-your-new-website" id="toc-a-brief-explanation-of-your-new-website" class="nav-link" data-scroll-target="#a-brief-explanation-of-your-new-website">A brief explanation of your new website</a>
+  <ul class="collapse">
+  <li><a href="#the-file-index.rmd" id="toc-the-file-index.rmd" class="nav-link" data-scroll-target="#the-file-index.rmd">The file <code>index.Rmd</code></a></li>
+  <li><a href="#the-file-_site.yml" id="toc-the-file-_site.yml" class="nav-link" data-scroll-target="#the-file-_site.yml">The file <code>_site.yml</code></a></li>
+  <li><a href="#the-file-_navbar.yml" id="toc-the-file-_navbar.yml" class="nav-link" data-scroll-target="#the-file-_navbar.yml">The file <code>_navbar.yml</code></a></li>
+  <li><a href="#the-docs-folder" id="toc-the-docs-folder" class="nav-link" data-scroll-target="#the-docs-folder">The <code>docs</code> folder</a></li>
+  <li><a href="#additional-content" id="toc-additional-content" class="nav-link" data-scroll-target="#additional-content">Additional content</a></li>
+  <li><a href="#beware" id="toc-beware" class="nav-link" data-scroll-target="#beware">Beware!</a></li>
+  </ul></li>
+  <li><a href="#creating-and-editing-content" id="toc-creating-and-editing-content" class="nav-link" data-scroll-target="#creating-and-editing-content">Creating and editing content</a></li>
+  <li><a href="#making-your-site-public." id="toc-making-your-site-public." class="nav-link" data-scroll-target="#making-your-site-public.">Making your site public.</a></li>
+  <li><a href="#updating-your-site" id="toc-updating-your-site" class="nav-link" data-scroll-target="#updating-your-site">Updating your site</a></li>
+  <li><a href="#some-tips-tricks-and-comments" id="toc-some-tips-tricks-and-comments" class="nav-link" data-scroll-target="#some-tips-tricks-and-comments">Some tips, tricks and comments</a></li>
+  <li><a href="#more-information" id="toc-more-information" class="nav-link" data-scroll-target="#more-information">More Information</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Create a simple Markdown/GitHub website in less than 30 minutes</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R Markdown</div>
+    <div class="quarto-category">GitHub</div>
+    <div class="quarto-category">Website</div>
+    <div class="quarto-category">Tutorial</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    The following are step-by-step instructions for creating a fairly basic but still useful website using <a href="https://rmarkdown.rstudio.com/">R Markdown</a> (through <a href="https://rstudio.com/products/rstudio/">R Studio</a>) and <a href="https://github.com/">Github</a>.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://www.andreashandel.com">Andreas Handel</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 11, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>Update 2022-09-25: Hosting a website on GitHub is still a good idea. With the new <a href="https://quarto.org/"><code>Quarto</code></a> framework available, I recommend using that setup. <a href="https://quarto.org/docs/websites/">This page</a> provides good instructions on how to start a Quarto website, and <a href="https://quarto.org/docs/publishing/github-pages.html">this page</a> explains how to publish it on GitHub. Maybe I’ll get around to updating this post for Quarto soon. In the meantime, here is my <a href="../..\posts/quarto-website-migration/">short Hugo to Quarto transition guide.</a></em></p>
+<p>The following blog post provides step-by-step instructions for creating a simple (and free) website using (R)Markdown and Github.</p>
+<section id="motivation" class="level1">
+<h1>Motivation</h1>
+<p>Previously, I wrote a 2-series blog post with instructions for creating your own website using <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>, <a href="https://gohugo.io/">Hugo</a> and <a href="https://www.netlify.com/">Netlify</a>. (Here are <a href="../..\posts/blogdown-website-1/">Part 1</a> and <a href="../..\posts/blogdown-website-2/">part 2</a>).</p>
+<p>The blogdown/Hugo setup is fairly flexible and powerful, but sometimes more complex than what is needed. At least I find this to be the case. While I’m using Hugo/blogdown for my <a href="https://www.andreashandel.com">personal website</a> I am currently hosting my online courses using a simpler setup, the one I’ll be describing here.</p>
+</section>
+<section id="required-skills" class="level1">
+<h1>Required skills</h1>
+<p>I assume that you have general computer literacy, but no experience with any of the tools that will be used. Also, no coding, web-development or related experience is expected.</p>
+</section>
+<section id="what-this-document-covers" class="level1">
+<h1>What this document covers</h1>
+<p>This document is meant to provide you with the minimum required instructions to get a simple own website up and running quickly. As such, instructions and background information are kept at a minimum. I used a <em>recipe-like</em> approach by giving hopefully detailed and specific enough instructions to get things to work. I’m not covering any <em>why</em> here or provide much further explanations. If you decide you like to use this setup for your website, you will likely want to go beyond this document and learn a bit more about the various tools involved in the process. To that end, links to further resources are provided.</p>
+</section>
+<section id="who-this-is-not-for" class="level1">
+<h1>Who this is (not) for</h1>
+<p><strong>This way of making and hosting a website might be for you if:</strong></p>
+<ul>
+<li>You are (or would like to be) an R, RMarkdown and GitHub user. This is a method of creating a website using those tools which very efficiently fits into such a workflow.</li>
+<li>You want a way to host a website where all the content is fully controlled by you, and the website can be hosted without much resources (and for free).</li>
+<li>You are curious about R/RMarkdown/GitHub, how to use it to build a website, and you’ve got a bit of time to spare and want to give it a try.</li>
+<li>You want something that’s fairly simple and easy to set up and maintain.</li>
+</ul>
+<p><strong>This way of making and hosting a website might not be for you if:</strong></p>
+<ul>
+<li>Your main workflow is MS Word, Powerpoint, etc. and you are not interested in R/Markdown/GitHub.</li>
+<li>You want everything accessible through a graphical interface.</li>
+<li>You need a complex setup with lots of control over layout and many advanced features.</li>
+</ul>
+</section>
+<section id="motivating-examples" class="level1">
+<h1>Motivating Examples</h1>
+<p>Here are a few examples of websites written with R Markdown/Github:</p>
+<ul>
+<li><a href="https://andreashandel.github.io/MADAcourse/">My modern applied data analysis course</a></li>
+<li><a href="http://jtleek.com/advdatasci/">Jeff Leek’s advanced data science course</a></li>
+</ul>
+</section>
+<section id="quick-tool-overview" class="level1">
+<h1>Quick tool overview</h1>
+<p>The tools used here are fairly simple. Github is used for hosting the website and R Markdown and a few extra files contain all the content and formatting.</p>
+</section>
+<section id="pre-requisites" class="level1">
+<h1>Pre-requisites</h1>
+<p>First, you need to install R and Rstudio and set up a Github account. (That does not count toward the 30 minutes of getting the website up and running <code>r emoji::emoji('grin')</code>.)</p>
+<section id="install-r-and-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="install-r-and-rstudio">Install R and RStudio</h2>
+<p>If you don’t already have it on your computer, <a href="https://www.r-project.org/">install R first</a>. You can pick any mirror you like. If you already have R installed, make sure it is a fairly recent version. If yours is old, I suggest you update (install a new R version).</p>
+<p>Once you have R installed, install the free version of <a href="https://www.rstudio.com/products/rstudio/download/">RStudio Desktop</a>. Again, make sure it’s a recent version. If you have an older verion of RStudio, you should update.</p>
+<p>Installing R and RStudio should be fairly straightforward. If you want some more details or need instructions, see <a href="https://andreashandel.GitHub.io/MADAcourse/Tools_RandRStudio.html">this page</a> (which is part of an online course I teach).</p>
+</section>
+<section id="get-github-up-and-running" class="level2">
+<h2 class="anchored" data-anchor-id="get-github-up-and-running">Get Github up and running</h2>
+<p>If you are new to Github, you need to create an account. At some point, it would also be useful to learn more about what Git/Github is and how to use it, but for this purpose you actually don’t need to know much. If you want to read a bit about Git/Github, see e.g.&nbsp;<a href="https://andreashandel.github.io/MADAcourse/Tools_Github_Introduction.html">this document, which I wrote for one of my courses.</a>. But for now, you don’t need to know much about Git/Github.</p>
+</section>
+<section id="install-gitkraken-optional-but-assumed" class="level2">
+<h2 class="anchored" data-anchor-id="install-gitkraken-optional-but-assumed">Install Gitkraken (optional but assumed)</h2>
+<p>There are many ways you can interact with Git/Github. I mosty use the fairly user-friendly and full-featured <a href="https://www.gitkraken.com/">Gitkraken</a>. You can get a basic version for free, if you are a student, you can get the Pro version through the <a href="https://education.github.com/pack">Github developer pack</a>, teachers can get it through the <a href="https://education.github.com/toolbox">Github teacher toolbox</a>. If you qualify for either, I highly recommend signing up. But you don’t need it for our purpose.</p>
+<p>I assume for the rest of the post that you are using Gitkraken. If you have your own preferred Git/Github client (e.g.&nbsp;the one that comes with RStudio), you can of course use that one too. Make sure you <a href="https://www.gitkraken.com/resources/gitkraken-github-cheat-sheet">connect Gitkraken to your Github account</a>.</p>
+</section>
+</section>
+<section id="starting-your-website" class="level1">
+<h1>Starting your website</h1>
+<p>Ok, the 30 minute timer starts now <code>r emoji::emoji('grin')</code></p>
+<p>With the above registration and installation bits out of the way, you can get started with your website. To do so, follow these steps:</p>
+<section id="github" class="level3">
+<h3 class="anchored" data-anchor-id="github">Github</h3>
+<ul>
+<li>Go to Github, log in if needed.</li>
+<li>Somewhere (usually on the left), you should find a green button that says <em>New</em>, click it to create a new repository. Give it the name of the webpage you want to create (e.g.&nbsp;<code>mywebsite</code>). Provide a brief description (e.g.&nbsp;<em>My first Github website</em>.)</li>
+<li>Check the boxes <code>add readme</code> and <code>add .gitignore</code> and for the template chose <code>R</code>. You can keep the license box unchecked, or choose a license for your page.</li>
+<li>Once done, create the new repository.</li>
+</ul>
+</section>
+<section id="gitkraken" class="level3">
+<h3 class="anchored" data-anchor-id="gitkraken">Gitkraken</h3>
+<p><em>I assume you’ll be using Gitkraken, but if you have another way of using Git/Github, feel free to use your own approach.</em></p>
+<ul>
+<li>Make sure <a href="https://www.gitkraken.com/resources/gitkraken-github-cheat-sheet">Gitkraken is connected to your Github account</a>.<br>
+</li>
+<li>Open Gitkraken, under <code>File</code> choose <code>Clone Repo</code> go to <code>Github.com</code>, find the name of the repository you just created and clone it to some place on your local computer (i.e.&nbsp;copy it from Github to your local computer.) E.g. if your repository was called <code>mywebsite</code>, and you place it on your desktop under windows, you might choose <code>C:\Users\yourname\Desktop</code> as the target.</li>
+</ul>
+</section>
+<section id="starter-files" class="level3">
+<h3 class="anchored" data-anchor-id="starter-files">Starter files</h3>
+<ul>
+<li>Download the files <a href="_navbar.yml">_navbar.yml</a>, <a href="_site.yml">_site.yml</a> and <a href="index.Tmd">index.Tmd</a>. The last file is really an <code>Rmd</code> file but I had to rename it to avoid issues when building the website. So once you downloaded it, rename it to <code>index.Rmd</code>.</li>
+</ul>
+<p>You need those are 3 files to create your website and I’m providing you with simple templates. Place all 3 files into the folder of your new website (e.g.&nbsp;<code>C:\Users\yourname\Desktop\mywebsite</code>).</p>
+</section>
+<section id="rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="rstudio">RStudio</h3>
+<ul>
+<li>Open RStudio.</li>
+<li>Choose <code>File</code>, <code>New Project</code>, <code>Existing Directory</code> and find the directory/folder you just created on Github and copied to your local computer (e.g.&nbsp;<code>C:\Users\yourname\Desktop\mywebsite</code>).</li>
+<li>Based on the files you copied into the folder earlier, R Studio should recognize that you are making a website and in the top right pane there should be a <code>Build</code> tab. Click on it, then <code>Build Website.</code> If that doesn’t work, you can also type <code>rmarkdown::render_site()</code> into the R console (bottom left pane in R Studio).</li>
+<li>If you don’t find the <code>Build Website</code> button or the <code>rmarkdown::render_site()</code> command produced an error message, something went wrong with the setup. You can try to close RStudio, navigate to the folder for your website and click on the <code>.Rproj</code> file, which should open RStudio and place you in the project. Maybe the <code>Build</code> tab and <code>Build Website</code> buttons are now there? If not, revisit the steps above and make sure you did them all, especially make sure the 3 starter files are in the same folder.</li>
+<li>If things work, a preview window should open with the beginning of your new website. You’ll see a menu at the top, but if you click on the links, they won’t work. We need to create those files first, which we’ll do below.</li>
+</ul>
+</section>
+</section>
+<section id="a-brief-explanation-of-your-new-website" class="level1">
+<h1>A brief explanation of your new website</h1>
+<p>Your website is fairly simple and consists of these documents.</p>
+<section id="the-file-index.rmd" class="level3">
+<h3 class="anchored" data-anchor-id="the-file-index.rmd">The file <code>index.Rmd</code></h3>
+<p>This is the main landing page of your website. It always needs to be there and you fill it with the content you want on your main page. It’s a regular R Markdown site. If you are new to R Markdown, you can learn more about it <a href="https://rmarkdown.rstudio.com/">on the R Markdown website</a>. I also have a discussion of R Markdown and reproducibility <a href="https://andreashandel.github.io/MADAcourse/Tools_Reproducibility.html">on one of my course pages</a>. You’ll find additional links to potentially useful R Markdown (and Github) resources there.</p>
+</section>
+<section id="the-file-_site.yml" class="level3">
+<h3 class="anchored" data-anchor-id="the-file-_site.yml">The file <code>_site.yml</code></h3>
+<p>This short file contains the main settings for your site that control the styling. To change the layout, the <code>theme</code> setting is the most important. R Markdown supports the <a href="https://bootswatch.com/">Bootswatch</a> theme library. More information on themes and other configuration options for the <code>_site.yml</code> file <a href="https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style">can be found here</a>. Once you start playing with your website, you’ll want to explore and probably adjust those options. You can even include your own style using CSS. <a href="https://bookdown.org/yihui/rmarkdown/html-document.html">This whole section</a> of the R Markdown book is useful to read (at some point) to learn what you can do.</p>
+<p>For now, just to give it a quick try, open the <code>_site.yml</code> file (in R Studio or some other text editor) and replace <code>cerulean</code> with <code>spacelab</code>. Save, then rebuild the website. You should see the layout has changed.</p>
+</section>
+<section id="the-file-_navbar.yml" class="level3">
+<h3 class="anchored" data-anchor-id="the-file-_navbar.yml">The file <code>_navbar.yml</code></h3>
+<p>This file allows you to build a menu for your website. If you open the file, you’ll see that I created a small menu. You see links to files <code>aboutme.html</code>, <code>project1.html</code>, <code>project2.html</code> and <code>contact.html</code>. Those files currently do not exist, thus if you click on those menus in the preview, you get an error message. You need to make sure that the files of your website match those listed in this menu file.</p>
+<p>You can find some more information on the <code>_navbar.yml</code> file and what settings are available <a href="https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html">in this chapter of the R Markdown book</a>. If a file is not listed in the <code>_navbar.yml</code> file, it is not accessible to users, unless they know the direct link to the file. This can be useful since it means you can have files in development in the Github repository, and they will only become visible once you link them. Of course since they can be found through a direct link or through browsing your Github repository, don’t place anything private/confidential in this folder (e.g.&nbsp;if you use this four a course, keep the solutions to your homework problems offline until after the deadline <code>r emoji::emoji('smile')</code>).</p>
+<p>Note that, as you’ll read in the linked resource above, it is possible to have the <code>navbar</code> content inside a single <code>_site.yml</code> file. I sometimes keep them separate, sometimes I combine. It’s up to you how you want to do it.</p>
+</section>
+<section id="the-docs-folder" class="level3">
+<h3 class="anchored" data-anchor-id="the-docs-folder">The <code>docs</code> folder</h3>
+<p>This folder is created and updated when you build the website. It contains the html files that are created from your <code>Rmd</code> files. Those files will be used by Github to display your website (we’ll do that below). Note that you can change the folder name in <code>_site.yml</code>, but I recommend leaving it as is, since <code>docs</code> is also the default location for Github to look for these files.</p>
+</section>
+<section id="additional-content" class="level3">
+<h3 class="anchored" data-anchor-id="additional-content">Additional content</h3>
+<p>Additional files are either for Github (e.g.&nbsp;<code>.gitignore</code> and <code>README.md</code>) or for RStudio (e.g.&nbsp;the <code>mywebsite.Rproj</code> file). Those should be there, and you might want to edit those at some point, especially the <code>README.md</code> file. But since they are not directly part of the website, I’ll not further discuss them here.</p>
+</section>
+<section id="beware" class="level3">
+<h3 class="anchored" data-anchor-id="beware">Beware!</h3>
+<p><strong>Both <code>_site.yml</code> and <code>_navbar.yml</code> are very picky about the exact formatting, and the number of leading empty spaces. Often, if you change something in those files and the site doesn’t compile, it means you forgot to add the required empty spaces or added more than you should. Always check first if the spacing is correct.</strong></p>
+</section>
+</section>
+<section id="creating-and-editing-content" class="level1">
+<h1>Creating and editing content</h1>
+<p>Making new content for your website is very easy, all you need to do is create new Rmd files. Note that if you don’t use R code in your file, you could just use plain Markdown/Md files, but I find it easier for consistency to always use Rmd files, even if they don’t contain R code.</p>
+<p>Let’s create the missing documents. Go to <code>File</code>, <code>New File</code>, <code>R Markdown</code> choose as output format <code>HTML document</code> and give it a title and name. A template will open, you can fill it and then save as say <code>project1.Rmd</code> into the main folder of your website.</p>
+<p>Another option, which I usually use, is to go into the folder, make a copy of an existing file and rename. E.g. copy <code>project1.Rmd</code> to <code>project2.Rmd</code>, then open and edit. Either approach works.</p>
+<p>Use whichever approach you like to create Rmd versions of the 4 files that are listed in the <code>_navbar.yml</code> file, namely <code>aboutme.Rmd</code>, <code>project1.Rmd</code>, <code>project2.Rmd</code> and <code>contact.Rmd</code>. All files should be in the main folder. Edit the content in those files as much or as little as you want.</p>
+<p>Once created, rebuild the website. In the preview that shows up, you should now be able to click on all menus in the preview and reach the pages you just created. (You’ll find the newly created html files in the <code>docs</code> folder.)</p>
+</section>
+<section id="making-your-site-public." class="level1">
+<h1>Making your site public.</h1>
+<p>The final step involves getting your site public, which is easy.</p>
+<ul>
+<li>Once you are done editing your content (for now), go to Gitkraken (or your preferred Git client) and push your changes to Github.</li>
+<li>Go to Github.com and find the repository for this website. On the bar at the top, in the right corner there should be the <code>Settings</code> button. Click on it. Scroll down until you find the <code>GitHub Pages</code> section. Under <code>Source</code>, select <code>Main</code> and then choose <code>/docs</code> as the folder. Don’t choose a theme since we are using our own. Save those changes. Now if you look right underneath the <code>GitHub Pages</code> section, there should be something like <code>Your site is ready to be published at https://andreashandel.github.io/mywebsite/</code>. Click on the link. If everything works, your website is now live and public!</li>
+</ul>
+<p><strong>That’s basically it. Now the hard part starts, creating good content. <code>r emoji::emoji('smile')</code></strong></p>
+</section>
+<section id="updating-your-site" class="level1">
+<h1>Updating your site</h1>
+<p>This process is fairly simple, you just need to remember to go through all the steps.</p>
+<ol type="1">
+<li>Make any changes to files you want to make. Create new Rmd files in the main folder, edit them. If you include new files or rename them, don’t forget to change your <code>_navbar.yml</code> file.</li>
+<li>Rebuild the website by either clicking the <code>Build Website</code> button inside the <code>Build</code> tab in the top right R Studio pane, or by typing <code>rmarkdown::render_site()</code> into the console.</li>
+<li>Push your changes to GitHub.</li>
+<li>Wait a minute or so, then reload your website on Github and check that things look right.</li>
+</ol>
+</section>
+<section id="some-tips-tricks-and-comments" class="level1">
+<h1>Some tips, tricks and comments</h1>
+<p>Here are some thoughts and suggestions that I’ve learned by using this setup for several online courses.</p>
+<ul>
+<li><p>The setup described here works well for fairly simple sites. If you want your content structured in a more complex way and more features, you probably want to use the <a href="../..\posts/blogdown-website-1/">blogdown/hugo setup</a>. Similarly, while you can customize the layout by trying different themes and by including your own CSS (see links above), if you want to start making it look exactly how you want, you’ll likely be wasting a lot of time and might be better off using a different setup (e.g.&nbsp;blogdown/hugo).</p></li>
+<li><p>Every time you build your website, everything gets recompiled. If you have simple content, and no/little R code, that’s ok. If you are having things that take long to run (e.g.&nbsp;complex R code inside your website), I suggest to move the R code to a separate R script and save results from the code into files (figures/tables/Rdata files). You then just load thpse results into your Rmd file. This way you only need to run the time-consuming R code if those parts have changed, but on a standard website re-build the code won’t need to run.</p></li>
+<li><p>Sometimes when I build websites like this one on a Windows computer, things slow down markedly. It turns out that Windows Defender is at times not working right and I have to make adjustments to prevent it from trying to scan all newly created files in real time while re-building my website. If you encounter a very slow re-build process on a Windows machine, this could be the issue and you might want to check out <a href="https://community.rstudio.com/t/performance-issue-rstudio-windows-10/7608">this discussion</a> and especially the provided link which explains how to potentially fix it (the fix worked for me).</p></li>
+<li><p>You can have files other than Rmd/Md in your main folder, and you can have files in sub-folders. Those are ignored by <code>rmarkdown</code> when the site is built. Having those can be useful for storing additional materials. I generally have a <code>media</code> folder in which I place figures and other materials, and link to it from my Rmd files.</p></li>
+<li><p>If you use this setup for teaching and want to slowly release content to students (while still making edits to later parts of the course), I recommend using a <em>staging</em> setup. A simple way to do that is to make 2 repositories, the main one for the course, and one where you do the development. Note that even if you set this to a private repository, if you turn on <code>Github Pages</code>, students could find it. That’s usually not a big deal, nobody is looking. But you might want to be aware of it. With 2 repositories, you can do the testing/development of the course in the <em>staging</em> repository. Once things work and whenever you want to release new content to the students, you copy it over to the main repository, build it there and push it to the main course repo. Alternatively, you can do development in the main repository, as long as you don’t make the files visible in the <code>_navbar.yml</code> file, students won’t easily see them.</p></li>
+<li><p>I like to be able to specify the date when a page was last changed. The problem is that all pages are always rebuild, so asking for ‘current date’ during rebuilding doesn’t work. What I found out to work is to have this line in the YAML file header: <code>file.mtime(knitr::current_input())</code>. It gets the ‘last modified’ time stamp of the file that is being processed and displays it. It’s not perfect, e.g.&nbsp;if you recently cloned the files from Github to a new computer, it will show that date as the modified date. But it’s good enough for me. If you want exact <em>last edited date</em> time stamps, you’ll probably have to do it manually.</p></li>
+<li><p>It’s easy to have broken links when creating any website and it’s good to check that things are ok. There are simple free tools out there that let you check to make sure links are not broken. I like using <a href="https://www.drlinkcheck.com/">Dr Link Check</a> or the <a href="https://validator.w3.org/checklink">W3C Link Checker</a>. I’m sure many others exist.</p></li>
+<li><p>You have access to more bootstrap themes through the <a href="https://rstudio.github.io/bslib/index.html">bslib R package</a>.</p></li>
+</ul>
+</section>
+<section id="more-information" class="level1">
+<h1>More Information</h1>
+<p>The whole area of <em>use R Markdown to make websites</em> is still under rapid development. Here are a few sources that - as of this writing - might be useful and not too outdated.</p>
+<ul>
+<li><p>Since this setup is fully based on R Markdown, the <a href="https://bookdown.org/yihui/rmarkdown/">R Markdown book</a> is very useful and contains lots of relevant information, especially <a href="https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html">this section</a>. There is also the newer <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown cookbook</a> which is more of a how-to guide, while the R Markdown book is more of a full reference book. Both are very useful sources of information.</p></li>
+<li><p>The R Studio folks have a package called <a href="https://rstudio.github.io/distill/"><code>distill</code></a> which is still under heavy development and which allows turning R Markdown into lots of outputs, including <a href="https://rstudio.github.io/distill/publish_website.html">basic websites</a>. This is still a work in progress, and while I tried distill in the past (and it couldn’t quite do what I want), I haven’t tried it lately. I find the setup I describe here works for my teaching needs, but if you need more/different features, I recommend checking out distill. There is aparently also a new package called <a href="https://github.com/seankross/postcards"><code>postcards</code></a> that works with distill to produce simple websites, very similar to the approach shown here. See e.g.&nbsp;<a href="https://alison.rbind.io/blog/2020-12-postcards-distill/">this blog post by Allison Hill</a> for an introduction. I expect these packages to develop and mature quickly.</p></li>
+<li><p>In my teaching, I use the Github/R Markdown workflow, so students are exposed to it. Therefore, I have a good bit of information and links on that topic. You can browse through <a href="https://andreashandel.github.io/MADAcourse/index.html">the website of this course</a> and look for relevant content. A lot of the exercises also teach parts of Github and making webpages (even simpler ones than described here).</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+
+
+/* definition of content for the buttons */
+
+const webex_buttons = {check_hidden:          "<b>&check;</b>",
+
+                       check_hidden_alt:      "Check answer",
+
+                       check_shown:           "<b>&lsh;</b>",
+
+                       check_shown_alt:       "Hide check",
+
+                       check_of_total:        "/",
+
+                       solution:              "<b>&quest;</b>",
+
+                       solution_alt:          "Correct solution",
+
+                       question_next:         "<b>&#8634;</b>",
+
+                       question_next_alt:     "Next question",
+
+                       question_previous:     "",
+
+                       question_previous_alt: ""}
+
+
+
+/* update total correct if #webex-total_correct exists */
+
+update_total_correct = function() {
+
+  console.log("webex: update total_correct");
+
+
+
+  document.querySelectorAll(".webex-total_correct").forEach(total => {
+
+    p = total.closest(".webex-box");
+
+    var correct = p.getElementsByClassName("webex-correct").length;
+
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    /* no specific class on input node, thus searching via query selector */
+
+    var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
+
+
+
+    /* show number of correct / total number of answers */
+
+    total.innerHTML = correct + "&nbsp;" + webex_buttons.check_of_total + "&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
+
+  });
+
+}
+
+
+
+/* check answers */
+
+check_func = function() {
+
+  console.log("webex: check answer");
+
+
+
+  //var cl = this.parentElement.classList;
+
+  var cl = this.closest(".webex-box").classList;
+
+  if (cl.contains("unchecked")) {
+
+    cl.remove("unchecked");
+
+    this.innerHTML = webex_buttons.check_shown; //"Hide check";
+
+    if (webex_buttons.check_shown_alt.length > 0) this.setAttribute("title", webex_buttons.check_shown_alt);
+
+  } else {
+
+    cl.add("unchecked");
+
+    this.innerHTML = webex_buttons.check_hidden; //"Check answer";
+
+    if (webex_buttons.check_hidden_alt.length > 0) this.setAttribute("title", webex_buttons.check_hidden_alt);
+
+  }
+
+}
+
+
+
+/* Show/hide correct solution */
+
+solution_func = function() {
+
+  console.log("webex: show/hide solution");
+
+
+
+  var div = this.closest(".webex-question").querySelector(".webex-solution");
+
+  var cl = div.classList;
+
+
+
+  if (cl.contains("visible")) {
+
+    cl.remove("visible");
+
+  } else {
+
+    cl.add("visible");
+
+  }
+
+}
+
+
+
+/* function to check if the real answer is numeric */
+
+convert_to_numeric = function(x) {
+
+    if (typeof x == "string") {
+
+        /* do nothing */
+
+    } else if (x.length == 1) {
+
+        /* take first element */
+
+        x = x[0]
+
+    } else {
+
+        return NaN;
+
+    }
+
+
+
+    /* remove spaces for easier parsing */
+
+    x = x.replace(/\s/g, "");
+
+
+
+    /* Define patterns for different formats, note that spaces have been removed above */
+
+    const patterns = [
+
+        {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
+
+        {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
+
+        {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
+
+        {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+
+    ];
+
+
+
+    /* testing all regular expressions, convert to float if possible */
+
+    for (const { regex, decimal, thousand } of patterns) {
+
+        if (regex.test(x)) {
+
+            let numeric = x;
+
+            if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
+
+            numeric = numeric.replace(decimal, ".");
+
+            return parseFloat(numeric);
+
+        }
+
+    }
+
+    
+
+    /* input of length 1 but none of the known formats, return NaN */
+
+    return NaN;
+
+}
+
+
+
+/* function for checking solveme answers */
+
+solveme_func = function(e) {
+
+  /* avoid that keyup and keychange twice execute this function within nms = 10
+
+   * ms, clearing inputTimer and add timeout */
+
+  console.log("webex: check solveme");
+
+
+
+  /* float, precision for checking numeric answers */
+
+  const eps = 0.00000000000001;
+
+
+
+  /* get last checked user answer */
+
+  const question = this.closest(".webex-question")
+
+
+
+  /* extracting classes */
+
+  var cl = this.classList;
+
+  var my_answer = this.value;
+
+
+
+  /* empty answer? Job done */
+
+  if (my_answer == "") {
+
+    cl.remove("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+    return false;
+
+  }
+
+
+
+  /* "Else" we continue evaluating the answer */
+
+  var real_answers = JSON.parse(this.dataset.answer);
+
+
+
+  /* by default we assume the users' answer is incorrect */
+
+  var user_answer_correct = false;
+
+
+
+  /* check if the correct answer is numeric, i.e. if 
+
+   * real_answers is of length 1 containing one single numeric
+
+   * value in a known format, else, NaN is returned */
+
+  const num_real_answer = convert_to_numeric(real_answers);
+
+  const num_my_answer   = convert_to_numeric(my_answer);
+
+
+
+  /* if the correct answer is numeric (float), the user's answer
+
+   * must also be numeric. If not, it is wrong. Else we can
+
+   * compare floating point numbers */
+
+  if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
+
+    //DEV// console.log("webex: evaluating numeric answer")
+
+    /* check if the real answer and the user input are numerically the same;
+
+     * adding 'delta' to avoid precision issues */
+
+    var diff = Math.abs(num_real_answer - num_my_answer);
+
+    if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
+
+
+
+  /* if the question contains regex, a regular expression is used
+
+   * to evaluate the users answer (only possible if length of answers is 1) */
+
+  } else if (cl.contains("regex") && real_answers.length == 1) {
+
+    //console.log("webex: evaluating answer using regular expression")
+
+    let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
+
+    if (regex.test(my_answer)) { user_answer_correct = true; }
+
+
+
+  /* else we evaluate on 'string level', considering the creators preferences
+
+   * regarding set options */
+
+  } else {
+
+    //console.log("webex: evaluating string answer")
+
+    /* modify/prepare answer */
+
+    if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
+
+    if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
+
+
+
+    /* if the real answer includes user input - correct */
+
+    if (real_answers.includes(my_answer)) {
+
+      user_answer_correct = true;
+
+  
+
+      // added regex bit
+
+      if (cl.contains("regex")) {
+
+        answer_regex = RegExp(real_answers.join("|"))
+
+        if (answer_regex.test(my_answer)) {
+
+          cl.add("webex-correct");
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+
+  if (user_answer_correct) {
+
+      cl.add("webex-correct");
+
+      cl.remove("webex-incorrect");
+
+  } else {
+
+      cl.add("webex-incorrect");
+
+      cl.remove("webex-correct");
+
+  }
+
+
+
+  update_total_correct();
+
+
+
+}
+
+
+
+/* function for checking select answers */
+
+select_func = function(e) {
+
+  console.log("webex: check select");
+
+
+
+  var cl = this.classList
+
+
+
+  /* add style */
+
+  cl.remove("webex-incorrect");
+
+  cl.remove("webex-correct");
+
+  if (this.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else if (this.value != "blank") {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking radiogroups answers */
+
+radiogroups_func = function(e) {
+
+  console.log("webex: check radiogroups");
+
+
+
+  var checked_button = document.querySelector("input[name=" + this.id + "]:checked");
+
+  var cl = checked_button.parentElement.classList;
+
+  var labels = checked_button.parentElement.parentElement.children;
+
+
+
+  /* get rid of styles */
+
+  for (i = 0; i < labels.length; i++) {
+
+    labels[i].classList.remove("webex-incorrect");
+
+    labels[i].classList.remove("webex-correct");
+
+  }
+
+
+
+  /* add style */
+
+  if (checked_button.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+
+
+/* function for checking checkboxgroups answers */
+
+checkboxgroups_func = function(e) {
+
+  console.log("webex: check checkboxgroups");
+
+
+
+  /* list of all answer elements (correct and incorrect) */
+
+  var inputs = document.querySelectorAll("div[id='" + this.id + "'] input")
+
+
+
+  /* setting class for correct/incorrect answers */
+
+  inputs.forEach(function(input) {
+
+      var label = input.parentNode
+
+      if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
+
+          //input.setAttribute("class", "webex-correct")
+
+          label.setAttribute("class", "webex-correct")
+
+      } else {
+
+          label.setAttribute("class", "webex-incorrect")
+
+      }
+
+  });
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* shuffling array (thanks to stack overflow)
+
+ * If argument x is an integer we create an integer sequence
+
+ * from 0, 1, ..., (x - 1) and return a shuffled version. If
+
+ * the input is an array, we simply shuffle it */
+
+shuffle_array = function(x) {
+
+   if (Number.isInteger(x) && !isNaN(x)) {
+
+     x = Array.from({length: x}, (v, i) => i);
+
+   }
+
+   let shuffled = x.map(value => ({ value, sort: Math.random() }))
+
+        .sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+
+   return shuffled;
+
+}
+
+
+
+/* ---------------------------------------------------------
+
+ * ---------------------------------------------------------
+
+ * --------------------------------------------------------- */
+
+window.onload = function() {
+
+  console.log("webex onload");
+
+
+
+  /* setting up buttons and actions to show/hide answers */
+
+  document.querySelectorAll(".webex-check").forEach(section => {
+
+    section.classList.add("unchecked");
+
+
+
+    /* ul to take up the list items with buttons */
+
+    let button_ul = document.createElement("ul");
+
+    button_ul.setAttribute("class", "webex-button-list");
+
+    section.appendChild(button_ul);
+
+
+
+    /* button to _check_ if answers given are correct */
+
+    let li_check = document.createElement("li");
+
+    button_ul.appendChild(li_check); /* add list item to ul */
+
+    let btn_check = document.createElement("button");
+
+    btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
+
+    btn_check.setAttribute("class", "webex-button webex-button-check");
+
+    if (webex_buttons.check_hidden_alt.length > 0) btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
+
+    btn_check.onclick = check_func;
+
+    li_check.appendChild(btn_check);
+
+
+
+    /* span to show current number of points (when _check_ active) */
+
+    let spn = document.createElement("span");
+
+    spn.classList.add("webex-total_correct");
+
+    li_check.appendChild(spn);
+
+
+
+    /* button to show the _solution_ if there is one */
+
+    var has_solution = section.parentNode.querySelectorAll(".webex-solution").length > 0;
+
+    if (has_solution) {
+
+      let li_solution = document.createElement("li");
+
+      button_ul.appendChild(li_solution); /* add list item to ul */
+
+      let btn_solution = document.createElement("button");
+
+      btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
+
+      btn_solution.setAttribute("class", "webex-button webex-button-solution");
+
+      if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
+
+      btn_solution.onclick = solution_func;
+
+      li_solution.appendChild(btn_solution);
+
+    }
+
+
+
+  });
+
+
+
+  /* set up webex-solveme inputs */
+
+  document.querySelectorAll(".webex-solveme").forEach(solveme => {
+
+    solveme.setAttribute("autocomplete","off");
+
+    solveme.setAttribute("autocorrect", "off");
+
+    solveme.setAttribute("autocapitalize", "off");
+
+    solveme.setAttribute("spellcheck", "false");
+
+    solveme.value = "";
+
+
+
+    /* adjust answer for ignorecase or nospaces */
+
+    if (solveme.classList.contains("ignorecase")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.toLowerCase();
+
+    }
+
+    /* adjust answer for 'no spaces' (ignore spaces) */
+
+    if (solveme.classList.contains("nospaces")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");
+
+    }
+
+
+
+    /* attach checking function, triggered on key up, change, and when
+
+     * elemnt is out of focus. Only evaluated once by tracking changes
+
+     * via variable solveme_last_user_answer */
+
+    solveme.addEventListener("keyup",  solveme_func);
+
+    solveme.addEventListener("change", solveme_func);
+
+    solveme.addEventListener("blur",   solveme_func);
+
+
+
+    /* adding span to show correct/incorrect icon */
+
+    solveme.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  });
+
+
+
+  /* set up radiogroups (single choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
+
+    radiogroup.onchange = radiogroups_func;
+
+  });
+
+
+
+  /* set up checkboxgroups (multiple choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-checkboxgroup").forEach(checkboxgroup => {
+
+    checkboxgroup.onchange = checkboxgroups_func;
+
+  });
+
+
+
+  /* set up selects (dropdown menus) */
+
+  document.querySelectorAll(".webex-select").forEach(select => {
+
+    select.onchange = select_func;
+
+    /* append webex-icon for correct/incorrect icons */
+
+    var elem = document.createElement("span")
+
+    elem.classList.add("webex-icon")
+
+    select.parentNode.appendChild(elem)
+
+  });
+
+
+
+  /* change to next/previous question if multiple are available */
+
+  function handleQuestionClick(group, questions, step) {
+
+    return async function() {
+
+      /* get question order as integer vector */
+
+      let questionOrder = group.dataset.questionOrder.split(",").map(str => parseInt(str));
+
+
+
+      /* current question/position */
+
+      let currentPosition = parseInt(group.dataset.currentPosition);
+
+  
+
+      /* Hide the current question */
+
+      questions.forEach(question => { question.classList.remove("active"); });
+
+
+
+      /* Move to the next question index */
+
+      currentPosition = (currentPosition + step) % questionOrder.length;
+
+      if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
+
+
+
+      /* Display the new question */
+
+      // devel // console.log("set question " + questionOrder[currentPosition] +
+
+      // devel //             " (" + currentPosition + ") as active");
+
+      questions[questionOrder[currentPosition]].classList.add("active");
+
+  
+
+      // Update the currentPosition data attribute on the group div
+
+      group.dataset.currentPosition = currentPosition;
+
+    };
+
+  }
+
+
+
+  
+
+  document.querySelectorAll(".webex-group").forEach(group => {
+
+    const questions = Array.from(group.querySelectorAll(".webex-question"));
+
+    const questionOrder = shuffle_array(questions.length);
+
+
+
+    /* take start position (if set) or start at 0 */
+
+    const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
+
+
+
+    /* show the default question for each group */
+
+    questions[questionOrder[currentPosition]].classList.add("active");
+
+    // devel // console.log("set question " + questionOrder[currentPosition] +
+
+    // devel //             " (" + currentPosition + ") as active; " + questionOrder);
+
+  
+
+    /* store random order of questions as well as current position */
+
+    group.dataset.questionOrder   = questionOrder;
+
+    group.dataset.currentPosition = currentPosition;
+
+
+
+    /* find all webex-questions, search for .webex-button-list and
+
+     * populate the list with necessary <li><button>...</button></li> elements */
+
+    questions.forEach(question => {
+
+        let button_ul = question.querySelector("ul.webex-button-list");
+
+
+
+        let li_next = document.createElement("li");
+
+        let nextButton = document.createElement("button");
+
+        nextButton.setAttribute("class", "webex-button webex-button-next");
+
+        if (webex_buttons.question_next_alt.length > 0) nextButton.setAttribute("title", webex_buttons.question_next_alt);
+
+        nextButton.innerHTML = webex_buttons.question_next; // "Next question";
+
+        nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
+
+        li_next.appendChild(nextButton);
+
+
+
+        let li_previous = document.createElement("li");
+
+        let previousButton = document.createElement("button");
+
+        previousButton.setAttribute("class", "webex-button webex-button-previous");
+
+        if (webex_buttons.question_previous_alt.length > 0) previousButton.setAttribute("title", webex_buttons.question_previous_alt);
+
+        previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
+
+        previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
+
+        li_previous.appendChild(previousButton);
+
+
+
+        console.log(button_ul);
+
+        if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
+
+        if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
+
+    });
+
+  });
+
+
+
+
+
+  update_total_correct();
+
+}
+
+
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.andreashandel\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-regular fa-copyright" aria-label="copyright"></i> Andreas Handel, 2024<br> All content licensed under <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">(CC BY-NC-SA 4.0)</a><br> Opinions are my own and do not represent my employer</p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> Inspiration and code snippets taken from <a href="../..\posts/quarto-website-migration.html">these folks</a><br> <a href="https://github.com/andreashandel/andreashandelwebsite">Source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

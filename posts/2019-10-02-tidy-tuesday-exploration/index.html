@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andreas Handel">
+<meta name="dcterms.date" content="2019-10-12">
+<meta name="description" content="Andreas Handel personal website.">
+
+<title>Analysis of pizza restaurants – Andreas Handel</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//files/icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-da60e7ad1f9a62f230873b9433e0812d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-3ba875a8fb9b81e9215146dcd6280b4b.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48442618-4', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script src="../../site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+
+<script src="../../site_libs/plotly-binding-4.10.2/plotly.js"></script>
+
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+
+<link rel="stylesheet" href="../../files/webex.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../files/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Andreas Handel</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../presentations.html"> 
+<span class="menu-text">Presentations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages">Loading packages</a></li>
+  <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading">Data loading</a></li>
+  <li><a href="#analysis-ideas" id="toc-analysis-ideas" class="nav-link" data-scroll-target="#analysis-ideas">Analysis Ideas</a></li>
+  <li><a href="#initial-data-exploration" id="toc-initial-data-exploration" class="nav-link" data-scroll-target="#initial-data-exploration">Initial data exploration</a></li>
+  <li><a href="#ratings-agreement-analysis" id="toc-ratings-agreement-analysis" class="nav-link" data-scroll-target="#ratings-agreement-analysis">Ratings agreement analysis</a></li>
+  <li><a href="#price-vs-ratings-analysis" id="toc-price-vs-ratings-analysis" class="nav-link" data-scroll-target="#price-vs-ratings-analysis">Price vs ratings analysis</a></li>
+  <li><a href="#rating-versus-location" id="toc-rating-versus-location" class="nav-link" data-scroll-target="#rating-versus-location">Rating versus location</a></li>
+  <li><a href="#hyping-our-result" id="toc-hyping-our-result" class="nav-link" data-scroll-target="#hyping-our-result">Hyping our result</a></li>
+  <li><a href="#the-press-release" id="toc-the-press-release" class="nav-link" data-scroll-target="#the-press-release">The “press release”</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analysis of pizza restaurants</h1>
+<p class="subtitle lead">A TidyTuesday exercise</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Data Analysis</div>
+    <div class="quarto-category">Tidy Tuesday</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    An analysis of TidyTuesday data for pizza restaurants and their ratings.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Andreas Handel </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 12, 2019</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This analysis was performed as part of an exercise for my <a href="https://andreashandel.github.io/MADAcourse/">Modern Applied Data Analysis course</a>.</p>
+<p>When I taught the course in fall 2019, one of the weekly assignments for the students was to participate in <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a>. I did the exercise as well, this is my product. You can get the R Markdown/Quarto file to re-run the analysis <a href="../../posts/2019-10-02-tidy-tuesday-exploration/index.html">here</a>.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>If you are not familiar with TidyTuesday, you can take a quick look <a href="https://andreashandel.github.io/MADAcourse/Data_Analysis_Motivation.html">at the TidyTuesday section on this page</a>.</p>
+<p>This week’s data was all about Pizza. More on the data <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-10-01">is here</a>.</p>
+</section>
+<section id="loading-packages" class="level1">
+<h1>Loading packages</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'readr'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'ggplot2'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"cowplot"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"plotly"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"forcats"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"geosphere"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"emoji"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-loading" class="level1">
+<h1>Data loading</h1>
+<p>Load date following <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-10-01">TidyTueday instructions</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pizza_jared <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_jared.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pizza_barstool <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_barstool.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pizza_datafiniti <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-01/pizza_datafiniti.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="analysis-ideas" class="level1">
+<h1>Analysis Ideas</h1>
+<p>See the TidyTuesday website for a codebook. These are 3 datasets. Looks like the 1st dataset is ratings of pizza places through some (online?) survey/poll, the 2nd dataset again has ratings of pizza places from various sources, and the 3rd dataset seems to have fairly overlapping information to the 2nd dataset.</p>
+<p>Note: When I looked at the website, the codebook for the 3rd dataset seemed mislabeled. Might be fixed by now.</p>
+<p>Possibly interesting questions I can think of:</p>
+<ul>
+<li>For a given pizza restaurant, how do the different ratings/scores agree or differ?</li>
+<li>Are more expensive restaurants overall rated higher?</li>
+<li>Is there some systematic dependence of rating on location? Do restaurants located in a certain area in general get rated higher/lower compared to others?</li>
+</ul>
+<p>I think those are good enough questions to figure out, let’s see how far we get.</p>
+</section>
+<section id="initial-data-exploration" class="level1">
+<h1>Initial data exploration</h1>
+<p>Start with a quick renaming and general check.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#saves typing</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> pizza_jared </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> pizza_barstool </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> pizza_datafiniti </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(d1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 375
+Columns: 9
+$ polla_qid   &lt;dbl&gt; 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5…
+$ answer      &lt;chr&gt; "Excellent", "Good", "Average", "Poor", "Never Again", "Ex…
+$ votes       &lt;dbl&gt; 0, 6, 4, 1, 2, 1, 1, 3, 1, 1, 4, 2, 1, 1, 0, 1, 1, 0, 3, 0…
+$ pollq_id    &lt;dbl&gt; 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5…
+$ question    &lt;chr&gt; "How was Pizza Mercato?", "How was Pizza Mercato?", "How w…
+$ place       &lt;chr&gt; "Pizza Mercato", "Pizza Mercato", "Pizza Mercato", "Pizza …
+$ time        &lt;dbl&gt; 1344361527, 1344361527, 1344361527, 1344361527, 1344361527…
+$ total_votes &lt;dbl&gt; 13, 13, 13, 13, 13, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 5, 5, 5,…
+$ percent     &lt;dbl&gt; 0.0000, 0.4615, 0.3077, 0.0769, 0.1538, 0.1429, 0.1429, 0.…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(d2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 463
+Columns: 22
+$ name                                 &lt;chr&gt; "Pugsley's Pizza", "Williamsburg …
+$ address1                             &lt;chr&gt; "590 E 191st St", "265 Union Ave"…
+$ city                                 &lt;chr&gt; "Bronx", "Brooklyn", "New York", …
+$ zip                                  &lt;dbl&gt; 10458, 11211, 10017, 10036, 10003…
+$ country                              &lt;chr&gt; "US", "US", "US", "US", "US", "US…
+$ latitude                             &lt;dbl&gt; 40.85877, 40.70808, 40.75370, 40.…
+$ longitude                            &lt;dbl&gt; -73.88484, -73.95090, -73.97411, …
+$ price_level                          &lt;dbl&gt; 1, 1, 1, 2, 2, 1, 1, 1, 2, 2, 1, …
+$ provider_rating                      &lt;dbl&gt; 4.5, 3.0, 4.0, 4.0, 3.0, 3.5, 3.0…
+$ provider_review_count                &lt;dbl&gt; 121, 281, 118, 1055, 143, 28, 95,…
+$ review_stats_all_average_score       &lt;dbl&gt; 8.011111, 7.774074, 5.666667, 5.6…
+$ review_stats_all_count               &lt;dbl&gt; 27, 27, 9, 2, 1, 4, 5, 17, 14, 6,…
+$ review_stats_all_total_score         &lt;dbl&gt; 216.3, 209.9, 51.0, 11.2, 7.1, 16…
+$ review_stats_community_average_score &lt;dbl&gt; 7.992000, 7.742308, 5.762500, 0.0…
+$ review_stats_community_count         &lt;dbl&gt; 25, 26, 8, 0, 0, 3, 4, 16, 13, 4,…
+$ review_stats_community_total_score   &lt;dbl&gt; 199.8, 201.3, 46.1, 0.0, 0.0, 13.…
+$ review_stats_critic_average_score    &lt;dbl&gt; 8.8, 0.0, 0.0, 4.3, 0.0, 0.0, 0.0…
+$ review_stats_critic_count            &lt;dbl&gt; 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, …
+$ review_stats_critic_total_score      &lt;dbl&gt; 8.8, 0.0, 0.0, 4.3, 0.0, 0.0, 0.0…
+$ review_stats_dave_average_score      &lt;dbl&gt; 7.7, 8.6, 4.9, 6.9, 7.1, 3.2, 6.1…
+$ review_stats_dave_count              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ review_stats_dave_total_score        &lt;dbl&gt; 7.7, 8.6, 4.9, 6.9, 7.1, 3.2, 6.1…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(d3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 10,000
+Columns: 10
+$ name            &lt;chr&gt; "Shotgun Dans Pizza", "Sauce Pizza Wine", "Mios Pizzer…
+$ address         &lt;chr&gt; "4203 E Kiehl Ave", "25 E Camelback Rd", "3703 Paxton …
+$ city            &lt;chr&gt; "Sherwood", "Phoenix", "Cincinnati", "Madison Heights"…
+$ country         &lt;chr&gt; "US", "US", "US", "US", "US", "US", "US", "US", "US", …
+$ province        &lt;chr&gt; "AR", "AZ", "OH", "MI", "MD", "MD", "CA", "CA", "FL", …
+$ latitude        &lt;dbl&gt; 34.83230, 33.50927, 39.14488, 42.51667, 39.28663, 39.2…
+$ longitude       &lt;dbl&gt; -92.18380, -112.07304, -84.43269, -83.10663, -76.56698…
+$ categories      &lt;chr&gt; "Pizza,Restaurant,American restaurants,Pizza Place,Res…
+$ price_range_min &lt;dbl&gt; 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 25, 25, 25, 25, 0, 0, 0…
+$ price_range_max &lt;dbl&gt; 25, 25, 25, 40, 25, 25, 25, 25, 25, 25, 40, 40, 40, 40…</code></pre>
+</div>
+</div>
+<p>The first question I have is if the pizza places in the 3 datasets are the same or at least if there is decent overlap. If not, then one can’t combine the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>d1names <span class="ot">=</span> <span class="fu">unique</span>(d1<span class="sc">$</span>place)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>d2names <span class="ot">=</span> <span class="fu">unique</span>(d2<span class="sc">$</span>name)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>d3names <span class="ot">=</span> <span class="fu">unique</span>(d3<span class="sc">$</span>name)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(d1names <span class="sc">%in%</span> d2names) <span class="co">#check how many restaurants in d1 are also in d2. Note that this assumes exact spelling.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(d1names <span class="sc">%in%</span> d3names) <span class="co">#check how many restaurants in d1 are also in d2. Note that this assumes exact spelling.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(d2names <span class="sc">%in%</span> d3names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 66</code></pre>
+</div>
+</div>
+<p>22 restaurants out of 56 in dataset 1 are also in dataset 2. Only 9 overlap between dataset 1 and 3. 66 are shared between datasets 2 and 3.</p>
+<p>The last dataset has no ratings, and if I look at the overlap of dataset 1 and 2, I only get a few observations. So I think for now I’ll focus on dataset 2 and see if I can address the 3 questions I posed above with just that dataset. Maybe I’ll have ideas for the other 2 datasets as I go along (would be a shame to not use them.)</p>
+</section>
+<section id="ratings-agreement-analysis" class="level1">
+<h1>Ratings agreement analysis</h1>
+<p>Ok, I’ll focus on dataset 2 now and look closer at the scores/rating. From the codebook, it’s not quite clear to me what the different scores and counts in dataset 2 actually mean, so let’s look closer to try and figure that out.</p>
+<p>From the glimpse function above, I can’t see much of a difference between average and total score. Let’s look at that. Here are a few plots comparing the different score-related variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d2<span class="sc">$</span>review_stats_community_total_score,d2<span class="sc">$</span>review_stats_community_average_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/score-explore-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d2<span class="sc">$</span>review_stats_community_total_score <span class="sc">-</span> d2<span class="sc">$</span>review_stats_community_average_score<span class="sc">*</span> d2<span class="sc">$</span>review_stats_community_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/score-explore-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d2<span class="sc">$</span>review_stats_critic_total_score<span class="sc">-</span>d2<span class="sc">$</span>review_stats_critic_average_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/score-explore-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d2<span class="sc">$</span>review_stats_dave_total_score<span class="sc">-</span>d2<span class="sc">$</span>review_stats_dave_average_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/score-explore-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d2<span class="sc">$</span>review_stats_all_total_score<span class="sc">-</span> (d2<span class="sc">$</span>review_stats_community_total_score<span class="sc">+</span>d2<span class="sc">$</span>review_stats_critic_total_score<span class="sc">+</span>d2<span class="sc">$</span>review_stats_dave_total_score))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/score-explore-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ok, so based on the plots above, and a few other things I tried, it seems that average score is total score divided by number of counts, and the <em>all</em> score is just the sum of <em>dave</em>, <em>critic</em> and <em>community</em>.</p>
+<p>So to address my first question, I’ll look at correlations between average scores for the 3 types of reviewers, namely <em>dave</em>, <em>critic</em> and <em>community</em>.</p>
+<p>However, while playing around with the data in the last section, I noticed a problem. Look at the counts for say critics and the average score.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d2<span class="sc">$</span>review_stats_critic_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1   5 
+401  61   1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d2<span class="sc">$</span>review_stats_critic_average_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    4  4.3  4.5  4.8    5  5.1  5.4  5.5  5.7  5.8  5.9 5.96    6  6.2 6.31 
+ 401    1    1    1    1    3    1    1    1    1    1    1    1    1    1    1 
+ 6.5  6.6  6.7 6.76  6.8  6.9    7  7.2  7.3  7.4  7.6 7.76  7.8  7.9    8  8.1 
+   3    1    1    1    2    1    5    2    2    1    1    1    2    1    4    2 
+ 8.5  8.7  8.8    9  9.3  9.4  9.8   10   11 
+   3    1    1    1    1    2    1    4    1 </code></pre>
+</div>
+</div>
+<p>A lot of restaurants did not get reviewed by critics, and the score is coded as 0. That’s a problem since if we take averages and such, it will mess up things. This should really be counted as NA. So let’s create new average scores such that any restaurant with no visits/reviews gets an NA as score.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>( <span class="at">comm_score =</span> <span class="fu">ifelse</span>(review_stats_community_count <span class="sc">==</span> <span class="dv">0</span> ,<span class="cn">NA</span>,review_stats_community_average_score)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">mutate</span>( <span class="at">crit_score =</span> <span class="fu">ifelse</span>(review_stats_critic_count <span class="sc">==</span> <span class="dv">0</span> ,<span class="cn">NA</span>,review_stats_critic_average_score)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>             <span class="fu">mutate</span>( <span class="at">dave_score =</span> <span class="fu">ifelse</span>(review_stats_dave_count <span class="sc">==</span> <span class="dv">0</span> ,<span class="cn">NA</span>,review_stats_dave_average_score)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s plot the 3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>comm_score, <span class="at">y =</span> crit_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>comm_score, <span class="at">y =</span> dave_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>crit_score, <span class="at">y =</span> dave_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(p1, p2, p3, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>,<span class="st">'C'</span>), <span class="at">label_size =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/plot-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looks like there is some agreement between Dave, the critics and the community on the ratings of various pizza places, though there is a good bit of variation.</p>
+<p>I think it would be fun to be able to click on specific points to see for a given score which restaurant that is. For instance I’m curious which restaurant has a close to zero score from both the community and Dave (bottom left of plot B).</p>
+<p>I think that can be done with plotly, let’s google it.</p>
+<p>Ok, figured it out. This re-creates the 3 scatterplots from above and when one moves over the dots, it shows restaurant name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">plot_ly</span>(d2, <span class="at">x =</span> <span class="sc">~</span>comm_score, <span class="at">y =</span> <span class="sc">~</span>crit_score, <span class="at">type =</span> <span class="st">"scatter"</span>, <span class="at">mode =</span> <span class="st">'markers'</span>, <span class="at">text =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">'Restaurant: '</span>, d2<span class="sc">$</span>name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3380b97a2134c21f4f24" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-3380b97a2134c21f4f24">{"x":{"visdat":{"34fc3f521a5":["function () ","plotlyVisDat"]},"cur_data":"34fc3f521a5","attrs":{"34fc3f521a5":{"x":{},"y":{},"mode":"markers","text":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"comm_score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"crit_score"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[7.9920000000000009,6.7249999999999996,6.5,6.5499999999999998,5.9000000000000004,6.8125,6.25,6.375,3,7.4499999999999966,7.625,6.0999999999999996,6.6749999999999998,5.7249999999999996,6.75,6.4749999999999996,4.4000000000000004,5.0999999999999996,7.0039215686274519,6.5,7.7714285714285714,6.364285714285713,7.25,7.1428571428571423,6.7999999999999998,8.8586206896551722,5.7666666666666675,7.4000000000000004,5.9499999999999975,5.25,7.2999999999999998,8.4600000000000009,5.9727272727272727,8.2333333333333325,7.0250000000000004,7.1600000000000001,6.75,6.4000000000000004,7.136842105263157,8.2857142857142865,8.4499999999999993,7.6333333333333329,7.6230769230769226,7.7999999999999998,8.5999999999999996,7.5555555555555536,7.1500000000000004,6.8499999999999996,8.405042016806723,5.9199999999999999,6.4666666666666677,6.0625,7.2999999999999998,8.2249999999999996,5.8789473684210529,7.1999999999999975,6.9000000000000004],"y":[8.8000000000000007,6.2000000000000002,4.5,5.7999999999999998,8.6999999999999993,8,5,4,6.5999999999999996,6,9.4000000000000004,7.2000000000000002,6.5,10,6.7999999999999998,7.4000000000000004,8,8,10,6.3099999999999996,8.0999999999999996,7,7.5999999999999996,8.5,4.7999999999999998,8.0999999999999996,5,6.7599999999999998,10,9,5,7.7599999999999998,5.5,7.2000000000000002,6.5,6.7999999999999998,10,8.5,8,6.7000000000000002,8.5,7.7999999999999998,9.3000000000000007,9.8000000000000007,11,5.96,5.0999999999999996,7.2999999999999998,7.7999999999999998,7,7,6.9000000000000004,5.7000000000000002,9.4000000000000004,7.2999999999999998,6.5,7],"mode":"markers","text":["Restaurant:  Pugsley's Pizza","Restaurant:  Bond 45","Restaurant:  Dulono's Pizza","Restaurant:  Fat Lorenzo's","Restaurant:  Red's Savoy Pizza","Restaurant:  Frank From Philly & Andrea Pizza","Restaurant:  LA Traviata Pizzeria","Restaurant:  Percy's Pizza","Restaurant:  Mediterraneo Restaurant","Restaurant:  Tre Sorelle","Restaurant:  Napolese Pizzeria","Restaurant:  Bearno's By the Bridge","Restaurant:  The Original Impellizeri's Pizza","Restaurant:  Marcello's Pizza & Subs","Restaurant:  Piu Bello Pizzeria Restaurant","Restaurant:  Buckhead Pizza","Restaurant:  Picasso Pizza","Restaurant:  Pomodoro Pizza","Restaurant:  Majestic Pizza","Restaurant:  Friendly Gourmet Pizza","Restaurant:  Harry's Italian","Restaurant:  Little Italy Pizza","Restaurant:  Phil's Pizza","Restaurant:  Kesté Pizza & Vino","Restaurant:  Napoli Pizza","Restaurant:  Lucali","Restaurant:  Snacks","Restaurant:  Canal Pizza","Restaurant:  Melani Pizzeria","Restaurant:  Il Piccolo Bufalo","Restaurant:  Pomodoro Ristorante & Pizzeria","Restaurant:  Santarpio's Pizza","Restaurant:  Regina Pizzeria","Restaurant:  Nick's Pizza","Restaurant:  PQR","Restaurant:  Vinnie's Pizzeria","Restaurant:  La Mia Pizza","Restaurant:  Manhattan Brick Oven Pizza","Restaurant:  Francesco's Pizzeria","Restaurant:  Arturo's","Restaurant:  Song E Napule","Restaurant:  Sfila Pizza","Restaurant:  Merilu Pizza Al Metro","Restaurant:  Bricco Ristorante Italiano","Restaurant:  Serafina Broadway","Restaurant:  Don Antonio","Restaurant:  Daniela Trattoria","Restaurant:  Patzeria Perfect Pizza","Restaurant:  John's of Times Square","Restaurant:  Radio City Pizza","Restaurant:  Kiss My Slice","Restaurant:  Cassiano's Pizza","Restaurant:  Angelo Bellini","Restaurant:  Jiannetto's Pizza Truck","Restaurant:  Prova Pizzabar","Restaurant:  Giuseppe's Pizza","Restaurant:  Posto"],"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">plot_ly</span>(d2, <span class="at">x =</span> <span class="sc">~</span>comm_score, <span class="at">y =</span> <span class="sc">~</span>dave_score, <span class="at">type =</span> <span class="st">"scatter"</span>, <span class="at">mode =</span> <span class="st">'markers'</span>, <span class="at">text =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">'Restaurant: '</span>, d2<span class="sc">$</span>name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-e1811c7fdb27a67886d6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e1811c7fdb27a67886d6">{"x":{"visdat":{"34fc26fe5024":["function () ","plotlyVisDat"]},"cur_data":"34fc26fe5024","attrs":{"34fc26fe5024":{"x":{},"y":{},"mode":"markers","text":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"comm_score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"dave_score"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[7.9920000000000009,7.7423076923076923,5.7625000000000002,4.3666666666666663,6.125,7.4500000000000002,7.3538461538461535,6.7249999999999996,5.79,5.7000000000000002,6.7249999999999996,7.2333333333333325,8.4444444444444446,8.0615384615384613,7.4777777777777779,8.3571428571428577,6.5,5,6.5499999999999998,5.9000000000000004,6.8125,8.1545454545454543,7.3368421052631572,5.7285714285714295,7.4000000000000004,8.1466666666666683,6.25,6.375,7.3142857142857149,5.9416666666666664,5.4000000000000004,3,7.3666666666666671,7.4499999999999966,5.2999999999999998,7.1624999999999996,6.8799999999999999,8.4000000000000004,6.2999999999999998,6.25,7.927777777777778,4.5999999999999996,3.1000000000000001,9.1692307692307686,8.0757575757575761,6.9785714285714295,7.7558139534883708,3.333333333333333,7.7777777777777777,8.004545454545454,7.4249999999999998,7.7722222222222221,5.2374999999999998,7.625,7.7333333333333316,10,6.0999999999999996,6.6749999999999998,6.9199999999999999,4.9249999999999998,5.7666666666666675,6.7714285714285705,5.4285714285714288,8.0499999999999989,8.0999999999999996,6.9625000000000004,6.9722222222222223,6.9000000000000004,7.5999999999999996,7.8933333333333326,8.0107142857142861,7.614285714285713,7.7999999999999998,6.0999999999999996,8.0999999999999996,7.6571428571428575,4.25,7.9913043478260866,8.1692307692307686,7.5999999999999996,7.7999999999999998,5.7249999999999996,6.75,6.4749999999999996,7.2625000000000002,7.2000000000000002,8.2770833333333336,6.1000000000000005,7.1333333333333329,6.2999999999999998,7.8363636363636378,7.4818181818181806,6.1789473684210527,8.0794871794871792,7.8444444444444414,8.2814159292035399,5.5250000000000004,7.8060606060606084,8.4153846153846157,7.75,8.3568181818181824,7.6124999999999998,6.2000000000000002,8.2918918918918934,7.4888888888888898,7.2000000000000002,8.0307692307692307,8.2125000000000004,8.4444444444444446,7.5868421052631572,6.7952380952380942,7.7384615384615376,4.4000000000000004,5.0999999999999996,7.9000000000000004,3.9571428571428569,7.1999999999999975,5.9500000000000002,5.8285714285714283,6.7999999999999998,7.6399999999999997,7.2363636363636354,5.7999999999999998,6.7058823529411784,7.0039215686274519,7.2166666666666659,7.3799999999999999,6.7733333333333325,6.5,6.7999999999999998,7.7714285714285714,7.6999999999999966,6.364285714285713,9.0738095238095244,7.5,4.6333333333333337,7.4000000000000004,7.25,7.976923076923077,7.8781249999999998,7.7099999999999991,7.711111111111113,7.0500000000000025,7.3282608695652174,8.0499999999999989,7.7749999999999986,8.8823633156966491,7.5666666666666664,7.8999999999999986,8.8000000000000007,7.1428571428571423,6.6999999999999975,7.5466666666666677,7.0384615384615374,7.0777777777777775,6.4400000000000004,7.8074074074074078,6.7999999999999998,7.7083333333333321,7.5999999999999988,8.8586206896551722,8.534782608695652,5.8285714285714283,8.875,8.7947368421052623,8.3482352941176465,8.9253521126760571,6.3399999999999999,6.9733333333333327,8.4120000000000008,5.166666666666667,5.9249999999999998,7.845238095238094,7.8818181818181827,4.8250000000000002,4.081818181818182,6.7888888888888888,6.1210526315789471,5.7666666666666675,3.2000000000000002,7.4000000000000004,8.1900000000000013,6.2166666666666677,7.1028571428571423,5.1333333333333329,7.5333333333333341,8.4000000000000004,6.6749999999999998,6.4500000000000002,6.8200000000000003,7.8066666666666675,7.4727272727272727,7.5,7.25,7.8810810810810814,8.405263157894737,8.3569444444444425,8.1781818181818178,7.6454545454545446,8.5999999999999996,7.7833333333333341,5,8.5761904761904759,7.8545454545454554,7.6454545454545446,7.4749999999999996,7.5833333333333321,7.9523809523809517,8.5205607476635521,8.4370370370370384,8.2639999999999993,8.3459016393442624,9.0999999999999996,4.4000000000000004,7.2666666666666675,7.4000000000000004,5.9499999999999975,8.3599999999999994,7.5545454545454538,8.1161290322580637,3.6499999999999999,5.9000000000000004,7.5111111111111128,7.0750000000000002,6.1454545454545446,6.6333333333333329,8.1999999999999993,4.1500000000000004,5.25,7.2000000000000002,4.5,7.8071428571428569,7.7379310344827585,8.0999999999999996,8.25,7.7181818181818178,7.2000000000000002,7.2999999999999998,8.605673758865251,8.7025641025641018,7.290909090909091,7.7999999999999998,7.1500000000000004,7.5368421052631556,7.2900000000000009,8.3069767441860467,8.6692307692307686,7.6333333333333329,8.125,6.8375000000000004,8.125,7.5857142857142863,8.3200000000000003,7.2428571428571429,7.4000000000000004,8.0999999999999996,7.2999999999999998,6.2999999999999998,8.0599999999999987,7.8900000000000015,8.1400000000000006,8.7076923076923087,6.4000000000000004,5.9499999999999975,4.2000000000000002,8.4600000000000009,7.5,6.7388888888888872,8.0999999999999996,7.253333333333333,8.7107692307692304,7.5666666666666664,6.9166666666666679,7.5012345679012356,7.7041666666666675,8.1037037037037045,6.6833333333333336,7.4761904761904763,7.9428571428571431,8.6794117647058826,3.3624999999999998,6.6999999999999975,8.9411764705882355,8.2518518518518533,8.5449999999999999,8.668181818181818,8.1999999999999993,6.9000000000000004,6.2249999999999996,5.9727272727272727,8.6544378698224822,8.7233160621761652,8.9411764705882355,7.8979166666666671,7.4461538461538481,8.0208333333333339,9.0636363636363644,7.4428571428571431,8.2333333333333325,7.4199999999999999,6.7000000000000002,7.0250000000000004,7.1600000000000001,7.8090909090909086,6.75,7.25,6.7000000000000002,7.457692307692307,5.7999999999999998,7.1428571428571423,6.6307692307692312,6.4000000000000004,5.6714285714285717,8.0871794871794869,7.9571428571428573,3.5499999999999998,5.9666666666666659,7.6399999999999997,8.3333333333333339,7.6090909090909085,7.136842105263157,5.7249999999999996,8.3857142857142861,8.2857142857142865,8.4499999999999993,7.1666666666666679,8.1612903225806459,8.2958333333333325,7.9000000000000004,7.6333333333333329,7.7652173913043478,7.6230769230769226,7.7999999999999998,6.8333333333333321,5.6000000000000005,7.7055555555555548,7.9749999999999996,6.4000000000000004,7,5.4666666666666659,6.8666666666666671,8.5999999999999996,6.5499999999999998,7.5555555555555536,8.6305555555555564,4.1500000000000004,7.5,5.5800000000000001,3.1166666666666667,7.7157894736842074,7.1500000000000004,8.0333333333333332,6.8499999999999996,6.5,8.405042016806723,5.9199999999999999,4,7.4615384615384626,8.9423387096774185,3.7000000000000002,7.8833333333333329,7.7000000000000002,7.2249999999999996,8.4000000000000004,4.9500000000000002,6.1666666666666679,6.9000000000000004,5.5999999999999996,6.375,7.6500000000000004,4.0333333333333332,5.7666666666666675,6.0625,6.3000000000000025,7.9500000000000002,6.5333333333333341,6.4666666666666677,7.6214285714285719,7.5444444444444452,7.7000000000000002,6.885714285714287,6.0625,6.0875000000000004,4.7249999999999996,7.7333333333333325,6.0111111111111128,7.8882882882882868,6.2999999999999998,5.7000000000000002,6.0285714285714294,6.2999999999999998,6.25,7.2999999999999998,7.2000000000000002,6.7750000000000004,7.2124999999999986,6.5999999999999996,8.3666666666666671,6.5,8.2249999999999996,6.2230769230769232,5.0200000000000005,6.8176470588235309,5.8789473684210529,7.1999999999999975,7.6400000000000015,7.5321428571428575,7.8687500000000004,6.9640000000000004,6.1000000000000005,1,8.1999999999999993,8.5076190476190483,6.1833333333333336,6.9000000000000004,7.6857142857142851,7.3700000000000001,5.2333333333333334,6.6400000000000015,7.7218749999999998,6.1500000000000004,7.0333333333333341],"y":[7.7000000000000002,8.5999999999999996,4.9000000000000004,3.2000000000000002,6.0999999999999996,7.2000000000000002,6.7999999999999998,6.5,6.5,6.4000000000000004,6.5999999999999996,7.5,8.5999999999999996,7.7999999999999998,7.2000000000000002,7.5,6.2999999999999998,3.3999999999999999,4.0999999999999996,7.0999999999999996,6.2999999999999998,7.5999999999999996,6.7999999999999998,5.2999999999999998,6.7999999999999998,7.0999999999999996,5.4000000000000004,6.0999999999999996,7.5999999999999996,4.2000000000000002,6.2000000000000002,5.7999999999999998,7.0999999999999996,6.7000000000000002,3.3999999999999999,6.7999999999999998,6.9000000000000004,7.2000000000000002,6.7000000000000002,6.2999999999999998,7.7000000000000002,8.5,3.2000000000000002,6.7999999999999998,8.4000000000000004,6.2000000000000002,8.1999999999999993,1.1000000000000001,7.0999999999999996,7.4000000000000004,7.0999999999999996,8.0999999999999996,5.0999999999999996,4.0999999999999996,7.0999999999999996,5.2000000000000002,6.4000000000000004,5.7999999999999998,0.20000000000000001,3.1000000000000001,5.4000000000000004,6.7999999999999998,1.2,7.5999999999999996,7.7999999999999998,5.4000000000000004,6.9000000000000004,6.4000000000000004,1.2,7.4000000000000004,7.7999999999999998,6.5,6.0999999999999996,6.4000000000000004,7.2000000000000002,7.0999999999999996,7.2000000000000002,8.3000000000000007,7.0999999999999996,6.7999999999999998,6.0999999999999996,7.4000000000000004,5.9000000000000004,7.2000000000000002,7.0999999999999996,7.2000000000000002,8.3000000000000007,6.7999999999999998,6.4000000000000004,6.5999999999999996,7.5,7.5,6.5,8.3000000000000007,7.5,8.9000000000000004,1.8999999999999999,7.5,7.9000000000000004,6.5999999999999996,8.0999999999999996,7.7999999999999998,7.2000000000000002,7.9000000000000004,6.7999999999999998,6.7999999999999998,6.2000000000000002,7.2000000000000002,7.5999999999999996,8.0999999999999996,6.7999999999999998,7.4000000000000004,4.2000000000000002,4.2000000000000002,6.7999999999999998,2.2000000000000002,7.4000000000000004,3.2999999999999998,6.4000000000000004,5.9000000000000004,7.4000000000000004,4.7999999999999998,2.5,7.0999999999999996,7.0999999999999996,5.9000000000000004,8.0999999999999996,7.4000000000000004,4.7999999999999998,7.2000000000000002,7.7000000000000002,7.7999999999999998,6.2999999999999998,9.3000000000000007,7.9000000000000004,3.3999999999999999,7.7999999999999998,7.7000000000000002,8.1999999999999993,7.9000000000000004,8.1999999999999993,7.2000000000000002,6.2000000000000002,6.9000000000000004,7.5999999999999996,8.0999999999999996,9.3000000000000007,7.4000000000000004,7.7999999999999998,8.1999999999999993,6.4000000000000004,2.3999999999999999,7.0999999999999996,5.7999999999999998,4.7999999999999998,5.5,7.9000000000000004,6.5999999999999996,5.0999999999999996,6.9000000000000004,8.0999999999999996,8.9000000000000004,6.9000000000000004,2.2000000000000002,8.0999999999999996,7.4000000000000004,9.4000000000000004,7.5,7.4000000000000004,8.0999999999999996,6.7000000000000002,5.4000000000000004,8.3000000000000007,8.1999999999999993,3.2000000000000002,3.2000000000000002,6.2000000000000002,3.3999999999999999,5,7.7999999999999998,5.5999999999999996,7.2000000000000002,5.9000000000000004,7.2999999999999998,7.7999999999999998,8.1999999999999993,8.5999999999999996,7.4000000000000004,6.0999999999999996,7.2999999999999998,8.0999999999999996,7.2000000000000002,6.2999999999999998,7.2000000000000002,7.9000000000000004,8.0999999999999996,7.7999999999999998,8.5999999999999996,7.4000000000000004,6.7000000000000002,7.4000000000000004,6.5999999999999996,8,6.7999999999999998,7.7999999999999998,6.7000000000000002,7.9000000000000004,7.9000000000000004,9.0999999999999996,8,6.9000000000000004,8.6999999999999993,7.4000000000000004,6.2000000000000002,7.4000000000000004,1.7,6.7999999999999998,7.2999999999999998,8.3000000000000007,8.5999999999999996,2.3999999999999999,6.0999999999999996,8,5.7999999999999998,5.0999999999999996,6.2000000000000002,7.4000000000000004,4.7999999999999998,7.4000000000000004,5.7999999999999998,5.9000000000000004,8.5,8.0999999999999996,7.4000000000000004,7.2999999999999998,6.2000000000000002,8.0999999999999996,4.2000000000000002,8.5999999999999996,8.0999999999999996,7.2000000000000002,8.0999999999999996,4.7999999999999998,8.1999999999999993,7.2999999999999998,8,8.4000000000000004,6.5999999999999996,7.0999999999999996,7.2999999999999998,7.7000000000000002,7.5,9.3000000000000007,8,7.4000000000000004,8.5999999999999996,7.2000000000000002,5.9000000000000004,6.2000000000000002,7.5999999999999996,10,8.1999999999999993,6.7999999999999998,3.7999999999999998,6.0999999999999996,8.1999999999999993,6.9000000000000004,6.7000000000000002,6.5999999999999996,5.7999999999999998,9.0999999999999996,7.7400000000000002,6.7999999999999998,9.1999999999999993,8.1999999999999993,9.1999999999999993,5.2000000000000002,7.0999999999999996,6.7000000000000002,8,2.3999999999999999,6.2000000000000002,8.5,7.5,9,9.4000000000000004,8.5,6.5999999999999996,6.4000000000000004,6.4000000000000004,8.8000000000000007,8.5,9.1999999999999993,7.4000000000000004,8.1999999999999993,8.4000000000000004,9.0999999999999996,6.2000000000000002,6.5999999999999996,7.2999999999999998,6.9000000000000004,6.0999999999999996,7.0999999999999996,7.7999999999999998,6.7000000000000002,7.7000000000000002,6.2000000000000002,8.4000000000000004,1.8,4,7.2000000000000002,7.9000000000000004,6.5,8.5,7.9000000000000004,7.0999999999999996,6.2000000000000002,8.0999999999999996,8.3000000000000007,8.0999999999999996,8.0999999999999996,6.2000000000000002,7.5999999999999996,7.9000000000000004,7.7000000000000002,7,9,8.5,7.2000000000000002,7.7000000000000002,8.0999999999999996,8.1999999999999993,6.7999999999999998,7.0999999999999996,3.7000000000000002,8.4000000000000004,8.0999999999999996,6.2999999999999998,7.0999999999999996,5.7999999999999998,2.1000000000000001,7.2999999999999998,6.4000000000000004,6.4000000000000004,9.3000000000000007,3.1000000000000001,4.7999999999999998,4.0999999999999996,4.0999999999999996,8.0999999999999996,3.6000000000000001,7.0999999999999996,5,4.7999999999999998,8.4000000000000004,6.0999999999999996,6.2999999999999998,8.4000000000000004,9.0999999999999996,8.0999999999999996,7.7999999999999998,7.7000000000000002,4.5999999999999996,6.9000000000000004,6.9000000000000004,6.2000000000000002,6.9000000000000004,1.7,1.3999999999999999,6.9000000000000004,4.2000000000000002,6.2000000000000002,7.7999999999999998,6.5999999999999996,7.4000000000000004,7.2999999999999998,6.2999999999999998,7.2999999999999998,7.4000000000000004,7.9000000000000004,7.2999999999999998,6.5999999999999996,6.7000000000000002,6.4000000000000004,7.0999999999999996,7.7999999999999998,8.1999999999999993,7.7000000000000002,7.9000000000000004,5.4000000000000004,5.2000000000000002,4.2999999999999998,5.7000000000000002,6.5999999999999996,6.2000000000000002,7.7999999999999998,6.7999999999999998,8.5999999999999996,8.4000000000000004,8.0999999999999996,5.0999999999999996,4.9000000000000004,7.5,7.4000000000000004,6.2000000000000002,6.7999999999999998,7.0999999999999996,8.0999999999999996,7.4000000000000004,5.7000000000000002,0.080000000000000002,8.0999999999999996,9.3000000000000007,2.7999999999999998,6.7999999999999998,7.9000000000000004,7.7000000000000002,5.9000000000000004,3.8999999999999999,8.1999999999999993,6.7999999999999998,8.1999999999999993],"mode":"markers","text":["Restaurant:  Pugsley's Pizza","Restaurant:  Williamsburg Pizza","Restaurant:  99 Cent Fresh Pizza","Restaurant:  La Gusto Pizza","Restaurant:  Cheesy Pizza","Restaurant:  Sal & Carmine's Pizza","Restaurant:  MAMA'S TOO!","Restaurant:  Bond 45","Restaurant:  Casa D'amici","Restaurant:  Pizza Al's","Restaurant:  Colasante's Ristorante & Pub","Restaurant:  Love & Dough","Restaurant:  Patsy's Pizzeria","Restaurant:  Louie & Ernie's Pizza","Restaurant:  Pizza Barn","Restaurant:  Mama's Pizza","Restaurant:  Dulono's Pizza","Restaurant:  Cheetah Pizza","Restaurant:  Fat Lorenzo's","Restaurant:  Red's Savoy Pizza","Restaurant:  Frank From Philly & Andrea Pizza","Restaurant:  Young Joni","Restaurant:  Cossetta Alimentari","Restaurant:  Pizza Luce","Restaurant:  Football Pizza","Restaurant:  Star Tavern","Restaurant:  LA Traviata Pizzeria","Restaurant:  Percy's Pizza","Restaurant:  Pizza Land","Restaurant:  Little Italy Pizza","Restaurant:  B & W Deli & Pizzeria","Restaurant:  Mediterraneo Restaurant","Restaurant:  La Bellezza Pizza","Restaurant:  Tre Sorelle","Restaurant:  Justino's Pizzeria","Restaurant:  Casabianca Pizzeria","Restaurant:  Mariella Pizza","Restaurant:  Bella Blu","Restaurant:  John & Tony's","Restaurant:  Il Forno Pizza","Restaurant:  Scarr's Pizza","Restaurant:  Double Zero","Restaurant:  Rico's Pizza","Restaurant:  Palermo's 95th","Restaurant:  Giordano's","Restaurant:  Gino's East - Magnificent Mile","Restaurant:  Lou Malnati's Pizzeria","Restaurant:  Georgio's Gourmet Pizza","Restaurant:  Armand's Pizzeria","Restaurant:  Pequod's Pizzeria","Restaurant:  Geo's Pizza","Restaurant:  Goodfellas Pizzeria","Restaurant:  BazbeauxPizza","Restaurant:  Napolese Pizzeria","Restaurant:  The Wig & Pen Pizza Pub","Restaurant:  Casey's General Store","Restaurant:  Bearno's By the Bridge","Restaurant:  The Original Impellizeri's Pizza","Restaurant:  The Post","Restaurant:  Cottage Inn Pizza - Ann Arbor","Restaurant:  New York Pizza Depot","Restaurant:  Pizza House","Restaurant:  Backroom Pizza","Restaurant:  Buddy's Pizza","Restaurant:  Leone's Pizza","Restaurant:  Adriatico's New York Style Pizza","Restaurant:  Sicilia Fine Italian Specialties","Restaurant:  The O Patio & Pub","Restaurant:  Catfish Biff's Pizza & Subs","Restaurant:  GoreMade Pizza","Restaurant:  Pies & Pints - Lexington","Restaurant:  Pazzo's Pizza Pub","Restaurant:  PieTana","Restaurant:  Bruno Bros Pizza","Restaurant:  Wedgewood Fernando's Pizza - Austintown","Restaurant:  Avalon Downtown Pizzeria","Restaurant:  Sparky's Pizzeria and Grill","Restaurant:  Black Sheep Pizza - Minneapolis","Restaurant:  Benny Marzano's","Restaurant:  Imperial Pizza","Restaurant:  Mellow Mushroom","Restaurant:  Marcello's Pizza & Subs","Restaurant:  Piu Bello Pizzeria Restaurant","Restaurant:  Buckhead Pizza","Restaurant:  Cosmo's Original Little Italy Pizza","Restaurant:  Fellini's Pizza","Restaurant:  Antico Pizza","Restaurant:  Slice Downtown","Restaurant:  Hawthorne's NY Pizza & Bar","Restaurant:  Pizza Joint","Restaurant:  Empire Slice House","Restaurant:  Santucci's Original Square Pizza","Restaurant:  Lorenzo & Sons Pizza","Restaurant:  Santillo's Brick Oven Pizza","Restaurant:  Kinchley's Tavern","Restaurant:  Ralph's Pizzeria","Restaurant:  Costco","Restaurant:  Pizza Town USA","Restaurant:  Brother's Pizzeria","Restaurant:  Mama Rosa Pizza and Pasta","Restaurant:  Denino's Pizzeria Tavern","Restaurant:  The New Park Tavern","Restaurant:  Vesta Wood Fired Pizza & Bar","Restaurant:  Lee's Tavern","Restaurant:  The Original Goodfella's Brick Oven Pizza","Restaurant:  Tony Boloney's","Restaurant:  Krispy Pizza","Restaurant:  Mario's Classic Pizza","Restaurant:  Johnny Pepperoni","Restaurant:  Basile's Pizza","Restaurant:  Benny Tudino's Pizzeria","Restaurant:  Napoli's Brick Oven Pizza","Restaurant:  Picasso Pizza","Restaurant:  Pomodoro Pizza","Restaurant:  SIMÒ PIZZA","Restaurant:  Steve's Pizza","Restaurant:  The Woodstock","Restaurant:  The Grotto Pizzeria & Ristorante","Restaurant:  Georgio Pizzeria","Restaurant:  Pranzo Pizza & Pasta","Restaurant:  Justino's Pizzeria","Restaurant:  Adrienne's Pizzabar","Restaurant:  Da Vinci Pizza","Restaurant:  Cucina Bene","Restaurant:  Majestic Pizza","Restaurant:  Underground Pizza","Restaurant:  Neapolitan Express","Restaurant:  Stage Door Pizza","Restaurant:  Friendly Gourmet Pizza","Restaurant:  Dona Bella Pizza","Restaurant:  Harry's Italian","Restaurant:  Adoro Lei","Restaurant:  Little Italy Pizza","Restaurant:  Lucali","Restaurant:  Il Mattone West Village","Restaurant:  5 Boroughs Pizza","Restaurant:  Serafina Meatpacking","Restaurant:  Phil's Pizza","Restaurant:  Saluggi's","Restaurant:  Artichoke Basille's Pizza","Restaurant:  Brunetti Pizza","Restaurant:  Emily - West Village","Restaurant:  Black Square Pizza","Restaurant:  Bleecker Street Pizza","Restaurant:  Enzo Bruni La Pizza Gourmet","Restaurant:  Famous Ben's Pizza","Restaurant:  John's of Bleecker Street","Restaurant:  Filaga Pizzeria","Restaurant:  Emmett's","Restaurant:  Numero 28 Pizzeria - West Village","Restaurant:  Kesté Pizza & Vino","Restaurant:  King's Pizza","Restaurant:  Eddie & Sam's NY Pizza","Restaurant:  Home Slice Pizza","Restaurant:  Big Lou's Pizza","Restaurant:  Pizzarita's","Restaurant:  Julian's Italian Pizzeria & Kitchen","Restaurant:  Napoli Pizza","Restaurant:  Biggie's Pizza","Restaurant:  Steve's Pizza","Restaurant:  Lucali","Restaurant:  Mister O1- South Beach","Restaurant:  Pizza Girls WPB","Restaurant:  Pizza Al Fresco","Restaurant:  Totonno's","Restaurant:  L & B Spumoni Gardens","Restaurant:  Di Fara Pizza","Restaurant:  Da Nonna Rosa","Restaurant:  Ciro's Pizzeria & Beerhouse","Restaurant:  Bronx Pizza","Restaurant:  Filippi's Pizza Grotto Pacific Beach","Restaurant:  Manhattan Pizzeria","Restaurant:  Joe's Pizza","Restaurant:  Vito's Pizza","Restaurant:  Bonanno's New York Pizzeria","Restaurant:  Bonanno's New York Pizzeria","Restaurant:  Five50 Pizza Bar","Restaurant:  Secret Pizza","Restaurant:  Snacks","Restaurant:  XS Nightclub","Restaurant:  Naked City Pizza Shop","Restaurant:  Good Pie","Restaurant:  Evel Pie","Restaurant:  Pizza Rock","Restaurant:  Acquolina","Restaurant:  Pope's Italian Restaurant","Restaurant:  Nove Italian Restaurant","Restaurant:  Mama Mia's Restaurant","Restaurant:  Marino's Pizza","Restaurant:  Gennaro's Pizza Parlor","Restaurant:  Caputo's Pizzeria","Restaurant:  Corner Slice","Restaurant:  Francesca's Restaurant & Pizzeria","Restaurant:  Café Crust","Restaurant:  Borrelli's","Restaurant:  King Umberto's of Elmont","Restaurant:  New Park Pizza","Restaurant:  Umberto's Pizzeria & Restaurant","Restaurant:  Dani's House of Pizza","Restaurant:  Rosa's Pizza","Restaurant:  Brooklyn's Homeslice Pizzeria","Restaurant:  Not Ray's Pizza","Restaurant:  Roberta's","Restaurant:  Little Vincent's Pizza","Restaurant:  Carmine's Pizzeria","Restaurant:  Sal's Pizzeria","Restaurant:  Tony's Pizza","Restaurant:  L'industrie Pizzeria","Restaurant:  Best Pizza","Restaurant:  Grimaldi's","Restaurant:  Juliana's Pizza","Restaurant:  Ignazio's","Restaurant:  La Nonna Krispy Krust Pizza","Restaurant:  Alphonso's Pizzeria & Trattoria","Restaurant:  Paulie Gee's Slice Shop","Restaurant:  Canal Pizza","Restaurant:  Melani Pizzeria","Restaurant:  Paulie Gee's","Restaurant:  Speedy Romeo","Restaurant:  Rizzo's Fine Pizza","Restaurant:  Stanton Pizza","Restaurant:  Solo Pizza","Restaurant:  La Margarita Pizza","Restaurant:  Luna Ristorante","Restaurant:  Rosario's Pizza","Restaurant:  Da Gennaro","Restaurant:  Margherita NYC","Restaurant:  Yankee Pizza","Restaurant:  Il Piccolo Bufalo","Restaurant:  Da Nico Ristorante","Restaurant:  Little Gio's Pizza","Restaurant:  Lil' Frankie's","Restaurant:  Sal's Little Italy","Restaurant:  Gnocco","Restaurant:  Pasquale Jones","Restaurant:  Lombardi's Pizza","Restaurant:  Champion Pizza","Restaurant:  Pomodoro Ristorante & Pizzeria","Restaurant:  Prince Street Pizza","Restaurant:  Rubirosa","Restaurant:  Proto's Pizza","Restaurant:  310 Bowery Bar","Restaurant:  La Rossa","Restaurant:  Stromboli Pizza","Restaurant:  Baker's Pizza","Restaurant:  East Village Pizza","Restaurant:  Joe & Pat's Pizzeria","Restaurant:  Muzzarella Pizza","Restaurant:  Sorbillo Pizzeria","Restaurant:  Joey's Pizzeria","Restaurant:  Pizza Barbone","Restaurant:  Palio Pizzeria","Restaurant:  Oath Pizza - Nantucket","Restaurant:  Steamboat Wharf Pizza","Restaurant:  Fusaro's","Restaurant:  Pi Pizzeria","Restaurant:  Sophie T's Pizza","Restaurant:  Muse Pizza","Restaurant:  Moto Pizza","Restaurant:  Poopsie's","Restaurant:  Monte's Restaurant","Restaurant:  Bianchi's Pizza","Restaurant:  Giordano's Restaurant","Restaurant:  Slice Of Edgartown","Restaurant:  Isola","Restaurant:  Santarpio's Pizza","Restaurant:  Rocco's Pizzeria","Restaurant:  Rinas Pizzeria & Cafe","Restaurant:  Galleria Umberto","Restaurant:  Pushcart Pizzeria","Restaurant:  Regina Pizzeria","Restaurant:  Ducali","Restaurant:  1000 Degrees Neapolitan Pizzeria","Restaurant:  Halftime Pizza","Restaurant:  Florina Pizzeria & Paninoteca","Restaurant:  Rosie's Subs and Pizza","Restaurant:  Felcaro Pizzeria","Restaurant:  Dirty Water Dough","Restaurant:  Eataly Boston","Restaurant:  Lynwood Cafe","Restaurant:  Fenway Park","Restaurant:  Baldie's Pizza & Subs","Restaurant:  Cape Cod Cafe","Restaurant:  Louie's Pizza","Restaurant:  Town Spa Pizza","Restaurant:  Frank Pepe Pizzeria Napoletana - Chestnut Hill","Restaurant:  Tony's Place","Restaurant:  Chilmark General Store","Restaurant:  Bill's Pizzeria Kitchen + Grille","Restaurant:  Regina Pizzeria","Restaurant:  Modern Apizza","Restaurant:  Frank Pepe Pizzeria Napoletana","Restaurant:  Sally's Apizza","Restaurant:  BAR","Restaurant:  Riko's Pizza","Restaurant:  Colony Grill","Restaurant:  Johnny's Pizzeria","Restaurant:  Full Moon Pizzeria","Restaurant:  Nick's Pizza","Restaurant:  Pie Pie Pizza","Restaurant:  Mama's Pizzeria","Restaurant:  PQR","Restaurant:  Vinnie's Pizzeria","Restaurant:  Salvo's Pizzabar","Restaurant:  La Mia Pizza","Restaurant:  Italian Village Pizzeria","Restaurant:  Broadway Pizza & Restaurant","Restaurant:  Saba's Pizza","Restaurant:  Cafe Viva","Restaurant:  Pizza Park","Restaurant:  Pizza Pete's","Restaurant:  Manhattan Brick Oven Pizza","Restaurant:  Oath Pizza - East 67th Street","Restaurant:  Brooklyn Pizza Masters","Restaurant:  Made In New York Pizza","Restaurant:  Kiss My Slice","Restaurant:  Farinella Bakery Pizza","Restaurant:  Cafe Daniello's","Restaurant:  Gato","Restaurant:  Freddie & Pepper's","Restaurant:  Francesco's Pizzeria","Restaurant:  Iggy's Pizzeria","Restaurant:  Motorino","Restaurant:  Arturo's","Restaurant:  Song E Napule","Restaurant:  Fiore's Pizza","Restaurant:  Denino's Greenwich Village","Restaurant:  Joe's Pizza","Restaurant:  Cafe Fiorello","Restaurant:  Sfila Pizza","Restaurant:  Sacco Pizza","Restaurant:  Merilu Pizza Al Metro","Restaurant:  Bricco Ristorante Italiano","Restaurant:  New York Sal's Pizza","Restaurant:  Mariella Pizza","Restaurant:  Luigi's Pizza","Restaurant:  Luigi's Gourmet Grill","Restaurant:  B Side Pizza & Wine Bar","Restaurant:  Uncle Mario's Brick Oven Pizza","Restaurant:  Bella Vita Pizzeria","Restaurant:  IPizzaNY","Restaurant:  Serafina Broadway","Restaurant:  Claudio Pizzeria","Restaurant:  Don Antonio","Restaurant:  Angelo's Coal Oven Pizzeria","Restaurant:  Z Deli Pizzeria","Restaurant:  Pazza Notte","Restaurant:  Carve","Restaurant:  A Slice of New York","Restaurant:  PizzArte","Restaurant:  Daniela Trattoria","Restaurant:  Capizzi","Restaurant:  Patzeria Perfect Pizza","Restaurant:  Pasta Lovers","Restaurant:  John's of Times Square","Restaurant:  Radio City Pizza","Restaurant:  Tavola","Restaurant:  Vinny Vincenz","Restaurant:  Sauce Pizzeria","Restaurant:  Pisa Pizza","Restaurant:  Frank's Trattoria","Restaurant:  Pepe Giallo","Restaurant:  Don Giovanni Ristorante","Restaurant:  Ovest Pizzoteca by Luzzo's","Restaurant:  10th Avenue Pizza & Cafe","Restaurant:  Stella's Pizza","Restaurant:  Gotham Pizza","Restaurant:  Highline Pizza","Restaurant:  Rocky's Pizza 14th St","Restaurant:  Village Pizza","Restaurant:  Pizza Italia","Restaurant:  Famous Original Ray's Pizza","Restaurant:  Rivoli Pizza","Restaurant:  Pizza Rollio","Restaurant:  Rosemary's Pizza","Restaurant:  Teresa's Brick Oven Pizza & Cafe","Restaurant:  Kiss My Slice","Restaurant:  Harry's Italian Pizza Bar","Restaurant:  Upside Pizza","Restaurant:  Sofia Pizza Shoppe","Restaurant:  Marinara Pizza","Restaurant:  Cassiano's Pizza","Restaurant:  Primavera Pizza & Pasta","Restaurant:  Belmora Pizza & Restaurant","Restaurant:  Zia Maria-Chelsea","Restaurant:  Joe's Pizza","Restaurant:  NY Pizza Suprema","Restaurant:  3 Giovani","Restaurant:  Rock Pizza Scissors","Restaurant:  Ben's Pizzeria","Restaurant:  Olio e Piú","Restaurant:  My Pie Pizzeria Romana","Restaurant:  Angelo Bellini","Restaurant:  Pizza By Certé","Restaurant:  La Vera Pizzeria & Restaurant","Restaurant:  La Bellezza","Restaurant:  La Trattoria","Restaurant:  Patsy's Pizzeria","Restaurant:  Picciotto NYC","Restaurant:  Jiannetto's Pizza Truck","Restaurant:  Uncle Paul's Pizza","Restaurant:  Previti Pizza","Restaurant:  Royal Pizza","Restaurant:  Prova Pizzabar","Restaurant:  Giuseppe's Pizza","Restaurant:  Garlic New York Pizza Bar","Restaurant:  Lions & Tigers & Squares Detroit Pizza","Restaurant:  Lombardi's pizza","Restaurant:  Famous Famiglia Pizzeria","Restaurant:  Famous Amadeus Pizza","Restaurant:  Amtrak","Restaurant:  Nicoletta Pizzeria","Restaurant:  Lazzara's Pizza","Restaurant:  Rocky's Number II","Restaurant:  Posto","Restaurant:  Patrizia's Pizza and Pasta","Restaurant:  Mike's Pizza","Restaurant:  Joey Pepperoni's Pizza","Restaurant:  Libretto's Pizzeria","Restaurant:  Brick Oven Pizza 33","Restaurant:  J's Pizza","Restaurant:  Rocco's Pizza Joint"],"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">plot_ly</span>(d2, <span class="at">x =</span> <span class="sc">~</span>crit_score, <span class="at">y =</span> <span class="sc">~</span>dave_score, <span class="at">type =</span> <span class="st">"scatter"</span>, <span class="at">mode =</span> <span class="st">'markers'</span>, <span class="at">text =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">'Restaurant: '</span>, d2<span class="sc">$</span>name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-100a904fdd8a8170b33e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-100a904fdd8a8170b33e">{"x":{"visdat":{"34fc6bcf4b68":["function () ","plotlyVisDat"]},"cur_data":"34fc6bcf4b68","attrs":{"34fc6bcf4b68":{"x":{},"y":{},"mode":"markers","text":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"crit_score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"dave_score"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[8.8000000000000007,4.2999999999999998,6.2000000000000002,4.5,5.7999999999999998,8.6999999999999993,8,5,4,7.9000000000000004,6.5999999999999996,6,7,9.4000000000000004,7.2000000000000002,6.5,10,6.7999999999999998,7.4000000000000004,8,8,10,6.3099999999999996,8.0999999999999996,7,7.5999999999999996,8.5,4.7999999999999998,8.0999999999999996,5,5.4000000000000004,6.7599999999999998,10,9,5,7.7599999999999998,5.5,7.2000000000000002,6.5,6.7999999999999998,10,8.5,8,6.7000000000000002,8.5,7.7999999999999998,9.3000000000000007,9.8000000000000007,11,5.96,5.0999999999999996,7.2999999999999998,7.7999999999999998,7,7,6.9000000000000004,5.7000000000000002,9.4000000000000004,5.9000000000000004,7.2999999999999998,6.5,7],"y":[7.7000000000000002,6.9000000000000004,6.5,6.2999999999999998,4.0999999999999996,7.0999999999999996,6.2999999999999998,5.4000000000000004,6.0999999999999996,7.0999999999999996,5.7999999999999998,6.7000000000000002,1.2,4.0999999999999996,6.4000000000000004,5.7999999999999998,7.4000000000000004,5.9000000000000004,7.2000000000000002,4.2000000000000002,4.2000000000000002,7.0999999999999996,4.7999999999999998,7.7000000000000002,6.2999999999999998,7.7000000000000002,6.4000000000000004,6.5999999999999996,8.0999999999999996,5,5.4000000000000004,1.7,6.7999999999999998,7.4000000000000004,4.2000000000000002,8.1999999999999993,6.4000000000000004,6.5999999999999996,6.0999999999999996,7.0999999999999996,6.7000000000000002,7.9000000000000004,8.0999999999999996,7.9000000000000004,7.7000000000000002,7.7000000000000002,8.1999999999999993,6.7999999999999998,7.2999999999999998,6.4000000000000004,3.6000000000000001,5,8.4000000000000004,6.0999999999999996,6.2999999999999998,6.5999999999999996,5.7000000000000002,8.0999999999999996,6.0999999999999996,7.4000000000000004,6.2000000000000002,6.7999999999999998],"mode":"markers","text":["Restaurant:  Pugsley's Pizza","Restaurant:  Nino's 46","Restaurant:  Bond 45","Restaurant:  Dulono's Pizza","Restaurant:  Fat Lorenzo's","Restaurant:  Red's Savoy Pizza","Restaurant:  Frank From Philly & Andrea Pizza","Restaurant:  LA Traviata Pizzeria","Restaurant:  Percy's Pizza","Restaurant:  Re Sette","Restaurant:  Mediterraneo Restaurant","Restaurant:  Tre Sorelle","Restaurant:  Buca di Beppo Italian Restaurant","Restaurant:  Napolese Pizzeria","Restaurant:  Bearno's By the Bridge","Restaurant:  The Original Impellizeri's Pizza","Restaurant:  Marcello's Pizza & Subs","Restaurant:  Piu Bello Pizzeria Restaurant","Restaurant:  Buckhead Pizza","Restaurant:  Picasso Pizza","Restaurant:  Pomodoro Pizza","Restaurant:  Majestic Pizza","Restaurant:  Friendly Gourmet Pizza","Restaurant:  Harry's Italian","Restaurant:  Little Italy Pizza","Restaurant:  Phil's Pizza","Restaurant:  Kesté Pizza & Vino","Restaurant:  Napoli Pizza","Restaurant:  Lucali","Restaurant:  Snacks","Restaurant:  42nd Street Pizza","Restaurant:  Canal Pizza","Restaurant:  Melani Pizzeria","Restaurant:  Il Piccolo Bufalo","Restaurant:  Pomodoro Ristorante & Pizzeria","Restaurant:  Santarpio's Pizza","Restaurant:  Regina Pizzeria","Restaurant:  Nick's Pizza","Restaurant:  PQR","Restaurant:  Vinnie's Pizzeria","Restaurant:  La Mia Pizza","Restaurant:  Manhattan Brick Oven Pizza","Restaurant:  Francesco's Pizzeria","Restaurant:  Arturo's","Restaurant:  Song E Napule","Restaurant:  Sfila Pizza","Restaurant:  Merilu Pizza Al Metro","Restaurant:  Bricco Ristorante Italiano","Restaurant:  Serafina Broadway","Restaurant:  Don Antonio","Restaurant:  Daniela Trattoria","Restaurant:  Patzeria Perfect Pizza","Restaurant:  John's of Times Square","Restaurant:  Radio City Pizza","Restaurant:  Kiss My Slice","Restaurant:  Cassiano's Pizza","Restaurant:  Angelo Bellini","Restaurant:  Jiannetto's Pizza Truck","Restaurant:  Deli On Madison","Restaurant:  Prova Pizzabar","Restaurant:  Giuseppe's Pizza","Restaurant:  Posto"],"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>So apparently the lousy restaurant that got a 1 from the community and almost 0 from Dave is called <em>Amtrak</em>. I’m wondering if that refers to pizza on Amtrak trains? Just for the heck of it and because I’m curious, let’s look at that entry.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Amtrak"</span>) <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">address1</th>
+<th style="text-align: left;">city</th>
+<th style="text-align: right;">zip</th>
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">latitude</th>
+<th style="text-align: right;">longitude</th>
+<th style="text-align: right;">price_level</th>
+<th style="text-align: right;">provider_rating</th>
+<th style="text-align: right;">provider_review_count</th>
+<th style="text-align: right;">review_stats_all_average_score</th>
+<th style="text-align: right;">review_stats_all_count</th>
+<th style="text-align: right;">review_stats_all_total_score</th>
+<th style="text-align: right;">review_stats_community_average_score</th>
+<th style="text-align: right;">review_stats_community_count</th>
+<th style="text-align: right;">review_stats_community_total_score</th>
+<th style="text-align: right;">review_stats_critic_average_score</th>
+<th style="text-align: right;">review_stats_critic_count</th>
+<th style="text-align: right;">review_stats_critic_total_score</th>
+<th style="text-align: right;">review_stats_dave_average_score</th>
+<th style="text-align: right;">review_stats_dave_count</th>
+<th style="text-align: right;">review_stats_dave_total_score</th>
+<th style="text-align: right;">comm_score</th>
+<th style="text-align: right;">crit_score</th>
+<th style="text-align: right;">dave_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Amtrak</td>
+<td style="text-align: left;">234 W 31st St</td>
+<td style="text-align: left;">New York</td>
+<td style="text-align: right;">10001</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: right;">40.74965</td>
+<td style="text-align: right;">-73.9934</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">345</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>I googled the address, and it seems to be indeed Amtrak. Note to self: Never order pizza on an Amtrak train.</p>
+</section>
+<section id="price-vs-ratings-analysis" class="level1">
+<h1>Price vs ratings analysis</h1>
+<p>Next, let’s look at possible impact of restaurant price level on rating.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d2<span class="sc">$</span>price_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1   2   3 
+ 21 216 218   8 </code></pre>
+</div>
+</div>
+<p>There isn’t much spread, most pizza places are in the middle. Maybe not too surprising. Let’s look at a few plots to see if there is a pattern. First, we should recode price level as a factor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">as.factor</span>(price_level))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>price, <span class="at">y=</span>comm_score)) <span class="sc">+</span> <span class="fu">geom_violin</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>price, <span class="at">y=</span>crit_score)) <span class="sc">+</span> <span class="fu">geom_violin</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>price, <span class="at">y=</span>dave_score)) <span class="sc">+</span> <span class="fu">geom_violin</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(p1, p2, p3, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>,<span class="st">'C'</span>), <span class="at">label_size =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/price-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hard to tell if there’s a trend. Could do some stats to look in more detail, but since this exercise focuses on exploring, I won’t do that. Instead I’ll leave it at that.</p>
+</section>
+<section id="rating-versus-location" class="level1">
+<h1>Rating versus location</h1>
+<p>Ok, on to the last of the questions I started out with. Maybe there are some areas where restaurants are in general better? Or maybe an area where diners are more critical? Let’s see if there is some correlation between ratings and location.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d2<span class="sc">$</span>country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ US 
+463 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(d2<span class="sc">$</span>city))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+        Alpharetta            Augusta             Austin         Austintown 
+                 1                  1                  1                  1 
+        Blacksburg          Braintree           Brockton            Buffalo 
+                 1                  1                  1                  1 
+        Charleston          Charlotte      Chestnut Hill           Chilmark 
+                 1                  1                  1                  1 
+        Clearwater            Clifton         Coralville      Daytona Beach 
+                 1                  1                  1                  1 
+          Dearborn        Dennis Port              DUMBO        East Meadow 
+                 1                  1                  1                  1 
+             Edina          Elizabeth             Elmont         Gansevoort 
+                 1                  1                  1                  1 
+              Gary       Hampton Bays          Hopkinton       Howard Beach 
+                 1                  1                  1                  1 
+        Huntington          Iowa City            Jackson Jacksonville Beach 
+                 1                  1                  1                  1 
+       Jersey City        Kew Gardens          Lakeville      Lawrenceville 
+                 1                  1                  1                  1 
+              Lynn    Manhattan Beach       Mashantucket              Miami 
+                 1                  1                  1                  1 
+    Middle Village       Mount Vernon      New Hyde Park      New York City 
+                 1                  1                  1                  1 
+   North Arlington             Nutley         Oak Bluffs           Oak Lawn 
+                 1                  1                  1                  1 
+     Oklahoma City             Orange         Palm Beach           Pembroke 
+                 1                  1                  1                  1 
+         Princeton             Ramsey           Randolph             Revere 
+                 1                  1                  1                  1 
+        Rutherford      San Francisco           Sandwich        Southampton 
+                 1                  1                  1                  1 
+         Stoughton              Tampa     Vineyard Haven     West Melbourne 
+                 1                  1                  1                  1 
+   West Palm Beach       West Roxbury             Woburn            Yonkers 
+                 1                  1                  1                  1 
+   East Rutherford          Edgartown       Elmwood Park            Hyannis 
+                 2                  2                  2                  2 
+       Miami Beach       Philadelphia         Saint Paul       Santa Monica 
+                 2                  2                  2                  2 
+          Stamford              Bronx       Indianapolis          Lexington 
+                 2                  3                  3                  3 
+        Morgantown        San Antonio          San Diego          Ann Arbor 
+                 3                  3                  3                  4 
+        Louisville          New Haven      Staten Island         Youngstown 
+                 4                  4                  4                  4 
+           Atlanta            Chicago           Columbus            Hoboken 
+                 6                  6                  6                  6 
+         Nantucket   Saratoga Springs        Minneapolis          Las Vegas 
+                 6                  6                  8                 11 
+            Boston           Brooklyn           New York 
+                13                 20                251 </code></pre>
+</div>
+</div>
+<p>Ok so all restaurants are in the US, and most are in New York. We could look at NY versus “rest of the cities”. Though isn’t Brooklyn (the 2nd largest entry) basically a part of New York? I’m not enough of an expert on all things NY to be sure (<strong>for any real analysis, you need to know a good bit about the subject matter, or work closely with a subject matter expert. If not, more likely than not something dumb will happen</strong>).</p>
+<p>For now, I assume that it’s different enough, and make 2 categories, NY and “other” and see if there are differences. Let’s try.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">newcity =</span> forcats<span class="sc">::</span><span class="fu">fct_lump</span>(city, <span class="at">n =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>newcity, <span class="at">y =</span> comm_score)) <span class="sc">+</span> <span class="fu">geom_violin</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">newcity =</span> forcats<span class="sc">::</span><span class="fu">fct_lump</span>(city, <span class="at">n =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>newcity, <span class="at">y =</span> crit_score)) <span class="sc">+</span> <span class="fu">geom_violin</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">newcity =</span> forcats<span class="sc">::</span><span class="fu">fct_lump</span>(city, <span class="at">n =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>newcity, <span class="at">y =</span> dave_score)) <span class="sc">+</span> <span class="fu">geom_violin</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(p1, p2, p3, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>,<span class="st">'C'</span>), <span class="at">label_size =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/plot-location-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looks like the community in NY gives lower scores compared to other locations, less noticeable difference for critics and Dave.</p>
+<p>Ok, the next analysis might not make much sense, but why not check if there is a North-South or East-West trend related to ratings. Maybe restaurants are better in one of those directions? Or people in the South are more polite and give better scores? 😁. I’m mostly doing this because longitude and latitude are continuous variables, so I can make a few more scatterplots. I don’t have any real goal for this otherwise.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>longitude, <span class="at">y =</span> comm_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>longitude, <span class="at">y =</span> crit_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>longitude, <span class="at">y =</span> dave_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(p1, p2, p3, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>,<span class="st">'C'</span>), <span class="at">label_size =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/plot-longitude-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So as we go from the west (-120) to the east (-70), there is a trend in restaurants getting higher scores, by all 3 groups. I guess as we are moving closer to Italy, the pizza quality goes up? 😃.</p>
+<p>Next, let’s look at latitude.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>latitude, <span class="at">y =</span> comm_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>latitude, <span class="at">y =</span> crit_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>latitude, <span class="at">y =</span> dave_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(p1, p2, p3, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>,<span class="st">'C'</span>), <span class="at">label_size =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/plot-latitude-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So doesn’t seem as much of a trend going from South (25) to North (45). That finding of course fully confirms our “closer to Italy” theory!</p>
+<p>Ok, I was going to leave it at that with location, but since I’m already going down a crazy rabbit hole regarding Italy, let’s do it for real: We’ll take both longitude and latitude of each restaurant and use it compute the distance of each location to Naples, the home of Pizza. And then we’ll plot that and see.</p>
+<p>Since I have no idea how to do that, I need Google. Fortunately, the first hit worked, found this one: <a href="https://stackoverflow.com/questions/32363998/function-to-calculate-geospatial-distance-between-two-points-lat-long-using-r" class="uri">https://stackoverflow.com/questions/32363998/function-to-calculate-geospatial-distance-between-two-points-lat-long-using-r</a></p>
+<p>Let’s try.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>coord_naples<span class="ot">=</span><span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="fl">14.2</span>,<span class="fu">nrow</span>(d2)),<span class="fu">rep</span>(<span class="fl">40.8</span>,<span class="fu">nrow</span>(d2)))  <span class="co">#location of naples</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>coord_restaurants <span class="ot">=</span> <span class="fu">cbind</span>(d2<span class="sc">$</span>longitude,d2<span class="sc">$</span>latitude)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>distvec <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">nrow</span>(d2))</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d2))</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  distvec[n] <span class="ot">=</span> <span class="fu">distm</span>( coord_restaurants[n,], coord_naples[n,], <span class="at">fun =</span> distGeo)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>d2<span class="sc">$</span>distvec <span class="ot">=</span> distvec <span class="sc">/</span> <span class="dv">1609</span> <span class="co">#convert to miles since we are in the US :)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It’s not tidyverse style, which I tried first but couldn’t get it to work. The trusty old for-loop seems to always work for me. I checked the numbers in distvec, they look reasonable.</p>
+<p>Ok, let’s redo the plots above, now with distance to Naples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>distvec, <span class="at">y =</span> comm_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>distvec, <span class="at">y =</span> crit_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>distvec, <span class="at">y =</span> dave_score)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(p1, p2, p3, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>,<span class="st">'C'</span>), <span class="at">label_size =</span> <span class="dv">12</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/plot-naples-distance-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hm ok, no smoking gun. Looks like there is a bit of a trend that the further away you are from Naples, the lower the score. But really not much.</p>
+</section>
+<section id="hyping-our-result" class="level1">
+<h1>Hyping our result</h1>
+<p>But since this distance-from-Naples makes such a good story, let’s see if I can hype it.</p>
+<p>First, to increase potential statistical strength, I’ll combine all 3 scores into an overall mean, i.e.&nbsp;similar ot the <code>all</code> variable in the original. I don’t trust that one since I don’t know if they averaged over 0 instead of properly treating it as NA. Of course I could check, but I’m just re-creating it here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>d2<span class="sc">$</span>all_score <span class="ot">=</span> <span class="fu">rowMeans</span>(<span class="fu">cbind</span>(d2<span class="sc">$</span>dave_score,d2<span class="sc">$</span>crit_score,d2<span class="sc">$</span>comm_score),<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok, let’s check if correlation between this new score and distance is <em>significant!</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compute a linear fit and p-value (it's significant!)</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">=</span><span class="fu">lm</span>(d2<span class="sc">$</span>all_score <span class="sc">~</span> d2<span class="sc">$</span>distvec, <span class="at">data =</span> d2)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = d2$all_score ~ d2$distvec, data = d2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.7854 -0.5866  0.3027  0.9612  2.3686 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  8.9895014  0.7008802  12.826  &lt; 2e-16 ***
+d2$distvec  -0.0004772  0.0001525  -3.129  0.00187 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.478 on 459 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared:  0.02089,   Adjusted R-squared:  0.01875 
+F-statistic: 9.791 on 1 and 459 DF,  p-value: 0.001865</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pval<span class="ot">=</span><span class="fu">anova</span>(fit)<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">1</span>]</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pval)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001865357</code></pre>
+</div>
+</div>
+<p>It is signficant, p&lt;0.05! We hit pay dirt! Let’s make a great looking figure and go tell the press!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#make final plot</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>distvec, <span class="at">y =</span> all_score)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"red"</span>,  <span class="at">size =</span> <span class="dv">2</span> ) <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">'Distance from Naples (miles)'</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">'Pizza Quality (score)'</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="fl">2.5</span>,<span class="fu">max</span>(d2<span class="sc">$</span>all_score))) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span><span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>), <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">"bold"</span>)) <span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="dv">6000</span>, <span class="at">y=</span><span class="dv">9</span>, <span class="at">label=</span> <span class="fu">paste</span>(<span class="st">"p ="</span>,<span class="fu">round</span>(pval,<span class="dv">4</span>)),<span class="at">size =</span> <span class="dv">12</span>) </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">'pizzadistance.png'</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"pizzadistance.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="pizzadistance.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-press-release" class="level1">
+<h1>The “press release”</h1>
+<p>A novel study of pizza restaurants in the US found a clear, statistically significant correlation between the distance of the restaurant to Naples and the quality of the pizza as determined by the community and expert restaurant critics. The study authors attribute the finding to the ability of restaurants that are closer to Naples to more easily get genuine fresh and high quality ingredients, such as the famous San Marzano tomatoes.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pizzadistance.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>That was a fun exploration. It was the first time I played with the tidyverse data. I had no idea which direction it was going to go, and ideas just came as I was doing it. I’m sure there is interesting stuff in datasets 1 and 3 as well, but I already spent several hours on this and will therefore call it quits now.</p>
+<p>While the exercise was supposed to focus on cleaning/wrangling and visualizing, I couldn’t resist going all the way at the end and producing a <strong>statistically significant</strong> and <strong>somewhat plausible sounding</strong> finding. If this were a “real” study/analysis, such a nice result would be happily accepted by most analysts/authors, hyped by a university press release and - if the result is somewhat interesting/cute, picked up by various media outlets.</p>
+<p>I had no idea at the beginning what I was going to analyze, I did that longitude/latitude analysis on a whim, and if I hadn’t found this correlation and had that crazy <em>distance to Italy</em> idea, nothing would have happened. But now that I have a <strong>significant</strong> result and a good story to go with, I can publish! It’s not really much sillier than for instance the <a href="https://www.nejm.org/doi/full/10.1056/NEJMon1211064">Chocolate and Nobel Laureates paper</a> paper.</p>
+<p>What I illustrated here (without having had any plan to do so), is a big, general problem in secondary data analysis. It’s perfectly ok to do secondary analyses, and computing significance is also (kinda) ok, but selling exploratory (fishing) results as inferential/causal/confirmatory is wrong - and incredibly widespread. If you want to sharpen your critical thinking skills related to all those supposed significant and <em>real</em> findings in science we see a lot, a great (though at times sobering) read is <a href="https://statmodeling.stat.columbia.edu/">Andrew Gelman’s blog</a> where he regularly picks apart studies/results like the one I did here or the chocolate and Nobel laureates one. And now I’ll go eat some chocolate so I can increase my chances for a Nobel prize.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+
+
+/* definition of content for the buttons */
+
+const webex_buttons = {check_hidden:          "<b>&check;</b>",
+
+                       check_hidden_alt:      "Check answer",
+
+                       check_shown:           "<b>&lsh;</b>",
+
+                       check_shown_alt:       "Hide check",
+
+                       check_of_total:        "/",
+
+                       solution:              "<b>&quest;</b>",
+
+                       solution_alt:          "Correct solution",
+
+                       question_next:         "<b>&#8634;</b>",
+
+                       question_next_alt:     "Next question",
+
+                       question_previous:     "",
+
+                       question_previous_alt: ""}
+
+
+
+/* update total correct if #webex-total_correct exists */
+
+update_total_correct = function() {
+
+  console.log("webex: update total_correct");
+
+
+
+  document.querySelectorAll(".webex-total_correct").forEach(total => {
+
+    p = total.closest(".webex-box");
+
+    var correct = p.getElementsByClassName("webex-correct").length;
+
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    /* no specific class on input node, thus searching via query selector */
+
+    var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
+
+
+
+    /* show number of correct / total number of answers */
+
+    total.innerHTML = correct + "&nbsp;" + webex_buttons.check_of_total + "&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
+
+  });
+
+}
+
+
+
+/* check answers */
+
+check_func = function() {
+
+  console.log("webex: check answer");
+
+
+
+  //var cl = this.parentElement.classList;
+
+  var cl = this.closest(".webex-box").classList;
+
+  if (cl.contains("unchecked")) {
+
+    cl.remove("unchecked");
+
+    this.innerHTML = webex_buttons.check_shown; //"Hide check";
+
+    if (webex_buttons.check_shown_alt.length > 0) this.setAttribute("title", webex_buttons.check_shown_alt);
+
+  } else {
+
+    cl.add("unchecked");
+
+    this.innerHTML = webex_buttons.check_hidden; //"Check answer";
+
+    if (webex_buttons.check_hidden_alt.length > 0) this.setAttribute("title", webex_buttons.check_hidden_alt);
+
+  }
+
+}
+
+
+
+/* Show/hide correct solution */
+
+solution_func = function() {
+
+  console.log("webex: show/hide solution");
+
+
+
+  var div = this.closest(".webex-question").querySelector(".webex-solution");
+
+  var cl = div.classList;
+
+
+
+  if (cl.contains("visible")) {
+
+    cl.remove("visible");
+
+  } else {
+
+    cl.add("visible");
+
+  }
+
+}
+
+
+
+/* function to check if the real answer is numeric */
+
+convert_to_numeric = function(x) {
+
+    if (typeof x == "string") {
+
+        /* do nothing */
+
+    } else if (x.length == 1) {
+
+        /* take first element */
+
+        x = x[0]
+
+    } else {
+
+        return NaN;
+
+    }
+
+
+
+    /* remove spaces for easier parsing */
+
+    x = x.replace(/\s/g, "");
+
+
+
+    /* Define patterns for different formats, note that spaces have been removed above */
+
+    const patterns = [
+
+        {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
+
+        {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
+
+        {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
+
+        {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+
+    ];
+
+
+
+    /* testing all regular expressions, convert to float if possible */
+
+    for (const { regex, decimal, thousand } of patterns) {
+
+        if (regex.test(x)) {
+
+            let numeric = x;
+
+            if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
+
+            numeric = numeric.replace(decimal, ".");
+
+            return parseFloat(numeric);
+
+        }
+
+    }
+
+    
+
+    /* input of length 1 but none of the known formats, return NaN */
+
+    return NaN;
+
+}
+
+
+
+/* function for checking solveme answers */
+
+solveme_func = function(e) {
+
+  /* avoid that keyup and keychange twice execute this function within nms = 10
+
+   * ms, clearing inputTimer and add timeout */
+
+  console.log("webex: check solveme");
+
+
+
+  /* float, precision for checking numeric answers */
+
+  const eps = 0.00000000000001;
+
+
+
+  /* get last checked user answer */
+
+  const question = this.closest(".webex-question")
+
+
+
+  /* extracting classes */
+
+  var cl = this.classList;
+
+  var my_answer = this.value;
+
+
+
+  /* empty answer? Job done */
+
+  if (my_answer == "") {
+
+    cl.remove("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+    return false;
+
+  }
+
+
+
+  /* "Else" we continue evaluating the answer */
+
+  var real_answers = JSON.parse(this.dataset.answer);
+
+
+
+  /* by default we assume the users' answer is incorrect */
+
+  var user_answer_correct = false;
+
+
+
+  /* check if the correct answer is numeric, i.e. if 
+
+   * real_answers is of length 1 containing one single numeric
+
+   * value in a known format, else, NaN is returned */
+
+  const num_real_answer = convert_to_numeric(real_answers);
+
+  const num_my_answer   = convert_to_numeric(my_answer);
+
+
+
+  /* if the correct answer is numeric (float), the user's answer
+
+   * must also be numeric. If not, it is wrong. Else we can
+
+   * compare floating point numbers */
+
+  if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
+
+    //DEV// console.log("webex: evaluating numeric answer")
+
+    /* check if the real answer and the user input are numerically the same;
+
+     * adding 'delta' to avoid precision issues */
+
+    var diff = Math.abs(num_real_answer - num_my_answer);
+
+    if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
+
+
+
+  /* if the question contains regex, a regular expression is used
+
+   * to evaluate the users answer (only possible if length of answers is 1) */
+
+  } else if (cl.contains("regex") && real_answers.length == 1) {
+
+    //console.log("webex: evaluating answer using regular expression")
+
+    let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
+
+    if (regex.test(my_answer)) { user_answer_correct = true; }
+
+
+
+  /* else we evaluate on 'string level', considering the creators preferences
+
+   * regarding set options */
+
+  } else {
+
+    //console.log("webex: evaluating string answer")
+
+    /* modify/prepare answer */
+
+    if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
+
+    if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
+
+
+
+    /* if the real answer includes user input - correct */
+
+    if (real_answers.includes(my_answer)) {
+
+      user_answer_correct = true;
+
+  
+
+      // added regex bit
+
+      if (cl.contains("regex")) {
+
+        answer_regex = RegExp(real_answers.join("|"))
+
+        if (answer_regex.test(my_answer)) {
+
+          cl.add("webex-correct");
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+
+  if (user_answer_correct) {
+
+      cl.add("webex-correct");
+
+      cl.remove("webex-incorrect");
+
+  } else {
+
+      cl.add("webex-incorrect");
+
+      cl.remove("webex-correct");
+
+  }
+
+
+
+  update_total_correct();
+
+
+
+}
+
+
+
+/* function for checking select answers */
+
+select_func = function(e) {
+
+  console.log("webex: check select");
+
+
+
+  var cl = this.classList
+
+
+
+  /* add style */
+
+  cl.remove("webex-incorrect");
+
+  cl.remove("webex-correct");
+
+  if (this.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else if (this.value != "blank") {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking radiogroups answers */
+
+radiogroups_func = function(e) {
+
+  console.log("webex: check radiogroups");
+
+
+
+  var checked_button = document.querySelector("input[name=" + this.id + "]:checked");
+
+  var cl = checked_button.parentElement.classList;
+
+  var labels = checked_button.parentElement.parentElement.children;
+
+
+
+  /* get rid of styles */
+
+  for (i = 0; i < labels.length; i++) {
+
+    labels[i].classList.remove("webex-incorrect");
+
+    labels[i].classList.remove("webex-correct");
+
+  }
+
+
+
+  /* add style */
+
+  if (checked_button.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+
+
+/* function for checking checkboxgroups answers */
+
+checkboxgroups_func = function(e) {
+
+  console.log("webex: check checkboxgroups");
+
+
+
+  /* list of all answer elements (correct and incorrect) */
+
+  var inputs = document.querySelectorAll("div[id='" + this.id + "'] input")
+
+
+
+  /* setting class for correct/incorrect answers */
+
+  inputs.forEach(function(input) {
+
+      var label = input.parentNode
+
+      if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
+
+          //input.setAttribute("class", "webex-correct")
+
+          label.setAttribute("class", "webex-correct")
+
+      } else {
+
+          label.setAttribute("class", "webex-incorrect")
+
+      }
+
+  });
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* shuffling array (thanks to stack overflow)
+
+ * If argument x is an integer we create an integer sequence
+
+ * from 0, 1, ..., (x - 1) and return a shuffled version. If
+
+ * the input is an array, we simply shuffle it */
+
+shuffle_array = function(x) {
+
+   if (Number.isInteger(x) && !isNaN(x)) {
+
+     x = Array.from({length: x}, (v, i) => i);
+
+   }
+
+   let shuffled = x.map(value => ({ value, sort: Math.random() }))
+
+        .sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+
+   return shuffled;
+
+}
+
+
+
+/* ---------------------------------------------------------
+
+ * ---------------------------------------------------------
+
+ * --------------------------------------------------------- */
+
+window.onload = function() {
+
+  console.log("webex onload");
+
+
+
+  /* setting up buttons and actions to show/hide answers */
+
+  document.querySelectorAll(".webex-check").forEach(section => {
+
+    section.classList.add("unchecked");
+
+
+
+    /* ul to take up the list items with buttons */
+
+    let button_ul = document.createElement("ul");
+
+    button_ul.setAttribute("class", "webex-button-list");
+
+    section.appendChild(button_ul);
+
+
+
+    /* button to _check_ if answers given are correct */
+
+    let li_check = document.createElement("li");
+
+    button_ul.appendChild(li_check); /* add list item to ul */
+
+    let btn_check = document.createElement("button");
+
+    btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
+
+    btn_check.setAttribute("class", "webex-button webex-button-check");
+
+    if (webex_buttons.check_hidden_alt.length > 0) btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
+
+    btn_check.onclick = check_func;
+
+    li_check.appendChild(btn_check);
+
+
+
+    /* span to show current number of points (when _check_ active) */
+
+    let spn = document.createElement("span");
+
+    spn.classList.add("webex-total_correct");
+
+    li_check.appendChild(spn);
+
+
+
+    /* button to show the _solution_ if there is one */
+
+    var has_solution = section.parentNode.querySelectorAll(".webex-solution").length > 0;
+
+    if (has_solution) {
+
+      let li_solution = document.createElement("li");
+
+      button_ul.appendChild(li_solution); /* add list item to ul */
+
+      let btn_solution = document.createElement("button");
+
+      btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
+
+      btn_solution.setAttribute("class", "webex-button webex-button-solution");
+
+      if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
+
+      btn_solution.onclick = solution_func;
+
+      li_solution.appendChild(btn_solution);
+
+    }
+
+
+
+  });
+
+
+
+  /* set up webex-solveme inputs */
+
+  document.querySelectorAll(".webex-solveme").forEach(solveme => {
+
+    solveme.setAttribute("autocomplete","off");
+
+    solveme.setAttribute("autocorrect", "off");
+
+    solveme.setAttribute("autocapitalize", "off");
+
+    solveme.setAttribute("spellcheck", "false");
+
+    solveme.value = "";
+
+
+
+    /* adjust answer for ignorecase or nospaces */
+
+    if (solveme.classList.contains("ignorecase")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.toLowerCase();
+
+    }
+
+    /* adjust answer for 'no spaces' (ignore spaces) */
+
+    if (solveme.classList.contains("nospaces")) {
+
+      solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");
+
+    }
+
+
+
+    /* attach checking function, triggered on key up, change, and when
+
+     * elemnt is out of focus. Only evaluated once by tracking changes
+
+     * via variable solveme_last_user_answer */
+
+    solveme.addEventListener("keyup",  solveme_func);
+
+    solveme.addEventListener("change", solveme_func);
+
+    solveme.addEventListener("blur",   solveme_func);
+
+
+
+    /* adding span to show correct/incorrect icon */
+
+    solveme.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  });
+
+
+
+  /* set up radiogroups (single choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
+
+    radiogroup.onchange = radiogroups_func;
+
+  });
+
+
+
+  /* set up checkboxgroups (multiple choice questions with display = "buttons") */
+
+  document.querySelectorAll(".webex-checkboxgroup").forEach(checkboxgroup => {
+
+    checkboxgroup.onchange = checkboxgroups_func;
+
+  });
+
+
+
+  /* set up selects (dropdown menus) */
+
+  document.querySelectorAll(".webex-select").forEach(select => {
+
+    select.onchange = select_func;
+
+    /* append webex-icon for correct/incorrect icons */
+
+    var elem = document.createElement("span")
+
+    elem.classList.add("webex-icon")
+
+    select.parentNode.appendChild(elem)
+
+  });
+
+
+
+  /* change to next/previous question if multiple are available */
+
+  function handleQuestionClick(group, questions, step) {
+
+    return async function() {
+
+      /* get question order as integer vector */
+
+      let questionOrder = group.dataset.questionOrder.split(",").map(str => parseInt(str));
+
+
+
+      /* current question/position */
+
+      let currentPosition = parseInt(group.dataset.currentPosition);
+
+  
+
+      /* Hide the current question */
+
+      questions.forEach(question => { question.classList.remove("active"); });
+
+
+
+      /* Move to the next question index */
+
+      currentPosition = (currentPosition + step) % questionOrder.length;
+
+      if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
+
+
+
+      /* Display the new question */
+
+      // devel // console.log("set question " + questionOrder[currentPosition] +
+
+      // devel //             " (" + currentPosition + ") as active");
+
+      questions[questionOrder[currentPosition]].classList.add("active");
+
+  
+
+      // Update the currentPosition data attribute on the group div
+
+      group.dataset.currentPosition = currentPosition;
+
+    };
+
+  }
+
+
+
+  
+
+  document.querySelectorAll(".webex-group").forEach(group => {
+
+    const questions = Array.from(group.querySelectorAll(".webex-question"));
+
+    const questionOrder = shuffle_array(questions.length);
+
+
+
+    /* take start position (if set) or start at 0 */
+
+    const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
+
+
+
+    /* show the default question for each group */
+
+    questions[questionOrder[currentPosition]].classList.add("active");
+
+    // devel // console.log("set question " + questionOrder[currentPosition] +
+
+    // devel //             " (" + currentPosition + ") as active; " + questionOrder);
+
+  
+
+    /* store random order of questions as well as current position */
+
+    group.dataset.questionOrder   = questionOrder;
+
+    group.dataset.currentPosition = currentPosition;
+
+
+
+    /* find all webex-questions, search for .webex-button-list and
+
+     * populate the list with necessary <li><button>...</button></li> elements */
+
+    questions.forEach(question => {
+
+        let button_ul = question.querySelector("ul.webex-button-list");
+
+
+
+        let li_next = document.createElement("li");
+
+        let nextButton = document.createElement("button");
+
+        nextButton.setAttribute("class", "webex-button webex-button-next");
+
+        if (webex_buttons.question_next_alt.length > 0) nextButton.setAttribute("title", webex_buttons.question_next_alt);
+
+        nextButton.innerHTML = webex_buttons.question_next; // "Next question";
+
+        nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
+
+        li_next.appendChild(nextButton);
+
+
+
+        let li_previous = document.createElement("li");
+
+        let previousButton = document.createElement("button");
+
+        previousButton.setAttribute("class", "webex-button webex-button-previous");
+
+        if (webex_buttons.question_previous_alt.length > 0) previousButton.setAttribute("title", webex_buttons.question_previous_alt);
+
+        previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
+
+        previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
+
+        li_previous.appendChild(previousButton);
+
+
+
+        console.log(button_ul);
+
+        if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
+
+        if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
+
+    });
+
+  });
+
+
+
+
+
+  update_total_correct();
+
+}
+
+
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.andreashandel\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-regular fa-copyright" aria-label="copyright"></i> Andreas Handel, 2024<br> All content licensed under <i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i> <i class="fa-brands fa-creative-commons-nc" aria-label="creative-commons-nc"></i> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">(CC BY-NC-SA 4.0)</a><br> Opinions are my own and do not represent my employer</p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a><br> Inspiration and code snippets taken from <a href="../..\posts/quarto-website-migration.html">these folks</a><br> <a href="https://github.com/andreashandel/andreashandelwebsite">Source at <i class="fa-brands fa-github" aria-label="github"></i> GitHub</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
