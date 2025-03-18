@@ -1,0 +1,18 @@
+---
+title: Modeling the role of dose for infection and vaccination outcomes
+event: 2025 Pudong CDD Training Workshop 
+location: Athens, GA
+date: "2025-03-26" 
+date-modified: "2025-03-26"
+image: featured.png
+image-alt: viral kinetics for norovirus  
+categories:
+  - Research
+  - Vaccines
+  - Influenza
+  - Norovirus
+---
+
+
+<a href="2025-03-pudong-workshop.html" target="_blank">These are the slides</a> for this presentation.
+
