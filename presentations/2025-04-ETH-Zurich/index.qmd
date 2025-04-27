@@ -1,0 +1,18 @@
+---
+title: Assessing the impact of dose on infection and vaccination outcomes
+event: 2025 Presentation at ETH Zurich 
+location: Zurich, Switzerland
+date: "2025-04-25" 
+date-modified: "2025-04-25"
+image: featured.png
+image-alt: mechanistic model for viral infection  
+categories:
+  - Research
+  - Incolum Dose
+  - Influenza
+  - Norovirus
+---
+
+
+<a href="2025-04-ETH-Zurich.html" target="_blank">These are the slides</a> for this presentation.
+
