@@ -1,0 +1,19 @@
+---
+title: Modeling introduction and tools
+event: 2025 CEIRR Annual meeting 
+location: Athens, GA
+date: "2025-05-27" 
+image: featured.png
+image-alt: basic immune model diagram  
+categories:
+  - Research
+  - Influenza
+  - Modeling
+---
+
+Two presentations given at the 2025 Annual [Centers of Excellence for Influenza Research and Response (CEIRR)](https://www.ceirr-network.org/) meeting.
+
+Slides for the presentation <a href="Handel-CEIRR-Modeling-Resources.html" target="_blank">Some tools and resources for modeling</a>.
+
+Slides for the presentation <a href="2025-05-CEIRR-mechanistic-modeling.html" target="_blank">Introduction to Mechanistic/Simulation Modeling</a>.
+
