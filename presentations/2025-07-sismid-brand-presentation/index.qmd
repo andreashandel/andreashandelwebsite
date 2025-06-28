@@ -1,0 +1,18 @@
+---
+title:  Building and curating your brand (online presence)
+description: Slides for a presentation and discussion at SISMID 2025
+event: Workshop
+location: Atlanta, US 
+date: 2025-07-09
+image: mercedes-brand.jpg
+image-alt: Picture of the Mercedes star
+categories:
+  - Career
+---
+
+
+These are slides for a presentation on online presence/brand building as part of two career development workshops (one online, one in-person) at [SISMID 2025](https://sismid.sph.emory.edu/professional-development/index.html).
+
+<a href="2025-SISMID-building-your-brand.html" target="_blank">The presentation slides are here.</a>
+
+
