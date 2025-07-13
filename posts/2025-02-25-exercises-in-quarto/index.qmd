@@ -3,7 +3,7 @@ title: Quizzes and exercises for Quarto websites
 description: Some notes on implementing simple quizzes and exercises within Quarto based (teaching) websites.
 author: Andreas Handel
 date: 2025-02-25
-date-modified: 2025-02-25
+date-modified: 2025-07-12
 aliases: 
   - ../quizzes-exercises-quarto/
 categories: 
@@ -29,7 +29,7 @@ I am currently using [Quarto](https://quarto.org) for my [course websites](https
 - Programming language idependent
 - Definitely support multiple choice questions, if also supports coding exercises/questions, even better.
 
-I figured I write down what I explored. Mostly for my future self who won't be able to remember any of that in a few weeks [^1]. And maybe others find it useful too.
+I figured I write down what I explored. Mostly for my future self who won't be able to remember any of that in a few weeks[^1]. And maybe others find it useful too.
 
 [^1]: Just the other day I wanted to know how to customize Quarto callouts and a quick Google search turned up a [helpful blogpost](https://www.andreashandel.com/posts/2023-06-13-custom-callouts-quarto/) that seemed vaguely familiar 😂. Turns out I had the same question and figured it out about 2 years ago - I'm getting old 🙄.
 
@@ -116,7 +116,7 @@ In the meantime, I'll keep checking every so often, maybe someone will develop w
 
 # Acknowledgments
 
-I want to acknowledge all those folks generating the tools I describe above - even if a this point, none areexactly doing what I'm looking for 😁. 
+I want to acknowledge all those folks generating the tools I describe above - even if a this point, none are exactly doing what I'm looking for 😁. 
 
 
 
@@ -137,6 +137,14 @@ The following shows a simple example of making and embedding questions into a Qu
 
 Step 3: Load that question inside your Quarto document with code like this:
 
+```{.r}
+#| echo: false
+#| results: "asis"
+library("exams2forms")
+exams2forms::exams2forms(file = "test-quiz.Rmd", title = 'test quiz', browse = FALSE)
+```
+
+Which will result in this output in your rendered Quarto document:
 
 ```{r qsp-quiz}
 #| echo: false
@@ -146,7 +154,7 @@ exams2forms::exams2forms(file = "test-quiz.Rmd", title = 'test quiz', browse = F
 ```
 
 
-Or do an inline question with code like this:
+Or do an inline question like this:
 
 Which of these is the most fun sport?
 `r exams2forms::forms_schoice(c("Cricket", "Soccer", "Mountain Biking", "Synchronized Swimming"), c(FALSE, FALSE, TRUE, FALSE), display = "dropdown")`
