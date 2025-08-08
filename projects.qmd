@@ -3,8 +3,8 @@ title: "Projects"
 listing:
   contents: projects
   sort: "title"
-  type: grid
-  image-height: 260px
+  type: default
+  image-align: left
   categories: true
   sort-ui: true
   filter-ui: true
@@ -12,3 +12,6 @@ page-layout: full
 title-block-banner: false
 comments: false
 ---
+
+This page contains a list of projects I have worked on. 6 of those are R packages for either research or teaching (or both), 3 are websites that contain materials for online courses I teach, and one is an online textbook that I wrote for one of the courses. Each project has its dedicated website, where you can learn more.
+

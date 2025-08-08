@@ -1,7 +1,6 @@
 ---
 title: "Modern Applied Data Analysis"
 description: "Complete materials of an online course on Modern Applied Data Analysis"
-author: Andreas Handel
 image: featured.png
 image-alt: MADA course logo
 categories:

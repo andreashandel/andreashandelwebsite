@@ -15,6 +15,8 @@
 
 ## Needed R packages
 
+UPDATE: renv IS TOO SLOW, I REMOVED IT.
+
 We use renv to manage the packages needed. It usually finds automatically what is needed. As a backup, this is a hopefully complete list of all R packages needed to recompile all the posts of the website:
 
 install.packages(c('cowplot','geosphere','scholar','wordcloud','bibliometrix','tidytext','visdat','kableExtra','janitor','ggplot2','dplyr','stringr','tidytuesdayR','readr','emoji',"rethinking","cmdstanr","brms","cmdstanr"))
