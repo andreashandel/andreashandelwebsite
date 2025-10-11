@@ -5,3 +5,4 @@ Thumbs.db
 /.quarto/
 /_site/
 /_*.local
+**/*.quarto_ipynb
