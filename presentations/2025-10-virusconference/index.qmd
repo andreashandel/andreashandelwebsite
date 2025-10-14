@@ -1,5 +1,5 @@
 ---
-title: Modeling the impact of high-dose versus standard-dose influenza vaccines on antibody breadth and vaccine efficacy
+title: Modeling the impact of high-dose versus standard-dose influenza vaccines on strength and breadth of the antibody response
 event: Conference Presentation
 location: Bordeaux, France 
 date: "2025-10-15"
