@@ -1,0 +1,15 @@
+---
+title: Modeling the impact of high-dose versus standard-dose influenza vaccines on strength and breadth of the antibody response
+event: Conference Presentation
+location: Bordeaux, France 
+date: "2025-10-15"
+image: featured.png
+image-alt: impact of dose on flu response
+categories:
+  - Research
+  - Vaccines
+  - Influenza
+  - Presentation
+---
+
+<a href="2025-10-Handel-VirusDynamics.html" target="_blank">These are the slides</a> for a presentation given at the 7th Workshop on Virus Dynamics.
