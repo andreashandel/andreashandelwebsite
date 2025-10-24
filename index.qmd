@@ -7,15 +7,15 @@ about:
     - icon: globe
       text: Web
       href: https://www.andreashandel.com
-    - icon: github
-      text: Github
-      href: https://github.com/andreashandel
-    - text: "Bluesky {{< fa brands bluesky >}}"
-      icon: fa-brands fa-bluesky
-      href: https://bsky.app/profile/andreashandel.bsky.social
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/andreashandel/
+    - icon: github
+      text: Github
+      href: https://github.com/andreashandel
+    # - text: "Bluesky {{< fa brands bluesky >}}"
+    #   icon: fa-brands fa-bluesky
+    #   href: https://bsky.app/profile/andreashandel.bsky.social
     - text: "Google Scholar {{< fa brands google-scholar >}}"
       href: https://scholar.google.com/citations?user=bruHK0YAAAAJ&hl=en
     - text: "ORCID {{< fa brands orcid >}}"
@@ -34,11 +34,11 @@ redirects <- paste0("/talk /presentations \n/talks /presentations \n/post /posts
 writeLines(redirects, here::here("_site", "_redirects"))
 ```
 
-I am currently the UGA Foundation Professor in Public Health and Associate Department Head in the [Department of Epidemiology and Biostatistics](https://publichealth.uga.edu/departments/epidemiology-biostatistics/), [College of Public Health](https://www.publichealth.uga.edu/), at the [University of Georgia (UGA)](https://www.uga.edu/).
+I am currently the UGA Foundation Professor in Public Health and Deputy/Associate Head in the [Department of Epidemiology and Biostatistics](https://publichealth.uga.edu/departments/epidemiology-biostatistics/) at the [University of Georgia (UGA)](https://www.uga.edu/).
 
 My research and teaching is in the area of data analytics, statistical inference, and computational modeling, with a focus on infectious diseases.
 
-This website contains [a short bio](about.qmd) and products such as [blog posts](posts.qmd), [presentations](presentations.qmd), and [various tools and resources related to teaching and research](projects.qmd).
+This website contains [a short bio](about.qmd) and products such as [blog posts](posts.qmd), [presentations](presentations.qmd), and [various projects related to teaching and research](projects.qmd).
 
 More research related details can be found [on my research group site](https://handelgroup.uga.edu/). Some overlap between the two sites might occur.
 

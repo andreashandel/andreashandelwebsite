@@ -8,7 +8,7 @@ image: featured.png
 image-alt: mechanistic model for viral infection  
 categories:
   - Research
-  - Incolum Dose
+  - Inocolum Dose
   - Influenza
   - Norovirus
 ---
