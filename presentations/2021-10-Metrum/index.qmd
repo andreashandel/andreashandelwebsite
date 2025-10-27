@@ -7,9 +7,9 @@ date: "2021-10-26"
 image: featured.png
 image-alt: Dose-outcome relation for Vaccines
 categories:
-
 - Research
-- Data Science
+- Dose
+- Vaccines
 ---
 
 <a href="2021_10_MetrumRG.html" target="_blank">These are the slides</a> for a presentation I gave to team members of [Metrum Research Group](https://www.metrumrg.com/).

@@ -9,7 +9,7 @@ image: featured.png
 image-alt: Norovirus antibody kinetics
 categories:
   - Research
-  - Inoculum Dose
+  - Dose
   - Norovirus
   - Influenza
 ---

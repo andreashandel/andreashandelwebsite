@@ -12,7 +12,7 @@ categories:
   - Research
   - Influenza
   - Vaccines
-  - Inoculum Dose
+  - Dose
 ---
 
 These are slides for a talk discussing some of my past and present work on the role of inoculum dose for infection and vaccination. <a href="2021_02_U01.html" target="_blank">The presentation slides are here.</a>

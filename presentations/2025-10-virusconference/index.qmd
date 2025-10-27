@@ -9,7 +9,7 @@ categories:
   - Research
   - Vaccines
   - Influenza
-  - Presentation
+  - Dose
 ---
 
 <a href="2025-10-Handel-VirusDynamics.html" target="_blank">These are the slides</a> for a presentation given at the 7th Workshop on Virus Dynamics.

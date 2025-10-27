@@ -12,7 +12,7 @@ categories:
   - Research
   - Influenza
   - Vaccines
-  - Inoculum Dose
+  - Dose
 ---
 
 These are slides for a talk discussing the role of dose for the FluZone Influenza Vaccines.<a href="2021_04_CIVIC.html" target="_blank">The presentation slides are here.</a>
