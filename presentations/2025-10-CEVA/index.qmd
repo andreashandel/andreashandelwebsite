@@ -1,0 +1,14 @@
+---
+title: Statistical analysis and modeling of vaccines
+event: Meeting Presentation
+location: Libourne, France 
+date: "2025-10-13"
+image: featured.jpg
+image-alt: impact of different norovirus vaccination strategies
+categories:
+  - Research
+  - Vaccines
+  - Modeling
+---
+
+<a href="2025-10-CEVA.html" target="_blank">These are the slides</a> for a presentation given at a meeting with scientists from Ceva Santé Animale.
