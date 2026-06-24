@@ -2,7 +2,7 @@
 title: ""
 about:
   template: trestles
-  image: files/avatar.jpg
+  image: files/andreashandel.jpg
   links:
     - icon: globe
       text: Web
@@ -13,9 +13,6 @@ about:
     - icon: github
       text: Github
       href: https://github.com/andreashandel
-    # - text: "Bluesky {{< fa brands bluesky >}}"
-    #   icon: fa-brands fa-bluesky
-    #   href: https://bsky.app/profile/andreashandel.bsky.social
     - text: "Google Scholar {{< fa brands google-scholar >}}"
       href: https://scholar.google.com/citations?user=bruHK0YAAAAJ&hl=en
     - text: "ORCID {{< fa brands orcid >}}"
