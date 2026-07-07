@@ -2,6 +2,8 @@
 
 * Update this document to reflect move to Quarto.
 * Fix logos on project page
+* Finish the bayesian fitting with ODE sequence of posts
+
 
 # Notes 
 
@@ -12,12 +14,14 @@
 
 * Using these Quarto extensions: fontawsome, include-code-files
 
+* Some of the html files in the presentation folders are very large. Ok for now, but at some point I might want to remove or otherwise condense.
+
 
 ## Needed R packages
 
-UPDATE: renv IS TOO SLOW, I REMOVED IT.
+Renv is too slow, so I'm not using it.
 
-We use renv to manage the packages needed. It usually finds automatically what is needed. As a backup, this is a hopefully complete list of all R packages needed to recompile all the posts of the website:
+This is a hopefully complete list of all R packages needed to recompile all the posts of the website:
 
 install.packages(c('cowplot','geosphere','scholar','wordcloud','bibliometrix','tidytext','visdat','kableExtra','janitor','ggplot2','dplyr','stringr','tidytuesdayR','here','readr',"brms",'cmdstanr','rmkardown'))
 
