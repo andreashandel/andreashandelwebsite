@@ -13,5 +13,5 @@ title-block-banner: false
 comments: false
 ---
 
-This page contains a list of projects I have worked on. 6 of those are R packages for either research or teaching (or both), 3 are websites that contain materials for online courses I teach, and one is an online textbook that I wrote for one of the courses. Each project has its dedicated website, where you can learn more.
+This page contains a list of projects I have worked on. They are a mix of R packages for either research or teaching (or both); websites that contain materials for online courses I teach, an online textbook (in perpetual draft form), and some additional resources. Each project has its dedicated website, where you can learn more.
 

@@ -1,0 +1,14 @@
+---
+title: Reproducible, AI-assisted modeling and data science (MDS) projects
+event: Tutorial
+location: Berlin, Germany
+date: "2026-09-08"
+image: featured.png
+image-alt: project setup schematic
+categories:
+  - Research
+  - Data Science
+  - Teaching
+---
+
+<a href="tutorial-presentation.html" target="_blank">These are the slides</a> for a presentation given as part of a tutorial workshop on reproducible data science projects at the monthly Berlin Infectious Disease Dynamics Expertise Network meeting.

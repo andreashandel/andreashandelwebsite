@@ -1,0 +1,14 @@
+---
+title: Model-based evaluation of influenza vaccination outcomes
+event: Conference Presentation
+location: Berlin, Germany 
+date: "2026-09-08"
+image: featured.png
+image-alt: schematic of Bayesian sampling
+categories:
+  - Research
+  - Vaccines
+  - Influenza
+---
+
+<a href="2026-09-Berlin-IDDE.html" target="_blank">These are the slides</a> for a presentation given at the monthly Berlin Infectious Disease Dynamics Expertise Network meeting.

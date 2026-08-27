@@ -1,0 +1,15 @@
+---
+title: "Modeling and Data Science (MDS) project template"
+description: ""
+image: featured.png
+image-alt: MDS template logo
+categories:
+  - Teaching
+  - Research
+  - Data Analysis
+about:
+  template: solana
+  image: featured.png
+---
+
+The [Modeling and Data Science (MDS) Project Template](https://github.com/andreashandel/mds-project-template) provides a framework for a reproducible modeling or data science (MDS) project. It is set up to facilitate reproducible and robust workflows that include AI support.

@@ -1,0 +1,15 @@
+---
+title: "Modeling and Data Science (MDS) Tools"
+description: "A set of short introductory tutorials covering a stack of tools I use for teaching and research"
+image: featured.png
+image-alt: MDS logo
+categories:
+  - Teaching
+  - Course
+  - Data Analysis
+about:
+  template: solana
+  image: featured.png
+---
+
+Modeling and Data Science (MDS) Tools is a stand-alone website I created to cover the ever-evolving set of tools that I use in my classes and research. These are short stand-alone tutorials to help learners get started with a given tool. You can find the materials on the [Modeling and Data Science (MDS) Tools site](https://andreashandel.github.io/mds-tools/).
