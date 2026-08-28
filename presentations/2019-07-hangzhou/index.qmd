@@ -7,9 +7,9 @@ location: Hangzhou, China
 image: featured.png
 date: "2019-07-10"
 categories:
-  - Workshop
-  - Infectious Disease
   - Research
+  - Teaching & Tutorials
+  - Infectious Disease Modeling
 ---
 
 # Preparation

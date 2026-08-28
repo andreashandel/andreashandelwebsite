@@ -9,9 +9,10 @@ image: featured.png
 image-alt: modelbuilder logo
 categories:
   - Research
+  - Infectious Disease Modeling
   - Influenza
-  - R package
-  - Modeling
+  - Immunology & Within-Host Biology
+  - Software & Data Science
 ---
 
 <a href="Handel-CEIRR-CompCore-2023-05.html" target="_blank">These are the slides</a> for this presentation.

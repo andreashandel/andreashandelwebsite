@@ -8,9 +8,8 @@ date-modified: "2024-11-06"
 image: CoP-protection-schematic.png
 image-alt: relation between an immunological marker and protection
 categories:
-  - Teaching
-  - Infectious Disease
-  - Vaccines
+  - Teaching & Tutorials
+  - Vaccines and Therapeutics
 ---
 
 

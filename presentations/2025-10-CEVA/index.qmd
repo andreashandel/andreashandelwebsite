@@ -7,8 +7,9 @@ image: featured.jpg
 image-alt: impact of different norovirus vaccination strategies
 categories:
   - Research
-  - Vaccines
-  - Modeling
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
+  - Software & Data Science
 ---
 
 <a href="2025-10-CEVA.html" target="_blank">These are the slides</a> for a presentation given at a meeting with scientists from Ceva Santé Animale.

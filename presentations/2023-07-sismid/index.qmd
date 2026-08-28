@@ -7,10 +7,9 @@ date: "2023-07-17"
 image: featured.png
 image-alt: SISMID logo
 categories:
-  - Workshop
-  - Teaching
-  - Modeling
-  - Immunology
+  - Teaching & Tutorials
+  - Infectious Disease Modeling
+  - Immunology & Within-Host Biology
 ---
 
 The workshop website, is [here](https://andreashandel.github.io/SISMID2023/). This is mainly for archival reasons. All the useful material is on a dedicated, stand-alone website called [Simulation Modeling in Immunology](https://andreashandel.github.io/SMIcourse/).

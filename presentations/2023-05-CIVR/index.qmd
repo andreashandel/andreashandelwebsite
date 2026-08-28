@@ -9,8 +9,10 @@ image: featured.png
 image-alt: Schematic for antibody response
 categories:
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
+  - Immunology & Within-Host Biology
 ---
 
 

@@ -8,11 +8,11 @@ date: "2021-04-28"
 image: featured.png
 image-alt: flu dose
 categories:
-  
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
-  - Dose
+  - Dose Response
 ---
 
 These are slides for a talk discussing the role of dose for the FluZone Influenza Vaccines.<a href="2021_04_CIVIC.html" target="_blank">The presentation slides are here.</a>

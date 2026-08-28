@@ -9,8 +9,9 @@ image: featured.png
 image-alt: DAG of Vaccines response
 categories:
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
 ---
 
 

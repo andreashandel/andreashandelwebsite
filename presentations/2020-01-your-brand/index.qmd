@@ -9,8 +9,7 @@ date: "2020-01-23"
 image: featured.jpg
 image-alt: Photo by Hans Vivek on Unsplash
 categories:
-  
-  - Career
+  - Career & Professional Development
 ---
 
 These are slides for a talk/discussion I led with our graduate students on ways to build and curate an online presence and overall personal brand. 

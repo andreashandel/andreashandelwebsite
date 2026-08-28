@@ -9,8 +9,9 @@ image: featured.png
 image-alt: Antibody histogram
 categories:
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
 ---
 
 

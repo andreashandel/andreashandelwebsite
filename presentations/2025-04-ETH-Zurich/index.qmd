@@ -8,9 +8,11 @@ image: featured.png
 image-alt: mechanistic model for viral infection  
 categories:
   - Research
-  - Dose
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
   - Norovirus
+  - Dose Response
 ---
 
 

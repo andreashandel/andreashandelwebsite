@@ -7,8 +7,8 @@ date-modified: "2023-10-17"
 image: msbalance.png
 image-alt: Schematic of mutation-selection balance
 categories:
-  - Drugs
-  - Teaching
+  - Teaching & Tutorials
+  - Vaccines and Therapeutics
 ---
 
 

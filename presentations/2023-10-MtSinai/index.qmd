@@ -9,8 +9,10 @@ image: featured.png
 image-alt: CD4 T-cell responses
 categories:
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
+  - Immunology & Within-Host Biology
 ---
 
 

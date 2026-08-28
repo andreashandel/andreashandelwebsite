@@ -8,10 +8,11 @@ date: "2020-12-02"
 image: featured.png
 image-alt: flu dose
 categories:
-  
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
+  - Dose Response
 ---
 
 These are slides for a talk discussing a recent project that investigated the impact of standard-dose versus high-dose Influenza Vaccines on immune responses. I gave the talk during the ISV Virtual Congress North America Influenza Vaccines Symposium. <a href="2020_12_ISV.html" target="_blank">The presentation slides are here.</a>

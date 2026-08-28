@@ -8,9 +8,10 @@ date: "2020-09-15"
 image: featured.jpg
 image-alt: Photo by Ellen Jenni on Unsplash
 categories:
-  
   - Research
+  - Infectious Disease Modeling
   - COVID-19
+  - Influenza
 ---
 
 Short talk for an online webinar hosted by MJH life sciences on the topic [_Battling Dual Threats: Flu and COVID-19 Converge_](https://globalmeet.webcasts.com/starthere.jsp?ei=1369490&tp_key=972e333d5c&sti=mjh_corp). My talk was titled _Population-level patterns of COVID-19 and Flu: What should we expect?_ <a href="2020-09-mjh-flucovid.pdf" target="_blank">The presentation slides are here.</a>

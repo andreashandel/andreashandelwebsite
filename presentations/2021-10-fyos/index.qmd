@@ -8,10 +8,9 @@ date: "2021-10-25"
 image: featured.png
 image-alt: FYOS image
 categories:
-  
-  - Teaching
-  - Modeling
-  - R package
+  - Teaching & Tutorials
+  - Infectious Disease Modeling
+  - Software & Data Science
 ---
 
 These are slides for a talk I gave to a group of undergraduate students as part of a First Year Odyssey Seminar class. I provided a very brief introduction to infectious disease modeling, then we explored the [DSAIDE software](https://ahgroup.github.io/DSAIDE/). <a href="2021-10-fyos.html" target="_blank">The presentation slides are here.</a>

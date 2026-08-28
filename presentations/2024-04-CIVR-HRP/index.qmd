@@ -8,8 +8,10 @@ image: featured.png
 image-alt: pre versus post antibody titers
 categories:
   - Research
-  - Vaccines
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
+  - Immunology & Within-Host Biology
 ---
 
 

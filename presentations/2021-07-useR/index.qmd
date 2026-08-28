@@ -8,10 +8,7 @@ date: "2021-07-07"
 image: featured.png
 image-alt: flowdiagramr image
 categories:
-
-- R package
-- R package
-
+  - Software & Data Science
 ---
 
 Since the package has changed a lot since this presentation, the recorded video is more confusing than helpful. I thus removed it. For the latest on the package, check out the [package website](https://andreashandel.github.io/flowdiagramr/index.html)!

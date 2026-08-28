@@ -7,9 +7,8 @@ location: Vancouver (virtual), Canada
 date: "2020-09-30"
 image: featured.png
 categories:
-  
   - Research
-  - Modeling
+  - Infectious Disease Modeling
   - COVID-19
 ---
 

@@ -9,9 +9,11 @@ image: featured.png
 image-alt: Norovirus antibody kinetics
 categories:
   - Research
-  - Dose
-  - Norovirus
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
+  - Norovirus
+  - Dose Response
 ---
 
 <a href="2022_04_York_seminar.html" target="_blank">These are the slides</a> for a presentation I gave at York University.

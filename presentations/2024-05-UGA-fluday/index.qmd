@@ -8,8 +8,10 @@ image: featured.png
 image-alt: titer increase versus pre-Vaccines titers  
 categories:
   - Research
-  - Vaccines
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
+  - Immunology & Within-Host Biology
 ---
 
 

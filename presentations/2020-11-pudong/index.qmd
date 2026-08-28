@@ -8,10 +8,10 @@ date: "2020-11-18"
 image: featured.png
 image-alt: infectious disease modeling
 categories:
-  
   - Research
-  - Modeling
+  - Infectious Disease Modeling
   - COVID-19
+  - Vaccines and Therapeutics
 ---
 
 These are slides for a talk discussing some recent projects on modeling COVID-19 spread and control. I gave a pre-recorded online talk as part of the 

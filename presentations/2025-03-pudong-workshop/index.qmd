@@ -8,9 +8,12 @@ image: featured.png
 image-alt: viral kinetics for norovirus  
 categories:
   - Research
-  - Vaccines
+  - Teaching & Tutorials
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
   - Norovirus
+  - Dose Response
 ---
 
 

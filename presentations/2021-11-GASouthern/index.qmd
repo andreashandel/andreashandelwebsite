@@ -9,9 +9,10 @@ image: featured.png
 image-alt: Impact of COVID-19 interventions
 categories:
   - Research
-  - Influenza
+  - Infectious Disease Modeling
   - COVID-19
-
+  - Influenza
+  - Software & Data Science
 ---
 
 <a href="2021_11_GASouthern.html" target="_blank">These are the slides</a> for a presentation I gave at GA Southern University.

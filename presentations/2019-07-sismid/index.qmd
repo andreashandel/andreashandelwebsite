@@ -6,9 +6,9 @@ location: Seattle, US
 date: "2019-07-17"
 image: featured.png
 categories:
-- Teaching
-- Infectious Disease
-- Immunology
+  - Teaching & Tutorials
+  - Infectious Disease Modeling
+  - Immunology & Within-Host Biology
 ---
 
 # Preparation

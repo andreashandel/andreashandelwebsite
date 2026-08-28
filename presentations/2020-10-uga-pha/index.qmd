@@ -7,12 +7,10 @@ location: "Athens, GA, US (virtual)"
 date: "2020-10-22"
 image: featured.png
 categories:
-  
   - Research
-  - Modeling
+  - Infectious Disease Modeling
   - COVID-19
-  - Vaccines
-  
+  - Vaccines and Therapeutics
 ---
 
 These are slides for a brief presentation on COVID-19 Vaccines and how to model their deployment. <a href="2020-10-PHA-UGA.html" target="_blank">The presentation slides are here.</a>

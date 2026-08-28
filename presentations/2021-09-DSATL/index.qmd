@@ -8,10 +8,10 @@ date: "2021-09-24"
 image: featured.png
 image-alt: Correlations of Influenza T cell predictor variables [Source](https://doi.org/10.1038/s41467-019-10661-8)
 categories:
-
-- Research
-- COVID-19
-- Modeling
+  - Research
+  - Infectious Disease Modeling
+  - COVID-19
+  - Software & Data Science
 ---
 
 <a href="2021_09_DSATL.html" target="_blank">These are the slides</a> for a presentation I gave at a (virtual) meetup event of the [Data Science & Business Intelligence Society of Atlanta](https://www.meetup.com/Atlanta-Society-for-Business-Intelligence).

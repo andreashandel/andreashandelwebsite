@@ -8,9 +8,8 @@ date-modified: "2023-10-24"
 image: basicSIRmodelfigure2.png
 image-alt: basic SIR model diagram
 categories:
-  - Teaching
-  - Modeling
-  - Infectious Disease
+  - Teaching & Tutorials
+  - Infectious Disease Modeling
 ---
 
 

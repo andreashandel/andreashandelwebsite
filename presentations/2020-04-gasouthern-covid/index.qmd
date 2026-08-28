@@ -7,8 +7,8 @@ location: Statesboro (virtual), US
 date: "2020-04-20"
 image: featured.png
 categories:
-  
   - Research
+  - Infectious Disease Modeling
   - COVID-19
 ---
 

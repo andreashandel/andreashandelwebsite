@@ -8,9 +8,11 @@ date: "2022-09-22"
 image: featured.png
 image-alt: Influenza Vaccines response
 categories:
-
-- Research
-- Influenza
+  - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
+  - Influenza
+  - Dose Response
 ---
 
 <a href="2022_09_ECMTB.html" target="_blank">These are the slides</a> for a presentation I gave at the 2022 ECMTB conference.

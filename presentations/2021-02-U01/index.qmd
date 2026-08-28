@@ -8,11 +8,11 @@ date: "2021-02-22"
 image: featured.png
 image-alt: inoculum dose impact
 categories:
-  
   - Research
+  - Infectious Disease Modeling
+  - Vaccines and Therapeutics
   - Influenza
-  - Vaccines
-  - Dose
+  - Dose Response
 ---
 
 These are slides for a talk discussing some of my past and present work on the role of inoculum dose for infection and vaccination. <a href="2021_02_U01.html" target="_blank">The presentation slides are here.</a>

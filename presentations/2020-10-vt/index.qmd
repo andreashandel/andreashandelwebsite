@@ -7,10 +7,10 @@ location: "Blacksburg, VA, US (virtual)"
 date: "2020-10-07"
 image: featured.png
 categories:
-  
   - Research
-  - Modeling
+  - Infectious Disease Modeling
   - COVID-19
+  - Software & Data Science
 ---
 
 These are slides for a talk discussing some COVID-19 projects. I gave the talk (online) at Virginia Tech.
