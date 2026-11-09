@@ -1,0 +1,16 @@
+---
+title: Vaccines - How they work and how we know
+description: A guest lecture for a UGA First Year Odyssey Seminar
+event: First Year Odyssey Seminar
+location: Athens, GA
+date: "2026-11-10"
+image: vaccine-types-illustration.png
+image-alt: Schematic of different vaccine types
+categories:
+  - Teaching & Tutorials
+  - Vaccines and Therapeutics
+---
+
+
+<a href="2026-11-Vaccines-FYOS.html" target="_blank">These are the slides</a> for this presentation.
+
